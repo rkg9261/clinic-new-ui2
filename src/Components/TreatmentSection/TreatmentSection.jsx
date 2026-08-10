@@ -1,0 +1,276 @@
+import React from "react";
+import "./TreatmentSection.css";
+import { FaArrowRight } from "react-icons/fa";
+
+const TreatmentSection = () => {
+  const conditions = [
+  "Lumbar Spondylosis",
+"Pes Anserine Bursitis",
+"Quadriceps Muscle Strain",
+"Herniated Disk Or Slipped Disc",
+"Clubfoot Or Congenital Talipes Equinovarus Or Ctev",
+"Ankle Bone Spur",
+"Total Hip Replacement (thr)",
+"Swan Neck Deformity",
+"Erb’s Palsy",
+"Sprengel's Shoulder",
+"Meralgia Paresthetica",
+"Tendinitis",
+"Sciatica",
+"Guillain-barré Syndrome",
+"Fecal Incontinence",
+"Radial Nerve Injury",
+"Sacralization",
+"Shoulder Impingement",
+"Disc Bulge",
+"Dyslexia",
+"Genu Valgus",
+"Genu Varum",
+"Cauda Equina Syndrome",
+"Wartenberg’s Syndrome",
+"Shoulder Arthropathy",
+"Cuboid Syndrome",
+"Median Nerve Injury",
+"Hemangioma",
+"Raynaud’s Disease",
+"Urinary Incontinence",
+"Pelvic Organ Prolapse",
+"Motor Neuron Disease (mnd)",
+"Complex Regional Pain Syndrome (crps)",
+"Cervicogenic Headache",
+"Infantile Hemiparesis",
+"Galeazzi Fracture",
+"Lymphedema",
+"Wrist Drop",
+"Trigger Finger",
+"Retrolisthesis",
+"Klumpke's Palsy",
+"Supraspinatus Tendinitis",
+"Lumbarization",
+"Foot Drop",
+"Smith Fracture",
+"Gastrocnemius Rupture",
+"Osgood-schlatter Disease",
+"Hill-sachs Lesion",
+"Hemiplegia",
+"Myositis Ossification (mo)",
+"Huntington's Disease (hd)",
+"Systemic Lupus Erythematosus (sle)",
+"Reiter's Syndrome",
+"Peripheral Artery Disease (pad)",
+"Lipedema",
+"Cervical Spondylosis",
+"Frozen Shoulder",
+"Vertigo",
+"Achilles Tendon Rupture",
+"Carpal Tunnel Syndrome (cts)",
+"Arthritis",
+"Chondromalacia Patella",
+"Knee Bursitis",
+"Anterior Cruciate Ligament Tear(acl)",
+"Ankle Sprain",
+"Cerebral Palsy",
+"Parkinson's Disease",
+"Tennis Elbow",
+"Baastrup Syndrome",
+"Osteoarthritis",
+"Cervical Myelopathy",
+"Osteoporosis",
+"Whiplash",
+"Rotator Cuff Injury",
+"Scoliosis",
+"Bell's Palsy Or Facial Palsy",
+"Dementia",
+"Plantar Fasciitis",
+"Concussion",
+"Spinal Stenosis",
+"Rheumatoid Arthritis",
+"Tailbone Pain/coccydynia",
+"Piriformis Syndrome",
+"Myasthenia Gravis (mg)",
+"Diabetic Neuropathy",
+"Degenerative Disc Disease",
+"Distal Muscular Dystrophy",
+"Asthma",
+"Temporomandibular Joint (tmj)",
+"Stroke Or Cerebrovascular Accident (cva)",
+"Hamstring Strain",
+"Fibromyalgia Syndrome",
+"Total Knee Replacement(tkr)",
+"Meniscal Injury",
+"Spina Bifida",
+"Down Syndrome",
+"Torticollis",
+"Shoulder Dislocation",
+"Shoulder And Arm Fractures",
+"Elbow Fractures",
+"Forearm Fractures",
+"Wrist Fracture",
+"Hand Fractures",
+"Mallet Finger",
+"Boutonniere Deformity",
+"Ganglion Cyst",
+"Burns",
+"De Quervain's Tenosynovitis",
+"Cubital Tunnel Syndrome",
+"Biceps Tendonitis",
+"Radial Tunnel Syndrome",
+"Hip Fracture",
+"Trochanteric Bursitis",
+"Hip Labral Tear",
+"Hip Impingement",
+"Hip Osteoarthritis",
+"Patellar Fracture",
+"Patella Dislocation",
+"Medial Collateral Ligament (mcl) Injury",
+"Lateral Collateral Ligament(lcl) Injury",
+"Posterior Cruciate Ligament(pcl) Injury",
+"Popliteal (baker's) Cyst",
+"Varicose Veins",
+"Patellar Tendonitis",
+"Deep Venous Thrombosis",
+"Knee Fracture",
+"Flat Foot",
+"Ankle Fracture",
+"Ankle Syndesmosis Ligament Injury",
+"Ankle Dislocation",
+"Tarsal Tunnel Syndrome",
+"Ankle Instability",
+"Posterior Tibial Tendon Dysfunction (pttd)",
+"Metatarsalgia",
+"Bunion Or Hallux Valgus",
+"Morton's Neuroma",
+"Diabetic Foot",
+"Hammer Toe",
+"Knee Osteoarthritis",
+"Golfer's Elbow",
+"Spondylolisthesis",
+"Ankylosing Spondylitis (as)",
+"Discectomy",
+"Laminectomy",
+"Autism",
+"Spinal Fusion",
+"Spinal Cord Injury",
+"Leprosy",
+"Migraine",
+"Multiple Sclerosis",
+"Quadriplegia",
+"Ulnar Nerve Injury",
+"Transverse Myelitis (tm)",
+  ];
+
+  const symptoms = [
+"Muscle Stiffness",
+"Muscle Spasm",
+"Crepitus - Cracking Joints",
+"Numbness And Tingling",
+"Neck Pain",
+"Foot Pain",
+"Tremors",
+"Back Pain",
+"Myalgia (muscle Pain)",
+"Knee Pain",
+"Joint Pain",
+"Shoulder Pain",
+"Loss Of Balance",
+"Inflammation",
+"Headache",
+"Shortness Of Breath",
+"Sprains And Strains",
+  ];
+
+const therapies = [
+  "Interferential Therapy (IFT)",
+  "Chiropractic Therapy",
+  "Ultrasound Therapy",
+  "Laser Therapy",
+  "Cupping Therapy",
+  "Wax Therapy",
+  "Kinesio Taping / Taping Therapy",
+  "Dry Needling Therapy",
+  "Thermotherapy (Heat Therapy)",
+  "Transcutaneous Electrical Nerve Stimulation (TENS) Therapy",
+  "Lymphatic Drainage Massage",
+  "Overhead Track Harness Therapy",
+  "Traction Therapy",
+  "Spinal Decompression / Traction Therapy",
+  "Tecar / Cret Therapy",
+  "Cryotherapy (Cold Therapy)",
+  "Dynamic Compression Therapy",
+  "Shockwave Therapy",
+  "Robotic Spinal Decompression Therapy",
+  "Radiofrequency Ablation (RFA)",
+  "Platelet-Rich Plasma (PRP) Injections",
+  "Facet Joint Injections",
+  "Epidural Steroid Injection (ESI)",
+  "Nerve Block Injection",
+  "Trigger Point Injection",
+  "Ultrasound-Guided Joint Injection",
+  "Manual Therapy",
+  "Myofascial Release (MFR)",
+  "Soft Tissue Mobilization",
+  "Pelvic Floor Physical Therapy",
+  "Chest Physiotherapy",
+  "Shortwave Diathermy (SWD)",
+];
+
+const services = [
+  "Chiropractor Treatment",
+  "Sports Physiotherapy",
+  "Pediatric Physiotherapy",
+  "Home Care Physiotherapy",
+  "Neuro Physiotherapy - Rehab",
+  "Pre And Post Surgery Rehabilitation",
+  "Geriatric Physiotherapy",
+  "Sports Massage Therapy",
+  "Strength Training",
+  "Advanced Physiotherapy",
+  "Women's Health Physiotherapy",
+  "Physical Therapy",
+  "Interventional Pain Management",
+  "Musculoskeletal Physiotherapy",
+  "Vestibular Rehabilitation (VR)",
+  "Workplace Ergonomics: Assessment & Training",
+  "Tele-Physiotherapy",
+  "Cardiac Rehabilitation",
+  "Spinal Injury Rehabilitation",
+];
+
+  const Card = ({ title, items }) => (
+    <div className="treatment-card">
+      <h2>{title}</h2>
+
+      <div className="list-container">
+        {items.map((item, index) => (
+          <div className="list-item" key={index}>
+            <span className="icon">
+              <FaArrowRight />
+            </span>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="treatment-section">
+      <h1>WHAT WE TREAT</h1>
+
+      {/* <p className="subtitle">
+        We provide specialized physiotherapy treatments for neurological,
+        orthopedic, musculoskeletal, pediatric, geriatric, and sports-related
+        conditions.
+      </p> */}
+
+      <div className="grid">
+        <Card title="Condition" items={conditions} />
+        <Card title="Symptoms" items={symptoms} />
+        <Card title="Therapies Offered" items={therapies} />
+        <Card title="Services Offered" items={services} />
+      </div>
+    </section>
+  );
+};
+
+export default TreatmentSection;

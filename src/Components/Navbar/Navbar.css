@@ -1,0 +1,538 @@
+/*====================================
+ NAVBAR
+====================================*/
+
+.container{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:86px;
+
+    padding:0 6%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#ffffff;
+
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+    z-index:999;
+
+}
+
+.dark-nav-web-navbar{
+
+    background:#ffffff;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+}
+
+
+/*====================================
+ LOGO
+====================================*/
+
+.logo-web-navbar{
+
+    width:220px;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.logo-web-navbar:hover{
+
+    transform:scale(1.03);
+
+}
+
+
+/*====================================
+ MENU
+====================================*/
+
+.container ul{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:32px;
+
+    list-style:none;
+
+}
+
+.container ul li{
+
+    list-style:none;
+
+}
+
+.container ul li a{
+
+    color:#1f1f1f;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    position:relative;
+
+}
+
+
+/*====================================
+ MENU HOVER
+====================================*/
+
+.container ul li a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    background:#d6242e;
+
+    transition:.35s;
+
+}
+
+.container ul li a:hover{
+
+    color:#d6242e;
+
+}
+
+.container ul li a:hover::after{
+
+    width:100%;
+
+}
+
+
+/*====================================
+ BUTTON
+====================================*/
+
+.btn-web-navbar{
+
+    border:none;
+
+    outline:none;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    color:#ffffff;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    background:linear-gradient(180deg,#ef3d3d,#c40000);
+
+    box-shadow:0 6px 15px rgba(210,0,0,.25);
+
+    transition:.35s;
+
+}
+
+.btn-web-navbar:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 22px rgba(210,0,0,.35);
+
+}
+
+
+/*====================================
+ MENU ICON
+====================================*/
+
+.menu-icon-web-navbar{
+
+    display:none;
+
+    width:30px;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    z-index:1002;
+
+    filter:brightness(0);
+
+}
+
+.menu-icon-web-navbar:hover{
+
+    transform:rotate(90deg);
+
+}
+
+
+/*====================================
+ OVERLAY
+====================================*/
+
+.mobile-overlay-web-navbar{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(2px);
+
+    z-index:1000;
+
+}
+
+/*====================================
+ MOBILE NAVBAR
+====================================*/
+
+@media (max-width:768px){
+
+.container{
+
+    height:75px;
+
+    padding:0 20px;
+
+}
+
+/* Logo */
+
+.logo-web-navbar{
+
+    width:165px;
+
+}
+
+/* Hamburger */
+
+.menu-icon-web-navbar{
+
+    display:block;
+
+    width:30px;
+
+    cursor:pointer;
+
+    z-index:1002;
+
+    filter:brightness(0);
+
+}
+
+/* Sidebar */
+
+.container ul{
+
+    position:fixed;
+
+    top:0;
+
+    right:-100%;
+
+    width:280px;
+
+    height:100vh;
+
+    background:#ffffff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    justify-content:flex-start;
+
+    padding:90px 30px;
+
+    gap:22px;
+
+    list-style:none;
+
+    transition:right .35s ease-in-out;
+
+    box-shadow:-10px 0 30px rgba(0,0,0,.18);
+
+    z-index:1001;
+
+}
+
+/* Sidebar Open */
+
+.show-mobile-menu-web-navbar{
+
+    right:0;
+
+}
+
+/* Sidebar Close */
+
+.hide-mobile-menu-web-navbar{
+
+    right:-100%;
+
+}
+
+/* Menu Item */
+
+.container ul li{
+
+    width:100%;
+
+}
+
+.container ul li a{
+
+    display:block;
+
+    width:100%;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    padding:12px 0;
+
+    color:#222;
+
+}
+
+/* Button */
+
+.btn-web-navbar{
+
+    width:100%;
+
+    padding:14px;
+
+    text-align:center;
+
+}
+
+/* Overlay */
+
+.mobile-overlay-web-navbar{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:1000;
+
+}
+
+}
+
+/*====================================
+ TABLET
+====================================*/
+
+@media (max-width:992px){
+
+.container{
+
+    padding:0 5%;
+
+}
+
+.logo-web-navbar{
+
+    width:185px;
+
+}
+
+.container ul{
+
+    gap:20px;
+
+}
+
+.container ul li a{
+
+    font-size:14px;
+
+}
+
+.btn-web-navbar{
+
+    padding:10px 18px;
+
+}
+
+}
+
+
+/*====================================
+ SMALL MOBILE
+====================================*/
+
+@media (max-width:480px){
+
+.container{
+
+    height:72px;
+
+    padding:0 18px;
+
+}
+
+.logo-web-navbar{
+
+    width:150px;
+
+}
+
+.menu-icon-web-navbar{
+
+    width:28px;
+
+}
+
+.container ul{
+
+    width:250px;
+
+    padding:80px 25px;
+
+    gap:20px;
+
+}
+
+.container ul li a{
+
+    font-size:16px;
+
+}
+
+.btn-web-navbar{
+
+    font-size:14px;
+
+    padding:12px;
+
+}
+
+}
+
+
+/*====================================
+ ICON ANIMATION
+====================================*/
+
+.menu-icon-web-navbar{
+
+    transition:.35s;
+
+}
+
+.menu-icon-web-navbar:hover{
+
+    transform:rotate(90deg);
+
+}
+
+
+/*====================================
+ MENU ITEM ANIMATION
+====================================*/
+
+.container ul li{
+
+    transition:.35s;
+
+}
+
+.container ul li:hover{
+
+    transform:translateX(6px);
+
+}
+
+
+/*====================================
+ BUTTON ANIMATION
+====================================*/
+
+.btn-web-navbar{
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.btn-web-navbar::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120%;
+
+    left:-120%;
+
+    width:70%;
+
+    height:260%;
+
+    background:rgba(255,255,255,.35);
+
+    transform:rotate(35deg);
+
+    transition:.8s;
+
+}
+
+.btn-web-navbar:hover::before{
+
+    top:120%;
+
+    left:120%;
+
+}
+
+
+/*====================================
+ MENU SHADOW

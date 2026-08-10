@@ -1,0 +1,489 @@
+/* ===================================================
+   THERAPY SLIDER SECTION
+=================================================== */
+
+.therapy-slider-section-therapy-slider{
+
+    width:100%;
+
+    overflow:hidden;
+
+    position:relative;
+
+    padding:22px 0;
+
+    background:linear-gradient(
+        90deg,
+        #041214 0%,
+        #081d20 25%,
+        #0b262a 50%,
+        #081d20 75%,
+        #041214 100%
+    );
+
+}
+
+/* ===================================================
+   GLOW EFFECT
+=================================================== */
+
+.therapy-slider-section-therapy-slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+    radial-gradient(circle at 20% 50%,
+    rgba(72,220,220,.12),
+    transparent 35%),
+
+    radial-gradient(circle at 80% 50%,
+    rgba(72,220,220,.10),
+    transparent 35%);
+
+}
+
+/* ===================================================
+   WRAPPER
+=================================================== */
+
+.therapy-slider-wrapper-therapy-slider{
+
+    width:100%;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+/* ===================================================
+   CONTINUOUS TRACK
+=================================================== */
+
+.therapy-slider-track-therapy-slider{
+
+    display:flex;
+
+    align-items:center;
+
+    width:max-content;
+
+    animation:therapyMarquee-therapy-slider 28s linear infinite;
+
+}
+
+/* Pause slider on hover */
+
+.therapy-slider-wrapper-therapy-slider:hover
+.therapy-slider-track-therapy-slider{
+
+    animation-play-state:paused;
+
+}
+
+/* ===================================================
+   ITEM
+=================================================== */
+
+.therapy-slider-item-therapy-slider{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:0 28px;
+
+}
+
+.therapy-slider-text-therapy-slider{
+
+    color:#ffffff;
+
+    font-size:32px;
+
+    font-weight:400;
+
+    white-space:nowrap;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+/* Hover text */
+
+.therapy-slider-text-therapy-slider:hover{
+
+    color:#49d7d7;
+
+    text-shadow:
+        0 0 10px rgba(73,215,215,.55);
+
+}
+
+/* ===================================================
+   STAR
+=================================================== */
+
+.therapy-slider-star-box-therapy-slider{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:0 22px;
+
+    flex-shrink:0;
+
+}
+
+.therapy-slider-star-therapy-slider{
+
+    font-size:30px;
+
+    color:#ffffff;
+
+    animation:rotateStar-therapy-slider 2.8s linear infinite;
+
+    transition:.35s;
+
+}
+
+/* Star glow */
+
+.therapy-slider-star-box-therapy-slider:hover
+.therapy-slider-star-therapy-slider{
+
+    color:#49d7d7;
+
+    filter:drop-shadow(0 0 12px rgba(73,215,215,.7));
+
+}
+
+/* ===================================================
+   MARQUEE ANIMATION
+=================================================== */
+
+@keyframes therapyMarquee-therapy-slider{
+
+    0%{
+
+        transform:translateX(0);
+
+    }
+
+    100%{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+/* ===================================================
+   STAR ROTATION
+=================================================== */
+
+@keyframes rotateStar-therapy-slider{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+
+@media (max-width:1200px){
+
+    .therapy-slider-text-therapy-slider{
+
+        font-size:34px;
+
+    }
+
+    .therapy-slider-star-therapy-slider{
+
+        font-size:26px;
+
+    }
+
+}
+
+@media (max-width:991px){
+
+    .therapy-slider-section-therapy-slider{
+
+        padding:18px 0;
+
+    }
+
+    .therapy-slider-track-therapy-slider{
+
+        animation-duration:24s;
+
+    }
+
+    .therapy-slider-text-therapy-slider{
+
+        font-size:28px;
+
+    }
+
+    .therapy-slider-star-therapy-slider{
+
+        font-size:22px;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .therapy-slider-section-therapy-slider{
+
+        padding:15px 0;
+
+    }
+
+    .therapy-slider-item-therapy-slider{
+
+        margin:0 20px;
+
+    }
+
+    .therapy-slider-star-box-therapy-slider{
+
+        margin:0 16px;
+
+    }
+
+    .therapy-slider-text-therapy-slider{
+
+        font-size:22px;
+
+    }
+
+    .therapy-slider-star-therapy-slider{
+
+        font-size:18px;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .therapy-slider-section-therapy-slider{
+
+        padding:12px 0;
+
+    }
+
+    .therapy-slider-track-therapy-slider{
+
+        animation-duration:18s;
+
+    }
+
+    .therapy-slider-item-therapy-slider{
+
+        margin:0 14px;
+
+    }
+
+    .therapy-slider-star-box-therapy-slider{
+
+        margin:0 12px;
+
+    }
+
+    .therapy-slider-text-therapy-slider{
+
+        font-size:16px;
+
+        font-weight:600;
+
+    }
+
+    .therapy-slider-star-therapy-slider{
+
+        font-size:14px;
+
+    }
+
+}
+
+/* ===================================================
+   PREMIUM HOVER EFFECTS
+=================================================== */
+
+.therapy-slider-item-therapy-slider{
+
+    position:relative;
+
+    transition:all .35s ease;
+
+}
+
+.therapy-slider-item-therapy-slider:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.therapy-slider-text-therapy-slider{
+
+    position:relative;
+
+    display:inline-block;
+
+}
+
+/* Animated underline */
+
+.therapy-slider-text-therapy-slider::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:3px;
+
+    border-radius:20px;
+
+    background:#49d7d7;
+
+    transition:.4s ease;
+
+}
+
+.therapy-slider-text-therapy-slider:hover::after{
+
+    width:100%;
+
+}
+
+/* ===================================================
+   STAR GLOW
+=================================================== */
+
+.therapy-slider-star-therapy-slider{
+
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.25));
+
+}
+
+.therapy-slider-item-therapy-slider:hover
++ .therapy-slider-star-box-therapy-slider
+.therapy-slider-star-therapy-slider{
+
+    color:#49d7d7;
+
+    filter:
+        drop-shadow(0 0 12px rgba(73,215,215,.85))
+        drop-shadow(0 0 28px rgba(73,215,215,.45));
+
+}
+
+/* ===================================================
+   EDGE FADE
+=================================================== */
+
+.therapy-slider-wrapper-therapy-slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:120px;
+
+    height:100%;
+
+    z-index:2;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+        90deg,
+        #041214 0%,
+        rgba(4,18,20,.75) 45%,
+        transparent 100%
+    );
+
+}
+
+.therapy-slider-wrapper-therapy-slider::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+
+    top:0;
+
+    width:120px;
+
+    height:100%;
+
+    z-index:2;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+        270deg,
+        #041214 0%,
+        rgba(4,18,20,.75) 45%,
+        transparent 100%
+    );
+
+}
+
+/* ===================================================
+   SMOOTH ANIMATION
+=================================================== */
+
+.therapy-slider-track-therapy-slider,
+.therapy-slider-item-therapy-slider,
+.therapy-slider-text-therapy-slider,
+.therapy-slider-star-therapy-slider{
+
+    will-change:transform;
+
+    backface-visibility:hidden;
+
+}
+

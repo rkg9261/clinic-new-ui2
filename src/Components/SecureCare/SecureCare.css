@@ -1,0 +1,1391 @@
+/* ===================================================
+   SECURE CARE SECTION
+=================================================== */
+
+.secure-care-section-secure-care{
+
+    width:100%;
+
+    padding:120px 6%;
+
+    background:linear-gradient(
+        180deg,
+        #f9fdfb 0%,
+        #f4fcf7 100%
+    );
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.secure-care-container-secure-care{
+
+    max-width:1450px;
+
+    margin:auto;
+
+}
+
+/* ===================================================
+   HEADING
+=================================================== */
+
+.secure-care-heading-secure-care{
+
+    text-align:center;
+
+    margin-bottom:80px;
+
+}
+
+.secure-care-title-row-secure-care{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:20px;
+
+}
+
+.secure-care-line-secure-care{
+
+    width:70px;
+
+    height:2px;
+
+    background:#4bc8cb;
+
+}
+
+.secure-care-dot-secure-care{
+
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+
+    background:#4bc8cb;
+
+}
+
+.secure-care-title-row-secure-care span{
+
+    font-size:15px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    color:#202020;
+
+}
+
+.secure-care-heading-secure-care h2{
+
+    font-size:62px;
+
+    line-height:1.15;
+
+    font-weight:700;
+
+    color:#111;
+
+}
+
+.secure-care-heading-secure-care h2 span{
+
+    color:#48c7c9;
+
+}
+
+/* ===================================================
+   CONTENT
+=================================================== */
+
+.secure-care-content-secure-care{
+
+    display:grid;
+
+    grid-template-columns:320px 1fr 320px;
+
+    align-items:center;
+
+    gap:45px;
+
+}
+
+/* ===================================================
+   LEFT & RIGHT
+=================================================== */
+
+.secure-care-left-secure-care,
+.secure-care-right-secure-care{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:55px;
+
+}
+
+/* ===================================================
+   IMAGE AREA
+=================================================== */
+
+.secure-care-image-area-secure-care{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:100%;
+
+    min-height:760px;
+
+}
+
+/* ===================================================
+   OUTER RING
+=================================================== */
+
+.outer-ring-secure-care{
+
+    position:absolute;
+
+    width:640px;
+
+    height:640px;
+
+    border-radius:50%;
+
+    border:18px solid rgba(71,208,205,.22);
+
+    animation:ringRotate-secure-care 18s linear infinite;
+
+}
+
+/* ===================================================
+   MIDDLE RING
+=================================================== */
+
+.middle-ring-secure-care{
+
+    position:absolute;
+
+    width:560px;
+
+    height:560px;
+
+    border-radius:50%;
+
+    border:16px solid rgba(71,208,205,.35);
+
+    animation:ringRotateReverse-secure-care 12s linear infinite;
+
+}
+
+/* ===================================================
+   IMAGE
+=================================================== */
+
+.image-wrapper-secure-care{
+
+    position:relative;
+
+    width:470px;
+
+    height:470px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    z-index:5;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.15);
+
+}
+
+.image-wrapper-secure-care img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.6s;
+
+}
+
+.image-wrapper-secure-care:hover img{
+
+    transform:scale(1.08);
+
+}
+
+/* ===================================================
+   RING ANIMATION
+=================================================== */
+
+@keyframes ringRotate-secure-care{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes ringRotateReverse-secure-care{
+
+    from{
+
+        transform:rotate(360deg);
+
+    }
+
+    to{
+
+        transform:rotate(0deg);
+
+    }
+
+}
+
+/* ===================================================
+   STEP BOX
+=================================================== */
+
+.secure-care-step-box-secure-care{
+
+    position:relative;
+
+    width:100%;
+
+    transition:.45s;
+
+}
+
+.secure-care-step-box-secure-care h4{
+
+    font-size:22px;
+
+    font-weight:600;
+
+    color:#222;
+
+    margin-bottom:14px;
+
+}
+
+/* ===================================================
+   STEP BUTTON
+=================================================== */
+
+.step-button-secure-care{
+
+    width:100%;
+
+    padding:20px 30px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:60px;
+
+    background:#081a1d;
+
+    color:#ffffff;
+
+    font-size:24px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.45s;
+
+    box-shadow:0 12px 25px rgba(0,0,0,.10);
+
+}
+
+.active-button-secure-care{
+
+    width:100%;
+
+    padding:20px 30px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:60px;
+
+    cursor:pointer;
+
+    font-size:24px;
+
+    font-weight:600;
+
+    color:#ffffff;
+
+    background:linear-gradient(
+        90deg,
+        #2ebec6,
+        #59d7d6
+    );
+
+    box-shadow:
+    0 18px 45px rgba(46,190,198,.28);
+
+    transition:.45s;
+
+}
+
+.step-button-secure-care:hover{
+
+    background:#35c4cb;
+
+    color:#fff;
+
+    transform:translateY(-4px);
+
+}
+
+.active-button-secure-care:hover{
+
+    transform:translateY(-4px);
+
+}
+
+/* ===================================================
+   DESCRIPTION CARD
+=================================================== */
+
+.step-description-secure-care{
+
+    width:100%;
+
+    margin-top:18px;
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:26px;
+
+    box-shadow:
+    0 20px 55px rgba(0,0,0,.08);
+
+    animation:fadeStep-secure-care .45s ease;
+
+}
+
+.step-description-secure-care p{
+
+    font-size:19px;
+
+    color:#555;
+
+    line-height:34px;
+
+    margin:0;
+
+}
+
+/* ===================================================
+   STEP POSITIONS
+=================================================== */
+
+.step-one-secure-care{
+
+    margin-top:-40px;
+
+    margin-left:30px;
+
+}
+
+.step-two-secure-care{
+
+    margin-top:30px;
+
+    margin-left:70px;
+
+}
+
+.step-three-secure-care{
+
+    margin-top:35px;
+
+    margin-left:10px;
+
+}
+
+.step-four-secure-care{
+
+    margin-top:35px;
+
+    margin-right:20px;
+
+}
+
+.step-five-secure-care{
+
+    margin-top:20px;
+
+    margin-right:35px;
+
+}
+
+.step-six-secure-care{
+
+    margin-top:-20px;
+
+    margin-right:10px;
+
+}
+
+/* ===================================================
+   HOVER EFFECT
+=================================================== */
+
+.secure-care-step-box-secure-care:hover{
+
+    transform:translateY(-8px);
+
+}
+
+/* ===================================================
+   DESCRIPTION ANIMATION
+=================================================== */
+
+@keyframes fadeStep-secure-care{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===================================================
+   ANIMATED WAVE RINGS
+=================================================== */
+
+.outer-ring-secure-care::before,
+.outer-ring-secure-care::after,
+.middle-ring-secure-care::before,
+.middle-ring-secure-care::after{
+
+    content:"";
+
+    position:absolute;
+
+    border-radius:50%;
+
+}
+
+/* ==========================================
+   OUTER GLOW WAVE
+========================================== */
+
+.outer-ring-secure-care::before{
+
+    inset:-20px;
+
+    border:3px dashed rgba(74,205,210,.35);
+
+    animation:ringWaveOne-secure-care 14s linear infinite;
+
+}
+
+.outer-ring-secure-care::after{
+
+    inset:18px;
+
+    border:2px dashed rgba(74,205,210,.22);
+
+    animation:ringWaveTwo-secure-care 10s linear infinite reverse;
+
+}
+
+/* ==========================================
+   MIDDLE GLOW WAVE
+========================================== */
+
+.middle-ring-secure-care::before{
+
+    inset:-18px;
+
+    border:2px dotted rgba(74,205,210,.35);
+
+    animation:ringWaveThree-secure-care 12s linear infinite;
+
+}
+
+.middle-ring-secure-care::after{
+
+    inset:16px;
+
+    border:2px dotted rgba(74,205,210,.25);
+
+    animation:ringWaveFour-secure-care 8s linear infinite reverse;
+
+}
+
+/* ==========================================
+   FLOATING DOTS
+========================================== */
+
+.image-wrapper-secure-care::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:24px;
+
+    height:24px;
+
+    border-radius:50%;
+
+    background:#4ad6d8;
+
+    top:8%;
+
+    right:12%;
+
+    box-shadow:
+        0 0 20px rgba(74,214,216,.7),
+        0 0 45px rgba(74,214,216,.4);
+
+    animation:floatDotOne-secure-care 4s ease-in-out infinite;
+
+    z-index:6;
+
+}
+
+.image-wrapper-secure-care::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    bottom:12%;
+
+    left:10%;
+
+    box-shadow:
+        0 0 18px rgba(74,214,216,.55);
+
+    animation:floatDotTwo-secure-care 5s ease-in-out infinite;
+
+    z-index:6;
+
+}
+
+/* ==========================================
+   IMAGE SHADOW
+========================================== */
+
+.image-wrapper-secure-care{
+
+    animation:imageGlow-secure-care 4s ease-in-out infinite;
+
+}
+
+/* ==========================================
+   STEP CARD EFFECT
+========================================== */
+
+.secure-care-step-box-secure-care{
+
+    transition:
+        transform .45s ease,
+        filter .45s ease;
+
+}
+
+.secure-care-step-box-secure-care:hover{
+
+    filter:drop-shadow(0 20px 30px rgba(73,204,207,.20));
+
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes ringWaveOne-secure-care{
+
+    from{
+
+        transform:rotate(0deg) scale(1);
+
+    }
+
+    to{
+
+        transform:rotate(360deg) scale(1.02);
+
+    }
+
+}
+
+@keyframes ringWaveTwo-secure-care{
+
+    from{
+
+        transform:rotate(360deg);
+
+    }
+
+    to{
+
+        transform:rotate(0deg);
+
+    }
+
+}
+
+@keyframes ringWaveThree-secure-care{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(-360deg);
+
+    }
+
+}
+
+@keyframes ringWaveFour-secure-care{
+
+    from{
+
+        transform:rotate(-360deg);
+
+    }
+
+    to{
+
+        transform:rotate(0deg);
+
+    }
+
+}
+
+@keyframes imageGlow-secure-care{
+
+    0%{
+
+        box-shadow:
+        0 30px 70px rgba(0,0,0,.15);
+
+    }
+
+    50%{
+
+        box-shadow:
+        0 35px 90px rgba(73,204,207,.35);
+
+    }
+
+    100%{
+
+        box-shadow:
+        0 30px 70px rgba(0,0,0,.15);
+
+    }
+
+}
+
+@keyframes floatDotOne-secure-care{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-18px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes floatDotTwo-secure-care{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(15px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===================================================
+   CONNECTING CURVED LINES
+=================================================== */
+
+.secure-care-content-secure-care{
+
+    position:relative;
+
+}
+
+/* LEFT SIDE */
+
+.secure-care-left-secure-care{
+
+    position:relative;
+
+}
+
+.secure-care-left-secure-care::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:-75px;
+
+    top:120px;
+
+    width:140px;
+
+    height:280px;
+
+    border-right:3px dashed rgba(73,205,209,.35);
+
+    border-top:3px dashed rgba(73,205,209,.35);
+
+    border-bottom:3px dashed rgba(73,205,209,.35);
+
+    border-radius:0 180px 180px 0;
+
+}
+
+/* RIGHT SIDE */
+
+.secure-care-right-secure-care{
+
+    position:relative;
+
+}
+
+.secure-care-right-secure-care::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-75px;
+
+    top:80px;
+
+    width:140px;
+
+    height:520px;
+
+    border-left:3px dashed rgba(73,205,209,.35);
+
+    border-top:3px dashed rgba(73,205,209,.35);
+
+    border-bottom:3px dashed rgba(73,205,209,.35);
+
+    border-radius:180px 0 0 180px;
+
+}
+
+/* ===================================================
+   STEP APPEAR ANIMATION
+=================================================== */
+
+.secure-care-step-box-secure-care{
+
+    opacity:0;
+
+    animation:stepFade-secure-care .8s forwards;
+
+}
+
+.step-one-secure-care{
+
+    animation-delay:.15s;
+
+}
+
+.step-two-secure-care{
+
+    animation-delay:.30s;
+
+}
+
+.step-three-secure-care{
+
+    animation-delay:.45s;
+
+}
+
+.step-four-secure-care{
+
+    animation-delay:.60s;
+
+}
+
+.step-five-secure-care{
+
+    animation-delay:.75s;
+
+}
+
+.step-six-secure-care{
+
+    animation-delay:.90s;
+
+}
+
+@keyframes stepFade-secure-care{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===================================================
+   BUTTON SHINE EFFECT
+=================================================== */
+
+.step-button-secure-care,
+.active-button-secure-care{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.step-button-secure-care::before,
+.active-button-secure-care::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.45),
+
+        transparent
+
+    );
+
+    transform:skewX(-25deg);
+
+    transition:.8s;
+
+}
+
+.step-button-secure-care:hover::before,
+.active-button-secure-care:hover::before{
+
+    left:150%;
+
+}
+
+/* ===================================================
+   IMAGE FLOAT
+=================================================== */
+
+.image-wrapper-secure-care{
+
+    animation:imageFloat-secure-care 5s ease-in-out infinite;
+
+}
+
+@keyframes imageFloat-secure-care{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===================================================
+   GLOW EFFECT
+=================================================== */
+
+.outer-ring-secure-care{
+
+    box-shadow:
+
+        0 0 30px rgba(73,205,209,.15),
+
+        inset 0 0 30px rgba(73,205,209,.10);
+
+}
+
+.middle-ring-secure-care{
+
+    box-shadow:
+
+        0 0 20px rgba(73,205,209,.12),
+
+        inset 0 0 20px rgba(73,205,209,.10);
+
+}
+
+/* ===================================================
+   DESCRIPTION CARD EFFECT
+=================================================== */
+
+.step-description-secure-care{
+
+    border-left:5px solid #47cfd2;
+
+    transition:.35s ease;
+
+}
+
+.step-description-secure-care:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+
+        0 20px 50px rgba(71,207,210,.18);
+
+}
+
+/* ===================================================
+   TABLET (1200px)
+=================================================== */
+
+@media (max-width:1200px){
+
+    .secure-care-content-secure-care{
+
+        grid-template-columns:1fr;
+
+        gap:60px;
+
+    }
+
+    .secure-care-left-secure-care,
+    .secure-care-right-secure-care{
+
+        width:100%;
+        max-width:700px;
+        margin:auto;
+
+        gap:30px;
+
+    }
+
+    .secure-care-image-area-secure-care{
+
+        order:-1;
+
+        min-height:620px;
+
+    }
+
+    .outer-ring-secure-care{
+
+        width:520px;
+        height:520px;
+
+    }
+
+    .middle-ring-secure-care{
+
+        width:460px;
+        height:460px;
+
+    }
+
+    .image-wrapper-secure-care{
+
+        width:380px;
+        height:380px;
+
+    }
+
+    .step-one-secure-care,
+    .step-two-secure-care,
+    .step-three-secure-care,
+    .step-four-secure-care,
+    .step-five-secure-care,
+    .step-six-secure-care{
+
+        margin:0;
+
+    }
+
+}
+
+/* ===================================================
+   991px
+=================================================== */
+
+@media (max-width:991px){
+
+    .secure-care-section-secure-care{
+
+        padding:90px 25px;
+
+    }
+
+    .secure-care-heading-secure-care h2{
+
+        font-size:48px;
+
+    }
+
+    .outer-ring-secure-care{
+
+        width:430px;
+        height:430px;
+
+        border-width:14px;
+
+    }
+
+    .middle-ring-secure-care{
+
+        width:380px;
+        height:380px;
+
+        border-width:12px;
+
+    }
+
+    .image-wrapper-secure-care{
+
+        width:310px;
+        height:310px;
+
+    }
+
+    .step-button-secure-care,
+    .active-button-secure-care{
+
+        font-size:20px;
+
+        padding:18px 22px;
+
+    }
+
+    .step-description-secure-care{
+
+        padding:20px;
+
+    }
+
+    .step-description-secure-care p{
+
+        font-size:16px;
+
+        line-height:30px;
+
+    }
+
+}
+
+/* ===================================================
+   MOBILE
+=================================================== */
+
+@media (max-width:768px){
+
+    .secure-care-section-secure-care{
+
+        padding:70px 18px;
+
+    }
+
+    .secure-care-heading-secure-care{
+
+        margin-bottom:55px;
+
+    }
+
+    .secure-care-heading-secure-care h2{
+
+        font-size:36px;
+
+    }
+
+    .secure-care-image-area-secure-care{
+
+        min-height:420px;
+
+    }
+
+    .outer-ring-secure-care{
+
+        width:320px;
+        height:320px;
+
+        border-width:10px;
+
+    }
+
+    .middle-ring-secure-care{
+
+        width:275px;
+        height:275px;
+
+        border-width:8px;
+
+    }
+
+    .image-wrapper-secure-care{
+
+        width:220px;
+        height:220px;
+
+    }
+
+    .secure-care-left-secure-care,
+    .secure-care-right-secure-care{
+
+        gap:22px;
+
+    }
+
+    .secure-care-step-box-secure-care h4{
+
+        font-size:18px;
+
+    }
+
+    .step-button-secure-care,
+    .active-button-secure-care{
+
+        font-size:17px;
+
+        padding:15px 18px;
+
+        border-radius:18px;
+
+    }
+
+    .step-description-secure-care{
+
+        padding:18px;
+
+    }
+
+    .step-description-secure-care p{
+
+        font-size:15px;
+
+        line-height:28px;
+
+    }
+
+}
+
+/* ===================================================
+   SMALL MOBILE
+=================================================== */
+
+@media (max-width:480px){
+
+    .secure-care-section-secure-care{
+
+        padding:60px 15px;
+
+    }
+
+    .secure-care-heading-secure-care h2{
+
+        font-size:28px;
+
+        line-height:1.35;
+
+    }
+
+    .secure-care-title-row-secure-care span{
+
+        font-size:12px;
+
+    }
+
+    .secure-care-line-secure-care{
+
+        width:45px;
+
+    }
+
+    .secure-care-dot-secure-care{
+
+        width:10px;
+        height:10px;
+
+    }
+
+    .secure-care-image-area-secure-care{
+
+        min-height:320px;
+
+    }
+
+    .outer-ring-secure-care{
+
+        width:250px;
+        height:250px;
+
+    }
+
+    .middle-ring-secure-care{
+
+        width:215px;
+        height:215px;
+
+    }
+
+    .image-wrapper-secure-care{
+
+        width:170px;
+        height:170px;
+
+    }
+
+    .secure-care-step-box-secure-care h4{
+
+        font-size:16px;
+
+    }
+
+    .step-button-secure-care,
+    .active-button-secure-care{
+
+        font-size:15px;
+
+        padding:14px 16px;
+
+    }
+
+    .step-description-secure-care{
+
+        padding:15px;
+
+    }
+
+    .step-description-secure-care p{
+
+        font-size:14px;
+
+        line-height:24px;
+
+    }
+
+}

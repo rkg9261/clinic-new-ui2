@@ -1,0 +1,175 @@
+
+.about {
+  margin: 100px auto;
+  width: 95%;
+   border-radius: 30px;
+   background: #f3e6d6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.about-left{
+  opacity:0;
+  transform:translateX(150px);
+}
+
+.about-right{
+  opacity:0;
+  transform:translateX(200px);
+}
+
+.about-left{
+  opacity: 0;
+  transform: translateX(-200px);
+}
+
+.about-right{
+  opacity: 0;
+  transform: translateX(-250px);
+}
+
+.about.show .about-left{
+  animation: imageSlideLeft 1.5s ease forwards;
+}
+
+.about.show .about-right{
+  animation: contentSlideLeft 1.5s ease forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes imageSlideLeft{
+
+  from{
+    opacity:0;
+    transform:translateX(-200px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+@keyframes contentSlideLeft{
+
+  from{
+    opacity:0;
+    transform:translateX(-250px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.about-img {
+  width: 330px;
+  border-radius: 15px;
+  display: block;
+  height: 435px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.about-right h4 {
+  color: #134e4a;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.about-right h2 {
+  font-size: 48px;
+  color: #134e4a;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.about-right p {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.clinic-info {
+  margin-top: 25px;
+}
+
+.info-box {
+  background: #f8f9ff;
+  border-left: 5px solid #134e4a;
+
+  padding: 15px;
+  margin-bottom: 15px;
+
+  border-radius: 8px;
+}
+
+.info-box span {
+  display: block;
+  font-weight: 700;
+  color: #134e4a;
+  margin-bottom: 5px;
+}
+
+.info-box p {
+  margin: 0;
+  color: #444;
+}
+
+/* Tablet */
+
+@media (max-width: 992px) {
+
+  .about {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .about-left,
+  .about-right {
+    flex-basis: 100%;
+  }
+
+  .about-right h2 {
+    font-size: 38px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .about {
+    width: 95%;
+    margin: 70px auto;
+  }
+
+  .about-right h4 {
+    font-size: 14px;
+  }
+
+  .about-right h2 {
+    font-size: 30px;
+  }
+
+  .about-right p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* .info-box {
+    padding: 12px;
+  }
+
+  .info-box span {
+    font-size: 15px;
+  }
+
+  .info-box p {
+    font-size: 14px;
+  } */
+}

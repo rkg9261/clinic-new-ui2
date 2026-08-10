@@ -1,0 +1,655 @@
+/* ==========================================
+   EXCELLENCE CARE SECTION
+========================================== */
+
+.excellence-care-section{
+    width:100%;
+    padding:110px 6%;
+    position:relative;
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle at 15% 80%,rgba(62,255,234,.08),transparent 40%),
+    radial-gradient(circle at 80% 30%,rgba(50,220,255,.07),transparent 35%),
+    linear-gradient(180deg,#08181d 0%,#0b262d 40%,#10363d 100%);
+}
+
+/* ==========================================
+   GLOWING LIGHT LINES
+========================================== */
+
+.excellence-care-section::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.45;
+
+    background:
+    repeating-radial-gradient(
+        circle at 15% 95%,
+        rgba(74,255,236,.10) 0px,
+        rgba(74,255,236,.10) 2px,
+        transparent 3px,
+        transparent 34px
+    );
+
+}
+
+.excellence-care-section::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:-15%;
+    bottom:-120px;
+
+    width:140%;
+    height:520px;
+
+    pointer-events:none;
+
+    opacity:.35;
+
+    transform:rotate(-6deg);
+
+    background:
+    repeating-radial-gradient(
+        ellipse at center,
+        rgba(83,255,237,.10) 0px,
+        rgba(83,255,237,.10) 2px,
+        transparent 3px,
+        transparent 30px
+    );
+
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.excellence-care-container{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:1450px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:70px;
+
+    align-items:center;
+
+}
+
+/* ==========================================
+   LEFT SIDE
+========================================== */
+
+.excellence-left{
+
+    position:relative;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:24px;
+
+}
+
+/* ==========================================
+   IMAGES
+========================================== */
+
+.excellence-image-left,
+.excellence-image-right{
+
+    overflow:hidden;
+
+    border-radius:34px;
+
+    background:#ffffff;
+
+    box-shadow:0 18px 45px rgba(0,0,0,.18);
+
+}
+
+.excellence-image-left{
+
+    height:460px;
+
+    transform:translateX(-140px);
+
+    opacity:0;
+
+    transition:1.2s;
+
+}
+
+.left-show{
+
+    transform:translateX(0);
+
+    opacity:1;
+
+}
+
+.excellence-image-right{
+
+    height:460px;
+
+    transform:translateX(140px);
+
+    opacity:0;
+
+    transition:1.2s;
+
+}
+
+.right-show{
+
+    transform:translateX(0);
+
+    opacity:1;
+
+}
+
+.excellence-image-left img,
+.excellence-image-right img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.7s;
+
+}
+
+.excellence-image-left:hover img,
+.excellence-image-right:hover img{
+
+    transform:scale(1.08);
+
+}
+
+/* ==========================================
+   PLAY BUTTON
+========================================== */
+
+.play-circle{
+
+    position:absolute;
+
+    left:50%;
+    top:52%;
+
+    transform:translate(-50%,-50%);
+
+    width:170px;
+    height:170px;
+
+    border-radius:50%;
+
+    background:#49d9df;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 0 0 14px rgba(73,217,223,.18);
+
+    z-index:10;
+
+    animation:pulseCircle 3s infinite;
+
+}
+
+.play-ring{
+
+    width:115px;
+    height:115px;
+
+    border-radius:50%;
+
+    border:2px dashed rgba(255,255,255,.8);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    animation:rotateCircle 20s linear infinite;
+
+}
+
+.play-ring svg{
+
+    font-size:34px;
+
+    color:#ffffff;
+
+}
+
+@keyframes rotateCircle{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+@keyframes pulseCircle{
+
+    0%{
+
+        box-shadow:
+        0 0 0 0 rgba(73,217,223,.35);
+
+    }
+
+    70%{
+
+        box-shadow:
+        0 0 0 22px rgba(73,217,223,0);
+
+    }
+
+    100%{
+
+        box-shadow:
+        0 0 0 0 rgba(73,217,223,0);
+
+    }
+
+}
+
+/* ==========================================
+   BRAND SLIDER
+========================================== */
+
+.brand-slider{
+
+    grid-column:1 / span 2;
+
+    margin-top:24px;
+
+    background:#54dfe3;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    height:110px;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.brand-track{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:90px;
+
+    white-space:nowrap;
+
+    animation:brandMove 22s linear infinite;
+
+}
+
+.brand-track span{
+
+    color:#ffffff;
+
+    font-size:36px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    flex-shrink:0;
+
+}
+
+@keyframes brandMove{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+/* ==========================================
+   RIGHT CONTENT
+========================================== */
+
+.excellence-right{
+
+    transform:translateX(120px);
+
+    opacity:0;
+
+    transition:1.2s;
+
+}
+
+.content-show{
+
+    transform:translateX(0);
+
+    opacity:1;
+
+}
+
+/* ==========================================
+   SMALL TITLE
+========================================== */
+
+.small-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:22px;
+
+}
+
+.small-title .title-line{
+
+    width:52px;
+
+    height:2px;
+
+    background:#4ddde2;
+
+}
+
+.small-title .title-dot{
+
+    color:#4ddde2;
+
+    font-size:10px;
+
+}
+
+.small-title span{
+
+    color:#ffffff;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
+
+/* ==========================================
+   HEADING
+========================================== */
+
+.excellence-right h2{
+
+    font-size:58px;
+
+    line-height:1.18;
+
+    color:#ffffff;
+
+    font-weight:800;
+
+    margin-bottom:28px;
+
+}
+
+.excellence-right h2 span{
+
+    display:block;
+
+    color:#52dde2;
+
+}
+
+/* ==========================================
+   PARAGRAPH
+========================================== */
+
+.excellence-right p{
+
+    font-size:18px;
+
+    line-height:34px;
+
+    color:rgba(255,255,255,.82);
+
+    margin-bottom:45px;
+
+}
+
+/* ==========================================
+   PROGRESS SECTION
+========================================== */
+
+.progress-item{
+
+    margin-bottom:35px;
+
+}
+
+.progress-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:14px;
+
+}
+
+.progress-header h4{
+
+    color:#ffffff;
+
+    font-size:19px;
+
+    font-weight:700;
+
+    letter-spacing:.4px;
+
+}
+
+.progress-header span{
+
+    color:#53dfe3;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+/* ==========================================
+   PROGRESS BAR
+========================================== */
+
+.progress-bar{
+
+    width:100%;
+
+    height:10px;
+
+    background:rgba(255,255,255,.12);
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0;
+
+    position:relative;
+
+    border-radius:50px;
+
+    transition:width 1.8s ease;
+
+    background:linear-gradient(
+        90deg,
+        #45d7dc 0%,
+        #69eef1 50%,
+        #3fd3da 100%
+    );
+
+    box-shadow:
+    0 0 15px rgba(79,233,240,.45),
+    0 0 28px rgba(79,233,240,.18);
+
+}
+
+/* ==========================================
+   MOVING DOT
+========================================== */
+
+.progress-dot{
+
+    position:absolute;
+
+    right:-8px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    border:4px solid #53dde2;
+
+    box-shadow:
+    0 0 0 6px rgba(83,221,226,.18),
+    0 0 16px rgba(83,221,226,.45);
+
+}
+
+/* ==========================================
+   HOVER EFFECT
+========================================== */
+
+.progress-item:hover .progress-fill{
+
+    filter:brightness(1.12);
+
+}
+
+.progress-item:hover .progress-dot{
+
+    transform:translateY(-50%) scale(1.15);
+
+}
+
+/* ==========================================
+   SMOOTH TRANSITIONS
+========================================== */
+
+.progress-item,
+.progress-header,
+.progress-bar,
+.progress-fill,
+.progress-dot{
+
+    transition:.35s ease;
+
+}
+
+/* ==========================================
+   CONTENT ANIMATION
+========================================== */
+
+.content-show .progress-item:nth-child(1){
+
+    animation:fadeUp .8s ease forwards;
+
+}
+
+.content-show .progress-item:nth-child(2){
+
+    animation:fadeUp 1s ease forwards;
+
+}
+
+.content-show .progress-item:nth-child(3){
+
+    animation:fadeUp 1.2s ease forwards;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

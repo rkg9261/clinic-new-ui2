@@ -1,0 +1,260 @@
+.service-page{
+ 
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.service-form{
+   margin-top: 30px;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+
+.service-form h2{
+  text-align:center;
+  color:#212ea0;
+  margin-bottom:20px;
+}
+
+.form-group-services{
+  margin-bottom:18px;
+}
+
+.form-group-services label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+}
+
+.form-group-services input,
+.form-group-services select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  outline:none;
+}
+
+.form-group-services input:focus,
+.form-group-services select:focus{
+  border-color:#212ea0;
+}
+
+/* Radio Buttons */
+
+.radio-group-services{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  margin-top:8px;
+}
+
+.radio-group-services label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.radio-group-services input[type="radio"]{
+  width:18px;
+  height:18px;
+  cursor:pointer;
+}
+
+/* Button */
+
+.save-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+  background:#212ea0;
+  color:#fff;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.save-btn:hover{
+  background:#16227c;
+}
+
+.error-services{
+  color:red;
+  font-size:13px;
+  margin-top:4px;
+}
+
+/* Table Wrapper */
+
+.table-wrapper-services{
+  margin-top:30px;
+  overflow-x:auto;
+}
+
+/* Table */
+
+.table-services{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+.table-services th{
+  background:#212ea0;
+  color:white;
+  padding:12px;
+  text-align:center;
+}
+
+.table-services td{
+  padding:12px;
+  border:1px solid #ddd;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.table-services tbody tr:nth-child(even){
+  background:#f8f8f8;
+}
+
+.table-services tbody tr:hover{
+  background:#eef2ff;
+}
+
+/* Edit Button */
+
+.edit-btn-services{
+  background:#28a745;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:5px;
+  cursor:pointer;
+  margin-right:8px;
+  font-size:14px;
+}
+
+.edit-btn-services:hover{
+  background:#218838;
+}
+
+/* Delete Button */
+
+.delete-btn-services{
+  background:#dc3545;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.delete-btn-services:hover{
+  background:#c82333;
+}
+
+/* Status */
+
+.status-active-services{
+  background:#28a745;
+  color:white;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.status-inactive-services{
+  background:#dc3545;
+  color:white;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+}
+
+/* Tablet */
+
+@media(max-width:768px){
+
+  .service-page{
+    margin-top: 40px;
+    padding:15px;
+  }
+
+  .service-form{
+    padding:20px;
+  }
+
+  .radio-group-services{
+    flex-wrap:wrap;
+    gap:20px;
+  }
+
+  .table-services{
+    min-width:1000px;
+  }
+
+  .table-services th,
+  .table-services td{
+    padding:10px;
+    font-size:13px;
+  }
+
+  .edit-btn-services,
+  .delete-btn-services{
+    padding:6px 10px;
+    font-size:12px;
+  }
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+  .service-page{
+    padding:10px;
+  }
+
+  .service-form{
+    padding:15px;
+  }
+
+  .service-form h2{
+    font-size:22px;
+  }
+
+  .radio-group-services{
+    gap:15px;
+  }
+
+  .table-services{
+    min-width:1000px;
+  }
+
+  .table-services th,
+  .table-services td{
+    font-size:12px;
+    padding:8px;
+  }
+
+  .edit-btn-services,
+  .delete-btn-services{
+    display:block;
+    width:100%;
+    margin-bottom:5px;
+    margin-right:0;
+  }
+
+  .delete-btn-services{
+    margin-bottom:0;
+  }
+}

@@ -1,0 +1,1041 @@
+/* ===========================================
+   Dashboard Clinic - Part 1
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#eef4fb;
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+    color:#233142;
+}
+
+.dashboard-clinic{
+        margin-top: -20px;
+    width:100%;
+    min-height:100vh;
+    padding:28px;
+    background:linear-gradient(180deg,#eef7fb 0%,#f7fbff 100%);
+}
+/* dropdown in three dots */
+.dc-more-wrapper{
+    position:relative;
+    margin-left:auto;
+}
+
+.dc-more{
+    cursor:pointer;
+    font-size:35px;
+    color:#666;
+    padding:6px;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.dc-more:hover{
+    background:#f2f4f8;
+}
+
+.dc-dropdown{
+    position:absolute;
+    top:38px;
+    right:0;
+    width:200px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 12px 35px rgba(0,0,0,.18);
+    border:1px solid #e8e8e8;
+    z-index:999999;
+    overflow:hidden;
+}
+
+.dc-dropdown-item{
+    padding:14px 18px;
+    cursor:pointer;
+    font-size:14px;
+    transition:.25s;
+}
+
+.dc-dropdown-item:hover{
+    background:#f3f8ff;
+    color:#2563eb;
+}
+/* ===========================================
+   Header
+=========================================== */
+
+.dc-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.dc-header h1{
+    font-size:34px;
+    color:#1c2d5a;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.dc-header p{
+    color:#708090;
+    font-size:15px;
+}
+
+.dc-date-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#ffffff;
+    border-radius:14px;
+    padding:14px 22px;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    color:#0f766e;
+    font-weight:600;
+    border:1px solid #dceef0;
+}
+
+.dc-date-box svg{
+    font-size:20px;
+}
+
+/* ===========================================
+   Summary Grid
+=========================================== */
+
+.dc-summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+    margin-bottom:28px;
+}
+
+/* ===========================================
+   Dashboard Body
+=========================================== */
+
+.dc-dashboard-body{
+    display:grid;
+    grid-template-columns:2fr 1.2fr 1.2fr;
+    gap:24px;
+    margin-bottom:28px;
+}
+
+.dc-left-section,
+.dc-center-section,
+.dc-right-section{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+/* ===========================================
+   Common Panel
+=========================================== */
+
+.dc-panel{
+    background:#ffffff;
+    border-radius:22px;
+    padding:24px;
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+    border:1px solid rgba(10,120,140,.08);
+    transition:.35s;
+}
+
+.dc-panel:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+.dc-panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+    gap:15px;
+}
+
+.dc-panel-header h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:19px;
+    color:#183b56;
+    font-weight:700;
+}
+
+.dc-panel-header svg{
+    color:#14b8a6;
+}
+
+/* ===========================================
+   Select
+=========================================== */
+
+.dc-select{
+    border:1px solid #d7e6eb;
+    border-radius:10px;
+    padding:8px 12px;
+    background:#f7fbfd;
+    color:#345;
+    font-size:14px;
+    outline:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.dc-select:hover{
+    border-color:#14b8a6;
+}
+
+.dc-select:focus{
+    border-color:#14b8a6;
+}
+
+/* ===========================================
+   Bottom Grid
+=========================================== */
+
+.dc-bottom-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:26px;
+}
+
+/* ===========================================
+   Summary Cards
+=========================================== */
+
+.dc-summary-card{
+    background:#ffffff;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+    border:1px solid rgba(20,184,166,.10);
+    position:relative;
+    overflow:visible;
+    transition:.35s;
+}
+
+.dc-summary-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 22px 40px rgba(0,0,0,.08);
+}
+
+.dc-card-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.dc-card-heading{
+    flex:1;
+}
+
+.dc-card-heading h4{
+    font-size:16px;
+    color:#425466;
+    font-weight:600;
+}
+
+.dc-more{
+    color:#94a3b8;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.dc-more:hover{
+    color:#14b8a6;
+}
+
+/* ===========================================
+   Card Icons
+=========================================== */
+
+.dc-card-icon{
+    width:54px;
+    height:54px;
+    border-radius:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    color:#fff;
+    flex-shrink:0;
+}
+
+.dc-card-icon.revenue{
+    background:linear-gradient(135deg,#14b8a6,#0f766e);
+}
+
+.dc-card-icon.attendance{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+.dc-card-icon.consulted{
+    background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+}
+
+.dc-card-icon.pending{
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+}
+
+/* ===========================================
+   Card Body
+=========================================== */
+
+.dc-card-body h2{
+    font-size:34px;
+    color:#0f172a;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.dc-change{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.dc-change small{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.change-up{
+    color:#16a34a;
+    font-weight:700;
+}
+
+.change-down{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.up{
+    color:#16a34a;
+}
+
+.down{
+    color:#ef4444;
+}
+
+.dc-extra-text{
+    color:#64748b;
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* ===========================================
+   Mini Graph
+=========================================== */
+
+.dc-mini-graph{
+    margin-top:18px;
+    height:65px;
+}
+
+.dc-mini-graph svg{
+    width:100%;
+    height:100%;
+}
+
+.dc-mini-graph path{
+    fill:none;
+    stroke-width:4;
+    stroke-linecap:round;
+}
+
+/* Revenue */
+
+.dc-mini-graph.green path{
+    stroke:#14b8a6;
+}
+
+/* Attendance */
+
+.dc-mini-graph.blue path{
+    stroke:#3b82f6;
+}
+
+/* Consulted */
+
+.dc-mini-graph.purple path{
+    stroke:#8b5cf6;
+}
+
+/* Pending */
+
+.dc-mini-graph.orange path{
+    stroke:#f59e0b;
+}
+
+/* ===========================================
+   Monthly Revenue
+=========================================== */
+
+.dc-revenue-panel{
+    min-height:460px;
+}
+
+.dc-big-price{
+    margin-top:10px;
+    font-size:34px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.dc-growth{
+    margin-left:14px;
+    font-size:14px;
+    color:#16a34a;
+    font-weight:600;
+}
+
+.dc-growth svg{
+    margin-right:4px;
+}
+
+/* ===========================================
+   Chart Layout
+=========================================== */
+
+.dc-chart{
+    display:flex;
+    margin-top:26px;
+    gap:18px;
+}
+
+.dc-chart-y{
+    width:70px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    color:#94a3b8;
+    font-size:13px;
+    padding-bottom:26px;
+}
+
+.dc-chart-area{
+    flex:1;
+    position:relative;
+}
+
+.dc-chart-area svg{
+    width:100%;
+    height:260px;
+}
+
+.dc-chart-labels{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    color:#64748b;
+    font-size:13px;
+}
+
+/* ===========================================
+   Chart Background Grid
+=========================================== */
+
+.dc-chart-area{
+    background:
+        repeating-linear-gradient(
+            to top,
+            #edf2f7 0,
+            #edf2f7 1px,
+            transparent 1px,
+            transparent 52px
+        );
+    border-radius:16px;
+    padding:10px;
+}
+
+/* ===========================================
+   Donut Chart
+=========================================== */
+
+.dc-donut-wrap{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:22px 0;
+}
+
+.dc-donut{
+    width:210px;
+    height:210px;
+    border-radius:50%;
+    background:
+    conic-gradient(
+        #14b8a6 0deg 223deg,
+        #f59e0b 223deg 315deg,
+        #ef4444 315deg 360deg
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.dc-donut::before{
+    content:"";
+    position:absolute;
+    width:145px;
+    height:145px;
+    background:#fff;
+    border-radius:50%;
+}
+
+.dc-donut-center{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.dc-donut-center h2{
+    font-size:26px;
+    color:#0f172a;
+    margin-bottom:6px;
+}
+
+.dc-donut-center p{
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ===========================================
+   Recharge Summary
+=========================================== */
+
+.dc-summary-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:20px;
+}
+
+.dc-summary-list .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:15px;
+    color:#334155;
+}
+
+.dc-summary-list .row strong{
+    color:#0f172a;
+}
+
+.green-dot,
+.orange-dot,
+.red-dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:10px;
+}
+
+.green-dot{
+    background:#14b8a6;
+}
+
+.orange-dot{
+    background:#f59e0b;
+}
+
+.red-dot{
+    background:#ef4444;
+}
+
+/* ===========================================
+   Low Session Alerts
+=========================================== */
+
+.dc-alert-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom:22px;
+}
+
+.dc-alert-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 18px;
+    background:#f8fbfd;
+    border:1px solid #e4eef3;
+    border-radius:14px;
+    transition:.3s;
+}
+
+.dc-alert-item:hover{
+    background:#ecfffb;
+    border-color:#14b8a6;
+}
+
+.dc-alert-item span{
+    font-size:15px;
+    font-weight:600;
+    color:#183b56;
+}
+
+.dc-alert-item small{
+    color:#ef4444;
+    font-weight:600;
+}
+
+/* ===========================================
+   Treatment Follow-up
+=========================================== */
+
+.dc-followup-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.dc-follow-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    border:1px solid #e6edf2;
+    border-radius:16px;
+    transition:.3s;
+    background:#fbfdff;
+}
+
+.dc-follow-item:hover{
+    border-color:#14b8a6;
+    background:#f0fdfa;
+}
+
+.dc-avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#14b8a6,#0f766e);
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+    font-size:16px;
+    flex-shrink:0;
+}
+
+.dc-follow-info{
+    flex:1;
+}
+
+.dc-follow-info h4{
+    font-size:16px;
+    color:#1e293b;
+    margin-bottom:4px;
+}
+
+.dc-follow-info p{
+    font-size:13px;
+    color:#64748b;
+}
+
+.dc-overdue{
+    background:#fee2e2;
+    color:#dc2626;
+    padding:7px 12px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* ===========================================
+   Inactive Patients
+=========================================== */
+
+.dc-inactive-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom:22px;
+}
+
+.dc-inactive-item{
+    padding:16px;
+    background:#f8fbfd;
+    border:1px solid #e6edf2;
+    border-radius:14px;
+    transition:.3s;
+}
+
+.dc-inactive-item:hover{
+    background:#eefcf9;
+    border-color:#14b8a6;
+}
+
+.dc-inactive-item h4{
+    color:#1f2937;
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.dc-inactive-item p{
+    color:#64748b;
+    font-size:13px;
+}
+
+/* ===========================================
+   Referral Summary
+=========================================== */
+
+.dc-referral-table{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.dc-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 18px;
+    border-radius:14px;
+    background:#f8fbfd;
+    border:1px solid #e6edf2;
+    transition:.3s;
+}
+
+.dc-row:hover{
+    border-color:#14b8a6;
+    background:#eefcf9;
+}
+
+.dc-row span{
+    color:#475569;
+    font-size:15px;
+}
+
+.dc-row strong{
+    color:#0f172a;
+    font-size:16px;
+}
+
+.green-text{
+    color:#16a34a !important;
+    font-weight:700;
+}
+
+/* ===========================================
+   Buttons
+=========================================== */
+
+.dc-btn{
+    width:100%;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    margin-top:8px;
+    padding:14px 18px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    color:#fff;
+    background:linear-gradient(135deg,#14b8a6,#0f766e);
+    transition:.3s;
+}
+
+.dc-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(20,184,166,.28);
+}
+
+.dc-btn:active{
+    transform:scale(.98);
+}
+
+
+
+
+/* ===========================================
+   Scrollbar
+=========================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#b5b8b6;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#b5b8b6;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#424242;
+}
+
+/* ===========================================
+   Utility
+=========================================== */
+
+.dc-panel,
+.dc-summary-card{
+    animation:dcFade .45s ease;
+}
+
+@keyframes dcFade{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.dc-panel{
+    overflow:hidden;
+}
+
+.dc-summary-card{
+    overflow:visible;
+    position:relative;
+}
+
+/* ===========================================
+   Large Screen
+=========================================== */
+
+@media (max-width:1400px){
+
+    .dc-summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dc-dashboard-body{
+        grid-template-columns:1fr;
+    }
+
+    .dc-bottom-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+/* ===========================================
+   Tablet
+=========================================== */
+
+@media (max-width:992px){
+
+    .dashboard-clinic{
+        padding:20px;
+    }
+
+    .dc-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .dc-summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dc-dashboard-body{
+        grid-template-columns:1fr;
+    }
+
+    .dc-bottom-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dc-panel{
+        padding:20px;
+    }
+
+    .dc-chart{
+        flex-direction:column;
+    }
+
+    .dc-chart-y{
+        width:100%;
+        flex-direction:row;
+        padding:0;
+        margin-bottom:12px;
+    }
+
+    .dc-chart-area svg{
+        height:220px;
+    }
+
+    .dc-donut{
+        width:180px;
+        height:180px;
+    }
+
+    .dc-donut::before{
+        width:120px;
+        height:120px;
+    }
+
+    .dc-big-price{
+        font-size:28px;
+    }
+
+}
+
+/* ===========================================
+   Mobile
+=========================================== */
+
+@media (max-width:768px){
+
+    .dashboard-clinic{
+        padding:15px;
+    }
+
+    .dc-header h1{
+        font-size:28px;
+    }
+
+    .dc-header p{
+        font-size:13px;
+    }
+
+    .dc-date-box{
+        width:100%;
+        justify-content:center;
+    }
+
+    .dc-summary-card{
+        padding:18px;
+    }
+
+    .dc-card-icon{
+        width:48px;
+        height:48px;
+        font-size:20px;
+    }
+
+    .dc-card-body h2{
+        font-size:28px;
+    }
+
+    .dc-panel-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .dc-panel-header h3{
+        font-size:17px;
+    }
+
+    .dc-big-price{
+        font-size:24px;
+    }
+
+    .dc-growth{
+        display:block;
+        margin:8px 0 0;
+    }
+
+    .dc-chart-labels{
+        font-size:11px;
+        overflow-x:auto;
+        gap:18px;
+    }
+
+    .dc-follow-item{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .dc-overdue{
+        margin-top:10px;
+    }
+
+    .dc-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+
+    .dc-summary-list .row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+
+}
+
+/* ===========================================
+   Small Mobile
+=========================================== */
+
+@media (max-width:480px){
+
+    .dashboard-clinic{
+        padding:12px;
+    }
+
+    .dc-header h1{
+        font-size:24px;
+    }
+
+    .dc-card-top{
+        gap:10px;
+    }
+
+    .dc-card-heading h4{
+        font-size:14px;
+    }
+
+    .dc-card-body h2{
+        font-size:24px;
+    }
+
+    .dc-btn{
+        font-size:14px;
+        padding:12px;
+    }
+
+    .dc-donut{
+        width:160px;
+        height:160px;
+    }
+
+    .dc-donut::before{
+        width:105px;
+        height:105px;
+    }
+
+    .dc-donut-center h2{
+        font-size:20px;
+    }
+
+    .dc-chart-area svg{
+        height:180px;
+    }
+
+}
