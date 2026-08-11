@@ -245,6 +245,7 @@ const handleSubmit = (e) => {
             <input
               type="date"
               name="date"
+              placeholder="Date"
               min={today}
               value={formData.date}
               onChange={handleChange}

@@ -488,6 +488,7 @@ const BookAppointment = () => {
                     type="date"
                     name="date"
                     value={formData.date}
+                    placeholder="Date"
                     onChange={handleChange}
                     min={today}
                   />
