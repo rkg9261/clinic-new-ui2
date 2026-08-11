@@ -1,0 +1,168 @@
+import "./Hero.css";
+
+import heroBg from "../../assets/hero-bg.avif";
+import spineMan from "../../assets/spine-man1.png";
+import spine1 from "../../assets/spine1.jpg";
+import spine2 from "../../assets/spine2.jpeg";
+import spine3 from "../../assets/spine3.jpeg";
+
+import {
+FaUserMd,
+FaHeartbeat,
+FaCheckCircle,
+FaLaptopMedical,
+FaWhatsapp
+} from "react-icons/fa";
+
+const Hero = () => {
+  return (
+
+<section
+className="hero"
+id="hero"
+style={{
+backgroundImage:`url(${heroBg})`
+}}
+>
+
+<div className="hero-overlay">
+
+<div className="hero-left">
+
+<h1>
+
+<span>MOVE BETTER.</span>
+
+<br/>
+
+<strong>LIVE PAIN FREE.</strong>
+
+</h1>
+
+<p>
+Advanced Non-Surgical Treatment
+for Spine Issues & Sports Injuries
+</p>
+
+<div className="hero-features">
+
+<div className="feature">
+
+<FaUserMd/>
+
+<div>
+
+<h4>Expert Care</h4>
+
+<p>Experienced Doctors</p>
+
+</div>
+
+</div>
+
+<div className="feature">
+
+<FaLaptopMedical/>
+
+<div>
+
+<h4>Advanced Technology</h4>
+
+<p>Modern Equipment</p>
+
+</div>
+
+</div>
+
+<div className="feature">
+
+<FaHeartbeat/>
+
+<div>
+
+<h4>Personalized Therapy</h4>
+
+<p>Fast Recovery</p>
+
+</div>
+
+</div>
+
+<div className="feature">
+
+<FaCheckCircle/>
+
+<div>
+
+<h4>Proven Results</h4>
+
+<p>Pain Relief</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div className="hero-buttons">
+
+<button className="appointment-btn">
+
+BOOK APPOINTMENT
+
+</button>
+
+<button className="whatsapp-btn">
+  <FaWhatsapp className="whatsapp-icon" />
+  <span>Chat on WhatsApp</span>
+</button>
+
+</div>
+
+</div>
+
+<div className="hero-right">
+
+<img
+src={spineMan}
+className="main-image"
+alt=""
+/>
+
+<div className="circle-img top">
+
+<img
+src={spine1}
+alt=""
+/>
+
+</div>
+
+<div className="circle-img middle">
+
+<img
+src={spine2}
+alt=""
+/>
+
+</div>
+
+<div className="circle-img bottom">
+
+<img
+src={spine3}
+alt=""
+/>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+  );
+};
+
+export default Hero;

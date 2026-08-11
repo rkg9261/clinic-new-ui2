@@ -52,6 +52,7 @@ import Testimonials from './Components/Testimonials/Testimonials'
 import Therapy from './Components/Therapy/Therapy'
 import BlogSlider from './Components/BlogSlider/BlogSlider'
 import AppointmentForm from './Components/AppointmentFrom/AppointmentForm'
+import Hero from './Components/Hero/Hero'
 
 
 
@@ -62,7 +63,7 @@ function Website() {
    
     <div>
       <Navbar />
-     
+     <Hero/>
       <Conditions/>
       <Therapy/>
       <RecoveryProcess/>
