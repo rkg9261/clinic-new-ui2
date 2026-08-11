@@ -533,6 +533,33 @@
 
 }
 
+.simple-nav-link{
+    border:none;
+    outline:none;
+    background:transparent;
+    padding:0;
+    margin:0;
 
-/*====================================
- MENU SHADOW
+    color:#1f1f1f;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.35s;
+}
+
+.simple-nav-link:hover{
+    color:#d6242e;
+}
+
+@media(max-width:768px){
+
+    .simple-nav-link{
+        width:100%;
+        text-align:left;
+        padding:12px 0;
+        font-size:17px;
+    }
+
+}

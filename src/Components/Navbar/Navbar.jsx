@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
+
 import cliniclogo from "../../assets/cliniclogo.png";
 import menu_icon from "../../assets/menu-icon.png";
-import { Link } from "react-scroll";
-import { useNavigate } from "react-router-dom";
+
+import { Link as ScrollLink } from "react-scroll";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -12,42 +14,98 @@ const Navbar = () => {
   const [sticky, setSticky] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
 
-  // Sticky Navbar
+
+  /*====================================
+    STICKY NAVBAR
+  ====================================*/
+
   useEffect(() => {
 
     const handleScroll = () => {
+
       setSticky(window.scrollY > 50);
+
     };
 
     window.addEventListener("scroll", handleScroll);
 
     return () => {
+
       window.removeEventListener("scroll", handleScroll);
+
     };
 
   }, []);
 
-  // Toggle Menu
+
+  /*====================================
+    MOBILE MENU
+  ====================================*/
+
   const toggleMenu = () => {
+
     setMobileMenu((prev) => !prev);
+
   };
 
-  // Close Menu
+
+  /*====================================
+    CLOSE MENU
+  ====================================*/
+
   const closeMenu = () => {
+
     setMobileMenu(false);
+
   };
+
+
+  /*====================================
+    BOOK APPOINTMENT
+  ====================================*/
+
+  const handleBookAppointment = () => {
+
+    closeMenu();
+
+    navigate("/book-appointment");
+
+  };
+
+
+  /*====================================
+    LOGIN
+  ====================================*/
+
+  const handleLogin = () => {
+
+    closeMenu();
+
+    navigate("/login");
+
+  };
+
 
   return (
     <>
 
-      {/* Overlay */}
+      {/*====================================
+        MOBILE OVERLAY
+      ====================================*/}
 
       {mobileMenu && (
+
         <div
           className="mobile-overlay-web-navbar"
           onClick={closeMenu}
         ></div>
+
       )}
+
+
+      {/*====================================
+        NAVBAR
+      ====================================*/}
 
       <nav
         className={`container ${
@@ -55,7 +113,10 @@ const Navbar = () => {
         }`}
       >
 
-        {/* Logo */}
+
+        {/*====================================
+          LOGO
+        ====================================*/}
 
         <img
           src={cliniclogo}
@@ -63,7 +124,10 @@ const Navbar = () => {
           className="logo-web-navbar"
         />
 
-        {/* Menu */}
+
+        {/*====================================
+          MENU
+        ====================================*/}
 
         <ul
           className={
@@ -73,19 +137,44 @@ const Navbar = () => {
           }
         >
 
+
+          {/*====================================
+            HOME
+          ====================================*/}
+
           <li>
+
             <Link
-              to="hero"
-              smooth={true}
-              duration={500}
-              onClick={closeMenu}
+              to="/"
+              className="simple-nav-link"
+              onClick={() => {
+
+                closeMenu();
+
+                setTimeout(() => {
+
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+
+                }, 100);
+
+              }}
             >
               Home
             </Link>
+
           </li>
 
+
+          {/*====================================
+            FACILITIES
+          ====================================*/}
+
           <li>
-            <Link
+
+            <ScrollLink
               to="facilities"
               smooth={true}
               duration={500}
@@ -93,23 +182,36 @@ const Navbar = () => {
               onClick={closeMenu}
             >
               Facilities
-            </Link>
+            </ScrollLink>
+
           </li>
 
-          <li>
-            <Link
-              to="about"
-              smooth={true}
-              duration={500}
-              offset={-90}
-              onClick={closeMenu}
-            >
-              About Us
-            </Link>
-          </li>
+
+          {/*====================================
+            ABOUT US
+          ====================================*/}
+
+  <li>
+  <button
+    type="button"
+    className="simple-nav-link"
+    onClick={() => {
+      closeMenu();
+      navigate("/about-us");
+    }}
+  >
+    About Us
+  </button>
+</li>
+
+
+          {/*====================================
+            CLINIC PHOTOS
+          ====================================*/}
 
           <li>
-            <Link
+
+            <ScrollLink
               to="gallery"
               smooth={true}
               duration={500}
@@ -117,33 +219,50 @@ const Navbar = () => {
               onClick={closeMenu}
             >
               Clinic Photos
-            </Link>
+            </ScrollLink>
+
           </li>
 
+
+          {/*====================================
+            BOOK APPOINTMENT
+          ====================================*/}
+
           <li>
+
             <button
+              type="button"
               className="btn-web-navbar"
-              onClick={closeMenu}
+              onClick={handleBookAppointment}
             >
               BOOK APPOINTMENT
             </button>
+
           </li>
 
+
+          {/*====================================
+            LOGIN
+          ====================================*/}
+
           <li>
+
             <button
+              type="button"
               className="btn-web-navbar"
-              onClick={() => {
-                closeMenu();
-                navigate("/login");
-              }}
+              onClick={handleLogin}
             >
               LOGIN
             </button>
+
           </li>
 
         </ul>
 
-        {/* Menu Icon */}
+
+        {/*====================================
+          MOBILE MENU ICON
+        ====================================*/}
 
         <img
           src={menu_icon}
@@ -156,6 +275,7 @@ const Navbar = () => {
 
     </>
   );
+
 };
 
 export default Navbar;

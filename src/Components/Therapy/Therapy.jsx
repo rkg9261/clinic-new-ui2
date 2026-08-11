@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Therapy.css";
 import { therapyData } from "./therapyData";
-
+import { useNavigate } from "react-router-dom";
 import {
   FaCalendarAlt,
   FaCheckCircle,
@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 
 const Therapy = () => {
+
+  const navigate = useNavigate();
 
   const [showAll, setShowAll] = useState(false);
 
@@ -174,15 +176,12 @@ const Therapy = () => {
 
               </div>
 
-              <button className="book-btn">
-
-                <FaCalendarAlt />
-
-                Book Appointment
-
-                <FaArrowRight />
-
-              </button>
+             <button  type="button"  className="book-btn"
+            onClick={() => navigate("/book-appointment")}>
+             <FaCalendarAlt />
+            <span>Book Appointment</span>
+               <FaArrowRight />
+            </button>
 
             </div>
 

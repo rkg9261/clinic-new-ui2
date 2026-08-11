@@ -1,5 +1,5 @@
 import "./Hero.css";
-
+import { useNavigate } from "react-router-dom";
 import heroBg from "../../assets/hero-bg.avif";
 import spineMan from "../../assets/spine-man1.png";
 import spine1 from "../../assets/spine1.jpg";
@@ -15,6 +15,8 @@ FaWhatsapp
 } from "react-icons/fa";
 
 const Hero = () => {
+    const navigate = useNavigate();
+
   return (
 
 <section
@@ -106,7 +108,7 @@ for Spine Issues & Sports Injuries
 
 <div className="hero-buttons">
 
-<button className="appointment-btn">
+<button className="appointment-btn" onClick={()=>navigate ("/book-appointment")}>
 
 BOOK APPOINTMENT
 
