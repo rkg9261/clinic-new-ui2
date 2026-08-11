@@ -131,7 +131,7 @@ className="main-image"
 alt=""
 />
 
-<div className="circle-img top">
+{/* <div className="circle-img top">
 
 <img
 src={spine1}
@@ -156,7 +156,7 @@ src={spine3}
 alt=""
 />
 
-</div>
+</div> */}
 
 </div>
 

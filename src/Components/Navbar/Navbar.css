@@ -721,3 +721,85 @@
     }
 
 }
+
+/*====================================================
+  MOBILE CLOSE BUTTON
+====================================================*/
+
+.mobile-close-btn-web-navbar{
+
+    display:none;
+
+}
+
+
+/*====================================================
+  MOBILE
+====================================================*/
+
+@media(max-width:768px){
+
+    .mobile-close-btn-web-navbar{
+
+        display:flex;
+
+        position:absolute;
+
+        top:15px;
+
+        right:18px;
+
+        width:40px;
+
+        height:40px;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border:none;
+
+        border-radius:50%;
+
+        background:#d91f26;
+
+        color:#fff;
+
+        font-size:30px;
+
+        font-weight:400;
+
+        line-height:1;
+
+        cursor:pointer;
+
+        z-index:10001;
+
+        transition:
+            transform .3s ease,
+            background .3s ease,
+            box-shadow .3s ease;
+
+    }
+
+
+    .mobile-close-btn-web-navbar:hover{
+
+        background:#b71c1c;
+
+        transform:rotate(90deg);
+
+        box-shadow:
+            0 8px 20px
+            rgba(217,31,38,.3);
+
+    }
+
+
+    .mobile-close-btn-web-navbar:active{
+
+        transform:scale(.9);
+
+    }
+
+}

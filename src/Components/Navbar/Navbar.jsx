@@ -5,7 +5,7 @@ import cliniclogo from "../../assets/cliniclogo.png";
 import menu_icon from "../../assets/menu-icon.png";
 
 import { Link as ScrollLink } from "react-scroll";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -61,6 +61,30 @@ const Navbar = () => {
 
 
   /*====================================
+    LOGO
+    GO HOME + SCROLL TO TOP
+  ====================================*/
+
+  const handleLogoClick = () => {
+
+    closeMenu();
+
+    navigate("/");
+
+    setTimeout(() => {
+
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+
+    }, 100);
+
+  };
+
+
+  /*====================================
     BOOK APPOINTMENT
   ====================================*/
 
@@ -86,8 +110,32 @@ const Navbar = () => {
   };
 
 
+  /*====================================
+    HOME CLICK
+  ====================================*/
+
+  const handleHomeClick = () => {
+
+    closeMenu();
+
+    navigate("/");
+
+    setTimeout(() => {
+
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+
+    }, 100);
+
+  };
+
+
   return (
     <>
+
 
       {/*====================================
         MOBILE OVERLAY
@@ -111,7 +159,9 @@ const Navbar = () => {
         className={`container ${
           sticky ? "dark-nav-web-navbar" : ""
         } ${
-          mobileMenu ? "mobile-navbar-open-web-navbar" : ""
+          mobileMenu
+            ? "mobile-navbar-open-web-navbar"
+            : ""
         }`}
       >
 
@@ -124,6 +174,7 @@ const Navbar = () => {
           src={cliniclogo}
           alt="Clinic Logo"
           className="logo-web-navbar"
+          onClick={handleLogoClick}
         />
 
 
@@ -141,31 +192,36 @@ const Navbar = () => {
 
 
           {/*====================================
+            MOBILE CLOSE BUTTON
+          ====================================*/}
+
+          {mobileMenu && (
+
+            <button
+              type="button"
+              className="mobile-close-btn-web-navbar"
+              onClick={closeMenu}
+              aria-label="Close menu"
+            >
+              ×
+            </button>
+
+          )}
+
+
+          {/*====================================
             HOME
           ====================================*/}
 
           <li>
 
-            <Link
-              to="/"
+            <button
+              type="button"
               className="simple-nav-link"
-              onClick={() => {
-
-                closeMenu();
-
-                setTimeout(() => {
-
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-
-                }, 100);
-
-              }}
+              onClick={handleHomeClick}
             >
               Home
-            </Link>
+            </button>
 
           </li>
 
@@ -264,6 +320,7 @@ const Navbar = () => {
 
           </li>
 
+
         </ul>
 
 
@@ -278,11 +335,14 @@ const Navbar = () => {
           onClick={toggleMenu}
         />
 
+
       </nav>
+
 
     </>
   );
 
 };
+
 
 export default Navbar;

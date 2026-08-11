@@ -123,111 +123,136 @@ color:#666;
 
 }
 
+
+/*====================================
+ HERO BUTTON CONTAINER
+====================================*/
+
 .hero-buttons{
 
 display:flex;
-align-items: center;
-width: 100%;
-max-width: 500px;
-gap:20px;
+
+flex-direction:row;
+
+align-items:center;
+
+justify-content:flex-start;
+
+width:100%;
+
+max-width:540px;
+
+gap:18px;
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
 
 }
+
+
+/*====================================
+ BOTH HERO BUTTONS
+====================================*/
+
+.hero-buttons .appointment-btn,
+.hero-buttons .whatsapp-btn{
+
+width:260px;
+
+min-width:260px;
+
+max-width:260px;
+
+height:56px;
+
+min-height:56px;
+
+max-height:56px;
+
+margin:0;
+
+padding:0 18px;
+
+border:none;
+
+border-radius:8px;
+
+box-sizing:border-box;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+line-height:1;
+
+white-space:nowrap;
+
+flex:none;
+
+cursor:pointer;
+
+transition:
+transform .4s ease,
+box-shadow .4s ease;
+
+}
+
 
 /*====================================
  BOOK APPOINTMENT BUTTON
 ====================================*/
 
-.appointment-btn{
+.hero-buttons .appointment-btn{
 
-    flex:1;
+background:#d91f26;
 
-    width:100%;
+color:#fff;
 
-    height:56px;
+font-size:16px;
 
-    padding:0 20px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#d91f26;
-
-    color:#fff;
-
-    font-size:16px;
-
-    font-weight:500;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    white-space:nowrap;
-
-    transition:.4s;
+font-weight:600;
 
 }
 
-.appointment-btn:hover{
+.hero-buttons .appointment-btn:hover{
 
-    transform:translateY(-5px);
+transform:translateY(-4px);
 
-    box-shadow:0 10px 25px rgba(217,31,38,.3);
+box-shadow:
+0 10px 25px rgba(217,31,38,.30);
 
 }
+
 
 /*====================================
  WHATSAPP BUTTON
 ====================================*/
 
-.whatsapp-btn{
+.hero-buttons .whatsapp-btn{
 
-    flex:1;
+background:#0d7f55;
 
-    width:100%;
+color:#fff;
 
-    height:57px;
+font-size:16px;
 
-    padding:0 22px;
+font-weight:600;
 
-    border:none;
-
-    border-radius:8px;
-
-    background:#0d7f55;
-
-    color:#fff;
-
-    font-size:16px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:10px;
-
-    white-space:nowrap;
-
-    transition:.4s;
+gap:8px;
 
 }
 
-.whatsapp-btn:hover{
+.hero-buttons .whatsapp-btn:hover{
 
-    transform:translateY(-5px);
+transform:translateY(-4px);
 
-    box-shadow:0 10px 25px rgba(13,127,85,.3);
+box-shadow:
+0 10px 25px rgba(13,127,85,.30);
 
 }
 
@@ -236,17 +261,38 @@ gap:20px;
  WHATSAPP ICON
 ====================================*/
 
-.whatsapp-icon{
+.hero-buttons .whatsapp-icon{
 
-    font-size:22px;
+font-size:21px;
 
-    padding-top:0;
+padding:0;
 
-    color:#fff;
+margin:0;
 
-    flex-shrink:0;
+color:#fff;
+
+line-height:1;
+
+flex-shrink:0;
 
 }
+
+
+/*====================================
+ BUTTON ACTIVE
+====================================*/
+
+.hero-buttons .appointment-btn:active,
+.hero-buttons .whatsapp-btn:active{
+
+transform:translateY(0);
+
+}
+
+
+/*====================================
+ HERO RIGHT
+====================================*/
 
 .hero-right{
 
@@ -266,12 +312,15 @@ animation:slideRight 1s;
 
 .main-image{
 
+width:730px;
 
-width: 730px;
 animation:float 4s ease-in-out infinite;
-border-radius: 50px;
-margin-left: 70px;
-height: 500px;
+
+border-radius:50px;
+
+margin-left:70px;
+
+height:500px;
 
 }
 
@@ -329,6 +378,11 @@ right:20px;
 
 }
 
+
+/*====================================
+ ANIMATIONS
+====================================*/
+
 @keyframes float{
 
 50%{
@@ -379,6 +433,11 @@ transform:translateX(0);
 
 }
 
+
+/*====================================
+ TABLET
+====================================*/
+
 @media(max-width:992px){
 
 .hero-overlay{
@@ -388,7 +447,6 @@ flex-direction:column;
 }
 
 .hero-left,
-
 .hero-right{
 
 width:100%;
@@ -431,6 +489,11 @@ height:90px;
 
 }
 
+
+/*====================================
+ MOBILE
+====================================*/
+
 @media(max-width:600px){
 
 .hero{
@@ -453,20 +516,91 @@ line-height:26px;
 
 }
 
+
+/*====================================
+ KEEP BUTTONS IN ONE STRAIGHT LINE
+====================================*/
+
 .hero-buttons{
 
-flex-direction:column;
+display:flex;
 
-}
+flex-direction:row;
 
-.appointment-btn,
+align-items:center;
 
-.whatsapp-btn{
-height: 60px;
-min-height: 60px;
+justify-content:space-between;
+
 width:100%;
 
-}
+max-width:100%;
+
+gap:8px;
 
 }
 
+
+/*====================================
+ MOBILE BOTH BUTTONS
+====================================*/
+
+.hero-buttons .appointment-btn,
+.hero-buttons .whatsapp-btn{
+
+width:calc(50% - 4px);
+
+min-width:0;
+
+max-width:none;
+
+height:54px;
+
+min-height:54px;
+
+max-height:54px;
+
+padding:0 6px;
+
+margin:0;
+
+box-sizing:border-box;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:12px;
+
+line-height:1;
+
+white-space:nowrap;
+
+}
+
+
+/*====================================
+ MOBILE WHATSAPP
+====================================*/
+
+.hero-buttons .whatsapp-btn{
+
+gap:4px;
+
+}
+
+
+/*====================================
+ MOBILE ICON
+====================================*/
+
+.hero-buttons .whatsapp-icon{
+
+font-size:18px;
+
+line-height:1;
+
+}
+
+}

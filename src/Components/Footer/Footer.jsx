@@ -284,7 +284,7 @@ const Footer = () => {
 
       <div className="footer-bottom">
 
-        © 2026 Krishna Advance Physio Clinic.
+        © 2026 Krishna Advanced Physio Clinic.
         All Rights Reserved.
 
       </div>
