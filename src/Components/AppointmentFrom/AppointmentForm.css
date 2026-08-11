@@ -2139,3 +2139,371 @@ translate(-25px,-30px);
     }
 
 }
+
+/*====================================================
+ FINAL FIX - DATE INPUT WIDTH / TABLET / IPAD
+====================================================*/
+
+/*------------------------------------
+ FORM ROW SAFETY
+------------------------------------*/
+
+.appointment-row{
+
+    width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/*------------------------------------
+ INPUT CONTAINER SAFETY
+------------------------------------*/
+
+.appointment-input{
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/*------------------------------------
+ ALL INPUTS + SELECT
+------------------------------------*/
+
+.appointment-input input,
+.appointment-input select{
+
+    display:block;
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/*------------------------------------
+ DATE INPUT
+------------------------------------*/
+
+.appointment-input input[type="date"]{
+
+    display:block;
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+    -webkit-appearance:none;
+
+    appearance:none;
+
+}
+
+
+/*------------------------------------
+ DATE CALENDAR ICON
+------------------------------------*/
+
+.appointment-input input[type="date"]::-webkit-calendar-picker-indicator{
+
+    margin:0;
+
+    padding:0;
+
+    cursor:pointer;
+
+}
+
+
+/*====================================================
+ TABLET / IPAD FIX
+ 769px - 1100px
+====================================================*/
+
+@media (min-width:769px) and (max-width:1100px){
+
+    .appointment-section{
+
+        width:100%;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-card{
+
+        width:100%;
+
+        max-width:560px;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-row{
+
+        width:100%;
+
+        min-width:0;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            minmax(0,1fr);
+
+    }
+
+
+    .appointment-row > *{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .appointment-input{
+
+        width:100%;
+
+        min-width:0;
+
+        max-width:100%;
+
+    }
+
+
+    .appointment-input input,
+    .appointment-input select{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-input input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        display:block;
+
+    }
+
+}
+
+
+/*====================================================
+ SMALL TABLET
+ 481px - 768px
+====================================================*/
+
+@media (min-width:481px) and (max-width:768px){
+
+    .appointment-section{
+
+        width:100%;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-card{
+
+        width:100%;
+
+        max-width:500px;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-row{
+
+        width:100%;
+
+        grid-template-columns:1fr;
+
+        min-width:0;
+
+    }
+
+
+    .appointment-input{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .appointment-input input,
+    .appointment-input select{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-input input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        display:block;
+
+    }
+
+}
+
+
+/*====================================================
+ MOBILE
+====================================================*/
+
+@media(max-width:480px){
+
+    .appointment-card{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-input{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .appointment-input input,
+    .appointment-input select{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .appointment-input input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        display:block;
+
+    }
+
+}
+
+
+/*====================================================
+ EXTRA SMALL MOBILE
+====================================================*/
+
+@media(max-width:360px){
+
+    .appointment-card{
+
+        width:100%;
+
+        max-width:100%;
+
+        padding-left:14px;
+
+        padding-right:14px;
+
+    }
+
+
+    .appointment-input{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .appointment-input input,
+    .appointment-input select,
+    .appointment-input input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+}

@@ -3093,3 +3093,209 @@
     }
 
 }
+
+/*====================================================
+ FIX DATE INPUT WIDTH - TABLET / IPAD
+====================================================*/
+
+/* Prevent input groups from overflowing */
+.book-input-group,
+.book-input-wrapper{
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/* Prevent all inputs from overflowing */
+.book-input-wrapper input,
+.book-input-wrapper select{
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/*====================================
+ DATE INPUT FIX
+====================================*/
+
+.book-input-wrapper input[type="date"]{
+
+    display:block;
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
+
+    -webkit-appearance:none;
+
+    appearance:none;
+
+}
+
+
+/*====================================
+ KEEP DATE ICON / CALENDAR INSIDE
+====================================*/
+
+.book-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator{
+
+    margin:0;
+
+    padding:0;
+
+    cursor:pointer;
+
+}
+
+
+/*====================================
+ TABLET / IPAD
+====================================*/
+
+@media (min-width:769px) and (max-width:1100px){
+
+    .book-form-section{
+
+        min-width:0;
+
+    }
+
+
+    .book-form-card{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        box-sizing:border-box;
+
+    }
+
+
+    .book-input-group{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .book-input-wrapper{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .book-input-wrapper input,
+    .book-input-wrapper select{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .book-input-wrapper input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        display:block;
+
+    }
+
+}
+
+
+/*====================================================
+ EXTRA SAFETY FOR GRID COLUMNS
+====================================================*/
+
+.book-form-row{
+
+    min-width:0;
+
+}
+
+
+.book-form-row > .book-input-group{
+
+    min-width:0;
+
+}
+
+
+/*====================================================
+ MOBILE
+====================================================*/
+
+@media(max-width:768px){
+
+    .book-input-wrapper input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+        display:block;
+
+        box-sizing:border-box;
+
+    }
+
+}
+
+
+/*====================================================
+ SMALL MOBILE
+====================================================*/
+
+@media(max-width:480px){
+
+    .book-input-wrapper input[type="date"]{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-width:0;
+
+    }
+
+}
