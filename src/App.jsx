@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
 import Navbar from './Components/Navbar/Navbar'
-import Hero from './Components/Hero/Hero'
+
 import Facilities from './Components/Facilities/Facilities'
 import Gallery from './Components/Gallery/Gallery'
 import Appointment from './Components/Appointment/Appointment'
@@ -62,7 +62,7 @@ function Website() {
    
     <div>
       <Navbar />
-      <Hero/>
+     
       <Conditions/>
       <Therapy/>
       <RecoveryProcess/>
