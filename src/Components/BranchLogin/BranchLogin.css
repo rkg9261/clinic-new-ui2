@@ -1,4 +1,5 @@
 .login-page {
+ 
   position: fixed;
   inset: 0;
   background: #e8f7f6;
@@ -11,6 +12,7 @@
 }
 
 .modern-login-card {
+   margin-top: 50px;
   width: 100%;
   max-width: 450px;
   position: relative;
@@ -193,6 +195,10 @@ color: #111827;
 /* MOBILE */
 
 @media(max-width:600px){
+
+  .modern-login-card {
+margin-top: 250px;
+  }
 
   .login-overlay {
     padding-top: 180px;

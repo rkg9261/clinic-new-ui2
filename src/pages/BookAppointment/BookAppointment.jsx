@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./BookAppointment.css";
-
-import Navbar from "../../Components/Navbar/Navbar";
-import Footer from "../../Components/Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 import {
   FaUser,
@@ -14,6 +12,8 @@ import {
 } from "react-icons/fa";
 
 const BookAppointment = () => {
+
+  const navigate = useNavigate();
 
   /*====================================
     FORM STATE
@@ -64,7 +64,9 @@ const BookAppointment = () => {
     const newErrors = {};
 
 
-    /* FULL NAME */
+    /*====================================
+      FULL NAME
+    ====================================*/
 
     if (!formData.fullName.trim()) {
 
@@ -74,7 +76,9 @@ const BookAppointment = () => {
     }
 
 
-    /* AGE */
+    /*====================================
+      AGE
+    ====================================*/
 
     if (!formData.age) {
 
@@ -92,7 +96,9 @@ const BookAppointment = () => {
     }
 
 
-    /* MOBILE */
+    /*====================================
+      MOBILE
+    ====================================*/
 
     if (!formData.mobile) {
 
@@ -109,7 +115,9 @@ const BookAppointment = () => {
     }
 
 
-    /* DATE */
+    /*====================================
+      DATE
+    ====================================*/
 
     if (!formData.date) {
 
@@ -119,7 +127,9 @@ const BookAppointment = () => {
     }
 
 
-    /* TIME */
+    /*====================================
+      TIME
+    ====================================*/
 
     if (!formData.time) {
 
@@ -223,13 +233,6 @@ const BookAppointment = () => {
     <>
 
       {/*====================================
-        NAVBAR
-      ====================================*/}
-
-      {/* <Navbar /> */}
-
-
-      {/*====================================
         BOOK APPOINTMENT PAGE
       ====================================*/}
 
@@ -237,7 +240,7 @@ const BookAppointment = () => {
 
 
         {/*====================================
-          PAGE HERO
+          PAGE CONTENT / LEFT SIDE
         ====================================*/}
 
         <section className="book-appointment-heading">
@@ -250,11 +253,15 @@ const BookAppointment = () => {
 
 
             <h1>
+
               Book Your{" "}
+
               <span>
                 Appointment
               </span>{" "}
+
               Today
+
             </h1>
 
 
@@ -274,12 +281,28 @@ const BookAppointment = () => {
 
 
         {/*====================================
-          FORM SECTION
+          FORM SECTION / RIGHT SIDE
         ====================================*/}
 
         <section className="book-form-section">
 
           <div className="book-form-card">
+
+
+            {/*====================================
+              CLOSE BUTTON
+            ====================================*/}
+
+            <button
+              type="button"
+              className="book-close-btn"
+              onClick={() => navigate("/")}
+              aria-label="Close and go to website"
+            >
+
+              ×
+
+            </button>
 
 
             {/*====================================
@@ -516,7 +539,7 @@ const BookAppointment = () => {
 
 
               {/*====================================
-                SUBMIT
+                SUBMIT BUTTON
               ====================================*/}
 
               <button
@@ -536,13 +559,6 @@ const BookAppointment = () => {
         </section>
 
       </main>
-
-
-      {/*====================================
-        FOOTER
-      ====================================*/}
-
-      {/* <Footer /> */}
 
     </>
   );

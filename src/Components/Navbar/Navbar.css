@@ -22,19 +22,38 @@
 
     background:#ffffff;
 
-    box-shadow:0 2px 15px rgba(0,0,0,.08);
+    box-shadow:
+        0 2px 15px
+        rgba(0,0,0,.08);
 
     transition:.35s;
 
     z-index:999;
 
+    box-sizing:border-box;
+
 }
+
 
 .dark-nav-web-navbar{
 
     background:#ffffff;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.12);
+
+}
+
+
+/*====================================
+ IMPORTANT
+ MOBILE NAVBAR ABOVE OVERLAY
+====================================*/
+
+.mobile-navbar-open-web-navbar{
+
+    z-index:10001 !important;
 
 }
 
@@ -52,6 +71,7 @@
     transition:.35s;
 
 }
+
 
 .logo-web-navbar:hover{
 
@@ -74,13 +94,23 @@
 
     list-style:none;
 
+    margin:0;
+
+    padding:0;
+
 }
+
 
 .container ul li{
 
     list-style:none;
 
 }
+
+
+/*====================================
+ MENU LINKS
+====================================*/
 
 .container ul li a{
 
@@ -112,6 +142,7 @@
     position:absolute;
 
     left:0;
+
     bottom:-6px;
 
     width:0;
@@ -124,11 +155,13 @@
 
 }
 
+
 .container ul li a:hover{
 
     color:#d6242e;
 
 }
+
 
 .container ul li a:hover::after{
 
@@ -159,19 +192,29 @@
 
     font-weight:700;
 
-    background:linear-gradient(180deg,#ef3d3d,#c40000);
+    background:
+        linear-gradient(
+            180deg,
+            #ef3d3d,
+            #c40000
+        );
 
-    box-shadow:0 6px 15px rgba(210,0,0,.25);
+    box-shadow:
+        0 6px 15px
+        rgba(210,0,0,.25);
 
     transition:.35s;
 
 }
 
+
 .btn-web-navbar:hover{
 
     transform:translateY(-3px);
 
-    box-shadow:0 10px 22px rgba(210,0,0,.35);
+    box-shadow:
+        0 10px 22px
+        rgba(210,0,0,.35);
 
 }
 
@@ -190,11 +233,12 @@
 
     transition:.35s;
 
-    z-index:1002;
+    z-index:10002;
 
     filter:brightness(0);
 
 }
+
 
 .menu-icon-web-navbar:hover{
 
@@ -213,13 +257,19 @@
 
     inset:0;
 
-    background:rgba(0,0,0,.45);
+    width:100%;
+
+    height:100%;
+
+    background:
+        rgba(0,0,0,.45);
 
     backdrop-filter:blur(2px);
 
-    z-index:1000;
+    z-index:10000;
 
 }
+
 
 /*====================================
  MOBILE NAVBAR
@@ -227,143 +277,206 @@
 
 @media (max-width:768px){
 
-.container{
+    /*================================
+      NAVBAR
+    =================================*/
 
-    height:75px;
+    .container{
 
-    padding:0 20px;
+        height:75px;
+
+        padding:0 20px;
+
+    }
+
+
+    /*================================
+      LOGO
+    =================================*/
+
+    .logo-web-navbar{
+
+        width:165px;
+
+    }
+
+
+    /*================================
+      HAMBURGER
+    =================================*/
+
+    .menu-icon-web-navbar{
+
+        display:block;
+
+        width:30px;
+
+        cursor:pointer;
+
+        z-index:10005;
+
+        filter:brightness(0);
+
+    }
+
+
+    /*================================
+      SIDEBAR
+    =================================*/
+
+    .container ul{
+
+        position:fixed;
+
+        top:0;
+
+        right:-100%;
+
+        width:280px;
+
+        height:100vh;
+
+        background:#ffffff;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        justify-content:flex-start;
+
+        padding:90px 30px;
+
+        gap:22px;
+
+        list-style:none;
+
+        margin:0;
+
+        box-sizing:border-box;
+
+        transition:
+            right .35s ease-in-out;
+
+        box-shadow:
+            -10px 0 30px
+            rgba(0,0,0,.18);
+
+        /*
+          IMPORTANT:
+          Sidebar must be above overlay
+        */
+
+        z-index:10006;
+
+    }
+
+
+    /*================================
+      SIDEBAR OPEN
+    =================================*/
+
+    .show-mobile-menu-web-navbar{
+
+        right:0 !important;
+
+    }
+
+
+    /*================================
+      SIDEBAR CLOSED
+    =================================*/
+
+    .hide-mobile-menu-web-navbar{
+
+        right:-100% !important;
+
+    }
+
+
+    /*================================
+      MENU ITEMS
+    =================================*/
+
+    .container ul li{
+
+        width:100%;
+
+    }
+
+
+    .container ul li a{
+
+        display:block;
+
+        width:100%;
+
+        font-size:17px;
+
+        font-weight:600;
+
+        padding:12px 0;
+
+        color:#222;
+
+    }
+
+
+    /*================================
+      SIMPLE BUTTON LINK
+    =================================*/
+
+    .simple-nav-link{
+
+        width:100%;
+
+        text-align:left;
+
+        padding:12px 0;
+
+        font-size:17px;
+
+    }
+
+
+    /*================================
+      BOOK / LOGIN BUTTON
+    =================================*/
+
+    .btn-web-navbar{
+
+        width:100%;
+
+        padding:14px;
+
+        text-align:center;
+
+    }
+
+
+    /*================================
+      OVERLAY
+    =================================*/
+
+    .mobile-overlay-web-navbar{
+
+        position:fixed;
+
+        inset:0;
+
+        background:
+            rgba(0,0,0,.45);
+
+        backdrop-filter:
+            blur(2px);
+
+        z-index:10000;
+
+    }
 
 }
 
-/* Logo */
-
-.logo-web-navbar{
-
-    width:165px;
-
-}
-
-/* Hamburger */
-
-.menu-icon-web-navbar{
-
-    display:block;
-
-    width:30px;
-
-    cursor:pointer;
-
-    z-index:1002;
-
-    filter:brightness(0);
-
-}
-
-/* Sidebar */
-
-.container ul{
-
-    position:fixed;
-
-    top:0;
-
-    right:-100%;
-
-    width:280px;
-
-    height:100vh;
-
-    background:#ffffff;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    justify-content:flex-start;
-
-    padding:90px 30px;
-
-    gap:22px;
-
-    list-style:none;
-
-    transition:right .35s ease-in-out;
-
-    box-shadow:-10px 0 30px rgba(0,0,0,.18);
-
-    z-index:1001;
-
-}
-
-/* Sidebar Open */
-
-.show-mobile-menu-web-navbar{
-
-    right:0;
-
-}
-
-/* Sidebar Close */
-
-.hide-mobile-menu-web-navbar{
-
-    right:-100%;
-
-}
-
-/* Menu Item */
-
-.container ul li{
-
-    width:100%;
-
-}
-
-.container ul li a{
-
-    display:block;
-
-    width:100%;
-
-    font-size:17px;
-
-    font-weight:600;
-
-    padding:12px 0;
-
-    color:#222;
-
-}
-
-/* Button */
-
-.btn-web-navbar{
-
-    width:100%;
-
-    padding:14px;
-
-    text-align:center;
-
-}
-
-/* Overlay */
-
-.mobile-overlay-web-navbar{
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.45);
-
-    z-index:1000;
-
-}
-
-}
 
 /*====================================
  TABLET
@@ -371,35 +484,39 @@
 
 @media (max-width:992px){
 
-.container{
+    .container{
 
-    padding:0 5%;
+        padding:0 5%;
 
-}
+    }
 
-.logo-web-navbar{
 
-    width:185px;
+    .logo-web-navbar{
 
-}
+        width:185px;
 
-.container ul{
+    }
 
-    gap:20px;
 
-}
+    .container ul{
 
-.container ul li a{
+        gap:20px;
 
-    font-size:14px;
+    }
 
-}
 
-.btn-web-navbar{
+    .container ul li a{
 
-    padding:10px 18px;
+        font-size:14px;
 
-}
+    }
+
+
+    .btn-web-navbar{
+
+        padding:10px 18px;
+
+    }
 
 }
 
@@ -410,49 +527,61 @@
 
 @media (max-width:480px){
 
-.container{
+    .container{
 
-    height:72px;
+        height:72px;
 
-    padding:0 18px;
+        padding:0 18px;
 
-}
+    }
 
-.logo-web-navbar{
 
-    width:150px;
+    .logo-web-navbar{
 
-}
+        width:150px;
 
-.menu-icon-web-navbar{
+    }
 
-    width:28px;
 
-}
+    .menu-icon-web-navbar{
 
-.container ul{
+        width:28px;
 
-    width:250px;
+    }
 
-    padding:80px 25px;
 
-    gap:20px;
+    .container ul{
 
-}
+        width:250px;
 
-.container ul li a{
+        padding:80px 25px;
 
-    font-size:16px;
+        gap:20px;
 
-}
+    }
 
-.btn-web-navbar{
 
-    font-size:14px;
+    .container ul li a{
 
-    padding:12px;
+        font-size:16px;
 
-}
+    }
+
+
+    .simple-nav-link{
+
+        font-size:16px;
+
+    }
+
+
+    .btn-web-navbar{
+
+        font-size:14px;
+
+        padding:12px;
+
+    }
 
 }
 
@@ -466,6 +595,7 @@
     transition:.35s;
 
 }
+
 
 .menu-icon-web-navbar:hover{
 
@@ -483,6 +613,7 @@
     transition:.35s;
 
 }
+
 
 .container ul li:hover{
 
@@ -503,6 +634,7 @@
 
 }
 
+
 .btn-web-navbar::before{
 
     content:"";
@@ -517,13 +649,15 @@
 
     height:260%;
 
-    background:rgba(255,255,255,.35);
+    background:
+        rgba(255,255,255,.35);
 
     transform:rotate(35deg);
 
     transition:.8s;
 
 }
+
 
 .btn-web-navbar:hover::before{
 
@@ -533,33 +667,57 @@
 
 }
 
+
+/*====================================
+ SIMPLE NAV LINK
+====================================*/
+
 .simple-nav-link{
+
     border:none;
+
     outline:none;
+
     background:transparent;
+
     padding:0;
+
     margin:0;
 
     color:#1f1f1f;
+
     font-family:inherit;
+
     font-size:15px;
+
     font-weight:600;
 
     cursor:pointer;
+
     transition:.35s;
+
 }
 
+
 .simple-nav-link:hover{
+
     color:#d6242e;
+
 }
+
 
 @media(max-width:768px){
 
     .simple-nav-link{
+
         width:100%;
+
         text-align:left;
+
         padding:12px 0;
+
         font-size:17px;
+
     }
 
 }

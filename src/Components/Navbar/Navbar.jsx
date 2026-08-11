@@ -110,6 +110,8 @@ const Navbar = () => {
       <nav
         className={`container ${
           sticky ? "dark-nav-web-navbar" : ""
+        } ${
+          mobileMenu ? "mobile-navbar-open-web-navbar" : ""
         }`}
       >
 
@@ -191,18 +193,23 @@ const Navbar = () => {
             ABOUT US
           ====================================*/}
 
-  <li>
-  <button
-    type="button"
-    className="simple-nav-link"
-    onClick={() => {
-      closeMenu();
-      navigate("/about-us");
-    }}
-  >
-    About Us
-  </button>
-</li>
+          <li>
+
+            <button
+              type="button"
+              className="simple-nav-link"
+              onClick={() => {
+
+                closeMenu();
+
+                navigate("/about-us");
+
+              }}
+            >
+              About Us
+            </button>
+
+          </li>
 
 
           {/*====================================
