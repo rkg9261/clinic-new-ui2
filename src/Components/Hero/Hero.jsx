@@ -1,5 +1,6 @@
 import "./Hero.css";
 import { useNavigate } from "react-router-dom";
+
 import heroBg from "../../assets/hero-bg.avif";
 import spineMan from "../../assets/spine-man1.png";
 import spine1 from "../../assets/spine1.jpg";
@@ -7,164 +8,264 @@ import spine2 from "../../assets/spine2.jpeg";
 import spine3 from "../../assets/spine3.jpeg";
 
 import {
-FaUserMd,
-FaHeartbeat,
-FaCheckCircle,
-FaLaptopMedical,
-FaWhatsapp
+  FaUserMd,
+  FaHeartbeat,
+  FaCheckCircle,
+  FaLaptopMedical,
+  FaWhatsapp
 } from "react-icons/fa";
 
+
 const Hero = () => {
-    const navigate = useNavigate();
+
+  const navigate = useNavigate();
+
+
+  /*====================================
+    WHATSAPP MESSAGE
+  ====================================*/
+
+  const whatsappMessage =
+    "Hello! I’m interested in your clinics services. Could you please help me get started and guide me through the process? Thank you.";
+
+
+  /*====================================
+    WHATSAPP LINK
+  ====================================*/
+
+  const whatsappLink =
+    `https://wa.me/917467067466?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
+
 
   return (
 
-<section
-className="hero"
-id="hero"
-style={{
-backgroundImage:`url(${heroBg})`
-}}
->
+    <section
+      className="hero"
+      id="hero"
+      style={{
+        backgroundImage: `url(${heroBg})`
+      }}
+    >
 
-<div className="hero-overlay">
+      <div className="hero-overlay">
 
-<div className="hero-left">
 
-<h1>
+        {/*====================================
+          LEFT CONTENT
+        ====================================*/}
 
-<span>MOVE BETTER.</span>
+        <div className="hero-left">
 
-<br/>
+          <h1>
 
-<strong>LIVE PAIN FREE.</strong>
+            <span>
+              MOVE BETTER.
+            </span>
 
-</h1>
+            <br />
 
-<p>
-Advanced Non-Surgical Treatment
-for Spine Issues & Sports Injuries
-</p>
+            <strong>
+              LIVE PAIN FREE.
+            </strong>
 
-<div className="hero-features">
+          </h1>
 
-<div className="feature">
 
-<FaUserMd/>
+          <p>
+            Advanced Non-Surgical Treatment
+            for Spine Issues & Sports Injuries
+          </p>
 
-<div>
 
-<h4>Expert Care</h4>
+          {/*====================================
+            FEATURES
+          ====================================*/}
 
-<p>Experienced Doctors</p>
+          <div className="hero-features">
 
-</div>
 
-</div>
+            <div className="feature">
 
-<div className="feature">
+              <FaUserMd />
 
-<FaLaptopMedical/>
+              <div>
 
-<div>
+                <h4>
+                  Expert Care
+                </h4>
 
-<h4>Advanced Technology</h4>
+                <p>
+                  Experienced Doctors
+                </p>
 
-<p>Modern Equipment</p>
+              </div>
 
-</div>
+            </div>
 
-</div>
 
-<div className="feature">
+            <div className="feature">
 
-<FaHeartbeat/>
+              <FaLaptopMedical />
 
-<div>
+              <div>
 
-<h4>Personalized Therapy</h4>
+                <h4>
+                  Advanced Technology
+                </h4>
 
-<p>Fast Recovery</p>
+                <p>
+                  Modern Equipment
+                </p>
 
-</div>
+              </div>
 
-</div>
+            </div>
 
-<div className="feature">
 
-<FaCheckCircle/>
+            <div className="feature">
 
-<div>
+              <FaHeartbeat />
 
-<h4>Proven Results</h4>
+              <div>
 
-<p>Pain Relief</p>
+                <h4>
+                  Personalized Therapy
+                </h4>
 
-</div>
+                <p>
+                  Fast Recovery
+                </p>
 
-</div>
+              </div>
 
-</div>
+            </div>
 
-<div className="hero-buttons">
 
-<button className="appointment-btn" onClick={()=>navigate ("/book-appointment")}>
+            <div className="feature">
 
-BOOK APPOINTMENT
+              <FaCheckCircle />
 
-</button>
+              <div>
 
-<button className="whatsapp-btn">
-  <FaWhatsapp className="whatsapp-icon" />
-  <span>Chat on WhatsApp</span>
-</button>
+                <h4>
+                  Proven Results
+                </h4>
 
-</div>
+                <p>
+                  Pain Relief
+                </p>
 
-</div>
+              </div>
 
-<div className="hero-right">
+            </div>
 
-<img
-src={spineMan}
-className="main-image"
-alt=""
-/>
 
-{/* <div className="circle-img top">
+          </div>
 
-<img
-src={spine1}
-alt=""
-/>
 
-</div>
+          {/*====================================
+            BUTTONS
+          ====================================*/}
 
-<div className="circle-img middle">
+          <div className="hero-buttons">
 
-<img
-src={spine2}
-alt=""
-/>
 
-</div>
+            {/* BOOK APPOINTMENT */}
 
-<div className="circle-img bottom">
+            <button
+              type="button"
+              className="appointment-btn"
+              onClick={() => navigate("/book-appointment")}
+            >
 
-<img
-src={spine3}
-alt=""
-/>
+              BOOK APPOINTMENT
 
-</div> */}
+            </button>
 
-</div>
 
-</div>
+            {/* WHATSAPP */}
 
-</section>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="whatsapp-btn"
+              aria-label="Chat with us on WhatsApp"
+            >
+
+              <FaWhatsapp className="whatsapp-icon" />
+
+              <span>
+                Chat on WhatsApp
+              </span>
+
+            </a>
+
+
+          </div>
+
+        </div>
+
+
+        {/*====================================
+          RIGHT IMAGE
+        ====================================*/}
+
+        <div className="hero-right">
+
+          <img
+            src={spineMan}
+            className="main-image"
+            alt="Physiotherapy treatment"
+          />
+
+
+          {/* OPTIONAL CIRCLE IMAGES */}
+
+          {/*
+
+          <div className="circle-img top">
+
+            <img
+              src={spine1}
+              alt=""
+            />
+
+          </div>
+
+
+          <div className="circle-img middle">
+
+            <img
+              src={spine2}
+              alt=""
+            />
+
+          </div>
+
+
+          <div className="circle-img bottom">
+
+            <img
+              src={spine3}
+              alt=""
+            />
+
+          </div>
+
+          */}
+
+        </div>
+
+      </div>
+
+    </section>
 
   );
+
 };
+
 
 export default Hero;
