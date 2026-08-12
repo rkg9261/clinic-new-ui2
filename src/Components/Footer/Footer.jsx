@@ -35,7 +35,7 @@ const Footer = () => {
   ====================================*/
 
   const whatsappLink =
-    `https://wa.me/917467067646?text=${encodeURIComponent(
+    `https://wa.me/917467067466?text=${encodeURIComponent(
       whatsappMessage
     )}`;
 
