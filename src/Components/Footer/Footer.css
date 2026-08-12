@@ -129,7 +129,10 @@
     margin:0;
 
 }
-
+.footer-phone{
+    white-space: nowrap;
+    word-spacing: 4px;
+}
 .footer-column li{
 
     display:flex;
