@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Appointment.css";
-import { BASE_URL } from "../../config/api";
+import { API } from "../../config/api";
 
 const Appointment = () => {
 

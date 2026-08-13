@@ -111,13 +111,11 @@ const Hero = () => {
 
               <div>
 
-                <h4>
-                  Advanced Technology
-                </h4>
+                <h4> Advanced Technology</h4>
 
-                <p>
-                  Modern Equipment
-                </p>
+                <p> Modern Equipment  </p>
+                 
+              
 
               </div>
 
@@ -130,13 +128,8 @@ const Hero = () => {
 
               <div>
 
-                <h4>
-                  Personalized Therapy
-                </h4>
-
-                <p>
-                  Fast Recovery
-                </p>
+                <h4> Personalized Therapy</h4>
+                <p>Fast Recovery</p>
 
               </div>
 
@@ -149,14 +142,9 @@ const Hero = () => {
 
               <div>
 
-                <h4>
-                  Proven Results
-                </h4>
-
-                <p>
-                  Pain Relief
-                </p>
-
+                <h4>Proven Results</h4>
+                <p>Pain Relief</p>
+                  
               </div>
 
             </div>
