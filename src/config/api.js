@@ -2,6 +2,7 @@
 // BASE URL
 // ============================================
 
+// new url for api2
 export const BASE_URL =
   "https://api2.thekapc.com";
 
