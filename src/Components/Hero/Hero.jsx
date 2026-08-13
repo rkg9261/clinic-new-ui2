@@ -26,7 +26,7 @@ const Hero = () => {
   ====================================*/
 
   const whatsappMessage =
-    "Hello! I’m interested in your clinics services. Could you please help me get started and guide me through the process? Thank you.";
+    "Hello! I’m interested in your clinic's services. Could you please help me get started and guide me through the process? Thank you.";
 
 
   /*====================================
