@@ -8,8 +8,13 @@ import {
   FaWhatsapp,
   FaCalendarAlt,
   FaClock,
-  FaCheckCircle
+  FaVenusMars,
+  FaCheckCircle,
+  FaExclamationCircle
 } from "react-icons/fa";
+
+import { API } from "../../config/api";
+
 
 const BookAppointment = () => {
 
@@ -36,16 +41,43 @@ const BookAppointment = () => {
   ====================================*/
 
   const [formData, setFormData] = useState({
+
     fullName: "",
     age: "",
     mobile: "",
+    gender: "",
     date: "",
     time: ""
+
   });
+
+
+  /*====================================
+    ERROR STATE
+  ====================================*/
 
   const [errors, setErrors] = useState({});
 
+
+  /*====================================
+    SUCCESS MESSAGE
+  ====================================*/
+
   const [successMessage, setSuccessMessage] = useState("");
+
+
+  /*====================================
+    API ERROR MESSAGE
+  ====================================*/
+
+  const [apiError, setApiError] = useState("");
+
+
+  /*====================================
+    LOADING
+  ====================================*/
+
+  const [loading, setLoading] = useState(false);
 
 
   /*====================================
@@ -56,17 +88,32 @@ const BookAppointment = () => {
 
     const { name, value } = e.target;
 
+
     setFormData((previousData) => ({
+
       ...previousData,
+
       [name]: value
+
     }));
+
+
+    /* Clear field error */
 
     setErrors((previousErrors) => ({
+
       ...previousErrors,
+
       [name]: ""
+
     }));
 
+
+    /* Clear messages */
+
     setSuccessMessage("");
+
+    setApiError("");
 
   };
 
@@ -101,7 +148,9 @@ const BookAppointment = () => {
       newErrors.age =
         "Please enter your age.";
 
-    } else if (
+    }
+
+    else if (
       Number(formData.age) < 1 ||
       Number(formData.age) > 100
     ) {
@@ -121,12 +170,26 @@ const BookAppointment = () => {
       newErrors.mobile =
         "Please enter your WhatsApp number.";
 
-    } else if (
+    }
+
+    else if (
       !/^[6-9]\d{9}$/.test(formData.mobile)
     ) {
 
       newErrors.mobile =
         "Please enter a valid 10-digit mobile number.";
+
+    }
+
+
+    /*====================================
+      GENDER
+    ====================================*/
+
+    if (!formData.gender) {
+
+      newErrors.gender =
+        "Please select your gender.";
 
     }
 
@@ -157,80 +220,279 @@ const BookAppointment = () => {
 
     setErrors(newErrors);
 
+
     return Object.keys(newErrors).length === 0;
 
   };
 
 
   /*====================================
-    SUBMIT
+    SUBMIT APPOINTMENT
   ====================================*/
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
+
+    /* Clear old messages */
+
     setSuccessMessage("");
 
+    setApiError("");
+
+
+    /* Validate */
 
     const isValid = validateForm();
 
 
     if (!isValid) {
+
       return;
+
     }
 
 
     /*====================================
-      APPOINTMENT DATA
+      API REQUEST BODY
+    ====================================*/
+
+    const appointmentData = {
+
+      name: formData.fullName.trim(),
+
+      age: Number(formData.age),
+
+      gender: formData.gender,
+
+      whatsapp_number: `+91${formData.mobile}`,
+
+      appointment_date: formData.date,
+
+      appointment_time: formData.time
+
+    };
+
+
+    /*====================================
+      CONSOLE - REQUEST
     ====================================*/
 
     console.log(
-      "Appointment Data:",
-      formData
+      "===================================="
     );
-
-
-    /*====================================
-      SUCCESS MESSAGE
-    ====================================*/
-
-    setSuccessMessage(
-      "Your appointment request has been submitted successfully!"
-    );
-
-
-    /*====================================
-      WHATSAPP MESSAGE
-    ====================================*/
-
-    const message =
-      `Hello Krishna Advance Physio Clinic,\n\n` +
-      `I would like to book an appointment.\n\n` +
-      `Name: ${formData.fullName}\n` +
-      `Age: ${formData.age}\n` +
-      `WhatsApp Number: ${formData.mobile}\n` +
-      `Date: ${formData.date}\n` +
-      `Time: ${formData.time}`;
-
 
     console.log(
-      "WhatsApp Message:",
-      message
+      "APPOINTMENT API REQUEST"
+    );
+
+    console.log(
+      "===================================="
+    );
+
+    console.log(
+      "API URL:",
+      API.APPOINTMENT
+    );
+
+    console.log(
+      "REQUEST BODY:",
+      appointmentData
     );
 
 
-    /*====================================
-      CLEAR FORM
-    ====================================*/
+    try {
 
-    setFormData({
-      fullName: "",
-      age: "",
-      mobile: "",
-      date: "",
-      time: ""
-    });
+      /*====================================
+        START LOADING
+      ====================================*/
+
+      setLoading(true);
+
+
+      /*====================================
+        API CALL
+      ====================================*/
+
+      const response = await fetch(
+        API.APPOINTMENT,
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify(
+            appointmentData
+          )
+
+        }
+      );
+
+
+      /*====================================
+        READ RESPONSE
+      ====================================*/
+
+      let responseData = null;
+
+
+      try {
+
+        responseData =
+          await response.json();
+
+      }
+
+      catch (jsonError) {
+
+        console.log(
+          "Response is not JSON:",
+          jsonError
+        );
+
+      }
+
+
+      /*====================================
+        CONSOLE - RESPONSE
+      ====================================*/
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "APPOINTMENT API RESPONSE"
+      );
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "Status:",
+        response.status
+      );
+
+      console.log(
+        "Response:",
+        responseData
+      );
+
+
+      /*====================================
+        CHECK API RESPONSE
+      ====================================*/
+
+      if (!response.ok) {
+
+        throw new Error(
+
+          responseData?.message ||
+
+          responseData?.error ||
+
+          "Unable to book appointment. Please try again."
+
+        );
+
+      }
+
+
+      /*====================================
+        SUCCESS MESSAGE
+      ====================================*/
+
+      const successText =
+
+        responseData?.message ||
+
+        "Appointment booked successfully! Our clinic team will contact you shortly.";
+
+
+      console.log(
+        "SUCCESS MESSAGE:",
+        successText
+      );
+
+
+      setSuccessMessage(
+        successText
+      );
+
+
+      /*====================================
+        CLEAR ERRORS
+      ====================================*/
+
+      setErrors({});
+
+
+      /*====================================
+        CLEAR FORM
+      ====================================*/
+
+      setFormData({
+
+        fullName: "",
+
+        age: "",
+
+        mobile: "",
+
+        gender: "",
+
+        date: "",
+
+        time: ""
+
+      });
+
+
+      /*====================================
+        SCROLL TO SUCCESS MESSAGE
+      ====================================*/
+
+      window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+      });
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "APPOINTMENT API ERROR:",
+        error
+      );
+
+
+      setApiError(
+
+        error.message ||
+
+        "Something went wrong. Please try again."
+
+      );
+
+    }
+
+    finally {
+
+      setLoading(false);
+
+    }
 
   };
 
@@ -240,12 +502,16 @@ const BookAppointment = () => {
   ====================================*/
 
   const today =
+
     new Date()
+
       .toISOString()
+
       .split("T")[0];
 
 
   return (
+
     <>
 
       {/*====================================
@@ -256,7 +522,7 @@ const BookAppointment = () => {
 
 
         {/*====================================
-          PAGE CONTENT / LEFT SIDE
+          LEFT SIDE
         ====================================*/}
 
         <section className="book-appointment-heading">
@@ -264,7 +530,9 @@ const BookAppointment = () => {
           <div className="book-heading-content">
 
             <span className="book-subtitle">
+
               SCHEDULE YOUR VISIT
+
             </span>
 
 
@@ -273,7 +541,9 @@ const BookAppointment = () => {
               Book Your{" "}
 
               <span>
+
                 Appointment
+
               </span>{" "}
 
               Today
@@ -297,7 +567,7 @@ const BookAppointment = () => {
 
 
         {/*====================================
-          FORM SECTION / RIGHT SIDE
+          FORM SECTION
         ====================================*/}
 
         <section className="book-form-section">
@@ -310,10 +580,15 @@ const BookAppointment = () => {
             ====================================*/}
 
             <button
+
               type="button"
+
               className="book-close-btn"
+
               onClick={() => navigate("/")}
+
               aria-label="Close and go to website"
+
             >
 
               ×
@@ -328,11 +603,16 @@ const BookAppointment = () => {
             <div className="book-form-header">
 
               <h2>
+
                 Take First Step Towards Recovery!
+
               </h2>
 
+
               <p>
+
                 Book Appointment Now
+
               </p>
 
             </div>
@@ -344,13 +624,64 @@ const BookAppointment = () => {
 
             {successMessage && (
 
-              <div className="book-success-message">
+              <div className="book-api-success-message">
 
-                <FaCheckCircle />
+                <FaCheckCircle
+                  className="book-api-success-icon"
+                />
 
-                <span>
-                  {successMessage}
-                </span>
+
+                <div>
+
+                  <strong>
+
+                    Appointment Confirmed!
+
+                  </strong>
+
+
+                  <p>
+
+                    {successMessage}
+
+                  </p>
+
+                </div>
+
+              </div>
+
+            )}
+
+
+            {/*====================================
+              API ERROR MESSAGE
+            ====================================*/}
+
+            {apiError && (
+
+              <div className="book-api-error-message">
+
+                <FaExclamationCircle
+                  className="book-api-error-icon"
+                />
+
+
+                <div>
+
+                  <strong>
+
+                    Appointment Not Submitted
+
+                  </strong>
+
+
+                  <p>
+
+                    {apiError}
+
+                  </p>
+
+                </div>
 
               </div>
 
@@ -362,8 +693,11 @@ const BookAppointment = () => {
             ====================================*/}
 
             <form
+
               onSubmit={handleSubmit}
+
               noValidate
+
             >
 
 
@@ -382,13 +716,21 @@ const BookAppointment = () => {
 
                     <FaUser />
 
+
                     <input
+
                       type="text"
+
                       name="fullName"
+
                       value={formData.fullName}
+
                       onChange={handleChange}
+
                       placeholder="Full Name"
+
                       autoComplete="name"
+
                     />
 
                   </div>
@@ -397,7 +739,9 @@ const BookAppointment = () => {
                   {errors.fullName && (
 
                     <small>
+
                       {errors.fullName}
+
                     </small>
 
                   )}
@@ -413,14 +757,23 @@ const BookAppointment = () => {
 
                     <FaBirthdayCake />
 
+
                     <input
+
                       type="number"
+
                       name="age"
+
                       value={formData.age}
+
                       onChange={handleChange}
+
                       placeholder="Age"
+
                       min="1"
+
                       max="100"
+
                     />
 
                   </div>
@@ -429,7 +782,9 @@ const BookAppointment = () => {
                   {errors.age && (
 
                     <small>
+
                       {errors.age}
+
                     </small>
 
                   )}
@@ -449,15 +804,25 @@ const BookAppointment = () => {
 
                   <FaWhatsapp />
 
+
                   <input
+
                     type="tel"
+
                     name="mobile"
+
                     value={formData.mobile}
+
                     onChange={handleChange}
+
                     placeholder="Mobile Number (WhatsApp)"
+
                     maxLength="10"
+
                     inputMode="numeric"
+
                     autoComplete="tel"
+
                   />
 
                 </div>
@@ -466,7 +831,75 @@ const BookAppointment = () => {
                 {errors.mobile && (
 
                   <small>
+
                     {errors.mobile}
+
+                  </small>
+
+                )}
+
+              </div>
+
+
+              {/*====================================
+                GENDER
+              ====================================*/}
+
+              <div className="book-input-group">
+
+                <div className="book-input-wrapper">
+
+                  <FaVenusMars />
+
+
+                  <select
+
+                    name="gender"
+
+                    value={formData.gender}
+
+                    onChange={handleChange}
+
+                  >
+
+                    <option value="">
+
+                      Select Gender
+
+                    </option>
+
+
+                    <option value="Male">
+
+                      Male
+
+                    </option>
+
+
+                    <option value="Female">
+
+                      Female
+
+                    </option>
+
+
+                    <option value="Other">
+
+                      Other
+
+                    </option>
+
+                  </select>
+
+                </div>
+
+
+                {errors.gender && (
+
+                  <small>
+
+                    {errors.gender}
+
                   </small>
 
                 )}
@@ -484,13 +917,19 @@ const BookAppointment = () => {
 
                   <FaCalendarAlt />
 
+
                   <input
+
                     type="date"
+
                     name="date"
+
                     value={formData.date}
-                    placeholder="Date"
+
                     onChange={handleChange}
+
                     min={today}
+
                   />
 
                 </div>
@@ -499,7 +938,9 @@ const BookAppointment = () => {
                 {errors.date && (
 
                   <small>
+
                     {errors.date}
+
                   </small>
 
                 )}
@@ -517,26 +958,42 @@ const BookAppointment = () => {
 
                   <FaClock />
 
+
                   <select
+
                     name="time"
+
                     value={formData.time}
+
                     onChange={handleChange}
+
                   >
 
                     <option value="">
+
                       Select Available Time
+
                     </option>
+
 
                     <option value="10:30 AM - 12:30 PM">
+
                       10:30 AM - 12:30 PM
+
                     </option>
+
 
                     <option value="3:00 PM - 6:30 PM">
+
                       3:00 PM - 6:30 PM
+
                     </option>
 
+
                     <option value="5:00 PM - 8:00 PM">
+
                       5:00 PM - 8:00 PM
+
                     </option>
 
                   </select>
@@ -547,7 +1004,9 @@ const BookAppointment = () => {
                 {errors.time && (
 
                   <small>
+
                     {errors.time}
+
                   </small>
 
                 )}
@@ -560,11 +1019,22 @@ const BookAppointment = () => {
               ====================================*/}
 
               <button
+
                 type="submit"
+
                 className="book-submit-btn"
+
+                disabled={loading}
+
               >
 
-                SUBMIT APPOINTMENT
+                {loading
+
+                  ? "SUBMITTING..."
+
+                  : "SUBMIT APPOINTMENT"
+
+                }
 
               </button>
 
@@ -578,8 +1048,10 @@ const BookAppointment = () => {
       </main>
 
     </>
+
   );
 
 };
+
 
 export default BookAppointment;
