@@ -40,6 +40,23 @@ const Footer = () => {
     )}`;
 
 
+  /*====================================
+    PHONE NUMBER
+    REMOVE SPACES FOR TEL LINK
+  ====================================*/
+
+  const phoneNumber =
+    footerData.phone.replace(/\s+/g, "");
+
+
+  /*====================================
+    EMAIL LINK
+  ====================================*/
+
+  const emailLink =
+    `mailto:${footerData.email}`;
+
+
   return (
 
     <footer className="footer">
@@ -49,13 +66,19 @@ const Footer = () => {
       ====================================*/}
 
       <div className="footer-wave wave-left"></div>
+
       <div className="footer-wave wave-right"></div>
 
       <div className="footer-bubble footer-b1"></div>
+
       <div className="footer-bubble footer-b2"></div>
+
       <div className="footer-bubble footer-b3"></div>
+
       <div className="footer-bubble footer-b4"></div>
+
       <div className="footer-bubble footer-b5"></div>
+
       <div className="footer-bubble footer-b6"></div>
 
 
@@ -64,6 +87,7 @@ const Footer = () => {
       ====================================*/}
 
       <div className="footer-bg-circle circle-one"></div>
+
       <div className="footer-bg-circle circle-two"></div>
 
 
@@ -144,25 +168,53 @@ const Footer = () => {
 
           <ul>
 
+            {/*====================================
+              PHONE
+            ====================================*/}
+
             <li>
 
               <FaPhoneAlt />
 
-              <span className="footer-phone">
-                {footerData.phone}
-              </span>
+              <a
+                href={`tel:${phoneNumber}`}
+                className="footer-contact-link"
+                aria-label={`Call ${footerData.phone}`}
+              >
+
+                <span className="footer-phone">
+                  {footerData.phone}
+                </span>
+
+              </a>
 
             </li>
 
+
+            {/*====================================
+              EMAIL
+            ====================================*/}
 
             <li>
 
               <FaEnvelope />
 
-              {footerData.email}
+              <a
+                href={emailLink}
+                className="footer-contact-link"
+                aria-label={`Email ${footerData.email}`}
+              >
+
+                {footerData.email}
+
+              </a>
 
             </li>
 
+
+            {/*====================================
+              WEBSITE
+            ====================================*/}
 
             <li>
 
@@ -172,6 +224,10 @@ const Footer = () => {
 
             </li>
 
+
+            {/*====================================
+              ADDRESS
+            ====================================*/}
 
             <li>
 
