@@ -84,7 +84,7 @@ import DashboardClinic from "./Components/DashboardClinic/DashboardClinic";
 // PUBLIC PAGES
 //====================================================
 
-import BookAppointment from "./pages/BookAppointment/BookAppointment";
+import BookAppointment from"./pages/BookAppointment/BookAppointment";
 import AboutUs from "./pages/AboutUs/AboutUs";
 
 

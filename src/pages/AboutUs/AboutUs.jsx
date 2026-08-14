@@ -13,23 +13,49 @@ import {
 } from "react-icons/fa";
 
 import aboutImage from "../../assets/cliniclogo.png";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
+
+  const navigate = useNavigate();
+
+  /*====================================
+    BOOK APPOINTMENT NAVIGATION
+    HASH ROUTER
+  ====================================*/
+
+  const handleBookAppointment = () => {
+
+    navigate("/book-appointment");
+
+    // Make sure appointment page opens from top
+    setTimeout(() => {
+
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto",
+      });
+
+    }, 100);
+
+  };
+
+
   return (
     <>
-      {/* ================================
-          NAVBAR
-      ================================= */}
-      {/* <Navbar /> */}
 
       {/* ================================
           ABOUT PAGE
       ================================= */}
+
       <main className="about-page-about-us">
+
 
         {/* ================================
             HERO
         ================================= */}
+
         <section className="about-hero-about-us">
 
           <div className="about-hero-content-about-us">
@@ -57,11 +83,14 @@ const AboutUs = () => {
         {/* ================================
             INTRO SECTION
         ================================= */}
+
         <section className="about-intro-about-us">
 
           <div className="about-intro-container-about-us">
 
+
             {/* LEFT IMAGE */}
+
             <div className="about-image-wrapper-about-us">
 
               <div className="about-image-card-about-us">
@@ -74,13 +103,21 @@ const AboutUs = () => {
 
               </div>
 
+
               <div className="about-experience-card-about-us">
 
                 <FaHeart />
 
                 <div>
-                  <strong>Patient First</strong>
-                  <span>Care & Comfort</span>
+
+                  <strong>
+                    Patient First
+                  </strong>
+
+                  <span>
+                    Care & Comfort
+                  </span>
+
                 </div>
 
               </div>
@@ -89,6 +126,7 @@ const AboutUs = () => {
 
 
             {/* RIGHT CONTENT */}
+
             <div className="about-content-about-us">
 
               <span className="about-section-label-about-us">
@@ -115,18 +153,25 @@ const AboutUs = () => {
 
 
               {/* FEATURES */}
+
               <div className="about-feature-list-about-us">
+
 
                 <div className="about-feature-about-us">
 
                   <FaCheckCircle />
 
                   <div>
-                    <h4>Personalized Treatment</h4>
+
+                    <h4>
+                      Personalized Treatment
+                    </h4>
+
                     <p>
                       Treatment plans designed according to your specific
                       needs and recovery goals.
                     </p>
+
                   </div>
 
                 </div>
@@ -137,11 +182,16 @@ const AboutUs = () => {
                   <FaCheckCircle />
 
                   <div>
-                    <h4>Expert Physiotherapy Care</h4>
+
+                    <h4>
+                      Expert Physiotherapy Care
+                    </h4>
+
                     <p>
                       Professional guidance focused on safe and effective
                       recovery.
                     </p>
+
                   </div>
 
                 </div>
@@ -152,11 +202,16 @@ const AboutUs = () => {
                   <FaCheckCircle />
 
                   <div>
-                    <h4>Patient-Centered Approach</h4>
+
+                    <h4>
+                      Patient-Centered Approach
+                    </h4>
+
                     <p>
                       Your comfort, progress and wellbeing remain at the
                       center of our care.
                     </p>
+
                   </div>
 
                 </div>
@@ -173,6 +228,7 @@ const AboutUs = () => {
         {/* ================================
             WHY CHOOSE US
         ================================= */}
+
         <section className="about-values-about-us">
 
           <div className="about-values-header-about-us">
@@ -197,14 +253,18 @@ const AboutUs = () => {
 
           <div className="about-values-grid-about-us">
 
+
             {/* CARD 1 */}
+
             <div className="about-value-card-about-us">
 
               <div className="about-value-icon-about-us">
                 <FaUserMd />
               </div>
 
-              <h3>Professional Care</h3>
+              <h3>
+                Professional Care
+              </h3>
 
               <p>
                 Receive dedicated physiotherapy care with attention to your
@@ -215,13 +275,16 @@ const AboutUs = () => {
 
 
             {/* CARD 2 */}
+
             <div className="about-value-card-about-us">
 
               <div className="about-value-icon-about-us">
                 <FaHeart />
               </div>
 
-              <h3>Personalized Therapy</h3>
+              <h3>
+                Personalized Therapy
+              </h3>
 
               <p>
                 We create treatment approaches that are tailored to your
@@ -232,13 +295,16 @@ const AboutUs = () => {
 
 
             {/* CARD 3 */}
+
             <div className="about-value-card-about-us">
 
               <div className="about-value-icon-about-us">
                 <FaHandHoldingHeart />
               </div>
 
-              <h3>Complete Support</h3>
+              <h3>
+                Complete Support
+              </h3>
 
               <p>
                 From your first assessment to your recovery journey, we are
@@ -255,9 +321,11 @@ const AboutUs = () => {
         {/* ================================
             MISSION SECTION
         ================================= */}
+
         <section className="about-mission-about-us">
 
           <div className="about-mission-container-about-us">
+
 
             <div className="about-mission-content-about-us">
 
@@ -282,15 +350,21 @@ const AboutUs = () => {
                 and lifestyle they love.
               </p>
 
+
+              {/*====================================
+                BOOK APPOINTMENT
+              ====================================*/}
+
               <button
                 type="button"
                 className="about-book-button-about-us"
-                onClick={() => {
-                  window.location.href = "/book-appointment";
-                }}
+                onClick={handleBookAppointment}
               >
+
                 Book Appointment
+
                 <FaArrowRight />
+
               </button>
 
             </div>
@@ -322,6 +396,7 @@ const AboutUs = () => {
         {/* ================================
             CTA
         ================================= */}
+
         <section className="about-cta-about-us">
 
           <div className="about-cta-content-about-us">
@@ -340,15 +415,21 @@ const AboutUs = () => {
               and begin your journey towards better movement and wellbeing.
             </p>
 
+
+            {/*====================================
+              BOOK YOUR APPOINTMENT
+            ====================================*/}
+
             <button
               type="button"
               className="about-cta-button-about-us"
-              onClick={() => {
-                window.location.href = "/book-appointment";
-              }}
+              onClick={handleBookAppointment}
             >
+
               Book Your Appointment
+
               <FaArrowRight />
+
             </button>
 
           </div>
@@ -357,10 +438,6 @@ const AboutUs = () => {
 
       </main>
 
-      {/* ================================
-          FOOTER
-      ================================= */}
-      {/* <Footer /> */}
     </>
   );
 };

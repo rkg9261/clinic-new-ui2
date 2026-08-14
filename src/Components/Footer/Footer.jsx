@@ -57,6 +57,14 @@ const Footer = () => {
     `mailto:${footerData.email}`;
 
 
+  /*====================================
+    GOOGLE MAP LOCATION
+  ====================================*/
+
+  const locationLink =
+    "https://www.google.com/maps/search/?api=1&query=M-38%2C+Shiv+Mandir+Road%2C+Hakikat+Nagar%2C+Saharanpur%2C+Uttar+Pradesh";
+
+
   return (
 
     <footer className="footer">
@@ -135,9 +143,7 @@ const Footer = () => {
             </a>
 
 
-            {/*====================================
-              WHATSAPP
-            ====================================*/}
+            {/* WHATSAPP */}
 
             <a
               href={whatsappLink}
@@ -233,7 +239,17 @@ const Footer = () => {
 
               <FaMapMarkerAlt />
 
-              {footerData.address}
+              <a
+                href={locationLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-location-link"
+                aria-label="Open clinic location in Google Maps"
+              >
+
+                {footerData.address}
+
+              </a>
 
             </li>
 
@@ -301,7 +317,7 @@ const Footer = () => {
 
 
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Krishna+Advance+Physio+Clinic+Hakikat+Nagar+Saharanpur"
+            href={locationLink}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -315,8 +331,12 @@ const Footer = () => {
           </a>
 
 
+          {/*====================================
+            GET DIRECTIONS
+          ====================================*/}
+
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Krishna+Advance+Physio+Clinic+Hakikat+Nagar+Saharanpur"
+            href={locationLink}
             target="_blank"
             rel="noopener noreferrer"
             className="direction-btn"
