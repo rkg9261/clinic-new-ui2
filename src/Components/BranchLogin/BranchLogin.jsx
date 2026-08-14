@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { FaTimes } from "react-icons/fa";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.jpg";
 import { BASE_URL } from "../../config/api";
 
 const BranchLogin = () => {
