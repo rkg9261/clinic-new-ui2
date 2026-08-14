@@ -9,6 +9,9 @@
   box-sizing: border-box;
   background: #f7f8fc;
   color: #29293b;
+
+  border: none !important;
+  outline: none !important;
 }
 
 
@@ -62,6 +65,7 @@
   font-weight: 600;
 
   cursor: pointer;
+
   transition: 0.2s ease;
 }
 
@@ -86,12 +90,13 @@
 .preview-slots-card {
   background: #ffffff;
 
-  border: 1px solid #e8e7ee;
-
+  border: 1px solid #e8e7ee !important;
   border-radius: 10px;
 
   box-shadow:
     0 3px 14px rgba(40, 30, 80, 0.045);
+
+  outline: none !important;
 }
 
 
@@ -103,11 +108,6 @@
   margin-bottom: 20px;
 
   overflow: hidden;
-
-  /*
-     IMPORTANT:
-     Remove dark/black outer border.
-  */
 
   border: none !important;
 
@@ -374,6 +374,7 @@
 
 .appointment-number-input input {
   width: 100%;
+
   height: 100%;
 
   padding: 0 40px 0 31px;
@@ -607,7 +608,9 @@
 .weekly-schedule-card {
   overflow: hidden;
 
-  border: 1px solid #e8e7ee;
+  border: 1px solid #e8e7ee !important;
+
+  outline: none !important;
 }
 
 
@@ -626,7 +629,11 @@
 
   box-sizing: border-box;
 
-  border-bottom: 1px solid #eeeeF3;
+  border: none !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+
+  background: #ffffff;
 }
 
 .weekly-schedule-title {
@@ -660,6 +667,8 @@
   border: none !important;
 
   outline: none !important;
+
+  box-shadow: none !important;
 }
 
 .weekly-schedule-scroll::-webkit-scrollbar {
@@ -678,9 +687,7 @@
 
 
 /* =========================================================
-   WEEKLY SCHEDULE TABLE
-   IMPORTANT:
-   NO BLACK VERTICAL BORDER
+   WEEKLY TABLE
 ========================================================= */
 
 .weekly-schedule-table {
@@ -688,9 +695,11 @@
 
   min-width: 700px;
 
-  border-collapse: collapse;
+  border-collapse: separate;
 
-  border: 0 !important;
+  border-spacing: 0;
+
+  border: none !important;
 
   outline: none !important;
 
@@ -701,7 +710,7 @@
 
 
 /* =========================================================
-   REMOVE GLOBAL TABLE BORDERS
+   REMOVE ALL VERTICAL BORDERS
 ========================================================= */
 
 .weekly-schedule-table,
@@ -710,11 +719,11 @@
 .weekly-schedule-table tr,
 .weekly-schedule-table th,
 .weekly-schedule-table td {
-  outline: none !important;
-
   border-left: 0 !important;
 
   border-right: 0 !important;
+
+  outline: none !important;
 }
 
 
@@ -731,10 +740,6 @@
 
   border-top: 0 !important;
 
-  border-left: 0 !important;
-
-  border-right: 0 !important;
-
   border-bottom: 1px solid #eeeeF3 !important;
 
   color: #333342;
@@ -744,6 +749,8 @@
   font-weight: 600;
 
   text-align: center;
+
+  box-sizing: border-box;
 }
 
 .weekly-schedule-table th:first-child {
@@ -764,7 +771,7 @@
 
 
 /* =========================================================
-   TABLE BODY
+   TABLE DATA
 ========================================================= */
 
 .weekly-schedule-table td {
@@ -774,16 +781,28 @@
 
   border-top: 0 !important;
 
-  border-left: 0 !important;
-
-  border-right: 0 !important;
-
   border-bottom: 1px solid #eeeeF3 !important;
+
+  color: #383848;
 
   font-size: 12px;
 
   box-sizing: border-box;
+
+  vertical-align: middle;
+
+  background: #ffffff;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
 }
+
+
+/* =========================================================
+   LAST ROW
+========================================================= */
 
 .weekly-schedule-table tbody tr:last-child td {
   border-bottom: 0 !important;
@@ -795,45 +814,90 @@
 ========================================================= */
 
 .schedule-working-row {
-  background: #ffffff;
+  background: #ffffff !important;
+}
+
+.schedule-working-row td {
+  background: #ffffff !important;
+
+  color: #383848;
+
+  border-bottom-color: #eeeeF3 !important;
 }
 
 
 /* =========================================================
-   HOLIDAY / UNTICKED ROW
+   UNTICKED / CLINIC CLOSED ROW
 ========================================================= */
 
 .schedule-holiday-row {
   position: relative;
 
-  background: rgba(255, 240, 240, 0.65) !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 235, 235, 0.78),
+      rgba(255, 245, 245, 0.58)
+    ) !important;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(220, 100, 100, 0.08);
 
   backdrop-filter: blur(8px);
 
   -webkit-backdrop-filter: blur(8px);
 
-  box-shadow:
-    inset 0 0 0 1px rgba(232, 120, 120, 0.08);
-
-  transition: all 0.25s ease;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.schedule-holiday-row td {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 244, 244, 0.85),
-    rgba(255, 249, 249, 0.65)
-  ) !important;
 
-  color: #a9a9b2 !important;
+/* =========================================================
+   HOLIDAY TABLE DATA
+========================================================= */
+
+.schedule-holiday-row td {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 236, 236, 0.80),
+      rgba(255, 248, 248, 0.62)
+    ) !important;
+
+  color: #9b8585 !important;
 
   border-top: 0 !important;
 
-  border-left: 0 !important;
+  border-bottom:
+    1px solid rgba(225, 190, 190, 0.55) !important;
 
-  border-right: 0 !important;
+  backdrop-filter: blur(8px);
 
-  border-bottom: 1px solid #f4dddd !important;
+  -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   HOLIDAY FIRST CELL
+========================================================= */
+
+.schedule-holiday-row td:first-child {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 231, 231, 0.88),
+      rgba(255, 244, 244, 0.72)
+    ) !important;
+}
+
+
+/* =========================================================
+   HOLIDAY LAST ROW
+========================================================= */
+
+.schedule-holiday-row:last-child td {
+  border-bottom: 0 !important;
 }
 
 
@@ -851,6 +915,11 @@
   gap: 9px;
 }
 
+
+/* =========================================================
+   DAY CHECKBOX
+========================================================= */
+
 .weekly-day-wrapper input {
   width: 16px;
 
@@ -864,6 +933,15 @@
 
   flex-shrink: 0;
 }
+
+.schedule-holiday-row .weekly-day-wrapper input {
+  accent-color: #d56b72;
+}
+
+
+/* =========================================================
+   DAY CONTENT
+========================================================= */
 
 .weekly-day-content {
   display: flex;
@@ -887,7 +965,7 @@
 ========================================================= */
 
 .schedule-holiday-row .weekly-day-content span {
-  color: #8e8e99 !important;
+  color: #8f7d7d !important;
 
   font-weight: 600;
 }
@@ -908,18 +986,21 @@
 
   border-radius: 20px;
 
-  background: rgba(255, 224, 224, 0.85);
+  background:
+    rgba(255, 222, 222, 0.72);
 
-  border: 1px solid rgba(226, 139, 139, 0.25);
+  border: 1px solid
+    rgba(220, 120, 120, 0.22);
 
-  color: #c65a5f;
+  color: #c45c63;
 
   font-size: 9px;
 
   font-weight: 700;
 
   box-shadow:
-    0 2px 8px rgba(210, 80, 80, 0.08);
+    0 2px 8px
+    rgba(210, 80, 80, 0.07);
 }
 
 
@@ -940,14 +1021,17 @@
 
   justify-content: center;
 
-  background: rgba(255, 225, 225, 0.7);
+  background:
+    rgba(255, 225, 225, 0.70);
 
-  border: 1px solid rgba(220, 120, 120, 0.22);
+  border: 1px solid
+    rgba(220, 120, 120, 0.22);
 
   color: #d05b61;
 
   box-shadow:
-    0 4px 12px rgba(200, 70, 70, 0.08);
+    0 4px 12px
+    rgba(200, 70, 70, 0.08);
 
   backdrop-filter: blur(8px);
 
@@ -956,7 +1040,7 @@
 
 
 /* =========================================================
-   SESSION
+   SESSION TIME
 ========================================================= */
 
 .session-time-wrapper {
@@ -971,6 +1055,8 @@
 
 .time-field {
   position: relative;
+
+  flex-shrink: 0;
 }
 
 .time-field input {
@@ -1001,7 +1087,8 @@
   border-color: #6338c8;
 
   box-shadow:
-    0 0 0 3px rgba(99, 56, 200, 0.07);
+    0 0 0 3px
+    rgba(99, 56, 200, 0.07);
 }
 
 
@@ -1009,24 +1096,17 @@
    DISABLED TIME INPUT
 ========================================================= */
 
+.schedule-holiday-row .time-field input,
 .time-field input:disabled {
-  background: #f3f3f5;
+  background:
+    rgba(247, 235, 235, 0.78) !important;
 
-  color: #a5a5ae;
+  color: #aaa0a0 !important;
 
-  border-color: #e2e2e7;
+  border-color:
+    rgba(225, 200, 200, 0.75) !important;
 
-  cursor: not-allowed;
-}
-
-.schedule-holiday-row .time-field input {
-  background: rgba(246, 239, 239, 0.75) !important;
-
-  border-color: #eadede !important;
-
-  color: #b5b5bd !important;
-
-  opacity: 0.7;
+  opacity: 0.82;
 
   cursor: not-allowed;
 }
@@ -1046,7 +1126,7 @@
 }
 
 .schedule-holiday-row .time-field svg {
-  color: #b7a8a8 !important;
+  color: #b9a4a4 !important;
 }
 
 .time-separator {
@@ -1056,16 +1136,7 @@
 }
 
 .schedule-holiday-row .time-separator {
-  color: #b8aaaa !important;
-}
-
-
-/* =========================================================
-   HOLIDAY CHECKBOX
-========================================================= */
-
-.schedule-holiday-row .weekly-day-wrapper input {
-  accent-color: #d36a6f;
+  color: #b5a0a0 !important;
 }
 
 
@@ -1074,11 +1145,12 @@
 ========================================================= */
 
 .schedule-holiday-row:hover td {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 238, 238, 0.95),
-    rgba(255, 248, 248, 0.85)
-  ) !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 229, 229, 0.92),
+      rgba(255, 244, 244, 0.82)
+    ) !important;
 }
 
 
@@ -1113,6 +1185,8 @@
   margin-top: 20px;
 
   overflow: hidden;
+
+  border: 1px solid #e8e7ee !important;
 }
 
 .leave-days-header {
@@ -1127,6 +1201,8 @@
   justify-content: space-between;
 
   border-bottom: 1px solid #eeeeF3;
+
+  background: #ffffff;
 }
 
 .leave-days-title {
@@ -1179,40 +1255,53 @@
 
 
 /* =========================================================
-   LEAVE TABLE
+   LEAVE TABLE SCROLL
 ========================================================= */
 
 .leave-table-scroll {
   width: 100%;
 
   overflow-x: auto;
+
+  border: none !important;
+
+  outline: none !important;
 }
+
+
+/* =========================================================
+   LEAVE TABLE
+========================================================= */
 
 .leave-table {
   width: 100%;
 
-  min-width: 650px;
+  min-width: 500px;
 
-  border-collapse: collapse;
+  border-collapse: separate;
+
+  border-spacing: 0;
 
   border: none !important;
+
+  outline: none !important;
+
+  box-shadow: none !important;
+
+  table-layout: fixed;
 }
 
-.leave-table th,
-.leave-table td {
-  border-left: none !important;
 
-  border-right: none !important;
-}
+/* =========================================================
+   LEAVE TABLE HEAD
+========================================================= */
 
 .leave-table th {
-  height: 38px;
+  height: 42px;
 
-  padding: 0 9px;
+  padding: 0 14px;
 
   background: #fbfbfd;
-
-  text-align: left;
 
   color: #353545;
 
@@ -1220,51 +1309,168 @@
 
   font-weight: 600;
 
-  border-top: none !important;
+  text-align: left;
+
+  border: none !important;
 
   border-bottom: 1px solid #eeeeF3 !important;
+
+  box-sizing: border-box;
 }
 
+.leave-table th:first-child {
+  width: 30%;
+}
+
+.leave-table th:nth-child(2) {
+  width: 50%;
+}
+
+.leave-table th:last-child {
+  width: 20%;
+}
+
+
+/* =========================================================
+   LEAVE TABLE DATA
+========================================================= */
+
 .leave-table td {
-  padding: 9px;
+  min-height: 48px;
 
-  border-top: 1px solid #eeeeF3 !important;
+  padding: 11px 14px;
 
-  border-bottom: none !important;
+  background: #ffffff;
 
   color: #484856;
 
   font-size: 11px;
 
   vertical-align: middle;
+
+  border: none !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+
+  box-sizing: border-box;
 }
+
+
+/* =========================================================
+   LEAVE TABLE LAST ROW
+========================================================= */
+
+.leave-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+
+/* =========================================================
+   LEAVE DATE
+========================================================= */
 
 .leave-date {
   display: flex;
 
-  flex-direction: column;
+  align-items: center;
 
-  gap: 3px;
+  gap: 7px;
+
+  color: #454554;
+
+  font-size: 11px;
+
+  white-space: nowrap;
 }
 
-.leave-active-status {
-  padding: 5px 8px;
+.leave-date-separator {
+  color: #9a9aa5;
 
-  border-radius: 4px;
-
-  background: #e1f5e8;
-
-  color: #2e9657;
-
-  font-size: 9px;
-
-  font-weight: 600;
+  font-size: 11px;
 }
+
+
+/* =========================================================
+   REASON SECTION - FIX ONLY
+========================================================= */
+
+/*
+   This is the only changed section.
+
+   Reason gets its own fixed 50% column.
+   Text stays inside that column.
+   Long reason wraps instead of pushing Action.
+*/
+
+.leave-table th:nth-child(2),
+.leave-table td:nth-child(2) {
+  width: 50% !important;
+
+  min-width: 0 !important;
+
+  max-width: 50% !important;
+
+  padding-left: 14px !important;
+
+  padding-right: 14px !important;
+
+  text-align: left !important;
+
+  vertical-align: middle !important;
+
+  white-space: normal !important;
+
+  overflow: hidden !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   REASON TEXT - FIX ONLY
+========================================================= */
+
+.leave-reason-text {
+  display: block;
+
+  width: 100%;
+
+  max-width: 100%;
+
+  margin: 0;
+
+  padding: 0;
+
+  color: #555562;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  text-align: left !important;
+
+  white-space: normal !important;
+
+  overflow-wrap: break-word;
+
+  word-break: normal;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   LEAVE ACTION
+========================================================= */
 
 .leave-action-buttons {
   display: flex;
 
   align-items: center;
+
+  justify-content: flex-start;
 
   gap: 7px;
 }
@@ -1277,7 +1483,7 @@
 
   padding: 0;
 
-  border: none;
+  border: none !important;
 
   background: transparent;
 
@@ -1290,6 +1496,8 @@
   cursor: pointer;
 
   border-radius: 5px;
+
+  transition: 0.2s ease;
 }
 
 .leave-edit-btn {
@@ -1308,7 +1516,14 @@
   background: #fff0f0;
 }
 
+
+/* =========================================================
+   EMPTY LEAVE
+========================================================= */
+
 .leave-empty {
+  height: 80px;
+
   padding: 28px !important;
 
   text-align: center !important;
@@ -1316,15 +1531,19 @@
   color: #9999a5 !important;
 
   font-size: 12px !important;
+
+  background: #ffffff !important;
 }
 
 
 /* =========================================================
-   VIEW ALL LEAVES
+   VIEW ALL
 ========================================================= */
 
 .view-all-leaves-btn {
   margin: 11px 14px 14px;
+
+  padding: 0;
 
   border: none;
 
@@ -1378,7 +1597,7 @@
 
 
 /* =========================================================
-   DATE LABEL
+   PREVIEW DATE LABEL
 ========================================================= */
 
 .preview-date-label {
@@ -1395,7 +1614,7 @@
 
 
 /* =========================================================
-   DATE ROW
+   PREVIEW DATE ROW
 ========================================================= */
 
 .preview-date-row {
@@ -1442,7 +1661,8 @@
   border-color: #6338c8;
 
   box-shadow:
-    0 0 0 3px rgba(99, 56, 200, 0.07);
+    0 0 0 3px
+    rgba(99, 56, 200, 0.07);
 }
 
 .preview-date-field svg {
@@ -1490,10 +1710,6 @@
 
 .generate-slots-btn:hover {
   background: #512db3;
-}
-
-.generate-slots-btn:active {
-  transform: translateY(1px);
 }
 
 
@@ -1570,10 +1786,6 @@
   box-sizing: border-box;
 }
 
-.preview-info-empty svg {
-  color: #587ac0;
-}
-
 
 /* =========================================================
    CLOSED DAY
@@ -1599,10 +1811,6 @@
   text-align: center;
 }
 
-.preview-off-box svg {
-  margin-right: 5px;
-}
-
 .preview-off-box strong {
   color: #a16e20;
 
@@ -1611,7 +1819,7 @@
 
 
 /* =========================================================
-   LEAVE / HOLIDAY PREVIEW
+   LEAVE PREVIEW
 ========================================================= */
 
 .preview-leave-box {
@@ -1632,12 +1840,6 @@
   line-height: 1.6;
 
   text-align: center;
-}
-
-.preview-leave-box svg {
-  margin-right: 5px;
-
-  color: #d05259;
 }
 
 .preview-leave-box strong {
@@ -1671,10 +1873,6 @@
   gap: 6px;
 }
 
-.preview-total-box svg {
-  font-size: 12px;
-}
-
 .preview-total-box strong {
   font-size: 13px;
 }
@@ -1698,25 +1896,6 @@
   overflow-x: hidden;
 }
 
-.preview-slot-list::-webkit-scrollbar {
-  width: 5px;
-}
-
-.preview-slot-list::-webkit-scrollbar-track {
-  background: #f7f7f9;
-}
-
-.preview-slot-list::-webkit-scrollbar-thumb {
-  background: #d5d0df;
-
-  border-radius: 10px;
-}
-
-
-/* =========================================================
-   SESSION HEADING
-========================================================= */
-
 .preview-session-heading {
   padding: 11px;
 
@@ -1733,23 +1912,14 @@
   text-align: center;
 }
 
-
-/* =========================================================
-   SLOT ITEM
-========================================================= */
-
 .preview-slot-item {
   min-height: 43px;
 
   padding: 0 10px;
 
-  border-left: none !important;
+  border: none !important;
 
-  border-right: none !important;
-
-  border-top: none !important;
-
-  border-bottom: 1px solid #eeeeF3;
+  border-bottom: 1px solid #eeeeF3 !important;
 
   display: flex;
 
@@ -1767,11 +1937,7 @@
 }
 
 .preview-slot-item:last-child {
-  border-bottom: none;
-}
-
-.preview-slot-item:hover {
-  background: #faf9fd;
+  border-bottom: none !important;
 }
 
 .preview-slot-item > span:first-child {
@@ -1779,11 +1945,6 @@
 
   font-size: 11px;
 }
-
-
-/* =========================================================
-   AVAILABLE
-========================================================= */
 
 .preview-available {
   padding: 5px 8px;
@@ -1797,14 +1958,7 @@
   font-size: 9px;
 
   font-weight: 600;
-
-  white-space: nowrap;
 }
-
-
-/* =========================================================
-   NO SLOTS
-========================================================= */
 
 .preview-no-slots {
   padding: 32px 12px;
@@ -1820,7 +1974,7 @@
 
 
 /* =========================================================
-   APPOINTMENTS DISABLED
+   DISABLED
 ========================================================= */
 
 .preview-disabled-box {
@@ -1952,16 +2106,6 @@
   box-sizing: border-box;
 }
 
-.add-leave-modal::-webkit-scrollbar {
-  width: 5px;
-}
-
-.add-leave-modal::-webkit-scrollbar-thumb {
-  background: #d5d0df;
-
-  border-radius: 10px;
-}
-
 
 /* =========================================================
    MODAL HEADER
@@ -2023,14 +2167,10 @@
   font-size: 17px;
 
   cursor: pointer;
-
-  transition: 0.2s ease;
 }
 
 .leave-modal-close:hover {
   background: #f5f3f8;
-
-  color: #33333f;
 }
 
 
@@ -2056,105 +2196,9 @@
   line-height: 1.6;
 }
 
-.leave-modal-info span {
-  margin-right: 6px;
-
-  color: #3172d3;
-}
-
 
 /* =========================================================
-   LEAVE FORM
-========================================================= */
-
-.leave-form-section {
-  padding: 0 24px;
-
-  margin-bottom: 20px;
-}
-
-.leave-form-label {
-  display: block;
-
-  margin-bottom: 9px;
-
-  color: #29293b;
-
-  font-size: 12px;
-
-  font-weight: 600;
-}
-
-.leave-form-label b {
-  color: #df4d56;
-
-  margin-left: 3px;
-}
-
-
-/* =========================================================
-   LEAVE TYPE
-========================================================= */
-
-.leave-type-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 12px;
-}
-
-.leave-type-grid button {
-  min-height: 92px;
-
-  border: 1px solid #ddddE6;
-
-  border-radius: 8px;
-
-  background: #ffffff;
-
-  color: #383849;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 9px;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.leave-type-grid button:hover {
-  border-color: #cfc3e9;
-
-  background: #faf8ff;
-}
-
-.leave-type-grid button svg {
-  font-size: 23px;
-}
-
-.leave-type-grid button.selected {
-  border-color: #6338c8;
-
-  background: #f5f1ff;
-
-  color: #5c35b8;
-
-  box-shadow:
-    inset 0 0 0 1px #6338c8;
-}
-
-
-/* =========================================================
-   MODAL DATES
+   MODAL DATE
 ========================================================= */
 
 .leave-date-form-grid {
@@ -2233,53 +2277,8 @@
   border-color: #6338c8;
 
   box-shadow:
-    0 0 0 3px rgba(99, 56, 200, 0.07);
-}
-
-
-/* =========================================================
-   LEAVE SESSION
-========================================================= */
-
-.leave-session-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 10px;
-}
-
-.leave-session-grid button {
-  height: 42px;
-
-  border: 1px solid #ddddE6;
-
-  border-radius: 6px;
-
-  background: #ffffff;
-
-  color: #3d3d4d;
-
-  font-size: 11px;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.leave-session-grid button:hover {
-  border-color: #cfc3e9;
-
-  background: #faf8ff;
-}
-
-.leave-session-grid button.selected {
-  border-color: #6338c8;
-
-  background: #6338c8;
-
-  color: #ffffff;
+    0 0 0 3px
+    rgba(99, 56, 200, 0.07);
 }
 
 
@@ -2293,8 +2292,22 @@
   position: relative;
 }
 
-.leave-reason-field .leave-form-label {
-  margin-bottom: 8px;
+.leave-form-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #29293b;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.leave-form-label b {
+  color: #df4d56;
+
+  margin-left: 3px;
 }
 
 .leave-reason-field textarea {
@@ -2327,7 +2340,8 @@
   border-color: #6338c8;
 
   box-shadow:
-    0 0 0 3px rgba(99, 56, 200, 0.07);
+    0 0 0 3px
+    rgba(99, 56, 200, 0.07);
 }
 
 
@@ -2339,10 +2353,6 @@
   padding: 0 24px;
 
   margin-bottom: 20px;
-}
-
-.leave-repeat-status-row .leave-form-field {
-  max-width: 300px;
 }
 
 .leave-repeat-select {
@@ -2386,16 +2396,7 @@
 
   font-size: 12px;
 
-  cursor: pointer;
-
   box-sizing: border-box;
-}
-
-.leave-repeat-select select:focus {
-  border-color: #6338c8;
-
-  box-shadow:
-    0 0 0 3px rgba(99, 56, 200, 0.07);
 }
 
 
@@ -2428,8 +2429,6 @@
   font-weight: 600;
 
   cursor: pointer;
-
-  transition: 0.2s ease;
 }
 
 .leave-modal-cancel {
@@ -2440,10 +2439,6 @@
   color: #3d3d4d;
 }
 
-.leave-modal-cancel:hover {
-  background: #f7f7f9;
-}
-
 .leave-modal-save {
   border: none;
 
@@ -2452,97 +2447,56 @@
   color: #ffffff;
 }
 
-.leave-modal-save:hover {
-  background: #512db3;
-}
-
 
 /* =========================================================
-   FINAL GLOBAL BORDER RESET
-   IMPORTANT
+   GLOBAL TABLE OVERRIDE
 ========================================================= */
 
-/*
-   If index.css / App.css contains:
-
-   table,
-   th,
-   td {
-      border: 1px solid black;
-   }
-
-   this section overrides it specifically for
-   Appointment Availability.
-*/
-
-.appointment-availability-page
-.appointment-settings-card
-table,
-.appointment-availability-page
-.appointment-settings-card
-th,
-.appointment-availability-page
-.appointment-settings-card
-td {
+.appointment-availability-page table,
+.appointment-availability-page thead,
+.appointment-availability-page tbody,
+.appointment-availability-page tr,
+.appointment-availability-page th,
+.appointment-availability-page td {
   outline: none !important;
 }
 
 
-/* Remove outer black border */
+/* REMOVE GLOBAL BLACK TABLE BORDER */
 
 .appointment-availability-page
-.appointment-settings-card
-.weekly-schedule-table {
-  border: 0 !important;
+.weekly-schedule-table,
 
-  outline: 0 !important;
+.appointment-availability-page
+.leave-table {
+  border: none !important;
+
+  outline: none !important;
 
   box-shadow: none !important;
 }
 
 
-/* Remove vertical borders */
+/* REMOVE ALL VERTICAL BORDERS */
 
 .appointment-availability-page
-.appointment-settings-card
-.weekly-schedule-table th,
-.appointment-availability-page
-.appointment-settings-card
-.weekly-schedule-table td {
-  border-left: 0 !important;
-
-  border-right: 0 !important;
-}
-
-
-/* Only soft horizontal lines */
-
-.appointment-availability-page
-.appointment-settings-card
-.weekly-schedule-table th {
-  border-top: 0 !important;
-
-  border-bottom: 1px solid #eeeeF3 !important;
-}
-
-.appointment-availability-page
-.appointment-settings-card
-.weekly-schedule-table td {
-  border-top: 0 !important;
-
-  border-bottom: 1px solid #eeeeF3 !important;
-}
-
-
-/* Last row */
-
-.appointment-availability-page
-.appointment-settings-card
 .weekly-schedule-table
-tbody
-tr:last-child
+th,
+
+.appointment-availability-page
+.weekly-schedule-table
+td,
+
+.appointment-availability-page
+.leave-table
+th,
+
+.appointment-availability-page
+.leave-table
 td {
-  border-bottom: 0 !important;
+  border-left: none !important;
+
+  border-right: none !important;
 }
 
 
@@ -2559,6 +2513,7 @@ td {
   .preview-slots-card {
     position: static;
   }
+
 }
 
 
@@ -2576,9 +2531,6 @@ td {
     grid-template-columns: 1fr;
   }
 
-  .preview-slots-card {
-    width: 100%;
-  }
 }
 
 
@@ -2614,6 +2566,7 @@ td {
   .appointment-right-content {
     width: 100%;
   }
+
 }
 
 
@@ -2649,6 +2602,7 @@ td {
     min-height: 50px;
 
     padding-left: 15px;
+
     padding-right: 15px;
   }
 
@@ -2666,7 +2620,8 @@ td {
     gap: 8px;
   }
 
-  .appointment-setting-item > label:not(.appointment-toggle) {
+  .appointment-setting-item
+  > label:not(.appointment-toggle) {
     width: 100%;
 
     font-size: 13px;
@@ -2708,10 +2663,6 @@ td {
     min-width: 700px;
   }
 
-  .weekly-schedule-title {
-    font-size: 15px;
-  }
-
 
   /* PREVIEW */
 
@@ -2744,24 +2695,20 @@ td {
   }
 
 
-  /* LEAVE */
+  /* LEAVE TABLE */
 
-  .leave-type-grid {
-    grid-template-columns: 1fr;
+  .leave-table {
+    min-width: 500px;
   }
+
+
+  /* MODAL */
 
   .leave-date-form-grid {
     grid-template-columns: 1fr;
 
     gap: 12px;
   }
-
-  .leave-session-grid {
-    grid-template-columns: 1fr;
-  }
-
-
-  /* MODAL */
 
   .leave-modal-overlay {
     padding: 10px;
@@ -2791,7 +2738,6 @@ td {
     margin-right: 16px;
   }
 
-  .leave-form-section,
   .leave-date-form-grid {
     padding-left: 16px;
 
@@ -2810,10 +2756,6 @@ td {
     padding-right: 16px;
   }
 
-  .leave-repeat-status-row .leave-form-field {
-    max-width: none;
-  }
-
   .leave-modal-footer {
     padding: 14px 16px;
 
@@ -2824,6 +2766,7 @@ td {
   .leave-modal-save {
     width: 100%;
   }
+
 }
 
 
@@ -2865,4 +2808,5 @@ td {
 
     padding-right: 8px;
   }
+
 }

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 
 import {
   FaCalendarAlt,
-  FaUserMd,
-  FaHospital,
-  FaUmbrellaBeach,
   FaSyncAlt,
   FaTimes,
 } from "react-icons/fa";
@@ -16,25 +13,14 @@ const AddLeaveModal = ({
 }) => {
 
   /* =====================================================
-     FORM
+     FORM DATA
   ===================================================== */
 
   const [formData, setFormData] = useState({
-
-    // leaveType: "Doctor Leave",
-
     fromDate: "",
-
     toDate: "",
-
-    // session: "Full Day",
-
     reason: "",
-
     repeat: "Does not repeat",
-
-    status: true,
-
   });
 
 
@@ -57,36 +43,6 @@ const AddLeaveModal = ({
 
 
   /* =====================================================
-     SELECT LEAVE TYPE
-  ===================================================== */
-
-  const selectLeaveType = (
-    type
-  ) => {
-
-    setFormData((previous) => ({
-      ...previous,
-      leaveType: type,
-    }));
-  };
-
-
-  /* =====================================================
-     SELECT SESSION
-  ===================================================== */
-
-  const selectSession = (
-    session
-  ) => {
-
-    setFormData((previous) => ({
-      ...previous,
-      session,
-    }));
-  };
-
-
-  /* =====================================================
      SAVE
   ===================================================== */
 
@@ -94,6 +50,10 @@ const AddLeaveModal = ({
 
     e.preventDefault();
 
+
+    /* -----------------------------------------------
+       DATE VALIDATION
+    ----------------------------------------------- */
 
     if (
       !formData.fromDate ||
@@ -108,6 +68,10 @@ const AddLeaveModal = ({
     }
 
 
+    /* -----------------------------------------------
+       DATE RANGE VALIDATION
+    ----------------------------------------------- */
+
     if (
       formData.toDate <
       formData.fromDate
@@ -121,7 +85,13 @@ const AddLeaveModal = ({
     }
 
 
-    if (!formData.reason.trim()) {
+    /* -----------------------------------------------
+       REASON VALIDATION
+    ----------------------------------------------- */
+
+    if (
+      !formData.reason.trim()
+    ) {
 
       alert(
         "Please enter leave reason."
@@ -131,7 +101,15 @@ const AddLeaveModal = ({
     }
 
 
-    onSave(formData);
+    /* -----------------------------------------------
+       SAVE DATA
+    ----------------------------------------------- */
+
+    onSave({
+      fromDate: formData.fromDate,
+      toDate: formData.toDate,
+      reason: formData.reason.trim(),
+    });
   };
 
 
@@ -155,8 +133,8 @@ const AddLeaveModal = ({
             </h2>
 
             <p>
-              Add a leave or holiday to block
-              appointments for selected dates.
+              Add a leave to block appointments
+              for selected dates.
             </p>
 
           </div>
@@ -191,103 +169,13 @@ const AddLeaveModal = ({
         </div>
 
 
+        {/* =================================================
+            FORM
+        ================================================= */}
+
         <form
           onSubmit={handleSubmit}
         >
-
-
-          {/* =================================================
-              LEAVE TYPE
-          ================================================= */}
-{/* 
-          <div className="leave-form-section">
-
-            <label className="leave-form-label">
-
-              Leave Type
-
-              <b>*</b>
-
-            </label>
-
-
-            <div className="leave-type-grid">
-
-
-              <button
-                type="button"
-                className={
-                  formData.leaveType ===
-                  "Doctor Leave"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectLeaveType(
-                    "Doctor Leave"
-                  )
-                }
-              >
-
-                <FaUserMd />
-
-                <span>
-                  Doctor Leave
-                </span>
-
-              </button>
-
-
-              <button
-                type="button"
-                className={
-                  formData.leaveType ===
-                  "Clinic Holiday"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectLeaveType(
-                    "Clinic Holiday"
-                  )
-                }
-              >
-
-                <FaHospital />
-
-                <span>
-                  Clinic Holiday
-                </span>
-
-              </button>
-
-
-              <button
-                type="button"
-                className={
-                  formData.leaveType ===
-                  "Other"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectLeaveType(
-                    "Other"
-                  )
-                }
-              >
-
-                <FaUmbrellaBeach />
-
-                <span>
-                  Other
-                </span>
-
-              </button>
-
-            </div>
-
-          </div> */}
 
 
           {/* =================================================
@@ -296,6 +184,10 @@ const AddLeaveModal = ({
 
           <div className="leave-date-form-grid">
 
+
+            {/* ---------------------------------------------
+                FROM DATE
+            --------------------------------------------- */}
 
             <div className="leave-form-field">
 
@@ -306,6 +198,7 @@ const AddLeaveModal = ({
                 <b>*</b>
 
               </label>
+
 
               <div className="leave-date-input">
 
@@ -327,6 +220,10 @@ const AddLeaveModal = ({
             </div>
 
 
+            {/* ---------------------------------------------
+                TO DATE
+            --------------------------------------------- */}
+
             <div className="leave-form-field">
 
               <label>
@@ -336,6 +233,7 @@ const AddLeaveModal = ({
                 <b>*</b>
 
               </label>
+
 
               <div className="leave-date-input">
 
@@ -347,6 +245,10 @@ const AddLeaveModal = ({
                   value={
                     formData.toDate
                   }
+                  min={
+                    formData.fromDate ||
+                    undefined
+                  }
                   onChange={
                     handleChange
                   }
@@ -357,90 +259,6 @@ const AddLeaveModal = ({
             </div>
 
           </div>
-
-
-          {/* =================================================
-              SESSION
-          ================================================= */}
-
-          {/* <div className="leave-form-section">
-
-            <label className="leave-form-label">
-
-              Session
-
-              <b>*</b>
-
-            </label>
-
-
-            <div className="leave-session-grid">
-
-
-              <button
-                type="button"
-                className={
-                  formData.session ===
-                  "Full Day"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectSession(
-                    "Full Day"
-                  )
-                }
-              >
-
-                <FaCalendarAlt />
-
-                Full Day
-
-              </button>
-
-
-              <button
-                type="button"
-                className={
-                  formData.session ===
-                  "Morning"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectSession(
-                    "Morning"
-                  )
-                }
-              >
-
-                Morning
-
-              </button>
-
-
-              <button
-                type="button"
-                className={
-                  formData.session ===
-                  "Evening"
-                    ? "selected"
-                    : ""
-                }
-                onClick={() =>
-                  selectSession(
-                    "Evening"
-                  )
-                }
-              >
-
-                Evening
-
-              </button>
-
-            </div>
-
-          </div> */}
 
 
           {/* =================================================
@@ -470,9 +288,12 @@ const AddLeaveModal = ({
               placeholder="Enter leave reason..."
             />
 
-            <span>
+
+            <span className="leave-reason-counter">
+
               {formData.reason.length}
               /200
+
             </span>
 
           </div>
@@ -506,19 +327,19 @@ const AddLeaveModal = ({
                   }
                 >
 
-                  <option>
+                  <option value="Does not repeat">
                     Does not repeat
                   </option>
 
-                  <option>
+                  <option value="Every Week">
                     Every Week
                   </option>
 
-                  <option>
+                  <option value="Every Month">
                     Every Month
                   </option>
 
-                  <option>
+                  <option value="Every Year">
                     Every Year
                   </option>
 
@@ -542,7 +363,9 @@ const AddLeaveModal = ({
               className="leave-modal-cancel"
               onClick={onClose}
             >
+
               Cancel
+
             </button>
 
 
@@ -550,7 +373,9 @@ const AddLeaveModal = ({
               type="submit"
               className="leave-modal-save"
             >
+
               Add Leave
+
             </button>
 
           </div>
@@ -562,5 +387,6 @@ const AddLeaveModal = ({
     </div>
   );
 };
+
 
 export default AddLeaveModal;

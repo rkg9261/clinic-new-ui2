@@ -67,21 +67,9 @@ const LeaveDays = ({
                 Date Range
               </th>
 
-              {/* <th>
-                Leave Type
-              </th> */}
-
-              {/* <th>
-                Session
-              </th> */}
-
               <th>
                 Reason
               </th>
-
-              {/* <th>
-                Status
-              </th> */}
 
               <th>
                 Action
@@ -99,7 +87,7 @@ const LeaveDays = ({
               <tr>
 
                 <td
-                  colSpan="6"
+                  colSpan="3"
                   className="leave-empty"
                 >
 
@@ -113,7 +101,14 @@ const LeaveDays = ({
 
               leaves.map((leave) => (
 
-                <tr key={leave.id}>
+                <tr
+                  key={leave.id}
+                >
+
+
+                  {/* =====================================
+                      DATE RANGE
+                  ===================================== */}
 
                   <td>
 
@@ -123,13 +118,20 @@ const LeaveDays = ({
                         {leave.fromDate}
                       </span>
 
+
                       {leave.toDate &&
                         leave.toDate !==
                           leave.fromDate && (
 
-                        <span>
-                          {leave.toDate}
-                        </span>
+                        <>
+                          <span className="leave-date-separator">
+                            →
+                          </span>
+
+                          <span>
+                            {leave.toDate}
+                          </span>
+                        </>
 
                       )}
 
@@ -138,40 +140,36 @@ const LeaveDays = ({
                   </td>
 
 
-                  <td>
-                    {leave.leaveType}
-                  </td>
-
-
-                  <td>
-                    {leave.session}
-                  </td>
-
-
-                  <td>
-                    {leave.reason}
-                  </td>
-
+                  {/* =====================================
+                      REASON
+                  ===================================== */}
 
                   <td>
 
-                    <span className="leave-active-status">
+                    <div className="leave-reason-text">
 
-                      {leave.status ||
-                        "Active"}
+                      {leave.reason}
 
-                    </span>
+                    </div>
 
                   </td>
 
+
+                  {/* =====================================
+                      ACTION
+                  ===================================== */}
 
                   <td>
 
                     <div className="leave-action-buttons">
 
+
+                      {/* EDIT */}
+
                       <button
                         type="button"
                         className="leave-edit-btn"
+                        title="Edit Leave"
                         onClick={() =>
                           onEditLeave(
                             leave
@@ -184,9 +182,12 @@ const LeaveDays = ({
                       </button>
 
 
+                      {/* DELETE */}
+
                       <button
                         type="button"
                         className="leave-delete-btn"
+                        title="Delete Leave"
                         onClick={() =>
                           onDeleteLeave(
                             leave.id
@@ -239,5 +240,6 @@ const LeaveDays = ({
     </section>
   );
 };
+
 
 export default LeaveDays;
