@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 
-import cliniclogo from "../../assets/logo.jpg";
+import cliniclogo from "../../assets/logoclinic.jpeg";
 import menu_icon from "../../assets/menu-icon.png";
 
 import { Link as ScrollLink } from "react-scroll";
