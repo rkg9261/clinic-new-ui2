@@ -1,0 +1,2868 @@
+/* =========================================================
+   APPOINTMENT AVAILABILITY PAGE
+========================================================= */
+
+.appointment-availability-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 22px;
+  box-sizing: border-box;
+  background: #f7f8fc;
+  color: #29293b;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.appointment-availability-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.appointment-availability-header h1 {
+  margin: 0;
+  color: #18182b;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.appointment-availability-header p {
+  margin: 6px 0 0;
+  color: #898994;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   HEADER ADD LEAVE BUTTON
+========================================================= */
+
+.appointment-header-leave-btn {
+  height: 42px;
+  padding: 0 16px;
+
+  border: 1px solid #d8cdf1;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #5d36b9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.appointment-header-leave-btn:hover {
+  background: #f7f2ff;
+  border-color: #c9b9eb;
+}
+
+.appointment-header-leave-btn span {
+  font-size: 19px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
+
+.appointment-settings-card,
+.weekly-schedule-card,
+.leave-days-card,
+.preview-slots-card {
+  background: #ffffff;
+
+  border: 1px solid #e8e7ee;
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 3px 14px rgba(40, 30, 80, 0.045);
+}
+
+
+/* =========================================================
+   APPOINTMENT SETTINGS CARD
+========================================================= */
+
+.appointment-settings-card {
+  margin-bottom: 20px;
+
+  overflow: hidden;
+
+  /*
+     IMPORTANT:
+     Remove dark/black outer border.
+  */
+
+  border: none !important;
+
+  outline: none !important;
+
+  box-shadow:
+    0 4px 18px rgba(54, 38, 100, 0.055);
+}
+
+
+/* =========================================================
+   SETTINGS HEADER
+========================================================= */
+
+.appointment-settings-header {
+  min-height: 52px;
+
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  border: none !important;
+
+  border-bottom: 1px solid #f0eef4 !important;
+
+  background: #ffffff;
+}
+
+.appointment-settings-title {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: #5d36bb;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.appointment-settings-title svg {
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   SETTINGS GRID
+========================================================= */
+
+.appointment-settings-grid {
+  padding: 20px;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 70px;
+
+  row-gap: 16px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SETTINGS ITEM
+========================================================= */
+
+.appointment-setting-item {
+  min-height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+.appointment-setting-item > label:not(.appointment-toggle) {
+  color: #363646;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+}
+
+.appointment-setting-item > label b {
+  color: #d94c55;
+
+  margin-left: 3px;
+}
+
+
+/* =========================================================
+   NORMAL SETTINGS INPUT
+========================================================= */
+
+.appointment-setting-item > input {
+  width: 160px;
+
+  height: 38px;
+
+  padding: 0 11px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+.appointment-setting-item > input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.08);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.appointment-setting-select {
+  width: 160px;
+
+  height: 38px;
+
+  padding: 0 11px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+.appointment-setting-select:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.08);
+}
+
+
+/* =========================================================
+   TIME INPUT
+========================================================= */
+
+.appointment-time-input {
+  width: 160px;
+
+  height: 38px;
+
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+.appointment-time-input svg {
+  position: absolute;
+
+  left: 10px;
+  top: 11px;
+
+  color: #8b8b96;
+
+  font-size: 13px;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.appointment-time-input input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 9px 0 31px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+.appointment-time-input input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.08);
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+.appointment-number-input {
+  width: 160px;
+
+  height: 38px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+.appointment-number-input svg {
+  position: absolute;
+
+  left: 10px;
+
+  color: #8b8b96;
+
+  font-size: 13px;
+
+  pointer-events: none;
+}
+
+.appointment-number-input input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 40px 0 31px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+.appointment-number-input input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.08);
+}
+
+.appointment-number-input span {
+  position: absolute;
+
+  right: 9px;
+
+  color: #8a8a95;
+
+  font-size: 11px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   REMOVE NUMBER ARROWS
+========================================================= */
+
+.appointment-number-input input::-webkit-outer-spin-button,
+.appointment-number-input input::-webkit-inner-spin-button {
+  margin: 0;
+
+  -webkit-appearance: none;
+}
+
+.appointment-number-input input[type="number"] {
+  appearance: textfield;
+}
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.appointment-toggle {
+  width: 42px !important;
+
+  min-width: 42px;
+
+  height: 23px !important;
+
+  position: relative;
+
+  display: block !important;
+
+  margin: 0;
+
+  flex-shrink: 0;
+}
+
+.appointment-toggle input {
+  position: absolute;
+
+  opacity: 0;
+
+  width: 0;
+  height: 0;
+}
+
+.appointment-toggle span {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 20px;
+
+  background: #c9c9d1;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.appointment-toggle span::before {
+  content: "";
+
+  width: 17px;
+  height: 17px;
+
+  position: absolute;
+
+  left: 3px;
+  top: 3px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15);
+
+  transition: 0.25s ease;
+}
+
+.appointment-toggle input:checked + span {
+  background: #28ad68;
+}
+
+.appointment-toggle input:checked + span::before {
+  transform: translateX(19px);
+}
+
+
+/* =========================================================
+   SETTINGS NOTE
+========================================================= */
+
+.appointment-settings-note {
+  margin: 0 20px 17px;
+
+  padding: 11px 13px;
+
+  border-radius: 6px;
+
+  background: #f6f1ff;
+
+  color: #6848a7;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.appointment-settings-note span {
+  margin-right: 7px;
+}
+
+
+/* =========================================================
+   SETTINGS FOOTER
+========================================================= */
+
+.appointment-settings-footer {
+  padding: 0 20px 18px;
+
+  display: flex;
+
+  justify-content: flex-end;
+}
+
+.appointment-settings-save-btn {
+  height: 38px;
+
+  padding: 0 16px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #6338c8;
+
+  color: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.appointment-settings-save-btn:hover {
+  background: #512db3;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.appointment-main-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    360px;
+
+  gap: 20px;
+
+  align-items: start;
+}
+
+.appointment-left-content,
+.appointment-right-content {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   WEEKLY SCHEDULE CARD
+========================================================= */
+
+.weekly-schedule-card {
+  overflow: hidden;
+
+  border: 1px solid #e8e7ee;
+}
+
+
+/* =========================================================
+   WEEKLY SCHEDULE HEADER
+========================================================= */
+
+.weekly-schedule-header {
+  min-height: 52px;
+
+  padding: 0 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #eeeeF3;
+}
+
+.weekly-schedule-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: #5d36bd;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.weekly-schedule-title svg {
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   TABLE SCROLL
+========================================================= */
+
+.weekly-schedule-scroll {
+  width: 100%;
+
+  overflow-x: auto;
+
+  border: none !important;
+
+  outline: none !important;
+}
+
+.weekly-schedule-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.weekly-schedule-scroll::-webkit-scrollbar-track {
+  background: #f5f5f7;
+}
+
+.weekly-schedule-scroll::-webkit-scrollbar-thumb {
+  background: #d5d0df;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   WEEKLY SCHEDULE TABLE
+   IMPORTANT:
+   NO BLACK VERTICAL BORDER
+========================================================= */
+
+.weekly-schedule-table {
+  width: 100%;
+
+  min-width: 700px;
+
+  border-collapse: collapse;
+
+  border: 0 !important;
+
+  outline: none !important;
+
+  box-shadow: none !important;
+
+  table-layout: fixed;
+}
+
+
+/* =========================================================
+   REMOVE GLOBAL TABLE BORDERS
+========================================================= */
+
+.weekly-schedule-table,
+.weekly-schedule-table thead,
+.weekly-schedule-table tbody,
+.weekly-schedule-table tr,
+.weekly-schedule-table th,
+.weekly-schedule-table td {
+  outline: none !important;
+
+  border-left: 0 !important;
+
+  border-right: 0 !important;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.weekly-schedule-table th {
+  height: 42px;
+
+  padding: 0 10px;
+
+  background: #fbfbfd;
+
+  border-top: 0 !important;
+
+  border-left: 0 !important;
+
+  border-right: 0 !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+
+  color: #333342;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.weekly-schedule-table th:first-child {
+  width: 22%;
+
+  padding-left: 18px;
+
+  text-align: left;
+}
+
+.weekly-schedule-table th:nth-child(2) {
+  width: 39%;
+}
+
+.weekly-schedule-table th:nth-child(3) {
+  width: 39%;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.weekly-schedule-table td {
+  height: 58px;
+
+  padding: 7px 10px;
+
+  border-top: 0 !important;
+
+  border-left: 0 !important;
+
+  border-right: 0 !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+
+  font-size: 12px;
+
+  box-sizing: border-box;
+}
+
+.weekly-schedule-table tbody tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+
+/* =========================================================
+   WORKING ROW
+========================================================= */
+
+.schedule-working-row {
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   HOLIDAY / UNTICKED ROW
+========================================================= */
+
+.schedule-holiday-row {
+  position: relative;
+
+  background: rgba(255, 240, 240, 0.65) !important;
+
+  backdrop-filter: blur(8px);
+
+  -webkit-backdrop-filter: blur(8px);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(232, 120, 120, 0.08);
+
+  transition: all 0.25s ease;
+}
+
+.schedule-holiday-row td {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 244, 244, 0.85),
+    rgba(255, 249, 249, 0.65)
+  ) !important;
+
+  color: #a9a9b2 !important;
+
+  border-top: 0 !important;
+
+  border-left: 0 !important;
+
+  border-right: 0 !important;
+
+  border-bottom: 1px solid #f4dddd !important;
+}
+
+
+/* =========================================================
+   DAY
+========================================================= */
+
+.weekly-day-wrapper {
+  padding-left: 4px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+.weekly-day-wrapper input {
+  width: 16px;
+
+  height: 16px;
+
+  margin: 0;
+
+  accent-color: #6338c8;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.weekly-day-content {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.weekly-day-content span {
+  color: #383848;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   HOLIDAY DAY TEXT
+========================================================= */
+
+.schedule-holiday-row .weekly-day-content span {
+  color: #8e8e99 !important;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   HOLIDAY LABEL
+========================================================= */
+
+.weekly-day-content small {
+  display: inline-flex;
+
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 224, 224, 0.85);
+
+  border: 1px solid rgba(226, 139, 139, 0.25);
+
+  color: #c65a5f;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 2px 8px rgba(210, 80, 80, 0.08);
+}
+
+
+/* =========================================================
+   HOLIDAY BADGE
+========================================================= */
+
+.schedule-holiday-badge {
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: rgba(255, 225, 225, 0.7);
+
+  border: 1px solid rgba(220, 120, 120, 0.22);
+
+  color: #d05b61;
+
+  box-shadow:
+    0 4px 12px rgba(200, 70, 70, 0.08);
+
+  backdrop-filter: blur(8px);
+
+  -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+.session-time-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 9px;
+}
+
+.time-field {
+  position: relative;
+}
+
+.time-field input {
+  width: 115px;
+
+  height: 36px;
+
+  padding: 0 28px 0 9px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  color: #333344;
+
+  background: #ffffff;
+
+  font-size: 12px;
+
+  transition: 0.2s ease;
+}
+
+.time-field input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.07);
+}
+
+
+/* =========================================================
+   DISABLED TIME INPUT
+========================================================= */
+
+.time-field input:disabled {
+  background: #f3f3f5;
+
+  color: #a5a5ae;
+
+  border-color: #e2e2e7;
+
+  cursor: not-allowed;
+}
+
+.schedule-holiday-row .time-field input {
+  background: rgba(246, 239, 239, 0.75) !important;
+
+  border-color: #eadede !important;
+
+  color: #b5b5bd !important;
+
+  opacity: 0.7;
+
+  cursor: not-allowed;
+}
+
+.time-field svg {
+  position: absolute;
+
+  right: 8px;
+
+  top: 11px;
+
+  color: #9999a4;
+
+  font-size: 11px;
+
+  pointer-events: none;
+}
+
+.schedule-holiday-row .time-field svg {
+  color: #b7a8a8 !important;
+}
+
+.time-separator {
+  color: #898995;
+
+  font-size: 12px;
+}
+
+.schedule-holiday-row .time-separator {
+  color: #b8aaaa !important;
+}
+
+
+/* =========================================================
+   HOLIDAY CHECKBOX
+========================================================= */
+
+.schedule-holiday-row .weekly-day-wrapper input {
+  accent-color: #d36a6f;
+}
+
+
+/* =========================================================
+   HOLIDAY HOVER
+========================================================= */
+
+.schedule-holiday-row:hover td {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 238, 238, 0.95),
+    rgba(255, 248, 248, 0.85)
+  ) !important;
+}
+
+
+/* =========================================================
+   SCHEDULE NOTE
+========================================================= */
+
+.weekly-schedule-note {
+  padding: 11px 18px;
+
+  background: #f6f1ff;
+
+  color: #6848a8;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  border: none !important;
+}
+
+.weekly-schedule-note span {
+  margin-right: 6px;
+}
+
+
+/* =========================================================
+   LEAVE DAYS
+========================================================= */
+
+.leave-days-card {
+  margin-top: 20px;
+
+  overflow: hidden;
+}
+
+.leave-days-header {
+  min-height: 52px;
+
+  padding: 0 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-bottom: 1px solid #eeeeF3;
+}
+
+.leave-days-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #5d36bd;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.add-leave-btn {
+  height: 34px;
+
+  padding: 0 12px;
+
+  border: 1px solid #ddd2f5;
+
+  border-radius: 6px;
+
+  background: #faf8ff;
+
+  color: #5d36ba;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.add-leave-btn:hover {
+  background: #f2ecff;
+
+  border-color: #cfc0ee;
+}
+
+
+/* =========================================================
+   LEAVE TABLE
+========================================================= */
+
+.leave-table-scroll {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.leave-table {
+  width: 100%;
+
+  min-width: 650px;
+
+  border-collapse: collapse;
+
+  border: none !important;
+}
+
+.leave-table th,
+.leave-table td {
+  border-left: none !important;
+
+  border-right: none !important;
+}
+
+.leave-table th {
+  height: 38px;
+
+  padding: 0 9px;
+
+  background: #fbfbfd;
+
+  text-align: left;
+
+  color: #353545;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  border-top: none !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+}
+
+.leave-table td {
+  padding: 9px;
+
+  border-top: 1px solid #eeeeF3 !important;
+
+  border-bottom: none !important;
+
+  color: #484856;
+
+  font-size: 11px;
+
+  vertical-align: middle;
+}
+
+.leave-date {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.leave-active-status {
+  padding: 5px 8px;
+
+  border-radius: 4px;
+
+  background: #e1f5e8;
+
+  color: #2e9657;
+
+  font-size: 9px;
+
+  font-weight: 600;
+}
+
+.leave-action-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.leave-edit-btn,
+.leave-delete-btn {
+  width: 28px;
+
+  height: 28px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  border-radius: 5px;
+}
+
+.leave-edit-btn {
+  color: #6338c8;
+}
+
+.leave-edit-btn:hover {
+  background: #f2edff;
+}
+
+.leave-delete-btn {
+  color: #dd4e56;
+}
+
+.leave-delete-btn:hover {
+  background: #fff0f0;
+}
+
+.leave-empty {
+  padding: 28px !important;
+
+  text-align: center !important;
+
+  color: #9999a5 !important;
+
+  font-size: 12px !important;
+}
+
+
+/* =========================================================
+   VIEW ALL LEAVES
+========================================================= */
+
+.view-all-leaves-btn {
+  margin: 11px 14px 14px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #6338c8;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.view-all-leaves-btn:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.preview-slots-card {
+  padding: 18px;
+
+  position: sticky;
+
+  top: 18px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.preview-slots-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 18px;
+
+  color: #5d36bd;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   DATE LABEL
+========================================================= */
+
+.preview-date-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #353545;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   DATE ROW
+========================================================= */
+
+.preview-date-row {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.preview-date-field {
+  position: relative;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+.preview-date-field input {
+  width: 100%;
+
+  height: 40px;
+
+  padding: 0 30px 0 10px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  font-size: 12px;
+
+  background: #ffffff;
+
+  color: #333344;
+}
+
+.preview-date-field input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.07);
+}
+
+.preview-date-field svg {
+  position: absolute;
+
+  right: 9px;
+
+  top: 13px;
+
+  color: #92929d;
+
+  font-size: 12px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   GENERATE BUTTON
+========================================================= */
+
+.generate-slots-btn {
+  height: 40px;
+
+  padding: 0 13px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #6338c8;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: 0.2s ease;
+}
+
+.generate-slots-btn:hover {
+  background: #512db3;
+}
+
+.generate-slots-btn:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   SELECTED DATE
+========================================================= */
+
+.preview-selected-date {
+  margin-top: 12px;
+
+  padding: 11px;
+
+  border: 1px solid #ebe7f6;
+
+  border-radius: 6px;
+
+  background: #f7f5ff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  color: #5d36bd;
+
+  font-size: 11px;
+}
+
+.preview-selected-date strong {
+  font-size: 12px;
+}
+
+.preview-selected-date span {
+  color: #858591;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   INITIAL INFO
+========================================================= */
+
+.preview-info-empty {
+  margin-top: 12px;
+
+  min-height: 110px;
+
+  padding: 16px 13px;
+
+  border: 1px dashed #d9d2eb;
+
+  border-radius: 7px;
+
+  background: #faf9fe;
+
+  color: #65718a;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+.preview-info-empty svg {
+  color: #587ac0;
+}
+
+
+/* =========================================================
+   CLOSED DAY
+========================================================= */
+
+.preview-off-box {
+  margin-top: 12px;
+
+  padding: 15px 13px;
+
+  border: 1px solid #f0dfb9;
+
+  border-radius: 7px;
+
+  background: #fff9ed;
+
+  color: #ae7a25;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+.preview-off-box svg {
+  margin-right: 5px;
+}
+
+.preview-off-box strong {
+  color: #a16e20;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   LEAVE / HOLIDAY PREVIEW
+========================================================= */
+
+.preview-leave-box {
+  margin-top: 12px;
+
+  padding: 15px 13px;
+
+  border: 1px solid #f0d9dc;
+
+  border-radius: 7px;
+
+  background: #fff5f6;
+
+  color: #c0525b;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+.preview-leave-box svg {
+  margin-right: 5px;
+
+  color: #d05259;
+}
+
+.preview-leave-box strong {
+  color: #c44b53;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.preview-total-box {
+  margin: 12px 0;
+
+  padding: 11px;
+
+  border-radius: 6px;
+
+  background: #ebf8ee;
+
+  color: #319356;
+
+  font-size: 11px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.preview-total-box svg {
+  font-size: 12px;
+}
+
+.preview-total-box strong {
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   SLOT LIST
+========================================================= */
+
+.preview-slot-list {
+  max-height: 470px;
+
+  margin-top: 12px;
+
+  border: 1px solid #eeeeF3;
+
+  border-radius: 7px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+}
+
+.preview-slot-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.preview-slot-list::-webkit-scrollbar-track {
+  background: #f7f7f9;
+}
+
+.preview-slot-list::-webkit-scrollbar-thumb {
+  background: #d5d0df;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   SESSION HEADING
+========================================================= */
+
+.preview-session-heading {
+  padding: 11px;
+
+  background: #f8f6fc;
+
+  border-bottom: 1px solid #eeeeF3;
+
+  color: #6038bc;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   SLOT ITEM
+========================================================= */
+
+.preview-slot-item {
+  min-height: 43px;
+
+  padding: 0 10px;
+
+  border-left: none !important;
+
+  border-right: none !important;
+
+  border-top: none !important;
+
+  border-bottom: 1px solid #eeeeF3;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 8px;
+
+  background: #ffffff;
+
+  font-size: 11px;
+
+  box-sizing: border-box;
+}
+
+.preview-slot-item:last-child {
+  border-bottom: none;
+}
+
+.preview-slot-item:hover {
+  background: #faf9fd;
+}
+
+.preview-slot-item > span:first-child {
+  color: #484856;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   AVAILABLE
+========================================================= */
+
+.preview-available {
+  padding: 5px 8px;
+
+  border-radius: 5px;
+
+  background: #e1f5e7;
+
+  color: #309457;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   NO SLOTS
+========================================================= */
+
+.preview-no-slots {
+  padding: 32px 12px;
+
+  text-align: center;
+
+  color: #9999a4;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   APPOINTMENTS DISABLED
+========================================================= */
+
+.preview-disabled-box {
+  margin-top: 12px;
+
+  padding: 15px 13px;
+
+  border: 1px solid #e1e1e7;
+
+  border-radius: 7px;
+
+  background: #f8f8fa;
+
+  color: #777783;
+
+  text-align: center;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   PAGE FOOTER
+========================================================= */
+
+.appointment-page-footer {
+  margin-top: 20px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+.appointment-cancel-btn,
+.appointment-save-btn {
+  height: 42px;
+
+  padding: 0 22px;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.appointment-cancel-btn {
+  border: 1px solid #ddddE6;
+
+  background: #ffffff;
+
+  color: #424252;
+}
+
+.appointment-cancel-btn:hover {
+  background: #f7f7f9;
+}
+
+.appointment-save-btn {
+  border: none;
+
+  background: #6338c8;
+
+  color: #ffffff;
+}
+
+.appointment-save-btn:hover {
+  background: #512db3;
+}
+
+
+/* =========================================================
+   LEAVE MODAL OVERLAY
+========================================================= */
+
+.leave-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  background: rgba(22, 18, 42, 0.55);
+
+  backdrop-filter: blur(3px);
+
+  -webkit-backdrop-filter: blur(3px);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   ADD LEAVE MODAL
+========================================================= */
+
+.add-leave-modal {
+  width: min(760px, 100%);
+
+  max-height: 94vh;
+
+  overflow-y: auto;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.25);
+
+  box-sizing: border-box;
+}
+
+.add-leave-modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.add-leave-modal::-webkit-scrollbar-thumb {
+  background: #d5d0df;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.leave-modal-header {
+  padding: 20px 24px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+  border-bottom: 1px solid #eeeeF3;
+}
+
+.leave-modal-header h2 {
+  margin: 0;
+
+  color: #5431b6;
+
+  font-size: 22px;
+}
+
+.leave-modal-header p {
+  margin: 6px 0 0;
+
+  color: #8a8a96;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.leave-modal-close {
+  width: 32px;
+
+  height: 32px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #686875;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.leave-modal-close:hover {
+  background: #f5f3f8;
+
+  color: #33333f;
+}
+
+
+/* =========================================================
+   MODAL INFO
+========================================================= */
+
+.leave-modal-info {
+  margin: 16px 24px;
+
+  padding: 13px;
+
+  border: 1px solid #cfe0f7;
+
+  border-radius: 7px;
+
+  background: #eef6ff;
+
+  color: #344b6a;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.leave-modal-info span {
+  margin-right: 6px;
+
+  color: #3172d3;
+}
+
+
+/* =========================================================
+   LEAVE FORM
+========================================================= */
+
+.leave-form-section {
+  padding: 0 24px;
+
+  margin-bottom: 20px;
+}
+
+.leave-form-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #29293b;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.leave-form-label b {
+  color: #df4d56;
+
+  margin-left: 3px;
+}
+
+
+/* =========================================================
+   LEAVE TYPE
+========================================================= */
+
+.leave-type-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 12px;
+}
+
+.leave-type-grid button {
+  min-height: 92px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #383849;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 9px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.leave-type-grid button:hover {
+  border-color: #cfc3e9;
+
+  background: #faf8ff;
+}
+
+.leave-type-grid button svg {
+  font-size: 23px;
+}
+
+.leave-type-grid button.selected {
+  border-color: #6338c8;
+
+  background: #f5f1ff;
+
+  color: #5c35b8;
+
+  box-shadow:
+    inset 0 0 0 1px #6338c8;
+}
+
+
+/* =========================================================
+   MODAL DATES
+========================================================= */
+
+.leave-date-form-grid {
+  padding: 0 24px;
+
+  margin-bottom: 20px;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+}
+
+.leave-form-field label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #29293b;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.leave-form-field label b {
+  color: #df4d56;
+
+  margin-left: 3px;
+}
+
+.leave-date-input {
+  height: 40px;
+
+  position: relative;
+}
+
+.leave-date-input svg {
+  position: absolute;
+
+  left: 10px;
+
+  top: 12px;
+
+  color: #7f7f8b;
+
+  font-size: 12px;
+
+  pointer-events: none;
+}
+
+.leave-date-input input {
+  width: 100%;
+
+  height: 100%;
+
+  padding: 0 9px 0 31px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 12px;
+}
+
+.leave-date-input input:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.07);
+}
+
+
+/* =========================================================
+   LEAVE SESSION
+========================================================= */
+
+.leave-session-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 10px;
+}
+
+.leave-session-grid button {
+  height: 42px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #3d3d4d;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.leave-session-grid button:hover {
+  border-color: #cfc3e9;
+
+  background: #faf8ff;
+}
+
+.leave-session-grid button.selected {
+  border-color: #6338c8;
+
+  background: #6338c8;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   REASON
+========================================================= */
+
+.leave-reason-field {
+  margin: 0 24px 20px;
+
+  position: relative;
+}
+
+.leave-reason-field .leave-form-label {
+  margin-bottom: 8px;
+}
+
+.leave-reason-field textarea {
+  width: 100%;
+
+  height: 95px;
+
+  padding: 11px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 7px;
+
+  outline: none;
+
+  resize: vertical;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 12px;
+
+  font-family: inherit;
+}
+
+.leave-reason-field textarea:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.07);
+}
+
+
+/* =========================================================
+   REPEAT
+========================================================= */
+
+.leave-repeat-status-row {
+  padding: 0 24px;
+
+  margin-bottom: 20px;
+}
+
+.leave-repeat-status-row .leave-form-field {
+  max-width: 300px;
+}
+
+.leave-repeat-select {
+  height: 40px;
+
+  position: relative;
+}
+
+.leave-repeat-select svg {
+  position: absolute;
+
+  left: 10px;
+
+  top: 13px;
+
+  color: #81818d;
+
+  font-size: 12px;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.leave-repeat-select select {
+  width: 100%;
+
+  height: 100%;
+
+  padding: 0 10px 0 31px;
+
+  border: 1px solid #ddddE6;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333344;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.leave-repeat-select select:focus {
+  border-color: #6338c8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 56, 200, 0.07);
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.leave-modal-footer {
+  padding: 17px 24px;
+
+  border-top: 1px solid #eeeeF3;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+.leave-modal-cancel,
+.leave-modal-save {
+  min-width: 115px;
+
+  height: 41px;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.leave-modal-cancel {
+  border: 1px solid #ddddE6;
+
+  background: #ffffff;
+
+  color: #3d3d4d;
+}
+
+.leave-modal-cancel:hover {
+  background: #f7f7f9;
+}
+
+.leave-modal-save {
+  border: none;
+
+  background: #6338c8;
+
+  color: #ffffff;
+}
+
+.leave-modal-save:hover {
+  background: #512db3;
+}
+
+
+/* =========================================================
+   FINAL GLOBAL BORDER RESET
+   IMPORTANT
+========================================================= */
+
+/*
+   If index.css / App.css contains:
+
+   table,
+   th,
+   td {
+      border: 1px solid black;
+   }
+
+   this section overrides it specifically for
+   Appointment Availability.
+*/
+
+.appointment-availability-page
+.appointment-settings-card
+table,
+.appointment-availability-page
+.appointment-settings-card
+th,
+.appointment-availability-page
+.appointment-settings-card
+td {
+  outline: none !important;
+}
+
+
+/* Remove outer black border */
+
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table {
+  border: 0 !important;
+
+  outline: 0 !important;
+
+  box-shadow: none !important;
+}
+
+
+/* Remove vertical borders */
+
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table th,
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table td {
+  border-left: 0 !important;
+
+  border-right: 0 !important;
+}
+
+
+/* Only soft horizontal lines */
+
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table th {
+  border-top: 0 !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+}
+
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table td {
+  border-top: 0 !important;
+
+  border-bottom: 1px solid #eeeeF3 !important;
+}
+
+
+/* Last row */
+
+.appointment-availability-page
+.appointment-settings-card
+.weekly-schedule-table
+tbody
+tr:last-child
+td {
+  border-bottom: 0 !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1200
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .appointment-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-slots-card {
+    position: static;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 950
+========================================================= */
+
+@media (max-width: 950px) {
+
+  .appointment-settings-grid {
+    column-gap: 30px;
+  }
+
+  .appointment-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-slots-card {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 750
+========================================================= */
+
+@media (max-width: 750px) {
+
+  .appointment-settings-grid {
+    grid-template-columns: 1fr;
+
+    column-gap: 0;
+  }
+
+  .appointment-availability-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .appointment-header-leave-btn {
+    width: 100%;
+  }
+
+  .appointment-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-left-content,
+  .appointment-right-content {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 600
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .appointment-availability-page {
+    padding: 12px;
+  }
+
+
+  /* HEADER */
+
+  .appointment-availability-header {
+    margin-bottom: 15px;
+  }
+
+  .appointment-availability-header h1 {
+    font-size: 23px;
+  }
+
+  .appointment-availability-header p {
+    font-size: 12px;
+  }
+
+
+  /* SETTINGS */
+
+  .appointment-settings-header {
+    min-height: 50px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .appointment-settings-grid {
+    padding: 16px;
+  }
+
+  .appointment-setting-item {
+    min-height: auto;
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .appointment-setting-item > label:not(.appointment-toggle) {
+    width: 100%;
+
+    font-size: 13px;
+  }
+
+  .appointment-setting-select,
+  .appointment-time-input,
+  .appointment-number-input,
+  .appointment-setting-item > input {
+    width: 100%;
+  }
+
+  .appointment-toggle {
+    align-self: flex-end;
+  }
+
+  .appointment-settings-note {
+    margin-left: 15px;
+
+    margin-right: 15px;
+
+    font-size: 11px;
+  }
+
+  .appointment-settings-footer {
+    padding-left: 15px;
+
+    padding-right: 15px;
+  }
+
+  .appointment-settings-save-btn {
+    width: 100%;
+  }
+
+
+  /* WEEKLY */
+
+  .weekly-schedule-table {
+    min-width: 700px;
+  }
+
+  .weekly-schedule-title {
+    font-size: 15px;
+  }
+
+
+  /* PREVIEW */
+
+  .preview-slots-card {
+    padding: 15px;
+  }
+
+  .preview-date-row {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .generate-slots-btn {
+    width: 100%;
+  }
+
+
+  /* FOOTER */
+
+  .appointment-page-footer {
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .appointment-cancel-btn,
+  .appointment-save-btn {
+    width: 100%;
+  }
+
+
+  /* LEAVE */
+
+  .leave-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leave-date-form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .leave-session-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* MODAL */
+
+  .leave-modal-overlay {
+    padding: 10px;
+
+    align-items: flex-start;
+  }
+
+  .add-leave-modal {
+    width: 100%;
+
+    max-height: 96vh;
+
+    margin-top: 5px;
+  }
+
+  .leave-modal-header {
+    padding: 16px;
+  }
+
+  .leave-modal-header h2 {
+    font-size: 19px;
+  }
+
+  .leave-modal-info {
+    margin-left: 16px;
+
+    margin-right: 16px;
+  }
+
+  .leave-form-section,
+  .leave-date-form-grid {
+    padding-left: 16px;
+
+    padding-right: 16px;
+  }
+
+  .leave-reason-field {
+    margin-left: 16px;
+
+    margin-right: 16px;
+  }
+
+  .leave-repeat-status-row {
+    padding-left: 16px;
+
+    padding-right: 16px;
+  }
+
+  .leave-repeat-status-row .leave-form-field {
+    max-width: none;
+  }
+
+  .leave-modal-footer {
+    padding: 14px 16px;
+
+    flex-direction: column-reverse;
+  }
+
+  .leave-modal-cancel,
+  .leave-modal-save {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 400
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .appointment-availability-page {
+    padding: 9px;
+  }
+
+  .appointment-availability-header h1 {
+    font-size: 21px;
+  }
+
+  .appointment-availability-header p {
+    font-size: 11px;
+  }
+
+  .appointment-settings-title,
+  .weekly-schedule-title,
+  .leave-days-title,
+  .preview-slots-title {
+    font-size: 15px;
+  }
+
+  .preview-selected-date {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .preview-slot-item {
+    padding-left: 8px;
+
+    padding-right: 8px;
+  }
+}

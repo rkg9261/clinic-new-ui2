@@ -86,6 +86,8 @@ import DashboardClinic from "./Components/DashboardClinic/DashboardClinic";
 
 import BookAppointment from"./pages/BookAppointment/BookAppointment";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import AppointmentAvailability from "./pages/Settings/AppointmentAvailability/AppointmentAvailability";
+
 
 
 //====================================================
@@ -96,7 +98,7 @@ function WebsiteHome() {
 
   return (
     <>
-
+     
       <Hero />
 
       <Conditions />
@@ -110,6 +112,7 @@ function WebsiteHome() {
       <BlogSlider />
 
       <AppointmentForm />
+      
 
     </>
   );
@@ -161,28 +164,15 @@ function App() {
 
           {/* HOME */}
 
-          <Route
-            path="/"
-            element={<WebsiteHome />}
-          />
-
+      <Route path="/"  element={<WebsiteHome />}/>
 
           {/* ABOUT US */}
 
-          <Route
-            path="/about-us"
-            element={<AboutUs />}
-          />
-
+        <Route   path="/about-us"  element={<AboutUs />} />
 
           {/* BOOK APPOINTMENT */}
 
-          <Route
-            path="/book-appointment"
-            element={<BookAppointment />}
-          />
-
-
+          <Route path="/book-appointment"  element={<BookAppointment />} />
         </Route>
 
 
@@ -190,11 +180,7 @@ function App() {
           LOGIN ROUTE
         =================================================*/}
 
-        <Route
-          path="/login"
-          element={<BranchLogin />}
-        />
-
+        <Route  path="/login" element={<BranchLogin />} />
 
         {/*================================================
           CLINIC ROUTES
@@ -205,107 +191,66 @@ function App() {
 
           {/* CLINIC DASHBOARD */}
 
-          <Route
-            path="/dashboard-clinic"
-            element={<DashboardClinic />}
-          />
+          <Route   path="/dashboard-clinic"  element={<DashboardClinic />} />
 
 
           {/* HOME PAGE */}
 
-          <Route
-            path="/homepage"
-            element={<HomePage />}
-          />
-
+          <Route path="/homepage"  element={<HomePage />}/>
 
           {/* ADD PATIENT */}
 
-          <Route
-            path="/addpatient"
-            element={<AddPatientForm />}
-          />
-
+          <Route  path="/addpatient" element={<AddPatientForm />}/>
 
           {/* SERVICES */}
 
-          <Route
-            path="/services"
-            element={<Services />}
-          />
-
+          <Route path="/services" element={<Services />} />
 
           {/* SERVICE CATEGORY */}
 
-          <Route
-            path="/category"
-            element={<ServiceCategory />}
-          />
+          <Route   path="/category" element={<ServiceCategory />} />
+         
+           
+         
 
 
           {/* SERVICE SUB CATEGORY */}
 
-          <Route
-            path="/sub-category"
-            element={<ServicesSubCategory />}
-          />
-
+          <Route  path="/sub-category"  element={<ServicesSubCategory />} />
 
           {/* CLINIC SETTINGS */}
 
-          <Route
-            path="/setting-clinics"
-            element={<PrescriptionSettingForm />}
-          />
-
-
+          <Route path="/setting-clinics"  element={<PrescriptionSettingForm />} />
+ 
           {/* ADD DOCTOR */}
 
-          <Route
-            path="/add-doctor"
-            element={<AddDoctor />}
-          />
-
+          <Route  path="/add-doctor"  element={<AddDoctor />}/>
 
           {/* DOCTOR LIST */}
 
-          <Route
-            path="/add-doctor-list"
-            element={<AddDoctorList />}
-          />
+          <Route path="/add-doctor-list" element={<AddDoctorList />} />
+           
+           {/* APPOINTMENT TIME SLOT  */}
+
+          <Route path="/time-slot" element={<AppointmentAvailability/>} />
+         
 
 
           {/* MENU SETTINGS */}
 
-          <Route
-            path="/menu-settings"
-            element={<MenuSetting />}
-          />
-
+          <Route  path="/menu-settings" element={<MenuSetting />}/>
 
           {/* RECHARGE HISTORY */}
 
-          <Route
-            path="/recharge-history"
-            element={<RechargeHistory />}
-          />
-
+          <Route  path="/recharge-history" element={<RechargeHistory />} />
 
           {/* RECHARGE */}
 
-          <Route
-            path="/recharge"
-            element={<Recharge />}
-          />
-
+          <Route  path="/recharge"  element={<Recharge />} />
 
           {/* OPEN PATIENT LIST */}
 
-          <Route
-            path="/openpatientlist"
-            element={<OpenPatientList />}
-          />
-
+          <Route path="/openpatientlist"  element={<OpenPatientList />} />
 
           {/* ATTENDANCE */}
 

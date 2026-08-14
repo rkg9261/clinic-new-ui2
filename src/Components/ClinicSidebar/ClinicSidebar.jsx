@@ -601,6 +601,20 @@ const handleMenuClick = () => {
   <FaUsers /> Doctor List
 </NavLink>
 
+
+    
+                       {/* appointment time slot page*/}
+        <NavLink
+  to="/time-slot"
+  onClick={handleMenuClick}
+  className={({ isActive }) =>
+    isActive
+      ? "menu-btn-sidebar1-clinic active"
+      : "menu-btn-sidebar1-clinic"
+  }
+>
+  <FaCog /> Appointment Time Slot
+</NavLink>
                     {/* Recharge history */}
           {/* <NavLink
             to="/recharge-history"
