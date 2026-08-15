@@ -35,8 +35,17 @@ const AppointmentAvailability = () => {
   /* =====================================================
      WEEKLY SCHEDULE
 
-     enabled: true  = Working Day
-     enabled: false = Clinic Closed
+     enabled:
+     true  = Working Day
+     false = Clinic Closed
+
+     morningEnabled:
+     true  = Morning slots available
+     false = Morning slots disabled
+
+     eveningEnabled:
+     true  = Evening slots available
+     false = Evening slots disabled
   ===================================================== */
 
   const [schedule, setSchedule] = useState([
@@ -44,9 +53,11 @@ const AppointmentAvailability = () => {
       day: "Monday",
       enabled: true,
 
+      morningEnabled: true,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: true,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -55,9 +66,11 @@ const AppointmentAvailability = () => {
       day: "Tuesday",
       enabled: true,
 
+      morningEnabled: true,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: true,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -66,9 +79,11 @@ const AppointmentAvailability = () => {
       day: "Wednesday",
       enabled: true,
 
+      morningEnabled: true,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: true,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -77,9 +92,11 @@ const AppointmentAvailability = () => {
       day: "Thursday",
       enabled: true,
 
+      morningEnabled: true,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: true,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -88,9 +105,11 @@ const AppointmentAvailability = () => {
       day: "Friday",
       enabled: true,
 
+      morningEnabled: true,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: true,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -99,9 +118,11 @@ const AppointmentAvailability = () => {
       day: "Saturday",
       enabled: false,
 
+      morningEnabled: false,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: false,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -110,9 +131,11 @@ const AppointmentAvailability = () => {
       day: "Sunday",
       enabled: false,
 
+      morningEnabled: false,
       morningStart: "09:00",
       morningEnd: "13:00",
 
+      eveningEnabled: false,
       eveningStart: "16:00",
       eveningEnd: "20:00",
     },
@@ -221,7 +244,6 @@ const AppointmentAvailability = () => {
   return (
     <div className="appointment-availability-page">
 
-
       {/* =================================================
           PAGE HEADER
       ================================================= */}
@@ -240,7 +262,6 @@ const AppointmentAvailability = () => {
           </p>
 
         </div>
-
 
         <button
           type="button"
@@ -275,13 +296,11 @@ const AppointmentAvailability = () => {
 
       <div className="appointment-main-grid">
 
-
         {/* =================================================
             LEFT CONTENT
         ================================================= */}
 
         <div className="appointment-left-content">
-
 
           {/* =================================================
               WEEKLY SCHEDULE
@@ -352,7 +371,6 @@ const AppointmentAvailability = () => {
         >
           Cancel
         </button>
-
 
         <button
           type="button"

@@ -2500,6 +2500,105 @@ td {
 }
 
 
+
+/* =========================================================
+   MORNING / EVENING SESSION TOGGLE
+========================================================= */
+
+.appointment-session-toggle {
+  width: 34px;
+  min-width: 34px;
+  height: 19px;
+
+  position: relative;
+
+  display: inline-block;
+
+  flex-shrink: 0;
+}
+
+.appointment-session-toggle input {
+  width: 0;
+  height: 0;
+
+  opacity: 0;
+
+  position: absolute;
+}
+
+.appointment-session-toggle span {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 20px;
+
+  background: #c9c9d1;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.appointment-session-toggle span::before {
+  content: "";
+
+  width: 13px;
+  height: 13px;
+
+  position: absolute;
+
+  left: 3px;
+  top: 3px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.16);
+
+  transition: 0.25s ease;
+}
+
+.appointment-session-toggle input:checked + span {
+  background: #28ad68;
+}
+
+.appointment-session-toggle input:checked + span::before {
+  transform: translateX(15px);
+}
+
+.appointment-session-toggle input:disabled + span {
+  background: #d9d9df;
+
+  cursor: not-allowed;
+
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   SESSION ICONS
+========================================================= */
+
+.session-icon {
+  font-size: 12px;
+
+  flex-shrink: 0;
+}
+
+.morning-icon {
+  color: #e6a72e;
+}
+
+.evening-icon {
+  color: #7051c8;
+}
+
+.session-toggle-disabled {
+  opacity: 0.55;
+}
 /* =========================================================
    RESPONSIVE - 1200
 ========================================================= */

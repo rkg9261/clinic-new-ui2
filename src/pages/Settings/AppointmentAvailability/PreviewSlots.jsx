@@ -1,52 +1,21 @@
 import React, { useMemo, useState } from "react";
 
 import {
-  FaEye,
   FaCalendarAlt,
-  FaInfoCircle,
-  FaCheckCircle,
-  FaTimesCircle,
+  FaClock,
 } from "react-icons/fa";
 
-
 const PreviewSlots = ({
-  schedule = [],
-  leaves = [],
-  settings = {},
+  schedule,
+  leaves,
+  settings,
 }) => {
 
-
-  /* =====================================================
-     TODAY
-  ===================================================== */
-
-  const getToday = () => {
-
-    const date = new Date();
-
-    const year =
-      date.getFullYear();
-
-    const month =
-      String(
-        date.getMonth() + 1
-      ).padStart(2, "0");
-
-    const day =
-      String(
-        date.getDate()
-      ).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-  };
-
-
   const [selectedDate, setSelectedDate] =
-    useState(getToday());
+    useState("");
 
-
-  const [generated, setGenerated] =
-    useState(false);
+  const [generatedDate, setGeneratedDate] =
+    useState("");
 
 
   /* =====================================================
@@ -59,10 +28,9 @@ const PreviewSlots = ({
       return "";
     }
 
-    const date =
-      new Date(
-        `${dateString}T00:00:00`
-      );
+    const date = new Date(
+      `${dateString}T00:00:00`
+    );
 
     return date.toLocaleDateString(
       "en-IN",
@@ -81,10 +49,13 @@ const PreviewSlots = ({
 
   const getDayName = (dateString) => {
 
-    const date =
-      new Date(
-        `${dateString}T00:00:00`
-      );
+    if (!dateString) {
+      return "";
+    }
+
+    const date = new Date(
+      `${dateString}T00:00:00`
+    );
 
     return date.toLocaleDateString(
       "en-US",
@@ -96,95 +67,150 @@ const PreviewSlots = ({
 
 
   /* =====================================================
-     TIME TO MINUTES
-  ===================================================== */
-
-  const timeToMinutes = (time) => {
-
-    if (!time) {
-      return null;
-    }
-
-    const [hours, minutes] =
-      time.split(":").map(Number);
-
-    return (
-      hours * 60 + minutes
-    );
-  };
-
-
-  /* =====================================================
-     MINUTES TO TIME
-  ===================================================== */
-
-  const minutesToTime = (minutes) => {
-
-    const hours =
-      Math.floor(minutes / 60);
-
-    const mins =
-      minutes % 60;
-
-    const suffix =
-      hours >= 12
-        ? "PM"
-        : "AM";
-
-    const displayHour =
-      hours % 12 || 12;
-
-    return `${String(
-      displayHour
-    ).padStart(2, "0")}:${String(
-      mins
-    ).padStart(2, "0")} ${suffix}`;
-  };
-
-
-  /* =====================================================
      CHECK LEAVE
   ===================================================== */
 
-  const leaveForDate = useMemo(() => {
+  const getLeave = (dateString) => {
+
+    if (!dateString) {
+      return null;
+    }
+
+    return leaves.find((leave) => {
+
+      if (
+        !leave.fromDate ||
+        !leave.toDate
+      ) {
+        return false;
+      }
+
+      return (
+        dateString >= leave.fromDate &&
+        dateString <= leave.toDate
+      );
+    });
+  };
+
+
+  /* =====================================================
+     GENERATE SLOTS
+  ===================================================== */
+
+  const generateSlots = (
+    startTime,
+    endTime,
+    duration
+  ) => {
+
+    const slots = [];
+
+    if (
+      !startTime ||
+      !endTime ||
+      !duration
+    ) {
+      return slots;
+    }
+
+    const [
+      startHour,
+      startMinute,
+    ] = startTime
+      .split(":")
+      .map(Number);
+
+    const [
+      endHour,
+      endMinute,
+    ] = endTime
+      .split(":")
+      .map(Number);
+
+    let currentMinutes =
+      startHour * 60 +
+      startMinute;
+
+    const endMinutes =
+      endHour * 60 +
+      endMinute;
+
+    while (
+      currentMinutes + duration <=
+      endMinutes
+    ) {
+
+      const hour =
+        Math.floor(
+          currentMinutes / 60
+        );
+
+      const minute =
+        currentMinutes % 60;
+
+      const nextMinutes =
+        currentMinutes + duration;
+
+      const nextHour =
+        Math.floor(
+          nextMinutes / 60
+        );
+
+      const nextMinute =
+        nextMinutes % 60;
+
+
+      const formatTime = (
+        h,
+        m
+      ) => {
+
+        const date = new Date();
+
+        date.setHours(h);
+        date.setMinutes(m);
+
+        return date.toLocaleTimeString(
+          "en-IN",
+          {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }
+        );
+      };
+
+
+      slots.push({
+        start: formatTime(
+          hour,
+          minute
+        ),
+
+        end: formatTime(
+          nextHour,
+          nextMinute
+        ),
+      });
+
+
+      currentMinutes =
+        nextMinutes;
+    }
+
+    return slots;
+  };
+
+
+  /* =====================================================
+     SELECTED DAY SCHEDULE
+  ===================================================== */
+
+  const selectedDay = useMemo(() => {
 
     if (!selectedDate) {
       return null;
     }
-
-    const matchingLeave =
-      leaves.find((leave) => {
-
-        if (!leave.fromDate) {
-          return false;
-        }
-
-        const from =
-          leave.fromDate;
-
-        const to =
-          leave.toDate ||
-          leave.fromDate;
-
-        return (
-          selectedDate >= from &&
-          selectedDate <= to
-        );
-      });
-
-    return matchingLeave || null;
-
-  }, [
-    selectedDate,
-    leaves,
-  ]);
-
-
-  /* =====================================================
-     GET SELECTED DAY
-  ===================================================== */
-
-  const selectedDay = useMemo(() => {
 
     const dayName =
       getDayName(selectedDate);
@@ -201,146 +227,162 @@ const PreviewSlots = ({
 
 
   /* =====================================================
-     GENERATE SESSION SLOTS
+     SELECTED LEAVE
   ===================================================== */
 
-  const generateSessionSlots = (
-    start,
-    end,
-    duration
-  ) => {
+  const selectedLeave = useMemo(() => {
 
-    const slots = [];
-
-    const startMinutes =
-      timeToMinutes(start);
-
-    const endMinutes =
-      timeToMinutes(end);
-
-    if (
-      startMinutes === null ||
-      endMinutes === null
-    ) {
-      return slots;
-    }
-
-    if (
-      endMinutes <= startMinutes
-    ) {
-      return slots;
-    }
-
-    let current =
-      startMinutes;
-
-    while (
-      current + duration <=
-      endMinutes
-    ) {
-
-      const slotEnd =
-        current + duration;
-
-      slots.push({
-        start: minutesToTime(
-          current
-        ),
-
-        end: minutesToTime(
-          slotEnd
-        ),
-
-        status: "Available",
-      });
-
-      current = slotEnd;
-    }
-
-    return slots;
-  };
-
-
-  /* =====================================================
-     GENERATED SLOTS
-  ===================================================== */
-
-  const generatedSlots = useMemo(() => {
-
-    if (!selectedDay) {
-      return {
-        morning: [],
-        evening: [],
-      };
-    }
-
-    if (!selectedDay.enabled) {
-      return {
-        morning: [],
-        evening: [],
-      };
-    }
-
-    if (leaveForDate) {
-      return {
-        morning: [],
-        evening: [],
-      };
-    }
-
-    const duration =
-      Number(
-        settings.slotDuration || 30
-      );
-
-    const morning =
-      generateSessionSlots(
-        selectedDay.morningStart,
-        selectedDay.morningEnd,
-        duration
-      );
-
-    const evening =
-      generateSessionSlots(
-        selectedDay.eveningStart,
-        selectedDay.eveningEnd,
-        duration
-      );
-
-    return {
-      morning,
-      evening,
-    };
+    return getLeave(
+      selectedDate
+    );
 
   }, [
-    selectedDay,
-    settings.slotDuration,
-    leaveForDate,
+    selectedDate,
+    leaves,
   ]);
 
 
   /* =====================================================
-     TOTAL
+     MORNING SLOTS
   ===================================================== */
 
-  const totalSlots =
-    generatedSlots.morning.length +
-    generatedSlots.evening.length;
+  const morningSlots = useMemo(() => {
+
+    if (
+      !selectedDay ||
+      !selectedDay.enabled ||
+      !selectedDay.morningEnabled
+    ) {
+      return [];
+    }
+
+    return generateSlots(
+      selectedDay.morningStart,
+      selectedDay.morningEnd,
+      Number(settings.slotDuration)
+    );
+
+  }, [
+    selectedDay,
+    settings.slotDuration,
+  ]);
 
 
   /* =====================================================
-     GENERATE BUTTON
+     EVENING SLOTS
+  ===================================================== */
+
+  const eveningSlots = useMemo(() => {
+
+    if (
+      !selectedDay ||
+      !selectedDay.enabled ||
+      !selectedDay.eveningEnabled
+    ) {
+      return [];
+    }
+
+    return generateSlots(
+      selectedDay.eveningStart,
+      selectedDay.eveningEnd,
+      Number(settings.slotDuration)
+    );
+
+  }, [
+    selectedDay,
+    settings.slotDuration,
+  ]);
+
+
+  /* =====================================================
+     TOTAL SLOTS
+  ===================================================== */
+
+  const totalSlots =
+    morningSlots.length +
+    eveningSlots.length;
+
+
+  /* =====================================================
+     GENERATE
   ===================================================== */
 
   const handleGenerateSlots = () => {
 
-    setGenerated(true);
+    if (!selectedDate) {
+      alert(
+        "Please select a date first."
+      );
+
+      return;
+    }
+
+    setGeneratedDate(
+      selectedDate
+    );
+  };
+
+
+  /* =====================================================
+     RENDER SLOT LIST
+  ===================================================== */
+
+  const renderSlotList = (
+    title,
+    slots
+  ) => {
+
+    if (!slots.length) {
+      return null;
+    }
+
+    return (
+      <div>
+
+        <div className="preview-session-heading">
+
+          {title}
+
+        </div>
+
+
+        {slots.map(
+          (slot, index) => (
+
+            <div
+              className="preview-slot-item"
+              key={`${title}-${index}`}
+            >
+
+              <span>
+
+                {slot.start}
+
+                {" - "}
+
+                {slot.end}
+
+              </span>
+
+
+              <span className="preview-available">
+
+                Available
+
+              </span>
+
+            </div>
+
+          )
+        )}
+
+      </div>
+    );
   };
 
 
   return (
-    <section className="preview-slots-card">
-
+    <div className="preview-slots-card">
 
       {/* =================================================
           TITLE
@@ -348,7 +390,7 @@ const PreviewSlots = ({
 
       <div className="preview-slots-title">
 
-        <FaEye />
+        <FaCalendarAlt />
 
         <span>
           Preview Slots
@@ -362,7 +404,9 @@ const PreviewSlots = ({
       ================================================= */}
 
       <label className="preview-date-label">
+
         Select Date
+
       </label>
 
 
@@ -370,21 +414,17 @@ const PreviewSlots = ({
 
         <div className="preview-date-field">
 
-          <FaCalendarAlt />
-
           <input
             type="date"
             value={selectedDate}
-            onChange={(e) => {
-
+            onChange={(e) =>
               setSelectedDate(
                 e.target.value
-              );
-
-              setGenerated(false);
-
-            }}
+              )
+            }
           />
+
+          <FaCalendarAlt />
 
         </div>
 
@@ -396,271 +436,189 @@ const PreviewSlots = ({
             handleGenerateSlots
           }
         >
-          Generate Slots
+          Generate
         </button>
 
       </div>
 
 
       {/* =================================================
-          DATE INFORMATION
+          NO DATE
       ================================================= */}
 
-      <div className="preview-selected-date">
+      {!selectedDate && (
 
-        <strong>
-          {formatDate(
-            selectedDate
-          )}
-        </strong>
+        <div className="preview-info-empty">
 
-        <span>
-          {getDayName(
-            selectedDate
-          )}
-        </span>
+          <div>
 
-      </div>
+            <FaCalendarAlt />
 
+            <br />
 
-      {/* =================================================
-          APPOINTMENT DISABLED
-      ================================================= */}
+            Select a date to preview
+            available appointment slots.
 
-      {!settings.enableAppointment && (
-
-        <div className="preview-leave-box">
-
-          <FaTimesCircle />
-
-          Appointments are currently
-          disabled for this clinic.
+          </div>
 
         </div>
 
       )}
+
+
+      {/* =================================================
+          SELECTED DATE
+      ================================================= */}
+
+      {selectedDate && (
+
+        <div className="preview-selected-date">
+
+          <strong>
+            {formatDate(
+              selectedDate
+            )}
+          </strong>
+
+          <span>
+            {getDayName(
+              selectedDate
+            )}
+          </span>
+
+        </div>
+
+      )}
+
+
+      {/* =================================================
+          CLINIC CLOSED
+      ================================================= */}
+
+      {selectedDate &&
+        selectedDay &&
+        !selectedDay.enabled && (
+
+          <div className="preview-off-box">
+
+            <strong>
+              Clinic Closed
+            </strong>
+
+            <br />
+
+            No appointment sessions are
+            available on this day.
+
+          </div>
+
+        )}
 
 
       {/* =================================================
           LEAVE
       ================================================= */}
 
-      {settings.enableAppointment &&
-        leaveForDate && (
-
-        <div className="preview-leave-box">
-
-          <FaTimesCircle />
-
-          <strong>
-            {leaveForDate.leaveType ||
-              "Clinic Leave"}
-          </strong>
-
-          <br />
-
-          {leaveForDate.reason ||
-            "No appointments available on this date."}
-
-        </div>
-
-      )}
-
-
-      {/* =================================================
-          WEEKLY CHECKBOX CLOSED
-      ================================================= */}
-
-      {settings.enableAppointment &&
-        !leaveForDate &&
-        selectedDay &&
-        !selectedDay.enabled && (
-
-        <div className="preview-off-box">
-
-          <FaTimesCircle />
-
-          <strong>
-            Clinic Closed
-          </strong>
-
-          <br />
-
-          No appointments are available
-          on {getDayName(selectedDate)}.
-
-        </div>
-
-      )}
-
-
-      {/* =================================================
-          NOT GENERATED
-      ================================================= */}
-
-      {settings.enableAppointment &&
-        !leaveForDate &&
+      {selectedDate &&
         selectedDay?.enabled &&
-        !generated && (
+        selectedLeave && (
 
-        <div className="preview-info-empty">
+          <div className="preview-leave-box">
 
-          <FaInfoCircle />
+            <strong>
+              Clinic Leave
+            </strong>
 
-          Select the date and click
-          <strong>
-            Generate Slots
-          </strong>
-          to preview appointments.
+            <br />
 
-        </div>
+            {selectedLeave.reason ||
+              "Clinic is unavailable on this date."}
 
-      )}
+          </div>
 
-
-      {/* =================================================
-          TOTAL
-      ================================================= */}
-
-      {generated &&
-        settings.enableAppointment &&
-        !leaveForDate &&
-        selectedDay?.enabled && (
-
-        <div className="preview-total-box">
-
-          <FaCheckCircle />
-
-          Total{" "}
-
-          <strong>
-            {totalSlots}
-          </strong>
-
-          {" "}Slots Available
-
-        </div>
-
-      )}
+        )}
 
 
       {/* =================================================
-          SLOT LIST
+          SLOTS
       ================================================= */}
 
-      {generated &&
-        settings.enableAppointment &&
-        !leaveForDate &&
-        selectedDay?.enabled && (
+      {selectedDate &&
+        selectedDay?.enabled &&
+        !selectedLeave &&
+        generatedDate === selectedDate && (
 
-        <div className="preview-slot-list">
+          <>
 
+            {/* TOTAL */}
 
-          {/* MORNING */}
+            <div className="preview-total-box">
 
-          {generatedSlots.morning.length >
-            0 && (
+              <FaClock />
 
-            <>
+              <span>
+                Total Slots:
+              </span>
 
-              <div className="preview-session-heading">
-
-                --- Morning Session ---
-
-              </div>
-
-
-              {generatedSlots.morning.map(
-                (slot, index) => (
-
-                  <div
-                    className="preview-slot-item"
-                    key={`morning-${index}`}
-                  >
-
-                    <span>
-                      {slot.start}
-                      {" - "}
-                      {slot.end}
-                    </span>
-
-                    <span className="preview-available">
-                      Available
-                    </span>
-
-                  </div>
-
-                )
-              )}
-
-            </>
-
-          )}
-
-
-          {/* EVENING */}
-
-          {generatedSlots.evening.length >
-            0 && (
-
-            <>
-
-              <div className="preview-session-heading">
-
-                --- Evening Session ---
-
-              </div>
-
-
-              {generatedSlots.evening.map(
-                (slot, index) => (
-
-                  <div
-                    className="preview-slot-item"
-                    key={`evening-${index}`}
-                  >
-
-                    <span>
-                      {slot.start}
-                      {" - "}
-                      {slot.end}
-                    </span>
-
-                    <span className="preview-available">
-                      Available
-                    </span>
-
-                  </div>
-
-                )
-              )}
-
-            </>
-
-          )}
-
-
-          {/* NO SESSION */}
-
-          {generatedSlots.morning.length ===
-            0 &&
-            generatedSlots.evening.length ===
-            0 && (
-
-            <div className="preview-no-slots">
-
-              No appointment sessions
-              configured for this day.
+              <strong>
+                {totalSlots}
+              </strong>
 
             </div>
 
-          )}
 
-        </div>
+            {/* SLOT LIST */}
 
-      )}
+            <div className="preview-slot-list">
 
-    </section>
+              {renderSlotList(
+                "☀ Morning Session",
+                morningSlots
+              )}
+
+
+              {renderSlotList(
+                "🌙 Evening Session",
+                eveningSlots
+              )}
+
+
+              {totalSlots === 0 && (
+
+                <div className="preview-no-slots">
+
+                  No sessions are enabled
+                  for this day.
+
+                </div>
+
+              )}
+
+            </div>
+
+          </>
+
+        )}
+
+
+      {/* =================================================
+          GENERATED DATE MESSAGE
+      ================================================= */}
+
+      {selectedDate &&
+        generatedDate !== selectedDate && (
+          <div className="preview-info-empty">
+
+            Click
+            <strong>
+              Generate
+            </strong>
+            to preview available slots.
+
+          </div>
+        )}
+
+    </div>
   );
 };
 

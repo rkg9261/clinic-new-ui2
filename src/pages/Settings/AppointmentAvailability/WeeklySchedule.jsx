@@ -1,14 +1,37 @@
 import React from "react";
-import { FaClock } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
 
 const WeeklySchedule = ({
-  schedule = [],
+  schedule,
   setSchedule,
 }) => {
 
+  /* =====================================================
+     UPDATE DAY
+  ===================================================== */
+
+  const updateDay = (index, field, value) => {
+
+    setSchedule((previous) =>
+      previous.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              [field]: value,
+            }
+          : item
+      )
+    );
+  };
+
 
   /* =====================================================
-     TOGGLE DAY
+     TOGGLE WORKING DAY
   ===================================================== */
 
   const handleDayToggle = (index) => {
@@ -20,9 +43,24 @@ const WeeklySchedule = ({
           return item;
         }
 
+        const newEnabled = !item.enabled;
+
         return {
           ...item,
-          enabled: !item.enabled,
+
+          enabled: newEnabled,
+
+          /*
+             When clinic is closed,
+             automatically disable both sessions.
+          */
+          morningEnabled: newEnabled
+            ? item.morningEnabled
+            : false,
+
+          eveningEnabled: newEnabled
+            ? item.eveningEnabled
+            : false,
         };
       })
     );
@@ -30,14 +68,10 @@ const WeeklySchedule = ({
 
 
   /* =====================================================
-     CHANGE TIME
+     MORNING TOGGLE
   ===================================================== */
 
-  const handleTimeChange = (
-    index,
-    field,
-    value
-  ) => {
+  const handleMorningToggle = (index) => {
 
     setSchedule((previous) =>
       previous.map((item, i) => {
@@ -46,9 +80,41 @@ const WeeklySchedule = ({
           return item;
         }
 
+        if (!item.enabled) {
+          return item;
+        }
+
         return {
           ...item,
-          [field]: value,
+          morningEnabled:
+            !item.morningEnabled,
+        };
+      })
+    );
+  };
+
+
+  /* =====================================================
+     EVENING TOGGLE
+  ===================================================== */
+
+  const handleEveningToggle = (index) => {
+
+    setSchedule((previous) =>
+      previous.map((item, i) => {
+
+        if (i !== index) {
+          return item;
+        }
+
+        if (!item.enabled) {
+          return item;
+        }
+
+        return {
+          ...item,
+          eveningEnabled:
+            !item.eveningEnabled,
         };
       })
     );
@@ -56,8 +122,7 @@ const WeeklySchedule = ({
 
 
   return (
-    <section className="weekly-schedule-card">
-
+    <div className="weekly-schedule-card">
 
       {/* =================================================
           HEADER
@@ -67,10 +132,10 @@ const WeeklySchedule = ({
 
         <div className="weekly-schedule-title">
 
-          <FaClock />
+          <FaCalendarAlt />
 
           <span>
-            Appointment Slot Settings
+            Weekly Schedule
           </span>
 
         </div>
@@ -109,20 +174,23 @@ const WeeklySchedule = ({
 
           <tbody>
 
-            {schedule.map(
-              (item, index) => (
+            {schedule.map((item, index) => {
 
+              const isClosed = !item.enabled;
+
+              return (
                 <tr
                   key={item.day}
                   className={
-                    !item.enabled
-                      ? "weekly-day-disabled"
-                      : ""
+                    isClosed
+                      ? "schedule-holiday-row"
+                      : "schedule-working-row"
                   }
                 >
 
-
-                  {/* DAY */}
+                  {/* =================================================
+                      DAY
+                  ================================================= */}
 
                   <td>
 
@@ -130,30 +198,78 @@ const WeeklySchedule = ({
 
                       <input
                         type="checkbox"
-                        checked={
-                          item.enabled
-                        }
+                        checked={item.enabled}
                         onChange={() =>
-                          handleDayToggle(
-                            index
-                          )
+                          handleDayToggle(index)
                         }
                       />
 
-                      <span>
-                        {item.day}
-                      </span>
+                      <div className="weekly-day-content">
+
+                        <span>
+                          {item.day}
+                        </span>
+
+                        {isClosed && (
+                          <small>
+                            Clinic Closed
+                          </small>
+                        )}
+
+                      </div>
 
                     </div>
 
                   </td>
 
 
-                  {/* MORNING */}
+                  {/* =================================================
+                      MORNING
+                  ================================================= */}
 
                   <td>
 
                     <div className="session-time-wrapper">
+
+                      {/* Morning Toggle */}
+
+                      <label
+                        className={`appointment-session-toggle ${
+                          !item.enabled
+                            ? "session-toggle-disabled"
+                            : ""
+                        }`}
+                        title={
+                          !item.enabled
+                            ? "Clinic is closed"
+                            : item.morningEnabled
+                              ? "Disable morning session"
+                              : "Enable morning session"
+                        }
+                      >
+
+                        <input
+                          type="checkbox"
+                          checked={
+                            item.morningEnabled
+                          }
+                          disabled={
+                            !item.enabled
+                          }
+                          onChange={() =>
+                            handleMorningToggle(
+                              index
+                            )
+                          }
+                        />
+
+                        <span></span>
+
+                      </label>
+
+
+                      <FaSun className="session-icon morning-icon" />
+
 
                       <div className="time-field">
 
@@ -163,10 +279,11 @@ const WeeklySchedule = ({
                             item.morningStart
                           }
                           disabled={
-                            !item.enabled
+                            !item.enabled ||
+                            !item.morningEnabled
                           }
                           onChange={(e) =>
-                            handleTimeChange(
+                            updateDay(
                               index,
                               "morningStart",
                               e.target.value
@@ -192,10 +309,11 @@ const WeeklySchedule = ({
                             item.morningEnd
                           }
                           disabled={
-                            !item.enabled
+                            !item.enabled ||
+                            !item.morningEnabled
                           }
                           onChange={(e) =>
-                            handleTimeChange(
+                            updateDay(
                               index,
                               "morningEnd",
                               e.target.value
@@ -212,11 +330,53 @@ const WeeklySchedule = ({
                   </td>
 
 
-                  {/* EVENING */}
+                  {/* =================================================
+                      EVENING
+                  ================================================= */}
 
                   <td>
 
                     <div className="session-time-wrapper">
+
+                      {/* Evening Toggle */}
+
+                      <label
+                        className={`appointment-session-toggle ${
+                          !item.enabled
+                            ? "session-toggle-disabled"
+                            : ""
+                        }`}
+                        title={
+                          !item.enabled
+                            ? "Clinic is closed"
+                            : item.eveningEnabled
+                              ? "Disable evening session"
+                              : "Enable evening session"
+                        }
+                      >
+
+                        <input
+                          type="checkbox"
+                          checked={
+                            item.eveningEnabled
+                          }
+                          disabled={
+                            !item.enabled
+                          }
+                          onChange={() =>
+                            handleEveningToggle(
+                              index
+                            )
+                          }
+                        />
+
+                        <span></span>
+
+                      </label>
+
+
+                      <FaMoon className="session-icon evening-icon" />
+
 
                       <div className="time-field">
 
@@ -226,10 +386,11 @@ const WeeklySchedule = ({
                             item.eveningStart
                           }
                           disabled={
-                            !item.enabled
+                            !item.enabled ||
+                            !item.eveningEnabled
                           }
                           onChange={(e) =>
-                            handleTimeChange(
+                            updateDay(
                               index,
                               "eveningStart",
                               e.target.value
@@ -255,10 +416,11 @@ const WeeklySchedule = ({
                             item.eveningEnd
                           }
                           disabled={
-                            !item.enabled
+                            !item.enabled ||
+                            !item.eveningEnabled
                           }
                           onChange={(e) =>
-                            handleTimeChange(
+                            updateDay(
                               index,
                               "eveningEnd",
                               e.target.value
@@ -275,9 +437,9 @@ const WeeklySchedule = ({
                   </td>
 
                 </tr>
+              );
 
-              )
-            )}
+            })}
 
           </tbody>
 
@@ -286,19 +448,21 @@ const WeeklySchedule = ({
       </div>
 
 
-      {/* NOTE */}
+      {/* =================================================
+          NOTE
+      ================================================= */}
 
       <div className="weekly-schedule-note">
 
-        <span>ⓘ</span>
+        <span>💡</span>
 
-        Checked days are working days.
-        Unchecked days will show as Clinic Closed
-        in Preview Slots.
+        Enable or disable the morning and evening
+        sessions separately. Only enabled sessions
+        will appear in the Preview Slots section.
 
       </div>
 
-    </section>
+    </div>
   );
 };
 
