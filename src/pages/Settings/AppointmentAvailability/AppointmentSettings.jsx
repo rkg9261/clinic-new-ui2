@@ -74,9 +74,7 @@ const AppointmentSettings = ({
       </div>
 
 
-      {/* =================================================
-          GRID
-      ================================================= */}
+   
 
       <div className="appointment-settings-grid">
 

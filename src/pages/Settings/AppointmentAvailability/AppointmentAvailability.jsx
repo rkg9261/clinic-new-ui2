@@ -244,9 +244,7 @@ const AppointmentAvailability = () => {
   return (
     <div className="appointment-availability-page">
 
-      {/* =================================================
-          PAGE HEADER
-      ================================================= */}
+  
 
       <div className="appointment-availability-header">
 

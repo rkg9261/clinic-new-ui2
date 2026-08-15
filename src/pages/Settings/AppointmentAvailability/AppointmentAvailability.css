@@ -21,22 +21,28 @@
 
 .appointment-availability-header {
   width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   margin-bottom: 20px;
 }
 
 .appointment-availability-header h1 {
   margin: 0;
+
   color: #18182b;
+
   font-size: 30px;
   font-weight: 700;
 }
 
 .appointment-availability-header p {
   margin: 6px 0 0;
+
   color: #898994;
+
   font-size: 14px;
 }
 
@@ -47,12 +53,14 @@
 
 .appointment-header-leave-btn {
   height: 42px;
+
   padding: 0 16px;
 
   border: 1px solid #d8cdf1;
   border-radius: 7px;
 
   background: #ffffff;
+
   color: #5d36b9;
 
   display: flex;
@@ -71,11 +79,13 @@
 
 .appointment-header-leave-btn:hover {
   background: #f7f2ff;
+
   border-color: #c9b9eb;
 }
 
 .appointment-header-leave-btn span {
   font-size: 19px;
+
   line-height: 1;
 }
 
@@ -91,6 +101,7 @@
   background: #ffffff;
 
   border: 1px solid #e8e7ee !important;
+
   border-radius: 10px;
 
   box-shadow:
@@ -433,7 +444,7 @@
 
 
 /* =========================================================
-   TOGGLE
+   GENERAL TOGGLE
 ========================================================= */
 
 .appointment-toggle {
@@ -663,12 +674,15 @@
   width: 100%;
 
   overflow-x: auto;
+  overflow-y: hidden;
 
   border: none !important;
 
   outline: none !important;
 
   box-shadow: none !important;
+
+  -webkit-overflow-scrolling: touch;
 }
 
 .weekly-schedule-scroll::-webkit-scrollbar {
@@ -688,12 +702,19 @@
 
 /* =========================================================
    WEEKLY TABLE
+   IMPORTANT FIX:
+   TABLE IS WIDER THAN SCREEN SO CONTENT NEVER OVERLAPS
 ========================================================= */
 
 .weekly-schedule-table {
   width: 100%;
 
-  min-width: 700px;
+  /*
+    Increased from 700px.
+    Morning/Evening columns need enough room
+    for toggle + two time fields.
+  */
+  min-width: 920px;
 
   border-collapse: separate;
 
@@ -751,6 +772,8 @@
   text-align: center;
 
   box-sizing: border-box;
+
+  white-space: nowrap;
 }
 
 .weekly-schedule-table th:first-child {
@@ -913,12 +936,9 @@
   align-items: center;
 
   gap: 9px;
+
+  min-width: 0;
 }
-
-
-/* =========================================================
-   DAY CHECKBOX
-========================================================= */
 
 .weekly-day-wrapper input {
   width: 16px;
@@ -949,6 +969,8 @@
   flex-direction: column;
 
   gap: 4px;
+
+  min-width: 0;
 }
 
 .weekly-day-content span {
@@ -1040,23 +1062,214 @@
 
 
 /* =========================================================
-   SESSION TIME
+   MORNING / EVENING SESSION TOGGLE
+========================================================= */
+
+.appointment-session-toggle {
+  width: 42px !important;
+
+  min-width: 42px !important;
+
+  max-width: 42px !important;
+
+  height: 23px !important;
+
+  min-height: 23px !important;
+
+  max-height: 23px !important;
+
+  position: relative;
+
+  display: inline-block !important;
+
+  flex: 0 0 42px !important;
+
+  flex-shrink: 0 !important;
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  vertical-align: middle;
+}
+
+
+/* =========================================================
+   SESSION TOGGLE INPUT
+========================================================= */
+
+.appointment-session-toggle input {
+  position: absolute;
+
+  width: 0 !important;
+
+  height: 0 !important;
+
+  margin: 0;
+
+  padding: 0;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SESSION TOGGLE TRACK
+========================================================= */
+
+.appointment-session-toggle span {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 42px !important;
+
+  height: 23px !important;
+
+  display: block;
+
+  border-radius: 20px;
+
+  background: #c9c9d1;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   SESSION TOGGLE CIRCLE
+========================================================= */
+
+.appointment-session-toggle span::before {
+  content: "";
+
+  width: 17px !important;
+
+  height: 17px !important;
+
+  position: absolute;
+
+  left: 3px;
+  top: 3px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.18);
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+/* =========================================================
+   SESSION TOGGLE ON
+========================================================= */
+
+.appointment-session-toggle input:checked + span {
+  background: #28ad68;
+
+  box-shadow:
+    0 2px 6px rgba(40, 173, 104, 0.18);
+}
+
+
+/* =========================================================
+   SESSION TOGGLE ON CIRCLE
+========================================================= */
+
+.appointment-session-toggle input:checked + span::before {
+  transform: translateX(19px);
+}
+
+
+/* =========================================================
+   SESSION TOGGLE DISABLED
+========================================================= */
+
+.appointment-session-toggle input:disabled + span {
+  background: #d9d9df;
+
+  cursor: not-allowed;
+
+  opacity: 0.70;
+
+  box-shadow: none;
+}
+
+.appointment-session-toggle input:disabled + span::before {
+  background: #f7f7f8;
+}
+
+
+/* =========================================================
+   SESSION TIME WRAPPER
+   IMPORTANT FIX:
+   CONTENT WILL NEVER SHRINK OR OVERLAP
 ========================================================= */
 
 .session-time-wrapper {
+  width: 100%;
+
+  min-width: max-content;
+
   display: flex;
 
   align-items: center;
 
   justify-content: center;
 
-  gap: 9px;
+  gap: 7px;
+
+  flex-wrap: nowrap;
+
+  white-space: nowrap;
+
+  box-sizing: border-box;
 }
+
+
+/* =========================================================
+   SESSION TOGGLE INSIDE WRAPPER
+========================================================= */
+
+.session-time-wrapper
+.appointment-session-toggle {
+  flex: 0 0 42px !important;
+
+  flex-shrink: 0 !important;
+}
+
+
+/* =========================================================
+   TIME FIELD
+========================================================= */
 
 .time-field {
   position: relative;
 
+  flex: 0 0 auto;
+
   flex-shrink: 0;
+
+  min-width: 0;
 }
 
 .time-field input {
@@ -1093,6 +1306,25 @@
 
 
 /* =========================================================
+   TIME ICON
+========================================================= */
+
+.time-field svg {
+  position: absolute;
+
+  right: 8px;
+
+  top: 11px;
+
+  color: #9999a4;
+
+  font-size: 11px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
    DISABLED TIME INPUT
 ========================================================= */
 
@@ -1111,28 +1343,21 @@
   cursor: not-allowed;
 }
 
-.time-field svg {
-  position: absolute;
-
-  right: 8px;
-
-  top: 11px;
-
-  color: #9999a4;
-
-  font-size: 11px;
-
-  pointer-events: none;
-}
-
 .schedule-holiday-row .time-field svg {
   color: #b9a4a4 !important;
 }
+
+
+/* =========================================================
+   TIME SEPARATOR
+========================================================= */
 
 .time-separator {
   color: #898995;
 
   font-size: 12px;
+
+  flex-shrink: 0;
 }
 
 .schedule-holiday-row .time-separator {
@@ -1391,16 +1616,8 @@
 
 
 /* =========================================================
-   REASON SECTION - FIX ONLY
+   REASON SECTION
 ========================================================= */
-
-/*
-   This is the only changed section.
-
-   Reason gets its own fixed 50% column.
-   Text stays inside that column.
-   Long reason wraps instead of pushing Action.
-*/
 
 .leave-table th:nth-child(2),
 .leave-table td:nth-child(2) {
@@ -1427,7 +1644,7 @@
 
 
 /* =========================================================
-   REASON TEXT - FIX ONLY
+   REASON TEXT
 ========================================================= */
 
 .leave-reason-text {
@@ -2462,7 +2679,9 @@
 }
 
 
-/* REMOVE GLOBAL BLACK TABLE BORDER */
+/* =========================================================
+   REMOVE GLOBAL BLACK TABLE BORDER
+========================================================= */
 
 .appointment-availability-page
 .weekly-schedule-table,
@@ -2477,7 +2696,9 @@
 }
 
 
-/* REMOVE ALL VERTICAL BORDERS */
+/* =========================================================
+   REMOVE ALL VERTICAL BORDERS
+========================================================= */
 
 .appointment-availability-page
 .weekly-schedule-table
@@ -2500,105 +2721,6 @@ td {
 }
 
 
-
-/* =========================================================
-   MORNING / EVENING SESSION TOGGLE
-========================================================= */
-
-.appointment-session-toggle {
-  width: 34px;
-  min-width: 34px;
-  height: 19px;
-
-  position: relative;
-
-  display: inline-block;
-
-  flex-shrink: 0;
-}
-
-.appointment-session-toggle input {
-  width: 0;
-  height: 0;
-
-  opacity: 0;
-
-  position: absolute;
-}
-
-.appointment-session-toggle span {
-  position: absolute;
-
-  inset: 0;
-
-  border-radius: 20px;
-
-  background: #c9c9d1;
-
-  cursor: pointer;
-
-  transition: 0.25s ease;
-}
-
-.appointment-session-toggle span::before {
-  content: "";
-
-  width: 13px;
-  height: 13px;
-
-  position: absolute;
-
-  left: 3px;
-  top: 3px;
-
-  border-radius: 50%;
-
-  background: #ffffff;
-
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.16);
-
-  transition: 0.25s ease;
-}
-
-.appointment-session-toggle input:checked + span {
-  background: #28ad68;
-}
-
-.appointment-session-toggle input:checked + span::before {
-  transform: translateX(15px);
-}
-
-.appointment-session-toggle input:disabled + span {
-  background: #d9d9df;
-
-  cursor: not-allowed;
-
-  opacity: 0.65;
-}
-
-
-/* =========================================================
-   SESSION ICONS
-========================================================= */
-
-.session-icon {
-  font-size: 12px;
-
-  flex-shrink: 0;
-}
-
-.morning-icon {
-  color: #e6a72e;
-}
-
-.evening-icon {
-  color: #7051c8;
-}
-
-.session-toggle-disabled {
-  opacity: 0.55;
-}
 /* =========================================================
    RESPONSIVE - 1200
 ========================================================= */
@@ -2664,6 +2786,71 @@ td {
   .appointment-left-content,
   .appointment-right-content {
     width: 100%;
+  }
+
+
+  /* =====================================================
+     WEEKLY TABLE MOBILE FIX
+     KEEP FULL TABLE WIDTH + HORIZONTAL SCROLL
+  ===================================================== */
+
+  .weekly-schedule-scroll {
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+  }
+
+  .weekly-schedule-table {
+    width: 920px !important;
+
+    min-width: 920px !important;
+
+    max-width: none !important;
+
+    table-layout: fixed;
+  }
+
+
+  /* Keep session controls together */
+
+  .session-time-wrapper {
+    width: max-content !important;
+
+    min-width: max-content !important;
+
+    flex-wrap: nowrap !important;
+
+    justify-content: flex-start !important;
+
+    gap: 7px !important;
+  }
+
+  .appointment-session-toggle {
+    width: 42px !important;
+
+    min-width: 42px !important;
+
+    max-width: 42px !important;
+
+    height: 23px !important;
+
+    min-height: 23px !important;
+
+    max-height: 23px !important;
+
+    flex: 0 0 42px !important;
+
+    flex-shrink: 0 !important;
+  }
+
+  .time-field {
+    flex: 0 0 auto !important;
+
+    flex-shrink: 0 !important;
   }
 
 }
@@ -2756,14 +2943,32 @@ td {
   }
 
 
-  /* WEEKLY */
+  /* =====================================================
+     WEEKLY SCHEDULE
+  ===================================================== */
 
   .weekly-schedule-table {
-    min-width: 700px;
+    width: 920px !important;
+
+    min-width: 920px !important;
+  }
+
+  .weekly-schedule-scroll {
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
   }
 
 
-  /* PREVIEW */
+  /* =====================================================
+     PREVIEW
+  ===================================================== */
 
   .preview-slots-card {
     padding: 15px;
@@ -2780,7 +2985,9 @@ td {
   }
 
 
-  /* FOOTER */
+  /* =====================================================
+     FOOTER
+  ===================================================== */
 
   .appointment-page-footer {
     flex-direction: column;
@@ -2794,14 +3001,18 @@ td {
   }
 
 
-  /* LEAVE TABLE */
+  /* =====================================================
+     LEAVE TABLE
+  ===================================================== */
 
   .leave-table {
     min-width: 500px;
   }
 
 
-  /* MODAL */
+  /* =====================================================
+     MODAL
+  ===================================================== */
 
   .leave-date-form-grid {
     grid-template-columns: 1fr;
@@ -2906,6 +3117,57 @@ td {
     padding-left: 8px;
 
     padding-right: 8px;
+  }
+
+
+  /* =====================================================
+     FINAL MOBILE SESSION FIX
+  ===================================================== */
+
+  .weekly-schedule-scroll {
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+  }
+
+  .weekly-schedule-table {
+    width: 920px !important;
+
+    min-width: 920px !important;
+
+    max-width: none !important;
+  }
+
+  .session-time-wrapper {
+    width: max-content !important;
+
+    min-width: max-content !important;
+
+    flex-wrap: nowrap !important;
+
+    justify-content: flex-start !important;
+  }
+
+  .appointment-session-toggle {
+    width: 42px !important;
+
+    min-width: 42px !important;
+
+    max-width: 42px !important;
+
+    height: 23px !important;
+
+    min-height: 23px !important;
+
+    max-height: 23px !important;
+
+    flex: 0 0 42px !important;
+
+    flex-shrink: 0 !important;
   }
 
 }

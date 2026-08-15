@@ -1,9 +1,7 @@
 import React from "react";
 import {
   FaCalendarAlt,
-  FaClock,
-  FaSun,
-  FaMoon,
+  // FaClock,
 } from "react-icons/fa";
 
 const WeeklySchedule = ({
@@ -12,7 +10,7 @@ const WeeklySchedule = ({
 }) => {
 
   /* =====================================================
-     UPDATE DAY
+     UPDATE TIME
   ===================================================== */
 
   const updateDay = (index, field, value) => {
@@ -31,7 +29,17 @@ const WeeklySchedule = ({
 
 
   /* =====================================================
-     TOGGLE WORKING DAY
+     MAIN DAY CHECKBOX
+
+     CHECKED:
+     - Working day ON
+     - Morning toggle ON
+     - Evening toggle ON
+
+     UNCHECKED:
+     - Clinic closed
+     - Morning toggle OFF
+     - Evening toggle OFF
   ===================================================== */
 
   const handleDayToggle = (index) => {
@@ -50,17 +58,9 @@ const WeeklySchedule = ({
 
           enabled: newEnabled,
 
-          /*
-             When clinic is closed,
-             automatically disable both sessions.
-          */
-          morningEnabled: newEnabled
-            ? item.morningEnabled
-            : false,
+          morningEnabled: newEnabled,
 
-          eveningEnabled: newEnabled
-            ? item.eveningEnabled
-            : false,
+          eveningEnabled: newEnabled,
         };
       })
     );
@@ -86,6 +86,7 @@ const WeeklySchedule = ({
 
         return {
           ...item,
+
           morningEnabled:
             !item.morningEnabled,
         };
@@ -113,6 +114,7 @@ const WeeklySchedule = ({
 
         return {
           ...item,
+
           eveningEnabled:
             !item.eveningEnabled,
         };
@@ -176,9 +178,11 @@ const WeeklySchedule = ({
 
             {schedule.map((item, index) => {
 
-              const isClosed = !item.enabled;
+              const isClosed =
+                !item.enabled;
 
               return (
+
                 <tr
                   key={item.day}
                   className={
@@ -224,7 +228,7 @@ const WeeklySchedule = ({
 
 
                   {/* =================================================
-                      MORNING
+                      MORNING SESSION
                   ================================================= */}
 
                   <td>
@@ -268,8 +272,7 @@ const WeeklySchedule = ({
                       </label>
 
 
-                      <FaSun className="session-icon morning-icon" />
-
+                      {/* Morning Start */}
 
                       <div className="time-field">
 
@@ -291,7 +294,7 @@ const WeeklySchedule = ({
                           }
                         />
 
-                        <FaClock />
+                        {/* <FaClock /> */}
 
                       </div>
 
@@ -300,6 +303,8 @@ const WeeklySchedule = ({
                         -
                       </span>
 
+
+                      {/* Morning End */}
 
                       <div className="time-field">
 
@@ -321,7 +326,7 @@ const WeeklySchedule = ({
                           }
                         />
 
-                        <FaClock />
+                        {/* <FaClock /> */}
 
                       </div>
 
@@ -331,7 +336,7 @@ const WeeklySchedule = ({
 
 
                   {/* =================================================
-                      EVENING
+                      EVENING SESSION
                   ================================================= */}
 
                   <td>
@@ -375,8 +380,7 @@ const WeeklySchedule = ({
                       </label>
 
 
-                      <FaMoon className="session-icon evening-icon" />
-
+                      {/* Evening Start */}
 
                       <div className="time-field">
 
@@ -398,7 +402,7 @@ const WeeklySchedule = ({
                           }
                         />
 
-                        <FaClock />
+                        {/* <FaClock /> */}
 
                       </div>
 
@@ -407,6 +411,8 @@ const WeeklySchedule = ({
                         -
                       </span>
 
+
+                      {/* Evening End */}
 
                       <div className="time-field">
 
@@ -428,7 +434,7 @@ const WeeklySchedule = ({
                           }
                         />
 
-                        <FaClock />
+                        {/* <FaClock /> */}
 
                       </div>
 
@@ -437,6 +443,7 @@ const WeeklySchedule = ({
                   </td>
 
                 </tr>
+
               );
 
             })}
