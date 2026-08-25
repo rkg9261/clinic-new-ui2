@@ -1,0 +1,109 @@
+.treatment-section {
+  padding: 80px 8%;
+  background: #fff;
+}
+
+.treatment-section h1 {
+  text-align: center;
+    color: #134e4a;
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto 60px;
+  color: #4b5563;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.treatment-card {
+  background: #edf5ed;
+  border: 1px solid #d9e6d9;
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.treatment-card h2 {
+  text-align: center;
+  font-size: 35px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #122b24;
+}
+
+.list-container {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #2c3e50;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+
+  background: #0d4f46;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 12px;
+}
+
+.list-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  background: #7ca99d;
+  border-radius: 10px;
+}
+
+.list-item:hover {
+  color: #0d4f46;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .treatment-section h1 {
+    font-size: 40px;
+  }
+
+  .treatment-card h2 {
+    font-size: 30px;
+  }
+
+  .list-item {
+    font-size: 18px;
+  }
+}

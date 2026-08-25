@@ -1,0 +1,295 @@
+.contact {
+  width: 100%;
+  padding: 120px 8%;
+  background:
+    radial-gradient(circle at 15% 80%,rgba(62,255,234,.08),transparent 40%),
+    radial-gradient(circle at 80% 30%,rgba(50,220,255,.07),transparent 35%),
+    linear-gradient(180deg,#08181d 0%,#0b262d 40%,#10363d 100%);
+
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* =========================
+   Right Top Wave
+========================= */
+
+.contact::before{
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    top: -340px;
+    right: -260px;
+
+    background: rgba(255,255,255,0.35);
+
+    border-radius: 45% 55% 60% 40% /
+                   55% 35% 65% 45%;
+
+    transform: rotate(-25deg);
+
+    animation: contactWave 10s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+/* =========================
+   Left Bottom Wave
+========================= */
+
+.contact .left-wave{
+    display: none;
+}
+
+.contact::after{
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    left: -260px;
+    bottom: -340px;
+
+    background: rgba(255,255,255,0.35);
+
+    border-radius: 55% 45% 40% 60% /
+                   45% 65% 35% 55%;
+
+    transform: rotate(25deg);
+
+    animation: leftWave 10s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+@keyframes leftWave{
+
+    0%{
+        transform: rotate(25deg) scale(1);
+    }
+
+    50%{
+        transform: rotate(18deg) scale(1.05);
+    }
+
+    100%{
+        transform: rotate(25deg) scale(1);
+    }
+}
+
+/* Small Inner Wave */
+
+.contact::after{
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    top: -180px;
+    right: -120px;
+
+    background: rgba(255,255,255,0.22);
+
+    border-radius: 60% 40% 35% 65% /
+                   40% 60% 45% 55%;
+
+    transform: rotate(20deg);
+
+    animation: contactWave2 8s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+/* Keep Content Above Wave */
+
+.contact-title,
+.contact-container{
+    position: relative;
+    z-index: 2;
+}
+
+/* Animation */
+
+@keyframes contactWave{
+
+    0%{
+        transform: rotate(-25deg) scale(1);
+    }
+
+    50%{
+        transform: rotate(-18deg) scale(1.05);
+    }
+
+    100%{
+        transform: rotate(-25deg) scale(1);
+    }
+}
+
+@keyframes contactWave2{
+
+    0%{
+        transform: rotate(20deg) scale(1);
+    }
+
+    50%{
+        transform: rotate(28deg) scale(1.04);
+    }
+
+    100%{
+        transform: rotate(20deg) scale(1);
+    }
+}
+
+.contact-title {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.contact-title p {
+  color: #eeebeb;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.contact-title h2 {
+  font-size: 42px;
+  color: #ddeeed;
+}
+
+.contact-container {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.contact-left,
+.contact-right {
+  flex: 1;
+}
+
+.contact-left h3,
+.contact-right h3 {
+  font-size: 30px;
+  color: #d1ebe9;
+  margin-bottom: 20px;
+}
+
+.contact-left p {
+  line-height: 1.9;
+  margin-bottom: 20px;
+  color: #eeeded;
+
+}
+
+.contact-details {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-details li {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  color: #ebe8e8;
+  line-height: 1.7;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #dcdcdc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #134e4a;
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+.enquiry-btn {
+  width: 100%;
+  height: 55px;
+  border: none;
+  border-radius: 10px;
+  background: #134e4a;
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.enquiry-btn:hover {
+  background: #0f766e;
+}
+
+.error {
+  display: block;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+
+  .contact-container {
+    flex-direction: column;
+  }
+
+  .contact-left,
+  .contact-right {
+    width: 100%;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .contact {
+    padding: 70px 20px;
+  }
+
+  .contact-title h2 {
+    font-size: 30px;
+  }
+
+  .contact-left h3,
+  .contact-right h3 {
+    font-size: 24px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .enquiry-btn {
+    height: 50px;
+    font-size: 15px;
+  }
+}

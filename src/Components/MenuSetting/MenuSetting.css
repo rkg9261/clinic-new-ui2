@@ -1,0 +1,655 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.container-menu-setting{
+    margin-top: 60px;
+    display:flex;
+    height:100vh;
+    background:#16227c;
+}
+
+.sidebar-menu-setting{
+    width:450px;
+    background:#fff;
+    border-right:1px solid #ddd;
+    padding:20px;
+}
+
+.header-menu-setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.title-menu-setting{
+    font-size:22px;
+}
+
+.add-btn-menu-setting{
+    background:#16227c;
+    color:#fff;
+    border:none;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    width: 130px;
+}
+
+.add-btn-menu-setting:hover{
+    background:#1565c0;
+}
+
+.menu-box-menu-setting{
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.menu-title-menu-setting{
+    background:#16227c;
+    padding:12px;
+    font-weight:bold;
+    color: #fff;
+}
+
+.submenu-list-menu-setting{
+    list-style:none;
+}
+
+.submenu-item-menu-setting{
+    padding:10px 15px;
+    border-top:1px solid #eee;
+    cursor:pointer;
+}
+
+.submenu-item-menu-setting:hover{
+    background:#f2f2f2;
+}
+
+
+
+.popup-overlay-menu-setting{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.popup-box-menu-setting{
+    width:400px;
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+}
+
+.popup-box-menu-setting h3{
+    margin-bottom:20px;
+}
+
+.input-menu-setting{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    margin-bottom:15px;
+    outline:none;
+}
+
+.popup-btn-group-menu-setting{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.cancel-btn-menu-setting{
+    background:#16227c;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.save-btn-menu-setting{
+    background:#16227c;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.save-btn-menu-setting:hover{
+    background:#1565c0;
+}
+
+.menu-title-menu-setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#16227c;
+    padding:12px 15px;
+    font-weight:600;
+}
+
+.menu-plus-icon-menu-setting{
+    width:23px;
+    height:18px;
+    cursor:pointer;
+    color:#fff;
+    transition:.3s;
+}
+
+.menu-plus-icon-menu-setting:hover{
+    transform:scale(1.2);
+    color:#1565c0;
+}
+
+/* template right side */
+.template-section-menu-setting{
+    flex:1;
+    padding:20px;
+    background:#fff;
+}
+
+.template-header-menu-setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.template-card-menu-setting{
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.template-title-menu-setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#16227c;
+    padding:12px 15px;
+    font-weight:600;
+    color: #fff;
+}
+
+.template-icons-menu-setting{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.delete-btn-menu-setting{
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.submenu-dropdown-menu-setting{
+    list-style:none;
+    border-top:1px solid #ddd;
+}
+
+.submenu-dropdown-menu-setting li{
+    padding:10px 15px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+}
+
+.submenu-dropdown-menu-setting li:hover{
+    background:#16227c;
+}
+
+.template-submenu-menu-setting{
+    list-style:none;
+    padding:10px 30px;
+}
+
+.template-submenu-menu-setting li{
+    padding:6px 0;
+    color:#16227c;
+}
+
+.template-submenu-menu-setting li::before{
+    content:"";
+}
+
+.popup-menu-heading-menu-setting{
+    background:#16227c;
+    padding:10px 15px;
+    font-weight:600;
+    color:#fff;
+    border-bottom:1px solid #ddd;
+}
+
+.popup-submenu-item-menu-setting{
+    padding:10px 30px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+    
+}
+
+.popup-submenu-item-menu-setting:hover{
+    background:#f5f5f5;
+}
+
+.template-submenu-item-menu-setting{
+    display:flex;
+    justify-content: space-between;
+    border-bottom:1px solid #eee;
+}
+
+.delete-submenu-btn-menu-setting{
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:16px;
+    color:#d32f2f;
+   
+}
+
+.delete-submenu-btn-menu-setting:hover{
+    color:#b71c1c;
+}
+
+.submenu-item-menu-setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 15px;
+    border-top:1px solid #eee;
+}
+
+.submenu-action-menu-setting{
+    display:flex;
+    gap:10px;
+}
+
+.submenu-icon-menu-setting{
+    cursor:pointer;
+    color:#2d89ef;
+    font-size:15px;
+}
+
+.submenu-icon-menu-setting:hover{
+    color:#1565c0;
+}
+
+.delete-menu-setting{
+    color:#d32f2f;
+}
+
+.delete-menu-setting:hover{
+    color:#b71c1c;
+}
+
+.popup-menu-list-menu-setting{
+    max-height:300px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    border:1px solid #ddd;
+    border-radius:6px;
+    margin:15px 0;
+}
+
+.popup-menu-list-menu-setting::-webkit-scrollbar{
+    width:6px;
+}
+
+.popup-menu-list-menu-setting::-webkit-scrollbar-track{
+    background:#f1f1f1;
+}
+
+.popup-menu-list-menu-setting::-webkit-scrollbar-thumb{
+    background:#f0f0f0;
+    border-radius:10px;
+}
+
+.popup-menu-list-menu-setting::-webkit-scrollbar-thumb:hover{
+    background:#16227c;
+}
+
+/* menu edit icon Template setting*/
+
+.menu-actions-menu-setting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-edit-icon-menu-setting {
+  cursor: pointer;
+  font-size: 15px;
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.menu-edit-icon-menu-setting:hover {
+  transform: scale(1.15);
+  color: #1d4ed8;
+}
+
+.edit-btn-menu-setting {
+  font-size: 18px;
+  color: #e0e3e7;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-left: 10px;
+}
+
+.edit-btn-menu-setting:hover {
+  color: #084298;
+  transform: scale(1.15);
+}
+
+.template-icons-menu-setting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-plus-icon-menu-setting,
+.edit-btn-menu-setting,
+.delete-btn-menu-setting {
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.menu-plus-icon-menu-setting:hover,
+.edit-btn-menu-setting:hover,
+.delete-btn-menu-setting:hover {
+  transform: scale(1.15);
+}
+
+/* ==========================================
+   TABLET VIEW (1024px)
+========================================== */
+
+@media screen and (max-width:1024px){
+
+.container-menu-setting{
+    flex-direction:column;
+    height:auto;
+    padding:15px;
+    gap:20px;
+}
+
+.sidebar-menu-setting{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid #ddd;
+    border-radius:10px;
+}
+
+.template-section-menu-setting{
+    width:100%;
+    border-radius:10px;
+    padding:20px;
+}
+
+.header-menu-setting,
+.template-header-menu-setting{
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.add-btn-menu-setting{
+    width:auto;
+}
+
+.popup-box-menu-setting{
+    width:90%;
+    max-width:500px;
+}
+
+}
+
+/* ================= DELETE CONFIRM POPUP ================= */
+
+.delete-popup-menu-setting{
+    width:360px;
+    background:#fff;
+    border-radius:16px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.18);
+    animation:popupScaleMenuSetting .25s ease;
+}
+
+.delete-popup-menu-setting h3{
+    margin:0;
+    font-size:24px;
+    color:#222;
+    font-weight:700;
+}
+
+.delete-popup-menu-setting p{
+    margin:15px 0 28px;
+    color:#666;
+    font-size:15px;
+    line-height:1.5;
+}
+
+.delete-popup-btns-menu-setting{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.confirm-delete-btn-menu-setting{
+    min-width:120px;
+    border:none;
+    border-radius:8px;
+    padding:12px 20px;
+    background:#e53935;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.confirm-delete-btn-menu-setting:hover{
+    background:#c62828;
+    transform:translateY(-2px);
+}
+
+@keyframes popupScaleMenuSetting{
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@media (max-width:600px){
+
+.delete-popup-menu-setting{
+    width:90%;
+    padding:24px;
+}
+
+.delete-popup-btns-menu-setting{
+    flex-direction:column;
+}
+
+.confirm-delete-btn-menu-setting,
+.cancel-btn-menu-setting{
+    width:100%;
+}
+
+}
+
+/* ==========================================
+   MOBILE VIEW (768px)
+========================================== */
+
+@media screen and (max-width:768px){
+
+.container-menu-setting{
+    margin-top:65px;
+    padding:10px;
+    gap:15px;
+}
+
+.sidebar-menu-setting,
+.template-section-menu-setting{
+    width:100%;
+    padding:15px;
+    border-radius:8px;
+}
+
+.header-menu-setting,
+.template-header-menu-setting{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+}
+
+.title-menu-setting{
+    font-size:20px;
+}
+
+.add-btn-menu-setting{
+    width:100%;
+    padding:12px;
+}
+
+.menu-title-menu-setting,
+.template-title-menu-setting{
+    padding:10px 12px;
+    font-size:15px;
+}
+
+.submenu-item-menu-setting{
+    padding:10px 12px;
+    font-size:14px;
+}
+
+.template-submenu-menu-setting{
+    padding:10px 20px;
+}
+
+.template-submenu-item-menu-setting{
+    font-size:14px;
+}
+
+.popup-box-menu-setting{
+    width:95%;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:20px;
+}
+
+.popup-btn-group-menu-setting{
+    flex-direction:column;
+}
+
+.cancel-btn-menu-setting,
+.save-btn-menu-setting{
+    width:100%;
+}
+
+.popup-menu-list-menu-setting{
+    max-height:250px;
+}
+
+}
+
+/* ==========================================
+   SMALL MOBILE VIEW (480px)
+========================================== */
+
+@media screen and (max-width:480px){
+
+.container-menu-setting{
+    padding:8px;
+}
+
+.sidebar-menu-setting,
+.template-section-menu-setting{
+    padding:12px;
+}
+
+.title-menu-setting{
+    font-size:18px;
+}
+
+.menu-title-menu-setting,
+.template-title-menu-setting{
+    font-size:14px;
+    padding:10px;
+}
+
+.submenu-item-menu-setting{
+    font-size:13px;
+    padding:10px;
+}
+
+.submenu-action-menu-setting{
+    gap:8px;
+}
+
+.submenu-icon-menu-setting,
+.delete-btn-menu-setting{
+    font-size:14px;
+}
+
+.template-title-menu-setting{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.template-icons-menu-setting{
+    width:100%;
+    justify-content:flex-end;
+}
+
+.template-submenu-menu-setting{
+    padding:8px 15px;
+}
+
+.template-submenu-item-menu-setting{
+    font-size:13px;
+}
+
+.popup-box-menu-setting{
+    width:96%;
+    padding:15px;
+}
+
+.popup-box-menu-setting h3{
+    font-size:18px;
+}
+
+.input-menu-setting{
+    padding:10px;
+    font-size:14px;
+}
+
+.popup-menu-heading-menu-setting{
+    font-size:14px;
+    padding:10px;
+}
+
+.popup-submenu-item-menu-setting{
+    padding:10px 15px;
+    font-size:13px;
+}
+
+}

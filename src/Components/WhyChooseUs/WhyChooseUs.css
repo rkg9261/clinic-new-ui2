@@ -1,0 +1,610 @@
+/*==========================
+WHY SECTION
+==========================*/
+
+.why-section{
+    width:100%;
+    padding:90px 8%;
+    background:#fff;
+    overflow:hidden;
+    position:relative;
+}
+
+.why-heading{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.heading-small{
+    display:inline-block;
+    color:#2cbfc5;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+.why-heading h2{
+    font-size:48px;
+    line-height:1.2;
+    color:#18262f;
+    font-weight:600;
+}
+
+.why-heading h2 span{
+    color:#2cbfc5;
+}
+
+
+/*==========================
+MAIN GRID
+==========================*/
+
+.why-container{
+    display:grid;
+    grid-template-columns:1fr 500px 1fr;
+    gap:50px;
+    align-items:center;
+}
+
+.why-column{
+    display:flex;
+    flex-direction:column;
+    gap:70px;
+}
+
+
+/*==========================
+FEATURE CARD
+==========================*/
+
+.feature-card{
+    transition:.4s;
+    border: none;
+}
+
+.feature-top{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-bottom:18px;
+}
+
+.feature-top h3{
+    font-size:35px;
+    color:#1f2833;
+    font-weight:300;
+}
+
+.feature-card h4{
+    font-size:24px;
+    color:#18262f;
+    margin-bottom:18px;
+    transition:.4s;
+}
+
+.feature-card p{
+    font-size:18px;
+    color:#666;
+    line-height:1.8;
+}
+
+
+/*==========================
+ICON CIRCLE
+==========================*/
+
+.icon-circle{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    background:#143b45;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    transition:.4s ease;
+    cursor:pointer;
+}
+
+
+/*==========================
+CENTER
+==========================*/
+
+.center-area{
+    position:relative;
+    width:500px;
+    height:620px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transform: translateY(-130px);
+}
+
+
+/*==========================
+RINGS
+==========================*/
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+}
+
+.one{
+    width:420px;
+    height:420px;
+    border:22px solid rgba(71,208,209,.18);
+}
+
+.two{
+    width:330px;
+    height:330px;
+    border:18px solid rgba(71,208,209,.18);
+}
+
+.three{
+    width:250px;
+    height:250px;
+    border:14px solid rgba(71,208,209,.18);
+}
+
+
+/*==========================
+CENTER LOGO
+==========================*/
+
+.center-logo{
+    width:580px;
+    z-index:2;
+    animation:floatLogo 4s ease-in-out infinite;
+    background:transparent;
+    mix-blend-mode:darken;
+    top: 25px;
+}
+
+
+/*==========================
+BOTTOM CARD
+==========================*/
+
+.bottom-card{
+    position:absolute;
+    bottom:-180px;
+    text-align:center;
+    width:360px;
+}
+
+.bottom-card .feature-top{
+    justify-content:center;
+}
+
+.bottom-card h4{
+    font-size:34px;
+    margin-bottom:15px;
+    color:#18262f;
+}
+
+.bottom-card p{
+    color:#666;
+    font-size:18px;
+    line-height:1.8;
+}
+
+
+/*==========================
+HOVER EFFECT
+==========================*/
+
+.feature-card:hover .icon-circle,
+.bottom-card:hover .icon-circle{
+    background:#37d8d8;
+    transform:scale(1.12);
+    box-shadow:0 12px 35px rgba(55,216,216,.45);
+    
+    
+}
+
+.feature-card:hover h4,
+.bottom-card:hover h4{
+    color:#37d8d8;
+}
+
+.feature-card:hover h3,
+.bottom-card:hover h3{
+    color:#37d8d8;
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+/*====================================
+ANIMATIONS
+====================================*/
+
+@keyframes floatLogo{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+.center-logo{
+    animation:floatLogo 4s ease-in-out infinite;
+    
+}
+
+
+@keyframes pulseRing{
+
+    0%{
+        transform:scale(1);
+        opacity:.9;
+    }
+
+    50%{
+        transform:scale(1.04);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:.9;
+    }
+
+}
+
+.one{
+    animation:pulseRing 6s infinite ease-in-out;
+}
+
+.two{
+    animation:pulseRing 7s infinite ease-in-out;
+}
+
+.three{
+    animation:pulseRing 8s infinite ease-in-out;
+}
+
+
+/*====================================
+SMOOTH TRANSITION
+====================================*/
+
+.feature-card,
+.bottom-card,
+.icon-circle,
+.feature-top h3,
+.feature-card h4,
+.bottom-card h4{
+    transition:.45s ease;
+}
+
+
+/*====================================
+BOTTOM CARD HOVER
+====================================*/
+
+.bottom-card:hover{
+    transform:translateY(-8px);
+}
+
+.bottom-card:hover .icon-circle{
+    background:#37d8d8;
+    transform:scale(1.12);
+    box-shadow:0 12px 35px rgba(55,216,216,.45);
+}
+
+.bottom-card:hover h3{
+    color:#37d8d8;
+}
+
+.bottom-card:hover h4{
+    color:#37d8d8;
+}
+
+
+/*====================================
+TABLET
+====================================*/
+
+@media(max-width:1200px){
+
+.why-container{
+
+    grid-template-columns:1fr;
+    gap:70px;
+
+}
+
+.center-area{
+
+    order:2;
+    width:100%;
+    height:520px;
+
+}
+
+.why-column{
+
+    flex-direction:row;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:40px;
+
+}
+
+.feature-card{
+
+    width:330px;
+
+}
+
+.bottom-card{
+
+    width:330px;
+
+}
+
+}
+
+
+/*====================================
+MOBILE
+====================================*/
+
+@media(max-width:768px){
+
+.why-section{
+
+    padding:70px 25px;
+
+}
+
+.why-heading{
+
+    margin-bottom:45px;
+
+}
+
+.why-heading h2{
+
+    font-size:34px;
+
+}
+
+.heading-small{
+
+    font-size:13px;
+
+}
+
+.center-area{
+
+    width:100%;
+    height:420px;
+
+}
+
+.one{
+
+    width:280px;
+    height:280px;
+    border-width:14px;
+
+}
+
+.two{
+
+    width:220px;
+    height:220px;
+    border-width:12px;
+
+}
+
+.three{
+
+    width:170px;
+    height:170px;
+    border-width:10px;
+
+}
+
+.center-logo{
+
+    width:170px;
+
+}
+
+.feature-card{
+
+    width:100%;
+    text-align:center;
+
+}
+
+.feature-top{
+
+    justify-content:center;
+
+}
+
+.feature-card h4{
+
+    font-size:28px;
+
+}
+
+.feature-top h3{
+
+    font-size:42px;
+
+}
+
+.feature-card p{
+
+    font-size:16px;
+
+}
+
+.bottom-card{
+
+    width:100%;
+    bottom:-30px;
+
+}
+
+.bottom-card h4{
+
+    font-size:28px;
+
+}
+
+.bottom-card p{
+
+    font-size:16px;
+
+}
+
+}
+
+
+/*====================================
+SMALL MOBILE
+====================================*/
+
+@media(max-width:480px){
+
+.why-section{
+
+    padding:60px 18px;
+
+}
+
+.why-heading h2{
+
+    font-size:28px;
+    line-height:1.4;
+
+}
+
+.feature-top{
+
+    gap:15px;
+
+}
+
+.icon-circle{
+
+    width:60px;
+    height:60px;
+    font-size:24px;
+
+}
+
+.feature-top h3{
+
+    font-size:36px;
+
+}
+
+.feature-card h4{
+
+    font-size:24px;
+
+}
+
+.feature-card p{
+
+    font-size:15px;
+    line-height:1.7;
+
+}
+
+.one{
+
+    width:220px;
+    height:220px;
+
+}
+
+.two{
+
+    width:170px;
+    height:170px;
+
+}
+
+.three{
+
+    width:130px;
+    height:130px;
+
+}
+
+.center-logo{
+
+    width:140px;
+
+}
+
+.bottom-card{
+
+    bottom:-60px;
+
+}
+
+}
+
+
+/*====================================
+HOVER EFFECT (LIKE YOUR IMAGE 3)
+====================================*/
+
+.icon-circle:hover{
+
+    background:#36d8d7;
+    color:#ffffff;
+    transform:scale(1.18);
+    box-shadow:0 10px 35px rgba(54,216,215,.45);
+
+}
+
+.feature-card:hover .icon-circle{
+
+    background:#36d8d7;
+
+}
+
+.bottom-card:hover .icon-circle{
+
+    background:#36d8d7;
+
+}
+
+.feature-card:hover h3,
+.feature-card:hover h4{
+
+    color:#36d8d7;
+
+}
+
+.bottom-card:hover h3,
+.bottom-card:hover h4{
+
+    color:#36d8d7;
+
+}
