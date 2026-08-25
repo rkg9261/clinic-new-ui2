@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, {
+  useRef,
+  useState,
+} from "react";
 
 import AppointmentSettings from "./AppointmentSettings";
 import WeeklySchedule from "./WeeklySchedule";
@@ -8,173 +11,475 @@ import AddLeaveModal from "./AddLeaveModal";
 
 import "./AppointmentAvailability.css";
 
+
 const AppointmentAvailability = () => {
+
 
   /* =====================================================
      APPOINTMENT SETTINGS
   ===================================================== */
 
-  const [settings, setSettings] = useState({
-    enableAppointment: true,
-    sameDayBooking: true,
-
-    slotDuration: 30,
-
-    maximumAppointments: 1,
-
-    bookingStartDays: 30,
-
-    futureAppointmentDays: 30,
-
-    appointmentStartTime: "09:00",
-
-    appointmentEndTime: "21:00",
-  });
+  const [
+    settings,
+    setSettings
+  ] = useState(null);
 
 
   /* =====================================================
      WEEKLY SCHEDULE
 
-     enabled:
-     true  = Working Day
-     false = Clinic Closed
-
-     morningEnabled:
-     true  = Morning slots available
-     false = Morning slots disabled
-
-     eveningEnabled:
-     true  = Evening slots available
-     false = Evening slots disabled
   ===================================================== */
 
-  const [schedule, setSchedule] = useState([
+  const [
+    schedule,
+    setSchedule
+  ] = useState([
+
     {
-      day: "Monday",
-      enabled: true,
+      day:
+        "Monday",
 
-      morningEnabled: true,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Monday",
 
-      eveningEnabled: true,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Tuesday",
-      enabled: true,
+      day:
+        "Tuesday",
 
-      morningEnabled: true,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Tuesday",
 
-      eveningEnabled: true,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Wednesday",
-      enabled: true,
+      day:
+        "Wednesday",
 
-      morningEnabled: true,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Wednesday",
 
-      eveningEnabled: true,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Thursday",
-      enabled: true,
+      day:
+        "Thursday",
 
-      morningEnabled: true,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Thursday",
 
-      eveningEnabled: true,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Friday",
-      enabled: true,
+      day:
+        "Friday",
 
-      morningEnabled: true,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Friday",
 
-      eveningEnabled: true,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Saturday",
-      enabled: false,
+      day:
+        "Saturday",
 
-      morningEnabled: false,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Saturday",
 
-      eveningEnabled: false,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
 
     {
-      day: "Sunday",
-      enabled: false,
+      day:
+        "Sunday",
 
-      morningEnabled: false,
-      morningStart: "09:00",
-      morningEnd: "13:00",
+      dayOfWeek:
+        "Sunday",
 
-      eveningEnabled: false,
-      eveningStart: "16:00",
-      eveningEnd: "20:00",
+      id:
+        null,
+
+      enabled:
+        false,
+
+      morningEnabled:
+        false,
+
+      morningStart:
+        "",
+
+      morningEnd:
+        "",
+
+      eveningEnabled:
+        false,
+
+      eveningStart:
+        "",
+
+      eveningEnd:
+        "",
+
     },
+
   ]);
+
+
+  /* =====================================================
+     WEEKLY SCHEDULE REF
+
+     Used to call saveSchedule() from WeeklySchedule.jsx.
+  ===================================================== */
+
+  const weeklyScheduleRef =
+    useRef(null);
 
 
   /* =====================================================
      LEAVES
   ===================================================== */
 
-  const [leaves, setLeaves] = useState([]);
+  const [
+    leaves,
+    setLeaves
+  ] = useState([]);
 
 
   /* =====================================================
      LEAVE MODAL
   ===================================================== */
 
-  const [showLeaveModal, setShowLeaveModal] =
-    useState(false);
+  const [
+    showLeaveModal,
+    setShowLeaveModal
+  ] = useState(false);
 
 
   /* =====================================================
-     ADD LEAVE
+     EDIT LEAVE
   ===================================================== */
 
-  const handleAddLeave = (newLeave) => {
+  const [
+    editLeave,
+    setEditLeave
+  ] = useState(null);
 
-    const leave = {
-      id: Date.now(),
-      ...newLeave,
-      status: "Active",
-    };
 
-    setLeaves((previous) => [
-      ...previous,
-      leave,
-    ]);
+  /* =====================================================
+     LOADING
+  ===================================================== */
 
-    setShowLeaveModal(false);
+  const [
+    loading,
+    setLoading
+  ] = useState(false);
+
+
+  /* =====================================================
+     OPEN ADD LEAVE
+  ===================================================== */
+
+  const handleOpenAddLeave = () => {
+
+    setEditLeave(
+      null
+    );
+
+    setShowLeaveModal(
+      true
+    );
+
+  };
+
+
+  /* =====================================================
+     SAVE LEAVE
+  ===================================================== */
+
+  const handleSaveLeave = (
+    savedLeave
+  ) => {
+
+    console.log(
+      "LEAVE SAVED:",
+      savedLeave
+    );
+
+
+    if (!savedLeave) {
+
+      return;
+
+    }
+
+
+    /* =================================================
+       EDIT EXISTING LEAVE
+    ================================================= */
+
+    if (
+      editLeave
+    ) {
+
+      setLeaves(
+        (previous) =>
+
+          previous.map(
+            (leave) => {
+
+              const leaveId =
+
+                leave?.id ||
+
+                leave?.leave_id ||
+
+                leave?.leaveId ||
+
+                leave?.appointmentLeaveId ||
+
+                leave?.appointmentLeaveID;
+
+
+              const editedId =
+
+                editLeave?.id ||
+
+                editLeave?.leave_id ||
+
+                editLeave?.leaveId ||
+
+                editLeave?.appointmentLeaveId ||
+
+                editLeave?.appointmentLeaveID;
+
+
+              if (
+                String(
+                  leaveId
+                ) ===
+                String(
+                  editedId
+                )
+              ) {
+
+                return {
+
+                  ...leave,
+
+                  ...savedLeave,
+
+                };
+
+              }
+
+
+              return leave;
+
+            }
+          )
+      );
+
+    }
+
+
+    /* =================================================
+       ADD NEW LEAVE
+    ================================================= */
+
+    else {
+
+      const newLeave = {
+
+        id:
+
+          savedLeave?.id ||
+
+          savedLeave?.leave_id ||
+
+          savedLeave?.leaveId ||
+
+          savedLeave?.appointmentLeaveId ||
+
+          savedLeave?.appointmentLeaveID ||
+
+          Date.now(),
+
+
+        ...savedLeave,
+
+
+        status:
+          savedLeave?.status ||
+          "Active",
+
+      };
+
+
+      setLeaves(
+        (previous) => [
+
+          ...previous,
+
+          newLeave,
+
+        ]
+      );
+
+    }
+
+
+    setShowLeaveModal(
+      false
+    );
+
+    setEditLeave(
+      null
+    );
+
   };
 
 
@@ -182,21 +487,55 @@ const AppointmentAvailability = () => {
      DELETE LEAVE
   ===================================================== */
 
-  const handleDeleteLeave = (id) => {
+  const handleDeleteLeave = (
+    id
+  ) => {
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this leave?"
-    );
+    const confirmDelete =
+      window.confirm(
+        "Are you sure you want to delete this leave?"
+      );
+
 
     if (!confirmDelete) {
+
       return;
+
     }
 
-    setLeaves((previous) =>
-      previous.filter(
-        (leave) => leave.id !== id
-      )
+
+    setLeaves(
+      (previous) =>
+
+        previous.filter(
+          (leave) => {
+
+            const leaveId =
+
+              leave?.id ||
+
+              leave?.leave_id ||
+
+              leave?.leaveId ||
+
+              leave?.appointmentLeaveId ||
+
+              leave?.appointmentLeaveID;
+
+
+            return (
+              String(
+                leaveId
+              ) !==
+              String(
+                id
+              )
+            );
+
+          }
+        )
     );
+
   };
 
 
@@ -204,47 +543,139 @@ const AppointmentAvailability = () => {
      EDIT LEAVE
   ===================================================== */
 
-  const handleEditLeave = (leave) => {
+  const handleEditLeave = (
+    leave
+  ) => {
 
-    alert(
-      `Edit Leave\n\nType: ${
-        leave.leaveType
-      }\nFrom: ${
-        leave.fromDate
-      }\nTo: ${
-        leave.toDate
-      }`
+    if (!leave) {
+
+      return;
+
+    }
+
+
+    console.log(
+      "EDIT LEAVE:",
+      leave
     );
+
+
+    setEditLeave(
+      leave
+    );
+
+    setShowLeaveModal(
+      true
+    );
+
   };
 
 
   /* =====================================================
      SAVE ALL SETTINGS
+
+     IMPORTANT:
+
+     Weekly Schedule API is NOT here.
+
+     WeeklySchedule.jsx owns:
+
+     POST
+     GET
+     PUT
   ===================================================== */
 
-  const handleSaveSettings = () => {
-
-    const data = {
-      settings,
-      schedule,
-      leaves,
-    };
+  const handleSaveSettings = async () => {
 
     console.log(
-      "Appointment Availability:",
-      data
+      "=========================================="
     );
 
-    alert(
-      "Appointment availability saved successfully."
+    console.log(
+      "APPOINTMENT AVAILABILITY SAVE"
     );
+
+    console.log(
+      "=========================================="
+    );
+
+
+    try {
+
+      setLoading(
+        true
+      );
+
+
+      /* =================================================
+         CALL WEEKLY SCHEDULE API
+
+         The actual API logic is inside
+         WeeklySchedule.jsx.
+      ================================================= */
+
+      if (
+        weeklyScheduleRef.current &&
+        typeof weeklyScheduleRef.current.saveSchedule ===
+          "function"
+      ) {
+
+        await weeklyScheduleRef.current.saveSchedule();
+
+      }
+
+
+      console.log(
+        "APPOINTMENT SETTINGS:",
+        settings
+      );
+
+
+      console.log(
+        "WEEKLY SCHEDULE:",
+        schedule
+      );
+
+
+      console.log(
+        "LEAVES:",
+        leaves
+      );
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "APPOINTMENT AVAILABILITY SAVE ERROR:",
+        error
+      );
+
+    }
+
+    finally {
+
+      setLoading(
+        false
+      );
+
+    }
+
   };
 
 
+  /* =====================================================
+     RETURN
+  ===================================================== */
+
   return (
+
     <div className="appointment-availability-page">
 
-  
+
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
       <div className="appointment-availability-header">
 
@@ -261,15 +692,24 @@ const AppointmentAvailability = () => {
 
         </div>
 
+
         <button
           type="button"
+
           className="appointment-header-leave-btn"
-          onClick={() =>
-            setShowLeaveModal(true)
+
+          onClick={
+            handleOpenAddLeave
+          }
+
+          disabled={
+            loading
           }
         >
 
-          <span>+</span>
+          <span>
+            +
+          </span>
 
           Add Leave
 
@@ -283,8 +723,15 @@ const AppointmentAvailability = () => {
       ================================================= */}
 
       <AppointmentSettings
-        settings={settings}
-        setSettings={setSettings}
+
+        settings={
+          settings
+        }
+
+        setSettings={
+          setSettings
+        }
+
       />
 
 
@@ -294,19 +741,34 @@ const AppointmentAvailability = () => {
 
       <div className="appointment-main-grid">
 
+
         {/* =================================================
             LEFT CONTENT
         ================================================= */}
 
         <div className="appointment-left-content">
 
+
           {/* =================================================
               WEEKLY SCHEDULE
+
+              API is completely inside WeeklySchedule.jsx.
           ================================================= */}
 
           <WeeklySchedule
-            schedule={schedule}
-            setSchedule={setSchedule}
+
+            ref={
+              weeklyScheduleRef
+            }
+
+            schedule={
+              schedule
+            }
+
+            setSchedule={
+              setSchedule
+            }
+
           />
 
 
@@ -317,10 +779,13 @@ const AppointmentAvailability = () => {
           <div className="appointment-bottom-grid">
 
             <LeaveDays
-              leaves={leaves}
 
-              onAddLeave={() =>
-                setShowLeaveModal(true)
+              leaves={
+                leaves
+              }
+
+              onAddLeave={
+                handleOpenAddLeave
               }
 
               onDeleteLeave={
@@ -330,6 +795,7 @@ const AppointmentAvailability = () => {
               onEditLeave={
                 handleEditLeave
               }
+
             />
 
           </div>
@@ -338,15 +804,25 @@ const AppointmentAvailability = () => {
 
 
         {/* =================================================
-            PREVIEW
+            RIGHT CONTENT
         ================================================= */}
 
         <div className="appointment-right-content">
 
           <PreviewSlots
-            schedule={schedule}
-            leaves={leaves}
-            settings={settings}
+
+            schedule={
+              schedule
+            }
+
+            leaves={
+              leaves
+            }
+
+            settings={
+              settings
+            }
+
           />
 
         </div>
@@ -360,45 +836,101 @@ const AppointmentAvailability = () => {
 
       <div className="appointment-page-footer">
 
-        <button
-          type="button"
-          className="appointment-cancel-btn"
-          onClick={() =>
-            window.history.back()
-          }
-        >
-          Cancel
-        </button>
+
+        {/* =================================================
+            CANCEL
+        ================================================= */}
 
         <button
           type="button"
-          className="appointment-save-btn"
-          onClick={handleSaveSettings}
+
+          className="appointment-cancel-btn"
+
+          onClick={() =>
+            window.history.back()
+          }
+
+          disabled={
+            loading
+          }
         >
-          Save Settings
+
+          Cancel
+
+        </button>
+
+
+        {/* =================================================
+            SAVE
+        ================================================= */}
+
+        <button
+          type="button"
+
+          className="appointment-save-btn"
+
+          onClick={
+            handleSaveSettings
+          }
+
+          disabled={
+            loading
+          }
+        >
+
+          {loading
+            ? "Saving..."
+            : "Save Settings"
+          }
+
         </button>
 
       </div>
 
 
       {/* =================================================
-          ADD LEAVE MODAL
+          ADD / EDIT LEAVE MODAL
       ================================================= */}
 
       {showLeaveModal && (
 
         <AddLeaveModal
-          onClose={() =>
-            setShowLeaveModal(false)
+
+          onClose={() => {
+
+            if (
+              !loading
+            ) {
+
+              setShowLeaveModal(
+                false
+              );
+
+              setEditLeave(
+                null
+              );
+
+            }
+
+          }}
+
+          editLeave={
+            editLeave
           }
 
-          onSave={handleAddLeave}
+          onSave={
+            handleSaveLeave
+          }
+
         />
 
       )}
 
     </div>
+
   );
+
 };
+
 
 export default AppointmentAvailability;

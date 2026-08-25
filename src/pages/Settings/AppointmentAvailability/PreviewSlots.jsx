@@ -5,6 +5,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 
+
 const PreviewSlots = ({
   schedule,
   leaves,
@@ -76,6 +77,10 @@ const PreviewSlots = ({
       return null;
     }
 
+    if (!Array.isArray(leaves)) {
+      return null;
+    }
+
     return leaves.find((leave) => {
 
       if (
@@ -135,6 +140,7 @@ const PreviewSlots = ({
       endHour * 60 +
       endMinute;
 
+
     while (
       currentMinutes + duration <=
       endMinutes
@@ -168,6 +174,7 @@ const PreviewSlots = ({
         const date = new Date();
 
         date.setHours(h);
+
         date.setMinutes(m);
 
         return date.toLocaleTimeString(
@@ -182,6 +189,7 @@ const PreviewSlots = ({
 
 
       slots.push({
+
         start: formatTime(
           hour,
           minute
@@ -191,6 +199,7 @@ const PreviewSlots = ({
           nextHour,
           nextMinute
         ),
+
       });
 
 
@@ -212,12 +221,17 @@ const PreviewSlots = ({
       return null;
     }
 
+    if (!Array.isArray(schedule)) {
+      return null;
+    }
+
     const dayName =
       getDayName(selectedDate);
 
     return schedule.find(
       (item) =>
-        item.day === dayName
+        item?.day === dayName ||
+        item?.dayOfWeek === dayName
     );
 
   }, [
@@ -243,6 +257,23 @@ const PreviewSlots = ({
 
 
   /* =====================================================
+     SLOT DURATION
+     
+     FIX:
+     settings can initially be null.
+     
+     Therefore do NOT directly use:
+     
+     settings.slotDuration
+  ===================================================== */
+
+  const slotDuration =
+    Number(
+      settings?.slotDuration
+    );
+
+
+  /* =====================================================
      MORNING SLOTS
   ===================================================== */
 
@@ -251,7 +282,8 @@ const PreviewSlots = ({
     if (
       !selectedDay ||
       !selectedDay.enabled ||
-      !selectedDay.morningEnabled
+      !selectedDay.morningEnabled ||
+      !slotDuration
     ) {
       return [];
     }
@@ -259,12 +291,12 @@ const PreviewSlots = ({
     return generateSlots(
       selectedDay.morningStart,
       selectedDay.morningEnd,
-      Number(settings.slotDuration)
+      slotDuration
     );
 
   }, [
     selectedDay,
-    settings.slotDuration,
+    slotDuration,
   ]);
 
 
@@ -277,7 +309,8 @@ const PreviewSlots = ({
     if (
       !selectedDay ||
       !selectedDay.enabled ||
-      !selectedDay.eveningEnabled
+      !selectedDay.eveningEnabled ||
+      !slotDuration
     ) {
       return [];
     }
@@ -285,12 +318,12 @@ const PreviewSlots = ({
     return generateSlots(
       selectedDay.eveningStart,
       selectedDay.eveningEnd,
-      Number(settings.slotDuration)
+      slotDuration
     );
 
   }, [
     selectedDay,
-    settings.slotDuration,
+    slotDuration,
   ]);
 
 
@@ -310,6 +343,7 @@ const PreviewSlots = ({
   const handleGenerateSlots = () => {
 
     if (!selectedDate) {
+
       alert(
         "Please select a date first."
       );
@@ -317,9 +351,11 @@ const PreviewSlots = ({
       return;
     }
 
+
     setGeneratedDate(
       selectedDate
     );
+
   };
 
 
@@ -337,6 +373,7 @@ const PreviewSlots = ({
     }
 
     return (
+
       <div>
 
         <div className="preview-session-heading">
@@ -377,12 +414,20 @@ const PreviewSlots = ({
         )}
 
       </div>
+
     );
+
   };
 
 
+  /* =====================================================
+     RETURN
+  ===================================================== */
+
   return (
+
     <div className="preview-slots-card">
+
 
       {/* =================================================
           TITLE
@@ -436,7 +481,9 @@ const PreviewSlots = ({
             handleGenerateSlots
           }
         >
+
           Generate
+
         </button>
 
       </div>
@@ -475,15 +522,19 @@ const PreviewSlots = ({
         <div className="preview-selected-date">
 
           <strong>
+
             {formatDate(
               selectedDate
             )}
+
           </strong>
 
           <span>
+
             {getDayName(
               selectedDate
             )}
+
           </span>
 
         </div>
@@ -512,7 +563,27 @@ const PreviewSlots = ({
 
           </div>
 
-        )}
+      )}
+
+
+      {/* =================================================
+          NO SCHEDULE FOUND
+          
+          This prevents PreviewSlots from showing
+          a blank/broken state if API/static schedule
+          has no matching day.
+      ================================================= */}
+
+      {selectedDate &&
+        !selectedDay && (
+
+          <div className="preview-info-empty">
+
+            No schedule available for this day.
+
+          </div>
+
+      )}
 
 
       {/* =================================================
@@ -536,7 +607,7 @@ const PreviewSlots = ({
 
           </div>
 
-        )}
+      )}
 
 
       {/* =================================================
@@ -550,7 +621,9 @@ const PreviewSlots = ({
 
           <>
 
-            {/* TOTAL */}
+            {/* =================================================
+                TOTAL
+            ================================================= */}
 
             <div className="preview-total-box">
 
@@ -567,7 +640,9 @@ const PreviewSlots = ({
             </div>
 
 
-            {/* SLOT LIST */}
+            {/* =================================================
+                SLOT LIST
+            ================================================= */}
 
             <div className="preview-slot-list">
 
@@ -587,8 +662,10 @@ const PreviewSlots = ({
 
                 <div className="preview-no-slots">
 
-                  No sessions are enabled
-                  for this day.
+                  {slotDuration
+                    ? "No sessions are enabled for this day."
+                    : "Appointment settings are still loading."
+                  }
 
                 </div>
 
@@ -598,7 +675,7 @@ const PreviewSlots = ({
 
           </>
 
-        )}
+      )}
 
 
       {/* =================================================
@@ -607,19 +684,30 @@ const PreviewSlots = ({
 
       {selectedDate &&
         generatedDate !== selectedDate && (
+
           <div className="preview-info-empty">
 
             Click
+
+            {" "}
+
             <strong>
               Generate
             </strong>
+
+            {" "}
+
             to preview available slots.
 
           </div>
-        )}
+
+      )}
 
     </div>
+
   );
+
 };
+
 
 export default PreviewSlots;

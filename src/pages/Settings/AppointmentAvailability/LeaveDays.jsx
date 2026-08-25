@@ -17,20 +17,26 @@ const LeaveDays = ({
   onEditLeave,
 }) => {
 
-  /* STATE  */
-    
+  /* =====================================================
+     STATE
+  ===================================================== */
+
+  const [leaveData, setLeaveData] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [showAllLeaves, setShowAllLeaves] =
+    useState(false);
+
+  const [editLoading, setEditLoading] =
+    useState(false);
 
 
-  const [leaveData, setLeaveData] = useState([]);
-
-  const [loading, setLoading] = useState(false);
-
-  const [showAllLeaves, setShowAllLeaves] = useState(false);
-
-
-  /* GET AUTH TOKEN */
-    
- 
+  /* =====================================================
+     GET AUTH TOKEN
+  ===================================================== */
 
   const getAuthToken = () => {
 
@@ -59,7 +65,7 @@ const LeaveDays = ({
 
       } catch {
 
-     
+        // Keep original token
 
       }
 
@@ -82,26 +88,29 @@ const LeaveDays = ({
   };
 
 
-  /*   FORMAT DATE*/
-  
-  
+  /* =====================================================
+     FORMAT DATE
+  ===================================================== */
 
   const formatDate = (date) => {
 
     if (!date) {
+
       return "";
+
     }
 
-    return String(date).split("T")[0];
+
+    return String(
+      date
+    ).split("T")[0];
 
   };
 
 
-  /*  GET APPOINTMENT LEAVES */
-   
-     
-  
- 
+  /* =====================================================
+     GET ALL APPOINTMENT LEAVES
+  ===================================================== */
 
   const getLeaves = async () => {
 
@@ -153,16 +162,13 @@ const LeaveDays = ({
       setLoading(true);
 
 
-      /* GET API */
-         
-      
-
       const response =
         await fetch(
           API.APPOINTMENT_LEAVES,
           {
 
-            method: "GET",
+            method:
+              "GET",
 
             headers: {
 
@@ -177,10 +183,6 @@ const LeaveDays = ({
           }
         );
 
-
-      /*  READ RESPONSE */
-        
-      
 
       const responseText =
         await response.text();
@@ -208,10 +210,6 @@ const LeaveDays = ({
 
       }
 
-
-      /*  RESPONSE LOG */
-        
-      
 
       console.log(
         "=========================================="
@@ -241,10 +239,6 @@ const LeaveDays = ({
       );
 
 
-      /* API ERROR */
-         
-      
-
       if (!response.ok) {
 
         console.error(
@@ -257,9 +251,9 @@ const LeaveDays = ({
       }
 
 
-      /* GET ARRAY*/
-         
-       
+      /* =================================================
+         GET ARRAY
+      ================================================= */
 
       let apiLeaves = [];
 
@@ -309,9 +303,9 @@ const LeaveDays = ({
       }
 
 
-      /*   FORMAT API DATA*/
-       
-       
+      /* =================================================
+         FORMAT API DATA
+      ================================================= */
 
       const formattedLeaves =
         apiLeaves.map(
@@ -322,15 +316,18 @@ const LeaveDays = ({
               ...leave,
 
               id:
-                leave.id ||
-                leave.leave_id ||
-                leave.leaveId ||
+                leave.id ??
+                leave.leave_id ??
+                leave.leaveId ??
+                leave.appointmentLeaveId ??
+                leave.appointmentLeaveID ??
                 index + 1,
 
               fromDate:
                 formatDate(
                   leave.from_date ||
                   leave.fromDate ||
+                  leave.FromDate ||
                   ""
                 ),
 
@@ -338,16 +335,19 @@ const LeaveDays = ({
                 formatDate(
                   leave.to_date ||
                   leave.toDate ||
+                  leave.ToDate ||
                   ""
                 ),
 
               reason:
                 leave.reason ||
+                leave.Reason ||
                 "",
 
               repeatType:
                 leave.repeat_type ||
                 leave.repeatType ||
+                leave.RepeatType ||
                 "NONE",
 
             };
@@ -361,10 +361,6 @@ const LeaveDays = ({
         formattedLeaves
       );
 
-
-      /*   SAVE API DATA */
-       
-      
 
       setLeaveData(
         formattedLeaves
@@ -387,9 +383,9 @@ const LeaveDays = ({
   };
 
 
-  /*  LOAD LEAVES */
-   
- 
+  /* =====================================================
+     LOAD API DATA
+  ===================================================== */
 
   useEffect(() => {
 
@@ -398,9 +394,9 @@ const LeaveDays = ({
   }, []);
 
 
-  /*  DISPLAY DATA*/
-   
-  
+  /* =====================================================
+     DISPLAY DATA
+  ===================================================== */
 
   const displayLeaves =
     leaveData.length > 0
@@ -408,25 +404,439 @@ const LeaveDays = ({
       : leaves;
 
 
-  /*  SHOW FIRST 3 OR ALL  */
-   
-
+  /* =====================================================
+     FIRST 3 / ALL
+  ===================================================== */
 
   const visibleLeaves =
     showAllLeaves
       ? displayLeaves
-      : displayLeaves.slice(0, 3);
+      : displayLeaves.slice(
+          0,
+          3
+        );
 
 
-  /*VIEW ALL CLICK  */
-     
-
+  /* =====================================================
+     VIEW ALL
+  ===================================================== */
 
   const handleViewAllLeaves = () => {
 
     setShowAllLeaves(
-      (previous) => !previous
+      (previous) =>
+        !previous
     );
+
+  };
+
+
+  /* =====================================================
+     EDIT LEAVE
+     
+     GET:
+     /api/appointment-leaves/:id
+  ===================================================== */
+
+  const handleEditLeave = async (
+    leave
+  ) => {
+
+    console.log(
+      "=========================================="
+    );
+
+    console.log(
+      "EDIT LEAVE BUTTON CLICKED"
+    );
+
+    console.log(
+      "SELECTED LEAVE:",
+      leave
+    );
+
+
+    /* =================================================
+       GET ID
+    ================================================= */
+
+    const leaveId =
+      leave?.id ??
+      leave?.leave_id ??
+      leave?.leaveId ??
+      leave?.appointmentLeaveId ??
+      leave?.appointmentLeaveID;
+
+
+    console.log(
+      "LEAVE ID:",
+      leaveId
+    );
+
+
+    /* =================================================
+       ID CHECK
+    ================================================= */
+
+    if (
+      leaveId === undefined ||
+      leaveId === null ||
+      leaveId === ""
+    ) {
+
+      console.error(
+        "LEAVE ID NOT FOUND:",
+        leave
+      );
+
+      alert(
+        "Leave ID not found."
+      );
+
+      return;
+
+    }
+
+
+    /* =================================================
+       GET TOKEN
+    ================================================= */
+
+    const token =
+      getAuthToken();
+
+
+    console.log(
+      "TOKEN EXISTS:",
+      !!token
+    );
+
+
+    if (!token) {
+
+      console.error(
+        "AUTH TOKEN NOT FOUND"
+      );
+
+      alert(
+        "Unauthorized. Please login again."
+      );
+
+      return;
+
+    }
+
+
+    /* =================================================
+       EDIT API URL
+    ================================================= */
+
+    const editUrl =
+      `${API.APPOINTMENT_LEAVES}/${leaveId}`;
+
+
+    console.log(
+      "EDIT API URL:",
+      editUrl
+    );
+
+    console.log(
+      "METHOD:",
+      "GET"
+    );
+
+    console.log(
+      "=========================================="
+    );
+
+
+    try {
+
+      setEditLoading(true);
+
+
+      /* =================================================
+         CALL EDIT / GET API
+      ================================================= */
+
+      const response =
+        await fetch(
+          editUrl,
+          {
+
+            method:
+              "GET",
+
+            headers: {
+
+              "Accept":
+                "application/json",
+
+              "Authorization":
+                `Bearer ${token}`,
+
+            },
+
+          }
+        );
+
+
+      /* =================================================
+         READ RESPONSE
+      ================================================= */
+
+      const responseText =
+        await response.text();
+
+
+      let responseData =
+        null;
+
+
+      if (responseText) {
+
+        try {
+
+          responseData =
+            JSON.parse(
+              responseText
+            );
+
+        } catch {
+
+          responseData =
+            responseText;
+
+        }
+
+      }
+
+
+      /* =================================================
+         API RESPONSE LOG
+      ================================================= */
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "EDIT LEAVE API RESPONSE"
+      );
+
+      console.log(
+        "STATUS:",
+        response.status
+      );
+
+      console.log(
+        "OK:",
+        response.ok
+      );
+
+      console.log(
+        "RESPONSE:",
+        responseData
+      );
+
+      console.log(
+        "=========================================="
+      );
+
+
+      /* =================================================
+         API ERROR
+      ================================================= */
+
+      if (!response.ok) {
+
+        console.error(
+          "EDIT LEAVE API ERROR:",
+          responseData
+        );
+
+
+        if (
+          response.status === 401
+        ) {
+
+          alert(
+            "Unauthorized. Please login again."
+          );
+
+        } else {
+
+          alert(
+            responseData?.message ||
+            responseData?.title ||
+            responseData?.error ||
+            "Unable to get leave details."
+          );
+
+        }
+
+        return;
+
+      }
+
+
+      /* =================================================
+         GET ACTUAL LEAVE OBJECT
+      ================================================= */
+
+      let apiLeave =
+        responseData;
+
+
+      if (
+        responseData?.data
+      ) {
+
+        apiLeave =
+          responseData.data;
+
+      }
+
+      else if (
+        responseData?.leave
+      ) {
+
+        apiLeave =
+          responseData.leave;
+
+      }
+
+      else if (
+        responseData?.result
+      ) {
+
+        apiLeave =
+          responseData.result;
+
+      }
+
+
+      console.log(
+        "API LEAVE FOR EDIT:",
+        apiLeave
+      );
+
+
+      /* =================================================
+         FORMAT DATA FOR ADD LEAVE FORM
+      ================================================= */
+
+      const editLeaveData = {
+
+        ...apiLeave,
+
+        id:
+          apiLeave?.id ??
+          apiLeave?.leave_id ??
+          apiLeave?.leaveId ??
+          apiLeave?.appointmentLeaveId ??
+          apiLeave?.appointmentLeaveID ??
+          leaveId,
+
+        fromDate:
+          formatDate(
+            apiLeave?.from_date ||
+            apiLeave?.fromDate ||
+            apiLeave?.FromDate ||
+            ""
+          ),
+
+        toDate:
+          formatDate(
+            apiLeave?.to_date ||
+            apiLeave?.toDate ||
+            apiLeave?.ToDate ||
+            ""
+          ),
+
+        reason:
+          apiLeave?.reason ||
+          apiLeave?.Reason ||
+          "",
+
+        repeatType:
+          apiLeave?.repeat_type ||
+          apiLeave?.repeatType ||
+          apiLeave?.RepeatType ||
+          "NONE",
+
+      };
+
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "EDIT FORM DATA"
+      );
+
+      console.log(
+        "FROM DATE:",
+        editLeaveData.fromDate
+      );
+
+      console.log(
+        "TO DATE:",
+        editLeaveData.toDate
+      );
+
+      console.log(
+        "REASON:",
+        editLeaveData.reason
+      );
+
+      console.log(
+        "REPEAT TYPE:",
+        editLeaveData.repeatType
+      );
+
+      console.log(
+        "ID:",
+        editLeaveData.id
+      );
+
+      console.log(
+        "=========================================="
+      );
+
+
+      /* =================================================
+         OPEN ADD LEAVE FORM WITH DATA
+      ================================================= */
+
+      if (onEditLeave) {
+
+        onEditLeave(
+          editLeaveData
+        );
+
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "EDIT LEAVE API FETCH ERROR:",
+        error
+      );
+
+      alert(
+        error.message ||
+        "Unable to connect to server."
+      );
+
+
+    } finally {
+
+      setEditLoading(false);
+
+    }
 
   };
 
@@ -435,9 +845,9 @@ const LeaveDays = ({
     <section className="leave-days-card">
 
 
-      {/* 
+      {/* =================================================
           HEADER
-       */}
+      ================================================= */}
 
       <div className="leave-days-header">
 
@@ -455,7 +865,9 @@ const LeaveDays = ({
         <button
           type="button"
           className="add-leave-btn"
-          onClick={onAddLeave}
+          onClick={
+            onAddLeave
+          }
         >
 
           <FaPlus />
@@ -467,9 +879,9 @@ const LeaveDays = ({
       </div>
 
 
-      {/* 
+      {/* =================================================
           TABLE
-       */}
+      ================================================= */}
 
       <div className="leave-table-scroll">
 
@@ -531,7 +943,10 @@ const LeaveDays = ({
             ) : (
 
               visibleLeaves.map(
-                (leave, index) => (
+                (
+                  leave,
+                  index
+                ) => (
 
                   <tr
                     key={
@@ -541,9 +956,9 @@ const LeaveDays = ({
                   >
 
 
-                    {/* =====================================
+                    {/* =================================================
                         DATE RANGE
-                    ===================================== */}
+                    ================================================= */}
 
                     <td>
 
@@ -563,10 +978,12 @@ const LeaveDays = ({
                           leave.toDate ||
                           leave.to_date
                         ) &&
+
                         formatDate(
                           leave.toDate ||
                           leave.to_date
                         ) !==
+
                         formatDate(
                           leave.fromDate ||
                           leave.from_date
@@ -598,9 +1015,9 @@ const LeaveDays = ({
                     </td>
 
 
-                    {/* =====================================
+                    {/* =================================================
                         REASON
-                    ===================================== */}
+                    ================================================= */}
 
                     <td>
 
@@ -616,26 +1033,30 @@ const LeaveDays = ({
                     </td>
 
 
-                    {/* =====================================
+                    {/* =================================================
                         ACTION
-                    ===================================== */}
+                    ================================================= */}
 
                     <td>
 
                       <div className="leave-action-buttons">
 
 
-                        {/* EDIT */}
+                        {/* =================================================
+                            EDIT
+                        ================================================= */}
 
                         <button
                           type="button"
                           className="leave-edit-btn"
                           title="Edit Leave"
                           onClick={() =>
-                            onEditLeave &&
-                            onEditLeave(
+                            handleEditLeave(
                               leave
                             )
+                          }
+                          disabled={
+                            editLoading
                           }
                         >
 
@@ -644,7 +1065,9 @@ const LeaveDays = ({
                         </button>
 
 
-                        {/* DELETE */}
+                        {/* =================================================
+                            DELETE
+                        ================================================= */}
 
                         <button
                           type="button"
@@ -681,9 +1104,9 @@ const LeaveDays = ({
       </div>
 
 
-      {/* 
+      {/* =================================================
           VIEW ALL
-       */}
+      ================================================= */}
 
       {displayLeaves.length > 0 && (
 
@@ -701,10 +1124,12 @@ const LeaveDays = ({
           }
 
           <span>
+
             {showAllLeaves
               ? "↑"
               : "→"
             }
+
           </span>
 
         </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   FaCalendarAlt,
@@ -12,30 +12,228 @@ import { API } from "../../../config/api";
 const AddLeaveModal = ({
   onClose,
   onSave,
+  editLeave,
 }) => {
 
-  /*  FORM DATA*/
-   
-  
+  /* =====================================================
+     CHECK EDIT MODE
+  ===================================================== */
+
+  const isEditMode = !!editLeave;
+
+
+  /* =====================================================
+     REPEAT TYPE
+  ===================================================== */
+
+  const getRepeatLabel = (repeatType) => {
+
+    switch (String(repeatType || "").toUpperCase()) {
+
+      case "WEEKLY":
+        return "Every Week";
+
+      case "MONTHLY":
+        return "Every Month";
+
+      case "YEARLY":
+        return "Every Year";
+
+      case "NONE":
+      default:
+        return "Does not repeat";
+
+    }
+
+  };
+
+
+  /* =====================================================
+     GET VALUE FROM API
+  ===================================================== */
+
+  const getLeaveValue = (leave, camelCase, snakeCase) => {
+
+    if (!leave) {
+      return "";
+    }
+
+    return (
+      leave[camelCase] ??
+      leave[snakeCase] ??
+      ""
+    );
+
+  };
+
+
+  /* =====================================================
+     FORM DATA
+  ===================================================== */
 
   const [formData, setFormData] = useState({
+
     fromDate: "",
+
     toDate: "",
+
     reason: "",
+
     repeat: "Does not repeat",
+
   });
 
 
-  /*LOADING*/
-     
-  
+  /* =====================================================
+     LOADING
+  ===================================================== */
 
   const [loading, setLoading] = useState(false);
 
 
-  /* HANDLE CHANGE  */
-    
+  /* =====================================================
+     LOAD EDIT DATA
+     
+     IMPORTANT:
+     This runs whenever editLeave changes.
+  ===================================================== */
 
+  useEffect(() => {
+
+    console.log(
+      "=========================================="
+    );
+
+    console.log(
+      "ADD LEAVE MODAL"
+    );
+
+    console.log(
+      "EDIT MODE:",
+      isEditMode
+    );
+
+    console.log(
+      "EDIT LEAVE DATA:",
+      editLeave
+    );
+
+    console.log(
+      "=========================================="
+    );
+
+
+    if (editLeave) {
+
+      const fromDate =
+        getLeaveValue(
+          editLeave,
+          "fromDate",
+          "from_date"
+        );
+
+      const toDate =
+        getLeaveValue(
+          editLeave,
+          "toDate",
+          "to_date"
+        );
+
+      const reason =
+        getLeaveValue(
+          editLeave,
+          "reason",
+          "Reason"
+        );
+
+      const repeatType =
+        getLeaveValue(
+          editLeave,
+          "repeatType",
+          "repeat_type"
+        );
+
+
+      /* ---------------------------------------------
+         Convert API date to YYYY-MM-DD
+      --------------------------------------------- */
+
+      const formattedFromDate =
+        fromDate
+          ? String(fromDate).split("T")[0]
+          : "";
+
+
+      const formattedToDate =
+        toDate
+          ? String(toDate).split("T")[0]
+          : "";
+
+
+      setFormData({
+
+        fromDate:
+          formattedFromDate,
+
+        toDate:
+          formattedToDate,
+
+        reason:
+          reason || "",
+
+        repeat:
+          getRepeatLabel(
+            repeatType
+          ),
+
+      });
+
+
+      console.log(
+        "EDIT FORM DATA:",
+        {
+          fromDate:
+            formattedFromDate,
+
+          toDate:
+            formattedToDate,
+
+          reason:
+            reason || "",
+
+          repeat:
+            getRepeatLabel(
+              repeatType
+            ),
+        }
+      );
+
+    } else {
+
+      /* ---------------------------------------------
+         ADD MODE
+      --------------------------------------------- */
+
+      setFormData({
+
+        fromDate: "",
+
+        toDate: "",
+
+        reason: "",
+
+        repeat: "Does not repeat",
+
+      });
+
+    }
+
+  }, [editLeave]);
+
+
+  /* =====================================================
+     HANDLE CHANGE
+  ===================================================== */
 
   const handleChange = (e) => {
 
@@ -44,17 +242,21 @@ const AddLeaveModal = ({
       value,
     } = e.target;
 
+
     setFormData((previous) => ({
+
       ...previous,
+
       [name]: value,
+
     }));
 
   };
 
 
-  /* GET REPEAT TYPE FOR API*/
-    
-  
+  /* =====================================================
+     GET REPEAT TYPE FOR API
+  ===================================================== */
 
   const getRepeatType = () => {
 
@@ -78,9 +280,9 @@ const AddLeaveModal = ({
   };
 
 
-  /*GET AUTH TOKEN*/
-     
-  
+  /* =====================================================
+     GET AUTH TOKEN
+  ===================================================== */
 
   const getAuthToken = () => {
 
@@ -96,8 +298,6 @@ const AddLeaveModal = ({
     }
 
 
- 
-
     if (
       token &&
       token.startsWith('"') &&
@@ -111,12 +311,11 @@ const AddLeaveModal = ({
 
       } catch {
 
-     
+        // Keep original token
 
       }
 
     }
-
 
 
     if (
@@ -135,18 +334,41 @@ const AddLeaveModal = ({
   };
 
 
-  /* SAVE*/
-    
-  
+  /* =====================================================
+     GET EDIT ID
+  ===================================================== */
+
+  const getEditId = () => {
+
+    if (!editLeave) {
+      return null;
+    }
+
+
+    return (
+      editLeave.id ??
+      editLeave.leave_id ??
+      editLeave.leaveId ??
+      editLeave.appointmentLeaveId ??
+      editLeave.appointmentLeaveID ??
+      null
+    );
+
+  };
+
+
+  /* =====================================================
+     SAVE
+  ===================================================== */
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
 
-    /*DATE VALIDATION  */
-       
-  
+    /* =================================================
+       DATE VALIDATION
+    ================================================= */
 
     if (
       !formData.fromDate ||
@@ -162,9 +384,9 @@ const AddLeaveModal = ({
     }
 
 
-    /* DATE RANGE VALIDATION */
-      
-   
+    /* =================================================
+       DATE RANGE VALIDATION
+    ================================================= */
 
     if (
       formData.toDate <
@@ -180,9 +402,9 @@ const AddLeaveModal = ({
     }
 
 
-    /* REASON VALIDATION */
-      
-   
+    /* =================================================
+       REASON VALIDATION
+    ================================================= */
 
     if (
       !formData.reason.trim()
@@ -197,17 +419,28 @@ const AddLeaveModal = ({
     }
 
 
-    /* TOKEN */
-      
-   
+    /* =================================================
+       TOKEN
+    ================================================= */
 
     const token =
       getAuthToken();
 
 
-    /* API BODY */
-      
-   
+    if (!token) {
+
+      alert(
+        "Unauthorized. Please login again."
+      );
+
+      return;
+
+    }
+
+
+    /* =================================================
+       REQUEST BODY
+    ================================================= */
 
     const requestBody = {
 
@@ -226,33 +459,61 @@ const AddLeaveModal = ({
     };
 
 
-  
+    /* =================================================
+       EDIT ID
+    ================================================= */
+
+    const editId =
+      getEditId();
+
+
+    /* =================================================
+       URL
+    ================================================= */
+
+    const requestUrl =
+      isEditMode && editId
+        ? `${API.APPOINTMENT_LEAVES}/${editId}`
+        : API.APPOINTMENT_LEAVES;
+
+
+    /* =================================================
+       METHOD
+    ================================================= */
+
+    const requestMethod =
+      isEditMode && editId
+        ? "PUT"
+        : "POST";
+
 
     console.log(
       "=========================================="
     );
 
     console.log(
-      "CREATE APPOINTMENT LEAVE"
+      isEditMode
+        ? "UPDATE APPOINTMENT LEAVE"
+        : "CREATE APPOINTMENT LEAVE"
     );
 
     console.log(
       "=========================================="
+    );
+
+    console.log(
+      "EDIT ID:",
+      editId
     );
 
     console.log(
       "API URL:",
-      API.APPOINTMENT_LEAVES
+      requestUrl
     );
 
     console.log(
       "METHOD:",
-      "POST"
-    );
-
-    console.log(
-      "TOKEN EXISTS:",
-      !!token
+      requestMethod
     );
 
     console.log(
@@ -261,36 +522,8 @@ const AddLeaveModal = ({
     );
 
     console.log(
-      "REQUEST BODY JSON:",
-      JSON.stringify(
-        requestBody,
-        null,
-        2
-      )
-    );
-
-    console.log(
       "=========================================="
     );
-
-
-    /*TOKEN CHECK*/
-       
-    
-
-    if (!token) {
-
-      console.error(
-        "AUTH TOKEN NOT FOUND"
-      );
-
-      alert(
-        "Unauthorized. Please login again."
-      );
-
-      return;
-
-    }
 
 
     try {
@@ -298,16 +531,17 @@ const AddLeaveModal = ({
       setLoading(true);
 
 
-      /*API CALL*/
-         
-      
+      /* =================================================
+         API CALL
+      ================================================= */
 
       const response =
         await fetch(
-          API.APPOINTMENT_LEAVES,
+          requestUrl,
           {
 
-            method: "POST",
+            method:
+              requestMethod,
 
             headers: {
 
@@ -331,20 +565,47 @@ const AddLeaveModal = ({
         );
 
 
-      /*RESPONSE*/
-         
-      
+      /* =================================================
+         READ RESPONSE
+      ================================================= */
+
+      const responseText =
+        await response.text();
+
+
+      let responseData =
+        null;
+
+
+      if (responseText) {
+
+        try {
+
+          responseData =
+            JSON.parse(
+              responseText
+            );
+
+        } catch {
+
+          responseData =
+            responseText;
+
+        }
+
+      }
+
+
+      /* =================================================
+         RESPONSE LOG
+      ================================================= */
 
       console.log(
         "=========================================="
       );
 
       console.log(
-        "APPOINTMENT LEAVE API RESPONSE"
-      );
-
-      console.log(
-        "=========================================="
+        "APPOINTMENT LEAVE RESPONSE"
       );
 
       console.log(
@@ -367,17 +628,11 @@ const AddLeaveModal = ({
       );
 
 
-      /*  API ERROR */
-       
-     
+      /* =================================================
+         API ERROR
+      ================================================= */
 
       if (!response.ok) {
-
-        console.error(
-          "APPOINTMENT LEAVE API ERROR:",
-          responseData
-        );
-
 
         if (
           response.status === 401
@@ -393,7 +648,11 @@ const AddLeaveModal = ({
             responseData?.message ||
             responseData?.title ||
             responseData?.error ||
-            "Failed to add leave."
+            (
+              isEditMode
+                ? "Failed to update leave."
+                : "Failed to add leave."
+            )
           );
 
         }
@@ -403,28 +662,27 @@ const AddLeaveModal = ({
       }
 
 
-      /*SUCCESS*/
-         
-      
+      /* =================================================
+         SAVED DATA
+      ================================================= */
 
-      console.log(
-        "=========================================="
-      );
+      const apiSavedData =
+        responseData?.data ||
+        responseData ||
+        {};
 
-      console.log(
-        "LEAVE CREATED SUCCESSFULLY"
-      );
-
-      console.log(
-        "=========================================="
-      );
-
-
-   
 
       const savedLeave = {
 
-        ...(responseData?.data || {}),
+        ...editLeave,
+
+        ...apiSavedData,
+
+        id:
+          getEditId() ||
+          apiSavedData?.id ||
+          apiSavedData?.leaveId ||
+          apiSavedData?.appointmentLeaveId,
 
         fromDate:
           requestBody.fromDate,
@@ -441,6 +699,16 @@ const AddLeaveModal = ({
       };
 
 
+      console.log(
+        "SAVED LEAVE:",
+        savedLeave
+      );
+
+
+      /* =================================================
+         SEND TO PARENT
+      ================================================= */
+
       if (onSave) {
 
         onSave(
@@ -449,13 +717,10 @@ const AddLeaveModal = ({
 
       }
 
-
     } catch (error) {
 
-      /*NETWORK ERROR*/
-
       console.error(
-        "CREATE LEAVE FETCH ERROR:",
+        "SAVE LEAVE ERROR:",
         error
       );
 
@@ -464,7 +729,6 @@ const AddLeaveModal = ({
         error.message ||
         "Unable to connect to server."
       );
-
 
     } finally {
 
@@ -476,27 +740,37 @@ const AddLeaveModal = ({
 
 
   return (
+
     <div className="leave-modal-overlay">
 
 
       <div className="add-leave-modal">
 
 
-        {/*  HEADER*/}
-          
-        
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
         <div className="leave-modal-header">
 
           <div>
 
             <h2>
-              Add Leave
+
+              {isEditMode
+                ? "Edit Leave"
+                : "Add Leave"
+              }
+
             </h2>
 
             <p>
-              Add a leave to block appointments
-              for selected dates.
+
+              {isEditMode
+                ? "Update leave details for the selected dates."
+                : "Add a leave to block appointments for selected dates."
+              }
+
             </p>
 
           </div>
@@ -516,9 +790,9 @@ const AddLeaveModal = ({
         </div>
 
 
-        {/*INFO*/}
-            
-        
+        {/* =================================================
+            INFO
+        ================================================= */}
 
         <div className="leave-modal-info">
 
@@ -532,25 +806,23 @@ const AddLeaveModal = ({
         </div>
 
 
-        {/*FORM*/}
-            
-        
+        {/* =================================================
+            FORM
+        ================================================= */}
 
         <form
           onSubmit={handleSubmit}
         >
 
 
-          {/*DATE RANGE */}
-              
-         
+          {/* =================================================
+              DATE RANGE
+          ================================================= */}
 
           <div className="leave-date-form-grid">
 
 
-            {/* ---------------------------------------------
-                FROM DATE
-            --------------------------------------------- */}
+            {/* FROM DATE */}
 
             <div className="leave-form-field">
 
@@ -584,9 +856,7 @@ const AddLeaveModal = ({
             </div>
 
 
-            {/* ---------------------------------------------
-                TO DATE
-            --------------------------------------------- */}
+            {/* TO DATE */}
 
             <div className="leave-form-field">
 
@@ -626,9 +896,9 @@ const AddLeaveModal = ({
           </div>
 
 
-          {/*
+          {/* =================================================
               REASON
-          */}
+          ================================================= */}
 
           <div className="leave-reason-field">
 
@@ -665,12 +935,11 @@ const AddLeaveModal = ({
           </div>
 
 
-          {/*
+          {/* =================================================
               REPEAT
-          */}
+          ================================================= */}
 
           <div className="leave-repeat-status-row">
-
 
             <div className="leave-form-field">
 
@@ -719,9 +988,9 @@ const AddLeaveModal = ({
           </div>
 
 
-          {/*
+          {/* =================================================
               FOOTER
-          */}
+          ================================================= */}
 
           <div className="leave-modal-footer">
 
@@ -744,8 +1013,19 @@ const AddLeaveModal = ({
             >
 
               {loading
-                ? "Adding..."
-                : "Add Leave"
+
+                ? (
+                  isEditMode
+                    ? "Updating..."
+                    : "Adding..."
+                )
+
+                : (
+                  isEditMode
+                    ? "Update Leave"
+                    : "Add Leave"
+                )
+
               }
 
             </button>
@@ -757,7 +1037,9 @@ const AddLeaveModal = ({
       </div>
 
     </div>
+
   );
+
 };
 
 

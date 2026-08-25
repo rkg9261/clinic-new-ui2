@@ -2721,6 +2721,34 @@ td {
 }
 
 
+/* =====================================================
+   WEEKLY SCHEDULE HEADER
+===================================================== */
+
+.weekly-schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.weekly-schedule-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Save button */
+.weekly-schedule-header .appointment-save-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 /* =========================================================
    RESPONSIVE - 1200
 ========================================================= */
