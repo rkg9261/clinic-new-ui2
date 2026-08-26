@@ -105,12 +105,8 @@ const handleSubmit = async (e) => {
       alert("Appointment Submitted Successfully!");
 
       setFormData({
-        name: "",
-        age: "",
-        gender: "",
-        mobile: "",
-        appointmentDate: "",
-    appointmentTime: "",
+     
+    
       });
 
     } else {

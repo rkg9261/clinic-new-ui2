@@ -45,5 +45,7 @@ APPOINTMENT_LEAVES: `${BASE_URL}/api/appointment-leaves`,
 WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
 
   APPOINTMENT_SETTINGS: `${BASE_URL}/api/appointment-settings`,
-   
+  
+  APPOINTMENTS: `${BASE_URL}/api/appointment/create`,
+ 
 };

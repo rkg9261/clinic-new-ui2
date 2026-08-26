@@ -272,7 +272,7 @@ const AppointmentAvailability = () => {
   /* =====================================================
      WEEKLY SCHEDULE REF
 
-     Used to call saveSchedule() from WeeklySchedule.jsx.
+    
   ===================================================== */
 
   const weeklyScheduleRef =
@@ -574,15 +574,6 @@ const AppointmentAvailability = () => {
   /* =====================================================
      SAVE ALL SETTINGS
 
-     IMPORTANT:
-
-     Weekly Schedule API is NOT here.
-
-     WeeklySchedule.jsx owns:
-
-     POST
-     GET
-     PUT
   ===================================================== */
 
   const handleSaveSettings = async () => {
@@ -610,8 +601,6 @@ const AppointmentAvailability = () => {
       /* =================================================
          CALL WEEKLY SCHEDULE API
 
-         The actual API logic is inside
-         WeeklySchedule.jsx.
       ================================================= */
 
       if (

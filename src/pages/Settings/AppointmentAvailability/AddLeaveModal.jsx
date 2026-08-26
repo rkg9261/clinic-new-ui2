@@ -155,7 +155,7 @@ const AddLeaveModal = ({
 
 
       /* ---------------------------------------------
-         Convert API date to YYYY-MM-DD
+        YYYY-MM-DD
       --------------------------------------------- */
 
       const formattedFromDate =
@@ -254,9 +254,7 @@ const AddLeaveModal = ({
   };
 
 
-  /* =====================================================
-     GET REPEAT TYPE FOR API
-  ===================================================== */
+
 
   const getRepeatType = () => {
 

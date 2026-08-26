@@ -95,14 +95,6 @@ const WeeklySchedule = forwardRef(
     /* =====================================================
        CONVERT API VALUE TO BOOLEAN
 
-       true       -> true
-       false      -> false
-       1          -> true
-       0          -> false
-       "1"        -> true
-       "0"        -> false
-       "true"     -> true
-       "false"    -> false
     ===================================================== */
 
     const toBoolean = (
@@ -202,11 +194,6 @@ const WeeklySchedule = forwardRef(
     /* =====================================================
        FORMAT TIME
 
-       API:
-       09:00:00
-
-       UI:
-       09:00
     ===================================================== */
 
     const formatTime = (
@@ -532,16 +519,6 @@ const WeeklySchedule = forwardRef(
         );
 
 
-      /* =================================================
-         MAIN ENABLED
-
-         If API gives value:
-         use API value.
-
-         If API does not give enabled but
-         database record has ID:
-         keep it ON.
-      ================================================= */
 
       let enabled;
 
@@ -1191,15 +1168,6 @@ const WeeklySchedule = forwardRef(
     /* =====================================================
        POST BODY
 
-       IMPORTANT:
-
-       API EXPECTS:
-
-       dayOfWeek
-
-       NOT:
-
-       day
     ===================================================== */
 
     const buildPostBody = (
@@ -1251,15 +1219,7 @@ const WeeklySchedule = forwardRef(
     /* =====================================================
        PUT BODY
 
-       IMPORTANT:
-
-       API EXPECTS:
-
-       dayOfWeek
-
-       NOT:
-
-       day
+ 
     ===================================================== */
 
     const buildPutBody = (

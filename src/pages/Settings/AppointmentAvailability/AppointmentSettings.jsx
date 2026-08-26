@@ -19,8 +19,6 @@ const AppointmentSettings = ({
 
 
   /* =====================================================
-     SAFE SETTINGS
-
      NO STATIC FORM VALUES
   ===================================================== */
 
@@ -60,7 +58,7 @@ const AppointmentSettings = ({
 
       } catch {
 
-        // Keep original token
+   
 
       }
 
@@ -87,8 +85,6 @@ const AppointmentSettings = ({
   /* =====================================================
      FORMAT API DATA
 
-     Converts database response into
-     form structure.
   ===================================================== */
 
   const formatSettings = (item) => {
@@ -251,27 +247,8 @@ const AppointmentSettings = ({
   };
 
 
-  /* =====================================================
-     EXTRACT RECORD
+ 
 
-     Supports different API response formats.
-
-     Example:
-
-     {
-       data: {...}
-     }
-
-     OR
-
-     {
-       data: [...]
-     }
-
-     OR
-
-     [...]
-  ===================================================== */
 
   const extractRecord = (responseData) => {
 
@@ -287,17 +264,6 @@ const AppointmentSettings = ({
       responseData;
 
 
-    /*
-
-      Handles:
-
-      {
-        data: {
-          data: [...]
-        }
-      }
-
-    */
 
     if (
       data &&
@@ -353,12 +319,6 @@ const AppointmentSettings = ({
 
   /* =====================================================
      GET APPOINTMENT SETTINGS
-
-     GET:
-     /api/appointment-settings
-
-     THIS GET IS CALLED AUTOMATICALLY
-     WHEN THE PAGE OPENS.
   ===================================================== */
 
   const getAppointmentSettings = async () => {
@@ -594,9 +554,6 @@ const AppointmentSettings = ({
 
       /* =========================
          FILL FORM
-
-         This makes database data
-         visible in all inputs.
       ========================= */
 
       if (
@@ -642,12 +599,6 @@ const AppointmentSettings = ({
 
   /* =====================================================
      AUTOMATIC GET
-
-     GET runs when Appointment Settings
-     component/page opens.
-
-     It does NOT run automatically after
-     every form change.
   ===================================================== */
 
   useEffect(() => {
@@ -820,9 +771,6 @@ const AppointmentSettings = ({
 
   /* =====================================================
      POST API
-
-     POST:
-     /api/appointment-settings
   ===================================================== */
 
   const postAppointmentSettings = async (
@@ -928,13 +876,6 @@ const AppointmentSettings = ({
     );
 
 
-    /*
-      409 means record already exists.
-
-      We continue to GET because we need
-      the database ID.
-    */
-
     if (
       response.status === 409
     ) {
@@ -996,11 +937,6 @@ const AppointmentSettings = ({
 
   /* =====================================================
    PUT APPOINTMENT SETTINGS
-
-   PUT:
-   /api/appointment-settings
-
-   ID is NOT added to URL.
 ===================================================== */
 
 const putAppointmentSettings = async (
@@ -1221,8 +1157,6 @@ const putAppointmentSettings = async (
 
   /* =====================================================
      SAVE
-
-     SHOW UPDATED DATA
   ===================================================== */
 
   const handleSave = async () => {
@@ -1381,7 +1315,7 @@ const putAppointmentSettings = async (
 
 
       /* =================================================
-         STEP 1 — POST
+        POST
       ================================================= */
 
       const postResult =
@@ -1398,9 +1332,7 @@ const putAppointmentSettings = async (
 
 
       /* =================================================
-         STEP 2 — GET
-
-         Always execute GET after POST.
+        — GET.
       ================================================= */
 
       const getResult =
@@ -1455,11 +1387,7 @@ const putAppointmentSettings = async (
       );
 
 
-      /* =================================================
-         CHECK WHETHER RECORD EXISTED BEFORE SAVE
-      ================================================= */
-
-      const existingId =
+        const existingId =
         settings?.id;
 
 
