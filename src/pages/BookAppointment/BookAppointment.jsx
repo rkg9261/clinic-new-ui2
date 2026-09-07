@@ -16,6 +16,7 @@ import {
 import { API } from "../../config/api";
 
 const BookAppointment = () => {
+
   const navigate = useNavigate();
 
   /* =====================================================
@@ -23,11 +24,13 @@ const BookAppointment = () => {
   ===================================================== */
 
   useEffect(() => {
+
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "auto",
     });
+
   }, []);
 
   /* =====================================================
@@ -35,12 +38,19 @@ const BookAppointment = () => {
   ===================================================== */
 
   const [formData, setFormData] = useState({
+
     fullName: "",
+
     age: "",
+
     mobile: "",
+
     gender: "",
+
     date: "",
+
     time: "",
+
   });
 
   /* =====================================================
@@ -53,7 +63,8 @@ const BookAppointment = () => {
      SUCCESS
   ===================================================== */
 
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] =
+    useState("");
 
   /* =====================================================
      API ERROR
@@ -69,43 +80,46 @@ const BookAppointment = () => {
 
   /* =====================================================
      TIME SLOTS
-
-
   ===================================================== */
 
   const TIME_SLOTS = [
+
     {
       label: "10:30 AM",
       from: "10:30 AM",
       to: "11:00 AM",
     },
+
     {
       label: "11:00 AM",
       from: "11:00 AM",
       to: "11:30 AM",
     },
 
-       {
+    {
       label: "11:30 AM",
       from: "11:30 AM",
       to: "12:00 PM",
     },
+
     {
       label: "05:00 PM",
       from: "05:00 PM",
       to: "05:30 PM",
     },
 
-     {
+    {
       label: "05:30 PM",
       from: "05:30 PM",
       to: "06:00 PM",
     },
+
     {
       label: "06:00 PM",
       from: "06:00 PM",
       to: "06:30 PM",
     },
+
   ];
 
   /* =====================================================
@@ -113,105 +127,407 @@ const BookAppointment = () => {
   ===================================================== */
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+
+    const {
+      name,
+      value
+    } = e.target;
 
     /* ---------------------------------------------
        MOBILE ONLY NUMBERS
     --------------------------------------------- */
 
-    if (name === "mobile") {
-      const numericValue = value.replace(/\D/g, "");
+    if (
+      name === "mobile"
+    ) {
 
-      setFormData((previousData) => ({
-        ...previousData,
+      const numericValue =
+        value.replace(/\D/g, "");
 
-        mobile: numericValue.substring(0, 10),
-      }));
-    } else {
-      setFormData((previousData) => ({
-        ...previousData,
+      setFormData(
+        (previousData) => ({
 
-        [name]: value,
-      }));
+          ...previousData,
+
+          mobile:
+            numericValue.substring(
+              0,
+              10
+            ),
+
+        })
+      );
+
+    }
+
+    else {
+
+      setFormData(
+        (previousData) => ({
+
+          ...previousData,
+
+          [name]: value,
+
+        })
+      );
+
+      /*====================================
+        IF DATE CHANGES
+        RESET TIME SLOT
+      ====================================*/
+
+      if (
+        name === "date"
+      ) {
+
+        const availableSlots =
+          getAvailableTimeSlots(
+            value
+          );
+
+        const selectedTimeStillAvailable =
+          availableSlots.some(
+            (slot) =>
+              slot.label ===
+              formData.time
+          );
+
+        if (
+          !selectedTimeStillAvailable
+        ) {
+
+          setFormData(
+            (previousData) => ({
+
+              ...previousData,
+
+              [name]: value,
+
+              time: "",
+
+            })
+          );
+
+        }
+
+      }
+
     }
 
     /* ---------------------------------------------
        CLEAR FIELD ERROR
     --------------------------------------------- */
 
-    setErrors((previousErrors) => ({
-      ...previousErrors,
+    setErrors(
+      (previousErrors) => ({
 
-      [name]: "",
-    }));
+        ...previousErrors,
+
+        [name]: "",
+
+      })
+    );
+
+    /* ---------------------------------------------
+       REMOVE OLD MESSAGE
+    --------------------------------------------- */
 
     setSuccessMessage("");
+
     setApiError("");
+
   };
+
+  /* =====================================================
+     TODAY DATE
+  ===================================================== */
+
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+  /* =====================================================
+     BOOKING DATE RANGE
+     TODAY + NEXT 4 DAYS
+  ===================================================== */
+
+  const getMaxAppointmentDate = () => {
+
+    const currentDate =
+      new Date();
+
+    const maxDate =
+      new Date(
+        currentDate
+      );
+
+    maxDate.setDate(
+      currentDate.getDate() + 4
+    );
+
+    return maxDate
+      .toISOString()
+      .split("T")[0];
+
+  };
+
+  const maxAppointmentDate =
+    getMaxAppointmentDate();
+
+  /* =====================================================
+     GET TIME IN MINUTES
+  ===================================================== */
+
+  const convertTimeToMinutes = (
+    timeString
+  ) => {
+
+    const [
+      time,
+      modifier
+    ] =
+      timeString.split(" ");
+
+    let [
+      hours,
+      minutes
+    ] =
+      time
+        .split(":")
+        .map(Number);
+
+    if (
+      modifier === "PM" &&
+      hours !== 12
+    ) {
+
+      hours += 12;
+
+    }
+
+    if (
+      modifier === "AM" &&
+      hours === 12
+    ) {
+
+      hours = 0;
+
+    }
+
+    return (
+      hours * 60 +
+      minutes
+    );
+
+  };
+
+  /* =====================================================
+     GET AVAILABLE TIME SLOTS
+
+     TODAY:
+     CURRENT TIME + 40 MINUTES
+
+  ===================================================== */
+
+  const getAvailableTimeSlots = (
+    selectedDate
+  ) => {
+
+    /*----------------------------------
+      NO DATE SELECTED
+    ----------------------------------*/
+
+    if (
+      !selectedDate
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+    /*----------------------------------
+      FUTURE DATE
+      ALL TIME SLOTS AVAILABLE
+    ----------------------------------*/
+
+    if (
+      selectedDate !== today
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+    /*----------------------------------
+      TODAY
+
+      CURRENT TIME + 40 MINUTES
+    ----------------------------------*/
+
+    const currentDate =   new Date();
+    const currentHours = currentDate.getHours();
+    const currentMinutes =   currentDate.getMinutes();
+    const currentTimeInMinutes =
+      currentHours * 60 +
+      currentMinutes;
+
+    const minimumBookingTime =  currentTimeInMinutes + 40;
+    
+
+    /*----------------------------------
+      FILTER SLOTS
+    ----------------------------------*/
+
+    return TIME_SLOTS.filter(
+      (slot) => {
+
+        const slotTimeInMinutes =
+          convertTimeToMinutes(
+            slot.from
+          );
+
+        return (
+          slotTimeInMinutes >=
+          minimumBookingTime
+        );
+
+      }
+    );
+
+  };
+
+  /* =====================================================
+     AVAILABLE TIME SLOTS
+  ===================================================== */
+
+  const availableTimeSlots =
+    getAvailableTimeSlots(
+      formData.date
+    );
 
   /* =====================================================
      VALIDATION
   ===================================================== */
 
   const validateForm = () => {
+
     const newErrors = {};
 
     /* NAME */
 
-    if (!formData.fullName.trim()) {
+    if (
+      !formData.fullName.trim()
+    ) {
+
       newErrors.fullName =
         "Please enter your full name.";
+
     }
 
     /* AGE */
 
-    if (!formData.age) {
+    if (
+      !formData.age
+    ) {
+
       newErrors.age =
         "Please enter your age.";
-    } else if (
+
+    }
+
+    else if (
       Number(formData.age) < 1 ||
       Number(formData.age) > 100
     ) {
+
       newErrors.age =
         "Please enter a valid age.";
+
     }
 
     /* MOBILE */
 
-    if (!formData.mobile) {
+    if (
+      !formData.mobile
+    ) {
+
       newErrors.mobile =
         "Please enter your WhatsApp number.";
-    } else if (
-      !/^[6-9]\d{9}$/.test(formData.mobile)
+
+    }
+
+    else if (
+      !/^[6-9]\d{9}$/.test(
+        formData.mobile
+      )
     ) {
+
       newErrors.mobile =
         "Please enter a valid 10-digit mobile number.";
+
     }
 
     /* GENDER */
 
-    if (!formData.gender) {
+    if (
+      !formData.gender
+    ) {
+
       newErrors.gender =
         "Please select your gender.";
+
     }
 
     /* DATE */
 
-    if (!formData.date) {
+    if (
+      !formData.date
+    ) {
+
       newErrors.date =
         "Please select an appointment date.";
+
     }
 
     /* TIME */
 
-    if (!formData.time) {
+    if (
+      !formData.time
+    ) {
+
       newErrors.time =
         "Please select an available time.";
+
     }
 
-    setErrors(newErrors);
+    /*====================================
+      TIME SLOT STILL AVAILABLE
+    ====================================*/
 
-    return Object.keys(newErrors).length === 0;
+    if (
+      formData.time &&
+      !availableTimeSlots.some(
+        (slot) =>
+          slot.label ===
+          formData.time
+      )
+    ) {
+
+      newErrors.time =
+        "Please select an available time slot.";
+
+    }
+
+    setErrors(
+      newErrors
+    );
+
+    return (
+      Object.keys(newErrors).length === 0
+    );
+
   };
 
   /* =====================================================
@@ -219,10 +535,13 @@ const BookAppointment = () => {
   ===================================================== */
 
   const getSelectedSlot = () => {
+
     return TIME_SLOTS.find(
       (slot) =>
-        slot.label === formData.time
+        slot.label ===
+        formData.time
     );
+
   };
 
   /* =====================================================
@@ -230,19 +549,28 @@ const BookAppointment = () => {
   ===================================================== */
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
+    /* ---------------------------------------------
+       CLEAR OLD MESSAGE
+    --------------------------------------------- */
+
     setSuccessMessage("");
+
     setApiError("");
 
     /* ---------------------------------------------
        VALIDATE
     --------------------------------------------- */
 
-    const isValid = validateForm();
+    const isValid =
+      validateForm();
 
     if (!isValid) {
+
       return;
+
     }
 
     /* ---------------------------------------------
@@ -253,11 +581,13 @@ const BookAppointment = () => {
       getSelectedSlot();
 
     if (!selectedSlot) {
+
       setApiError(
         "Please select a valid appointment time."
       );
 
       return;
+
     }
 
     console.log(
@@ -279,9 +609,8 @@ const BookAppointment = () => {
       selectedSlot.to
     );
 
-
-
     const appointmentData = {
+
       name:
         formData.fullName.trim(),
 
@@ -302,6 +631,7 @@ const BookAppointment = () => {
 
       appointment_time_to:
         selectedSlot.to,
+
     };
 
     /* =================================================
@@ -331,32 +661,38 @@ const BookAppointment = () => {
     );
 
     try {
+
       setLoading(true);
 
       /* =================================================
          API CALL
-
-
       ================================================= */
 
-      const response = await fetch(
-        API.APPOINTMENT,
-        {
-          method: "POST",
+      const response =
+        await fetch(
+          API.APPOINTMENT,
+          {
 
-          headers: {
-            "Content-Type":
-              "application/json",
+            method:
+              "POST",
 
-            Accept:
-              "application/json",
-          },
+            headers: {
 
-          body: JSON.stringify(
-            appointmentData
-          ),
-        }
-      );
+              "Content-Type":
+                "application/json",
+
+              Accept:
+                "application/json",
+
+            },
+
+            body:
+              JSON.stringify(
+                appointmentData
+              ),
+
+          }
+        );
 
       /* =================================================
          READ RESPONSE SAFELY
@@ -365,15 +701,24 @@ const BookAppointment = () => {
       const responseText =
         await response.text();
 
-      let responseData = null;
+      let responseData =
+        null;
 
-      if (responseText) {
+      if (
+        responseText
+      ) {
+
         try {
+
           responseData =
             JSON.parse(
               responseText
             );
-        } catch (jsonError) {
+
+        }
+
+        catch (jsonError) {
+
           console.log(
             "Response is not JSON:",
             jsonError
@@ -381,7 +726,9 @@ const BookAppointment = () => {
 
           responseData =
             responseText;
+
         }
+
       }
 
       /* =================================================
@@ -414,34 +761,45 @@ const BookAppointment = () => {
          API ERROR
       ================================================= */
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
+
         let errorMessage =
           "Unable to book appointment. Please try again.";
 
         if (
           responseData &&
-          typeof responseData === "object"
+          typeof responseData ===
+            "object"
         ) {
+
           errorMessage =
             responseData.error ||
             responseData.message ||
             responseData.title ||
             errorMessage;
-        } else if (
-          typeof responseData === "string"
+
+        }
+
+        else if (
+          typeof responseData ===
+            "string"
         ) {
+
           errorMessage =
             responseData;
+
         }
 
         throw new Error(
           errorMessage
         );
+
       }
 
       /* =================================================
          SUCCESS
-
       ================================================= */
 
       const successText =
@@ -485,12 +843,19 @@ const BookAppointment = () => {
       --------------------------------------------- */
 
       setFormData({
+
         fullName: "",
+
         age: "",
+
         mobile: "",
+
         gender: "",
+
         date: "",
+
         time: "",
+
       });
 
       /* ---------------------------------------------
@@ -498,10 +863,17 @@ const BookAppointment = () => {
       --------------------------------------------- */
 
       window.scrollTo({
+
         top: 0,
+
         behavior: "smooth",
+
       });
-    } catch (error) {
+
+    }
+
+    catch (error) {
+
       console.error(
         "===================================="
       );
@@ -517,27 +889,27 @@ const BookAppointment = () => {
 
       setApiError(
         error.message ||
-          "Something went wrong. Please try again."
+        "Something went wrong. Please try again."
       );
-    } finally {
-      setLoading(false);
+
     }
+
+    finally {
+
+      setLoading(false);
+
+    }
+
   };
-
-  /* =====================================================
-     TODAY DATE
-  ===================================================== */
-
-  const today = new Date()
-    .toISOString()
-    .split("T")[0];
 
   /* =====================================================
      RETURN
   ===================================================== */
 
   return (
+
     <>
+
       <main className="book-appointment-page">
 
         {/* =================================================
@@ -549,23 +921,31 @@ const BookAppointment = () => {
           <div className="book-heading-content">
 
             <span className="book-subtitle">
+
               SCHEDULE YOUR VISIT
+
             </span>
 
             <h1>
+
               Book Your{" "}
+
               <span>
                 Appointment
               </span>{" "}
+
               Today
+
             </h1>
 
             <p className="book-description">
+
               Begin your journey toward a
               pain-free and healthier life
               with expert physiotherapy care.
               Schedule your appointment in
               just a few simple steps.
+
             </p>
 
           </div>
@@ -590,7 +970,9 @@ const BookAppointment = () => {
               }
               aria-label="Close"
             >
+
               ×
+
             </button>
 
             {/* HEADER */}
@@ -598,11 +980,15 @@ const BookAppointment = () => {
             <div className="book-form-header">
 
               <h2>
+
                 Take First Step Towards Recovery!
+
               </h2>
 
               <p>
+
                 Book Appointment Now
+
               </p>
 
             </div>
@@ -612,6 +998,7 @@ const BookAppointment = () => {
             ================================================= */}
 
             {successMessage && (
+
               <div className="book-api-success-message">
 
                 <FaCheckCircle
@@ -621,16 +1008,21 @@ const BookAppointment = () => {
                 <div>
 
                   <strong>
+
                     Appointment Confirmed!
+
                   </strong>
 
                   <p>
+
                     {successMessage}
+
                   </p>
 
                 </div>
 
               </div>
+
             )}
 
             {/* =================================================
@@ -638,6 +1030,7 @@ const BookAppointment = () => {
             ================================================= */}
 
             {apiError && (
+
               <div className="book-api-error-message">
 
                 <FaExclamationCircle
@@ -647,16 +1040,21 @@ const BookAppointment = () => {
                 <div>
 
                   <strong>
+
                     Appointment Not Submitted
+
                   </strong>
 
                   <p>
+
                     {apiError}
+
                   </p>
 
                 </div>
 
               </div>
+
             )}
 
             {/* =================================================
@@ -698,9 +1096,13 @@ const BookAppointment = () => {
                   </div>
 
                   {errors.fullName && (
+
                     <small>
+
                       {errors.fullName}
+
                     </small>
+
                   )}
 
                 </div>
@@ -730,9 +1132,13 @@ const BookAppointment = () => {
                   </div>
 
                   {errors.age && (
+
                     <small>
+
                       {errors.age}
+
                     </small>
+
                   )}
 
                 </div>
@@ -767,9 +1173,13 @@ const BookAppointment = () => {
                 </div>
 
                 {errors.mobile && (
+
                   <small>
+
                     {errors.mobile}
+
                   </small>
+
                 )}
 
               </div>
@@ -795,19 +1205,27 @@ const BookAppointment = () => {
                   >
 
                     <option value="">
+
                       Select Gender
+
                     </option>
 
                     <option value="Male">
+
                       Male
+
                     </option>
 
                     <option value="Female">
+
                       Female
+
                     </option>
 
                     <option value="Other">
+
                       Other
+
                     </option>
 
                   </select>
@@ -815,9 +1233,13 @@ const BookAppointment = () => {
                 </div>
 
                 {errors.gender && (
+
                   <small>
+
                     {errors.gender}
+
                   </small>
+
                 )}
 
               </div>
@@ -842,14 +1264,19 @@ const BookAppointment = () => {
                       handleChange
                     }
                     min={today}
+                    max={maxAppointmentDate}
                   />
 
                 </div>
 
                 {errors.date && (
+
                   <small>
+
                     {errors.date}
+
                   </small>
+
                 )}
 
               </div>
@@ -875,11 +1302,14 @@ const BookAppointment = () => {
                   >
 
                     <option value="">
+
                       Select Available Time
+
                     </option>
 
-                    {TIME_SLOTS.map(
+                    {availableTimeSlots.map(
                       (slot) => (
+
                         <option
                           key={
                             slot.label
@@ -888,8 +1318,11 @@ const BookAppointment = () => {
                             slot.label
                           }
                         >
+
                           {slot.label}
+
                         </option>
+
                       )
                     )}
 
@@ -898,9 +1331,13 @@ const BookAppointment = () => {
                 </div>
 
                 {errors.time && (
+
                   <small>
+
                     {errors.time}
+
                   </small>
+
                 )}
 
               </div>
@@ -928,8 +1365,11 @@ const BookAppointment = () => {
         </section>
 
       </main>
+
     </>
+
   );
+
 };
 
 export default BookAppointment;

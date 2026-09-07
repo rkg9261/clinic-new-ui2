@@ -73,15 +73,7 @@ const AppointmentForm = () => {
 
   });
 
-  /*====================================
-    ERROR STATE
-  ====================================*/
-
   const [errors, setErrors] = useState({});
-
-  /*====================================
-    SUCCESS / ERROR MESSAGE
-  ====================================*/
 
   const [success, setSuccess] = useState("");
 
@@ -143,8 +135,7 @@ const AppointmentForm = () => {
 
       /*====================================
         IF DATE CHANGES
-        RESET TIME SLOT IF IT BECOMES
-        UNAVAILABLE
+        RESET TIME SLOT
       ====================================*/
 
       if (
@@ -286,8 +277,6 @@ const AppointmentForm = () => {
   };
 
   /*====================================
-    GET AVAILABLE TIME SLOTS
-
     TODAY:
     CURRENT TIME + 40 MINUTES
 
