@@ -7,12 +7,10 @@ import {
 
 import { API } from "../../config/api";
 
-
 const AppointmentForm = () => {
 
   /*====================================
     TIME SLOTS
-
   ====================================*/
 
   const TIME_SLOTS = [
@@ -20,38 +18,40 @@ const AppointmentForm = () => {
     {
       label: "10:30 AM",
       from: "10:30 AM",
-      
+      to: "11:00 AM",
     },
+
     {
       label: "11:00 AM",
       from: "11:00 AM",
-     
+      to: "11:30 AM",
     },
 
-       {
+    {
       label: "11:30 AM",
       from: "11:30 AM",
-    
+      to: "12:00 PM",
     },
+
     {
       label: "05:00 PM",
       from: "05:00 PM",
-    
+      to: "05:30 PM",
     },
 
-     {
+    {
       label: "05:30 PM",
       from: "05:30 PM",
-     
+      to: "06:00 PM",
     },
+
     {
       label: "06:00 PM",
       from: "06:00 PM",
-     
+      to: "06:30 PM",
     },
 
   ];
-
 
   /*====================================
     FORM STATE
@@ -73,13 +73,11 @@ const AppointmentForm = () => {
 
   });
 
-
   /*====================================
     ERROR STATE
   ====================================*/
 
   const [errors, setErrors] = useState({});
-
 
   /*====================================
     SUCCESS / ERROR MESSAGE
@@ -87,13 +85,11 @@ const AppointmentForm = () => {
 
   const [success, setSuccess] = useState("");
 
-
   /*====================================
     LOADING
   ====================================*/
 
   const [loading, setLoading] = useState(false);
-
 
   /*====================================
     HANDLE INPUT CHANGE
@@ -106,7 +102,6 @@ const AppointmentForm = () => {
       value
     } = e.target;
 
-
     /*====================================
       MOBILE NUMBER
     ====================================*/
@@ -117,7 +112,6 @@ const AppointmentForm = () => {
 
       const numericValue =
         value.replace(/\D/g, "");
-
 
       setFormData(
         (previousData) => ({
@@ -147,8 +141,47 @@ const AppointmentForm = () => {
         })
       );
 
-    }
+      /*====================================
+        IF DATE CHANGES
+        RESET TIME SLOT IF IT BECOMES
+        UNAVAILABLE
+      ====================================*/
 
+      if (
+        name === "appointment_date"
+      ) {
+
+        const availableSlots =
+          getAvailableTimeSlots(value);
+
+        const selectedTimeStillAvailable =
+          availableSlots.some(
+            (slot) =>
+              slot.label ===
+              formData.appointment_time
+          );
+
+        if (
+          !selectedTimeStillAvailable
+        ) {
+
+          setFormData(
+            (previousData) => ({
+
+              ...previousData,
+
+              [name]: value,
+
+              appointment_time: ""
+
+            })
+          );
+
+        }
+
+      }
+
+    }
 
     /*====================================
       REMOVE FIELD ERROR
@@ -164,7 +197,6 @@ const AppointmentForm = () => {
       })
     );
 
-
     /*====================================
       REMOVE OLD MESSAGE
     ====================================*/
@@ -172,7 +204,6 @@ const AppointmentForm = () => {
     setSuccess("");
 
   };
-
 
   /*====================================
     TODAY DATE
@@ -183,6 +214,168 @@ const AppointmentForm = () => {
       .toISOString()
       .split("T")[0];
 
+  /*====================================
+    BOOKING DATE RANGE
+    TODAY + NEXT 4 DAYS
+  ====================================*/
+
+  const getMaxAppointmentDate = () => {
+
+    const currentDate = new Date();
+
+    const maxDate =
+      new Date(currentDate);
+
+    maxDate.setDate(
+      currentDate.getDate() + 4
+    );
+
+    return maxDate
+      .toISOString()
+      .split("T")[0];
+
+  };
+
+  const maxAppointmentDate =
+    getMaxAppointmentDate();
+
+  /*====================================
+    GET TIME IN MINUTES
+  ====================================*/
+
+  const convertTimeToMinutes = (
+    timeString
+  ) => {
+
+    const [
+      time,
+      modifier
+    ] =
+      timeString.split(" ");
+
+    let [
+      hours,
+      minutes
+    ] =
+      time.split(":")
+        .map(Number);
+
+    if (
+      modifier === "PM" &&
+      hours !== 12
+    ) {
+
+      hours += 12;
+
+    }
+
+    if (
+      modifier === "AM" &&
+      hours === 12
+    ) {
+
+      hours = 0;
+
+    }
+
+    return (
+      hours * 60 +
+      minutes
+    );
+
+  };
+
+  /*====================================
+    GET AVAILABLE TIME SLOTS
+
+    TODAY:
+    CURRENT TIME + 40 MINUTES
+
+    FUTURE DATE:
+    ALL SLOTS
+  ====================================*/
+
+  const getAvailableTimeSlots = (
+    selectedDate
+  ) => {
+
+    /*----------------------------------
+      NO DATE SELECTED
+    ----------------------------------*/
+
+    if (
+      !selectedDate
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+    /*----------------------------------
+      FUTURE DATE
+      ALL TIME SLOTS AVAILABLE
+    ----------------------------------*/
+
+    if (
+      selectedDate !== today
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+    /*----------------------------------
+      TODAY
+
+      CURRENT TIME + 40 MINUTES
+    ----------------------------------*/
+
+    const currentDate =    new Date();
+  
+
+    const currentHours =   currentDate.getHours();
+   
+
+    const currentMinutes =  currentDate.getMinutes();
+    
+
+    const currentTimeInMinutes =
+      currentHours * 60 +
+      currentMinutes;
+
+    const minimumBookingTime =   currentTimeInMinutes + 40;
+   
+
+    /*----------------------------------
+      FILTER SLOTS
+    ----------------------------------*/
+
+    return TIME_SLOTS.filter(
+      (slot) => {
+
+        const slotTimeInMinutes =
+          convertTimeToMinutes(
+            slot.from
+          );
+
+        return (
+          slotTimeInMinutes >=
+          minimumBookingTime
+        );
+
+      }
+    );
+
+  };
+
+  /*====================================
+    AVAILABLE TIME SLOTS
+  ====================================*/
+
+  const availableTimeSlots =
+    getAvailableTimeSlots(
+      formData.appointment_date
+    );
 
   /*====================================
     GET SELECTED TIME SLOT
@@ -198,7 +391,6 @@ const AppointmentForm = () => {
 
   };
 
-
   /*====================================
     VALIDATION
   ====================================*/
@@ -206,7 +398,6 @@ const AppointmentForm = () => {
   const validateForm = () => {
 
     const newErrors = {};
-
 
     /*----------------------------------
       NAME
@@ -220,7 +411,6 @@ const AppointmentForm = () => {
         "Full name is required.";
 
     }
-
 
     /*----------------------------------
       AGE
@@ -245,7 +435,6 @@ const AppointmentForm = () => {
 
     }
 
-
     /*----------------------------------
       GENDER
     ----------------------------------*/
@@ -258,7 +447,6 @@ const AppointmentForm = () => {
         "Please select gender.";
 
     }
-
 
     /*----------------------------------
       WHATSAPP NUMBER
@@ -284,7 +472,6 @@ const AppointmentForm = () => {
 
     }
 
-
     /*----------------------------------
       APPOINTMENT DATE
     ----------------------------------*/
@@ -297,7 +484,6 @@ const AppointmentForm = () => {
         "Please select appointment date.";
 
     }
-
 
     /*----------------------------------
       APPOINTMENT TIME
@@ -312,18 +498,33 @@ const AppointmentForm = () => {
 
     }
 
+    /*----------------------------------
+      TIME SLOT STILL AVAILABLE
+    ----------------------------------*/
+
+    if (
+      formData.appointment_time &&
+      !availableTimeSlots.some(
+        (slot) =>
+          slot.label ===
+          formData.appointment_time
+      )
+    ) {
+
+      newErrors.appointment_time =
+        "Please select an available time slot.";
+
+    }
 
     setErrors(
       newErrors
     );
-
 
     return (
       Object.keys(newErrors).length === 0
     );
 
   };
-
 
   /*====================================
     SUBMIT FORM
@@ -333,13 +534,11 @@ const AppointmentForm = () => {
 
     e.preventDefault();
 
-
     /*====================================
       CLEAR OLD MESSAGE
     ====================================*/
 
     setSuccess("");
-
 
     /*====================================
       VALIDATE
@@ -348,13 +547,11 @@ const AppointmentForm = () => {
     const isValid =
       validateForm();
 
-
     if (!isValid) {
 
       return;
 
     }
-
 
     /*====================================
       GET SELECTED SLOT
@@ -362,7 +559,6 @@ const AppointmentForm = () => {
 
     const selectedSlot =
       getSelectedSlot();
-
 
     if (!selectedSlot) {
 
@@ -374,16 +570,13 @@ const AppointmentForm = () => {
 
     }
 
-
     /*====================================
       START LOADING
     ====================================*/
 
     setLoading(true);
 
-
     try {
-
 
       const appointmentData = {
 
@@ -409,7 +602,6 @@ const AppointmentForm = () => {
           selectedSlot.to
 
       };
-
 
       /*====================================
         CONSOLE REQUEST
@@ -456,11 +648,9 @@ const AppointmentForm = () => {
         "===================================="
       );
 
-
       /*====================================
         CALL API
-
-        ====================================*/
+      ====================================*/
 
       const response =
         await fetch(
@@ -488,16 +678,11 @@ const AppointmentForm = () => {
           }
         );
 
-
-
-
       const responseText =
         await response.text();
 
-
       let responseData =
         null;
-
 
       if (
         responseText
@@ -519,14 +704,12 @@ const AppointmentForm = () => {
             jsonError
           );
 
-
           responseData =
             responseText;
 
         }
 
       }
-
 
       /*====================================
         CONSOLE RESPONSE
@@ -558,7 +741,6 @@ const AppointmentForm = () => {
         "===================================="
       );
 
-
       /*====================================
         API ERROR
       ====================================*/
@@ -569,7 +751,6 @@ const AppointmentForm = () => {
 
         let errorMessage =
           "Unable to book appointment. Please try again.";
-
 
         if (
           responseData &&
@@ -613,13 +794,11 @@ const AppointmentForm = () => {
 
         }
 
-
         throw new Error(
           errorMessage
         );
 
       }
-
 
       /*====================================
         SUCCESS RESPONSE
@@ -628,7 +807,6 @@ const AppointmentForm = () => {
       const successMessage =
         responseData?.message ||
         "Appointment booked successfully! Our clinic team will contact you shortly.";
-
 
       console.log(
         "===================================="
@@ -652,7 +830,6 @@ const AppointmentForm = () => {
         "===================================="
       );
 
-
       /*====================================
         SHOW SUCCESS
       ====================================*/
@@ -660,7 +837,6 @@ const AppointmentForm = () => {
       setSuccess(
         `🎉 ${successMessage}`
       );
-
 
       /*====================================
         CLEAR FORM
@@ -681,7 +857,6 @@ const AppointmentForm = () => {
         appointment_time: ""
 
       });
-
 
       /*====================================
         CLEAR ERRORS
@@ -710,7 +885,6 @@ const AppointmentForm = () => {
         "===================================="
       );
 
-
       /*====================================
         SHOW ERROR
       ====================================*/
@@ -732,7 +906,6 @@ const AppointmentForm = () => {
 
   };
 
-
   /*====================================
     RETURN
   ====================================*/
@@ -740,7 +913,6 @@ const AppointmentForm = () => {
   return (
 
     <section className="appointment-section">
-
 
       {/*====================================
         HEADING
@@ -754,7 +926,6 @@ const AppointmentForm = () => {
 
         </p>
 
-
         <h2 className="appointment-title">
 
           Book Your{" "}
@@ -766,7 +937,6 @@ const AppointmentForm = () => {
           Today
 
         </h2>
-
 
         <p className="appointment-description">
 
@@ -780,13 +950,11 @@ const AppointmentForm = () => {
 
       </div>
 
-
       {/*====================================
         APPOINTMENT CARD
       ====================================*/}
 
       <div className="appointment-card">
-
 
         <h2>
 
@@ -794,13 +962,11 @@ const AppointmentForm = () => {
 
         </h2>
 
-
         <p>
 
           Book Appointment Now
 
         </p>
-
 
         {/*====================================
           SUCCESS / ERROR
@@ -822,7 +988,6 @@ const AppointmentForm = () => {
 
         )}
 
-
         {/*====================================
           FORM
         ====================================*/}
@@ -832,13 +997,11 @@ const AppointmentForm = () => {
           noValidate
         >
 
-
           {/*====================================
             ROW 1
           ====================================*/}
 
           <div className="appointment-row">
-
 
             {/* NAME */}
 
@@ -857,7 +1020,6 @@ const AppointmentForm = () => {
                 autoComplete="name"
               />
 
-
               {errors.name && (
 
                 <p className="error-text">
@@ -869,7 +1031,6 @@ const AppointmentForm = () => {
               )}
 
             </div>
-
 
             {/* AGE */}
 
@@ -889,7 +1050,6 @@ const AppointmentForm = () => {
                 max="120"
               />
 
-
               {errors.age && (
 
                 <p className="error-text">
@@ -904,13 +1064,11 @@ const AppointmentForm = () => {
 
           </div>
 
-
           {/*====================================
             ROW 2
           ====================================*/}
 
           <div className="appointment-row">
-
 
             {/* WHATSAPP */}
 
@@ -931,7 +1089,6 @@ const AppointmentForm = () => {
                 autoComplete="tel"
               />
 
-
               {errors.whatsapp_number && (
 
                 <p className="error-text">
@@ -945,7 +1102,6 @@ const AppointmentForm = () => {
               )}
 
             </div>
-
 
             {/* GENDER */}
 
@@ -967,20 +1123,17 @@ const AppointmentForm = () => {
 
                 </option>
 
-
                 <option value="Male">
 
                   Male
 
                 </option>
 
-
                 <option value="Female">
 
                   Female
 
                 </option>
-
 
                 <option value="Other">
 
@@ -989,7 +1142,6 @@ const AppointmentForm = () => {
                 </option>
 
               </select>
-
 
               {errors.gender && (
 
@@ -1007,7 +1159,6 @@ const AppointmentForm = () => {
 
           </div>
 
-
           {/*====================================
             APPOINTMENT DATE
           ====================================*/}
@@ -1024,8 +1175,8 @@ const AppointmentForm = () => {
                 handleChange
               }
               min={today}
+              max={maxAppointmentDate}
             />
-
 
             {errors.appointment_date && (
 
@@ -1041,7 +1192,6 @@ const AppointmentForm = () => {
 
           </div>
 
-
           {/*====================================
             APPOINTMENT TIME
           ====================================*/}
@@ -1049,7 +1199,6 @@ const AppointmentForm = () => {
           <div className="appointment-input full-width">
 
             <FaClock />
-
 
             <select
               name="appointment_time"
@@ -1063,12 +1212,11 @@ const AppointmentForm = () => {
 
               <option value="">
 
-                Select Available Time
+                Select Available Time + {new Date().toLocaleDateString()}
 
               </option>
 
-
-              {TIME_SLOTS.map(
+              {availableTimeSlots.map(
                 (slot) => (
 
                   <option
@@ -1089,7 +1237,6 @@ const AppointmentForm = () => {
 
             </select>
 
-
             {errors.appointment_time && (
 
               <p className="error-text">
@@ -1103,7 +1250,6 @@ const AppointmentForm = () => {
             )}
 
           </div>
-
 
           {/*====================================
             SUBMIT
@@ -1121,7 +1267,6 @@ const AppointmentForm = () => {
 
           </button>
 
-
         </form>
 
       </div>
@@ -1131,6 +1276,5 @@ const AppointmentForm = () => {
   );
 
 };
-
 
 export default AppointmentForm;
