@@ -18,36 +18,36 @@ const AppointmentForm = () => {
   const TIME_SLOTS = [
 
     {
-      label: "10:30 AM - 11:00 AM",
+      label: "10:30 AM",
       from: "10:30 AM",
-      to: "11:00 AM",
+      
     },
     {
-      label: "11:00 AM - 11:30 AM",
+      label: "11:00 AM",
       from: "11:00 AM",
-      to: "11:30 AM",
+     
     },
 
        {
-      label: "11:30 AM - 12:00 PM",
+      label: "11:30 AM",
       from: "11:30 AM",
-      to: "12:00 PM",
+    
     },
     {
-      label: "05:00 PM - 05:30 PM",
+      label: "05:00 PM",
       from: "05:00 PM",
-      to: "05:30 PM",
+    
     },
 
      {
-      label: "05:30 PM - 06:00 PM",
+      label: "05:30 PM",
       from: "05:30 PM",
-      to: "06:00 PM",
+     
     },
     {
-      label: "06:00 PM - 06:30 PM",
+      label: "06:00 PM",
       from: "06:00 PM",
-      to: "06:30 PM",
+     
     },
 
   ];

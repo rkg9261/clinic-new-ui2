@@ -22,6 +22,7 @@ import {
   FaThLarge,
   FaUserMd,
   FaUsers,
+  FaPlusCircle,
 } from "react-icons/fa";
 
 import "./ClinicSidebar.css";
@@ -464,7 +465,7 @@ const handleMenuClick = () => {
             <FaUserPlus />Add New Patient</NavLink>
             
           
-            
+                
 
 
    
@@ -627,6 +628,18 @@ const handleMenuClick = () => {
           
             <FaHistory />Recharge History</NavLink> */}
 
+                   {/* Add Blog */}
+                        <NavLink
+  to="/admin/add-blog"
+  onClick={handleMenuClick}
+  className={({ isActive }) =>
+    isActive
+      ? "menu-btn-sidebar1-clinic active"
+      : "menu-btn-sidebar1-clinic"
+  }
+>
+  <FaPlusCircle /> Add Blog
+</NavLink>
                     {/* Download submenu */}
           <NavLink
             to="/download-report"

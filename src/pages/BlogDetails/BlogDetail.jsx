@@ -1,5 +1,7 @@
 import React, {
-    useEffect
+    useEffect,
+    useMemo,
+    useState
 } from "react";
 
 import "./BlogDetail.css";
@@ -14,9 +16,15 @@ import {
     FaUserMd
 } from "react-icons/fa";
 
-import {    useNavigate,    useParams} from "react-router-dom";
+import {
+    useNavigate,
+    useParams
+} from "react-router-dom";
 
-import {  blogData} from "../BlogBlock/blogblockData";
+import {
+    API
+} from "../../config/api";
+
 
 const BlogDetail = () => {
 
@@ -25,19 +33,656 @@ const BlogDetail = () => {
     const { id } = useParams();
 
 
-    /* FIND BLOG */
-     
-   
+    /*====================================================
+      DYNAMIC BLOG DATA
+    ====================================================*/
 
-    const blog = blogData.find(
-        (item) =>
-            item.id === Number(id)
-    );
+    const [
+        blogs,
+        setBlogs
+    ] = useState([]);
 
 
-    /*SCROLL TO TOP */
-      
-   
+    const [
+        blog,
+        setBlog
+    ] = useState(null);
+
+
+    const [
+        loading,
+        setLoading
+    ] = useState(true);
+
+
+    const [
+        error,
+        setError
+    ] = useState("");
+
+
+    /*====================================================
+      GET AUTH TOKEN
+    ====================================================*/
+
+    const getToken = () => {
+
+        return (
+            localStorage.getItem("token") ||
+            localStorage.getItem("authToken") ||
+            localStorage.getItem("accessToken")
+        );
+
+    };
+
+
+    /*====================================================
+      FORMAT DATE
+    ====================================================*/
+
+    const formatDate = (
+        publishedAt
+    ) => {
+
+        if (!publishedAt) {
+
+            return "";
+
+        }
+
+
+        const date =
+            new Date(
+                publishedAt
+            );
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return publishedAt;
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    };
+
+
+    /*====================================================
+      PARSE CONTENT
+    ====================================================*/
+
+    const parseContent = (
+        content
+    ) => {
+
+        if (!content) {
+
+            return {
+
+                intro: "",
+
+                sections: []
+
+            };
+
+        }
+
+
+        try {
+
+            if (
+                typeof content ===
+                "object"
+            ) {
+
+                return {
+
+                    intro:
+                        content.intro ||
+                        "",
+
+                    sections:
+                        Array.isArray(
+                            content.sections
+                        )
+                            ? content.sections
+                            : []
+
+                };
+
+            }
+
+
+            const parsed =
+                JSON.parse(
+                    content
+                );
+
+
+            return {
+
+                intro:
+                    parsed?.intro ||
+                    "",
+
+                sections:
+                    Array.isArray(
+                        parsed?.sections
+                    )
+                        ? parsed.sections
+                        : []
+
+            };
+
+        } catch {
+
+            return {
+
+                intro:
+                    content || "",
+
+                sections: []
+
+            };
+
+        }
+
+    };
+
+
+    /*====================================================
+      CONVERT API BLOG
+    ====================================================*/
+
+    const convertBlog = (
+        apiBlog
+    ) => {
+
+        const content =
+            parseContent(
+                apiBlog?.content
+            );
+
+
+        return {
+
+            ...apiBlog,
+
+
+            /*
+              API featuredImage
+              -> existing image
+            */
+
+            image:
+                apiBlog?.featuredImage ||
+                apiBlog?.image ||
+                "",
+
+
+            /*
+              API shortDescription
+              -> existing subtitle
+            */
+
+            subtitle:
+                apiBlog?.shortDescription ||
+                apiBlog?.subtitle ||
+                "",
+
+
+            /*
+              API publishedAt
+              -> existing date
+            */
+
+            date:
+                formatDate(
+                    apiBlog?.publishedAt ||
+                    apiBlog?.date
+                ),
+
+
+            /*
+              API content
+              -> existing detail structure
+            */
+
+            intro:
+                content.intro,
+
+            sections:
+                content.sections
+
+        };
+
+    };
+
+
+    /*====================================================
+      GET BLOG BY ID
+    ====================================================*/
+
+    const fetchBlog = async () => {
+
+        try {
+
+            setLoading(true);
+
+            setError("");
+
+
+            const token =
+                getToken();
+
+
+            console.log(
+                "BLOG DETAIL TOKEN:",
+                token
+            );
+
+
+            if (!token) {
+
+                throw new Error(
+                    "Unauthorized. Token missing. Please login again."
+                );
+
+            }
+
+
+            /*================================================
+              GET /api/blogs/{id}
+            =================================================*/
+
+            const response =
+                await fetch(
+                    `${API.BLOGS}/${id}`,
+                    {
+
+                        method: "GET",
+
+                        headers: {
+
+                            Authorization:
+                                `Bearer ${token}`,
+
+                            "Content-Type":
+                                "application/json"
+
+                        }
+
+                    }
+                );
+
+
+            /*================================================
+              RESPONSE
+            =================================================*/
+
+            const responseText =
+                await response.text();
+
+
+            let result = null;
+
+
+            try {
+
+                result =
+                    responseText
+                        ? JSON.parse(
+                            responseText
+                        )
+                        : null;
+
+            } catch {
+
+                result = {
+
+                    message:
+                        responseText
+
+                };
+
+            }
+
+
+            console.log(
+                "BLOG DETAIL API RESPONSE:",
+                result
+            );
+
+
+            /*================================================
+              UNAUTHORIZED
+            =================================================*/
+
+            if (
+                response.status ===
+                401
+            ) {
+
+                throw new Error(
+                    "Unauthorized. Your login token is missing or expired. Please login again."
+                );
+
+            }
+
+
+            /*================================================
+              NOT FOUND
+            =================================================*/
+
+            if (
+                response.status ===
+                404
+            ) {
+
+                throw new Error(
+                    "Blog Not Found"
+                );
+
+            }
+
+
+            /*================================================
+              OTHER ERROR
+            =================================================*/
+
+            if (
+                !response.ok
+            ) {
+
+                throw new Error(
+
+                    result?.message ||
+
+                    result?.error ||
+
+                    result?.title ||
+
+                    "Failed to fetch blog."
+
+                );
+
+            }
+
+
+            /*================================================
+              GET ACTUAL BLOG OBJECT
+            =================================================*/
+
+            let apiBlog =
+                result;
+
+
+            if (
+                result?.data &&
+                !Array.isArray(
+                    result.data
+                )
+            ) {
+
+                apiBlog =
+                    result.data;
+
+            } else if (
+                result?.blog
+            ) {
+
+                apiBlog =
+                    result.blog;
+
+            }
+
+
+            /*================================================
+              CONVERT BLOG
+            =================================================*/
+
+            const convertedBlog =
+                convertBlog(
+                    apiBlog
+                );
+
+
+            setBlog(
+                convertedBlog
+            );
+
+
+            /*================================================
+              STORE FOR RELATED BLOGS
+            =================================================*/
+
+            setBlogs(
+                previous => {
+
+                    const exists =
+                        previous.some(
+                            (item) =>
+                                String(
+                                    item.id
+                                ) ===
+                                String(
+                                    convertedBlog.id
+                                )
+                        );
+
+
+                    if (exists) {
+
+                        return previous.map(
+                            (item) =>
+                                String(
+                                    item.id
+                                ) ===
+                                String(
+                                    convertedBlog.id
+                                )
+                                    ? convertedBlog
+                                    : item
+                        );
+
+                    }
+
+
+                    return [
+                        ...previous,
+                        convertedBlog
+                    ];
+
+                }
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Blog Detail API Error:",
+                error
+            );
+
+
+            setError(
+                error.message ||
+                "Unable to load blog."
+            );
+
+
+            setBlog(null);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+
+    /*====================================================
+      GET ALL BLOGS FOR RELATED BLOGS
+    ====================================================*/
+
+    const fetchRelatedBlogs =
+        async () => {
+
+            try {
+
+                const token =
+                    getToken();
+
+
+                if (!token) {
+
+                    return;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        API.BLOGS,
+                        {
+
+                            method: "GET",
+
+                            headers: {
+
+                                Authorization:
+                                    `Bearer ${token}`,
+
+                                "Content-Type":
+                                    "application/json"
+
+                            }
+
+                        }
+                    );
+
+
+                if (
+                    response.status ===
+                    401
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    return;
+
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                let apiBlogs = [];
+
+
+                if (
+                    Array.isArray(
+                        result
+                    )
+                ) {
+
+                    apiBlogs =
+                        result;
+
+                } else if (
+                    Array.isArray(
+                        result?.data
+                    )
+                ) {
+
+                    apiBlogs =
+                        result.data;
+
+                } else if (
+                    Array.isArray(
+                        result?.blogs
+                    )
+                ) {
+
+                    apiBlogs =
+                        result.blogs;
+
+                } else if (
+                    Array.isArray(
+                        result?.data?.blogs
+                    )
+                ) {
+
+                    apiBlogs =
+                        result.data.blogs;
+
+                }
+
+
+                const convertedBlogs =
+                    apiBlogs.map(
+                        (item) =>
+                            convertBlog(
+                                item
+                            )
+                    );
+
+
+                setBlogs(
+                    convertedBlogs
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Related Blog API Error:",
+                    error
+                );
+
+            }
+
+        };
+
+
+    /*====================================================
+      GET BLOG
+    ====================================================*/
+
+    useEffect(() => {
+
+        fetchBlog();
+
+        fetchRelatedBlogs();
+
+    }, [id]);
+
+
+    /*====================================================
+      SCROLL TO TOP
+    ====================================================*/
 
     useEffect(() => {
 
@@ -49,24 +694,102 @@ const BlogDetail = () => {
     }, [id]);
 
 
-    /* BLOG NOT FOUND*/
-     
-    
+    /*====================================================
+      RELATED BLOGS
+    ====================================================*/
+
+    const relatedBlogs = useMemo(() => {
+
+        if (!blog) {
+
+            return [];
+
+        }
+
+
+        const sameCategoryBlogs =
+            blogs.filter(
+                (item) =>
+                    String(item.id) !==
+                        String(blog.id) &&
+                    item.category ===
+                        blog.category
+            );
+
+
+        const otherCategoryBlogs =
+            blogs.filter(
+                (item) =>
+                    String(item.id) !==
+                        String(blog.id) &&
+                    item.category !==
+                        blog.category
+            );
+
+
+        return [
+            ...sameCategoryBlogs,
+            ...otherCategoryBlogs
+        ].slice(0, 3);
+
+    }, [
+        blogs,
+        blog
+    ]);
+
+
+    /*====================================================
+      BLOG NOT FOUND
+    ====================================================*/
+
+    if (loading) {
+
+        return (
+
+            <section className=" blog-detail-not-found">
+
+                <FaBookOpen />
+
+                <h2>
+                    Loading Blog
+                </h2>
+
+                <p>
+                    Please wait while the blog is loading.
+                </p>
+
+            </section>
+
+        );
+
+    }
+
 
     if (!blog) {
 
         return (
 
             <section className=" blog-detail-not-found">
-                 <FaBookOpen />
-             <h2> Blog Not Found</h2>
-               <p> The blog you are looking for is not available.</p>
-   
+
+                <FaBookOpen />
+
+                <h2>
+                    Blog Not Found
+                </h2>
+
+                <p>
+                    {
+                        error ||
+                        "The blog you are looking for is not available."
+                    }
+                </p>
+
+
                 <button
                     type="button"
 
                     onClick={() =>
-                        navigate("/blogs")
+                        navigate("/blog")
                     }
                 >
 
@@ -83,29 +806,9 @@ const BlogDetail = () => {
     }
 
 
-    /*RELATED BLOGS */
-      
-   
-
-    const relatedBlogs = blogData
-        .filter(
-            (item) =>
-                item.id !== blog.id &&
-                item.category === blog.category
-        )
-        .concat(
-            blogData.filter(
-                (item) =>
-                    item.id !== blog.id &&
-                    item.category !== blog.category
-            )
-        )
-        .slice(0, 3);
-
-
-    /*BOOK APPOINTMENT*/
-      
-    
+    /*====================================================
+      BOOK APPOINTMENT
+    ====================================================*/
 
     const bookAppointment = () => {
 
@@ -116,9 +819,9 @@ const BlogDetail = () => {
     };
 
 
-    /*  OPEN RELATED BLOG */
-    
-   
+    /*====================================================
+      OPEN RELATED BLOG
+    ====================================================*/
 
     const openRelatedBlog = (
         blogId
@@ -140,7 +843,7 @@ const BlogDetail = () => {
 
             {/*
               BACKGROUND
-           */}
+            */}
 
             <div className="
                 blog-detail-background-one
@@ -169,7 +872,7 @@ const BlogDetail = () => {
 
             {/*
               HERO
-           */}
+            */}
 
             <header className="
                 blog-detail-hero
@@ -207,18 +910,15 @@ const BlogDetail = () => {
             </header>
 
 
-            {/*  MAIN LAYOUT*/}
-            
-           
+            {/* MAIN LAYOUT */}
 
             <div className=" blog-detail-layout  ">
-               
-          
 
 
-                {/* MAIN ARTICLE*/}
+                {/* MAIN ARTICLE */}
 
                 <main className=" blog-detail-main ">
+
 
                     {/* BACK */}
 
@@ -239,13 +939,10 @@ const BlogDetail = () => {
                     </button>
 
 
-                    {/*MAIN IMAGE*/}
-                      
-                   
+                    {/* MAIN IMAGE */}
 
                     <div className="blog-detail-main-image">
-                        
-                    
+
 
                         <img
                             src={blog.image}
@@ -255,8 +952,6 @@ const BlogDetail = () => {
 
 
                         <span className="blog-detail-image-category">
-                            
-                        
 
                             {blog.category}
 
@@ -265,9 +960,7 @@ const BlogDetail = () => {
                     </div>
 
 
-                    {/*META*/}
-                      
-                   
+                    {/* META */}
 
                     <div className=" blog-detail-meta ">
 
@@ -292,24 +985,22 @@ const BlogDetail = () => {
 
 
                     {/* INTRO */}
-                     
-                  
 
                     <div className=" blog-detail-intro ">
 
-                        <p> {blog.intro} </p>
+                        <p>
+                            {blog.intro}
+                        </p>
+
                     </div>
 
 
-                    {/*ARTICLE SECTIONS */}
-                      
-                  
+                    {/* ARTICLE SECTIONS */}
 
                     <div className="blog-detail-article">
-                        
-                    
 
-                        {blog.sections.map(
+
+                        {blog.sections?.map(
                             (
                                 section,
                                 index
@@ -317,7 +1008,11 @@ const BlogDetail = () => {
 
                                 <section
                                     className="blog-detail-section "
-                                       key={index} >
+                                    key={
+                                        section.id ||
+                                        index
+                                    }
+                                >
 
                                     <h2>
 
@@ -349,7 +1044,8 @@ const BlogDetail = () => {
 
 
                                     {section.exercises &&
-                                        section.exercises.length > 0 && (
+                                        section.exercises.length >
+                                            0 && (
 
                                             <ul className="
                                                 blog-detail-exercise-list
@@ -395,26 +1091,35 @@ const BlogDetail = () => {
 
 
                     {/* CLINIC CTA */}
-                     
-                  
 
                     <div className=" blog-detail-cta ">
-                        <div className="  blog-detail-cta-icon ">
-                          <FaUserMd />
-                     </div>   
 
-                        <div className=" blog-detail-cta-content">
+                        <div className="
+                            blog-detail-cta-icon
+                        ">
 
-                            <h3>Need personalised care?</h3>
+                            <FaUserMd />
 
-                            <p>  Book an assessment at
+                        </div>
+
+
+                        <div className="
+                            blog-detail-cta-content
+                        ">
+
+                            <h3>
+                                Need personalised care?
+                            </h3>
+
+
+                            <p>
+
+                                Book an assessment at
                                 Krishna Advance Physio Clinic
                                 and get a recovery plan built
                                 around your condition.
 
-                              </p>
-
-                            
+                            </p>
 
 
                             <button
@@ -438,30 +1143,38 @@ const BlogDetail = () => {
                 </main>
 
 
-                {/*  RIGHT SIDEBAR */}
-                
-              
+                {/* RIGHT SIDEBAR */}
 
-                <aside className="blog-detail-sidebar">
- 
-                    {/* RELATED BLOGS*/}
+                <aside className="
+                    blog-detail-sidebar
+                ">
 
-                    <div className=" blog-detail-related ">
 
-                        <div className=" blog-detail-related-heading">
- 
-                            <span>  EXPLORE MORE </span>
+                    {/* RELATED BLOGS */}
 
-                            <h3> Related Blogs </h3>
-                               
-                           
+                    <div className="
+                        blog-detail-related
+                    ">
+
+                        <div className="
+                            blog-detail-related-heading
+                        ">
+
+                            <span>
+                                EXPLORE MORE
+                            </span>
+
+                            <h3>
+                                Related Blogs
+                            </h3>
 
                         </div>
 
 
-                        <div className=" blog-detail-related-list">
-                           
-                        
+                        <div className="
+                            blog-detail-related-list
+                        ">
+
 
                             {relatedBlogs.map(
                                 (relatedBlog) => (
@@ -483,9 +1196,10 @@ const BlogDetail = () => {
                                     >
 
 
-                                        <div className=" blog-detail-related-image">
-                                           
-                                        
+                                        <div className="
+                                            blog-detail-related-image
+                                        ">
+
 
                                             <img
                                                 src={
@@ -500,9 +1214,10 @@ const BlogDetail = () => {
                                         </div>
 
 
-                                        <div className=" blog-detail-related-content">
-                                           
-                                        
+                                        <div className="
+                                            blog-detail-related-content
+                                        ">
+
 
                                             <span>
 
@@ -544,21 +1259,28 @@ const BlogDetail = () => {
 
                     {/* CURRENT CATEGORY */}
 
-                     
-                  
-                    <div className=" blog-detail-category-box">
+                    <div className="
+                        blog-detail-category-box
+                    ">
 
-                        <div className=" blog-detail-category-box-icon ">
+                        <div className="
+                            blog-detail-category-box-icon
+                        ">
 
                             <FaBookOpen />
 
                         </div>
 
 
-                        <span> CURRENT TOPIC </span>
+                        <span>
+                            CURRENT TOPIC
+                        </span>
 
 
-                        <h3>  {blog.category}</h3>
+                        <h3>
+                            {blog.category}
+                        </h3>
+
 
                         <p>
 
@@ -587,23 +1309,25 @@ const BlogDetail = () => {
 
 
                     {/* APPOINTMENT */}
-                     
-                  
 
-                    <div className=" blog-detail-appointment-box">
-                       
-                    
+                    <div className="
+                        blog-detail-appointment-box
+                    ">
 
-                        <div className=" blog-detail-appointment-icon">
-                           
-                        
+
+                        <div className="
+                            blog-detail-appointment-icon
+                        ">
 
                             <FaCalendarAlt />
 
                         </div>
 
 
-                        <h3>Ready to feel better? </h3>
+                        <h3>
+                            Ready to feel better?
+                        </h3>
+
 
                         <p>
 
@@ -632,13 +1356,12 @@ const BlogDetail = () => {
             </div>
 
 
-            {/* BOTTOM NAVIGATION*/}
-             
-           
+            {/* BOTTOM NAVIGATION */}
 
-            <div className="  blog-detail-bottom-navigation">
-              
-            
+            <div className="
+                blog-detail-bottom-navigation
+            ">
+
 
                 <button
                     type="button"

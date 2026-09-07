@@ -47,5 +47,10 @@ WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
   APPOINTMENT_SETTINGS: `${BASE_URL}/api/appointment-settings`,
   
   APPOINTMENTS: `${BASE_URL}/api/appointment/create`,
+
+//blogs
+
+  BLOGS: `${BASE_URL}/api/blogs`,
+   
  
 };

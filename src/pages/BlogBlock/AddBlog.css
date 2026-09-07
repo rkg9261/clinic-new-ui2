@@ -1,0 +1,786 @@
+/* =========================================================
+   ADD BLOG PAGE
+========================================================= */
+
+.add-blog-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 45px 7%;
+  background: #f5faf9;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.add-blog-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.add-blog-container > h1 {
+  margin: 0 0 35px;
+
+  color: #173f3a;
+
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  position: relative;
+
+  padding-left: 20px;
+}
+
+.add-blog-container > h1::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 3px;
+
+  width: 5px;
+  height: 34px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #0c7669,
+      #18a8b8
+    );
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.add-blog-container form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   FORM FIELD
+========================================================= */
+
+.add-blog-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 22px;
+}
+
+.add-blog-field label {
+  color: #2c504b;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.add-blog-field input,
+.add-blog-field textarea,
+.add-blog-field select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d9e7e4;
+  border-radius: 12px;
+
+  background: #fbfdfd;
+
+  padding: 13px 15px;
+
+  color: #284743;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    transform 0.2s ease;
+}
+
+.add-blog-field input {
+  min-height: 47px;
+}
+
+.add-blog-field textarea {
+  min-height: 120px;
+
+  resize: vertical;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+========================================================= */
+
+.add-blog-field input:focus,
+.add-blog-field textarea:focus,
+.add-blog-field select:focus {
+  border-color: #18a8b8;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(24, 168, 184, 0.08);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.add-blog-field input::placeholder,
+.add-blog-field textarea::placeholder {
+  color: #9aa9a6;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   BLOG SECTION
+========================================================= */
+
+.add-blog-section {
+  position: relative;
+
+  background: #fbfdfd;
+
+  border: 1px solid #e1eeeb;
+
+  border-radius: 18px;
+
+  padding: 25px;
+
+  margin-bottom: 22px;
+
+  box-shadow:
+    0 8px 25px
+    rgba(24, 80, 73, 0.04);
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.add-blog-section:hover {
+  border-color: #c8e4df;
+
+  box-shadow:
+    0 12px 30px
+    rgba(24, 80, 73, 0.07);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.add-blog-section h3 {
+  margin: 0 0 20px;
+
+  color: #254943;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-blog-section h3::before {
+  content: "";
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #18a8b8;
+
+  box-shadow:
+    0 0 0 5px
+    rgba(24, 168, 184, 0.1);
+}
+
+
+/* =========================================================
+   SECTION INPUT
+========================================================= */
+
+.add-blog-section > input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d9e7e4;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  padding: 13px 15px;
+
+  color: #284743;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  margin-bottom: 22px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.add-blog-section > input:focus {
+  border-color: #18a8b8;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(24, 168, 184, 0.08);
+}
+
+.add-blog-section > input::placeholder {
+  color: #9aa9a6;
+}
+
+
+/* =========================================================
+   SECTION H4
+========================================================= */
+
+.add-blog-section h4 {
+  margin: 20px 0 12px;
+
+  color: #31534e;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   PARAGRAPH TEXTAREA
+========================================================= */
+
+.add-blog-section textarea {
+  display: block;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  min-height: 115px;
+
+  border: 1px solid #d9e7e4;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  padding: 13px 15px;
+
+  color: #284743;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  resize: vertical;
+
+  outline: none;
+
+  margin-bottom: 12px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.add-blog-section textarea:focus {
+  border-color: #18a8b8;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(24, 168, 184, 0.07);
+}
+
+
+/* =========================================================
+   SECTION BUTTONS
+========================================================= */
+
+.add-blog-section button {
+  border: none;
+
+  border-radius: 9px;
+
+  background: #e8f7f5;
+
+  color: #0c7669;
+
+  padding: 9px 14px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  margin-bottom: 10px;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-blog-section button:hover {
+  background: #0c7669;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 15px
+    rgba(12, 118, 105, 0.15);
+}
+
+
+/* =========================================================
+   EXERCISE INPUTS
+========================================================= */
+
+.add-blog-section input:not(:first-child) {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d9e7e4;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  padding: 11px 13px;
+
+  color: #284743;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  outline: none;
+
+  margin-bottom: 10px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.add-blog-section input:not(:first-child):focus {
+  border-color: #18a8b8;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(24, 168, 184, 0.07);
+}
+
+
+/* =========================================================
+   ADD SECTION BUTTON
+========================================================= */
+
+.add-blog-container form > button[type="button"] {
+  width: 100%;
+
+  border: 1px dashed #8bcac2;
+
+  border-radius: 12px;
+
+  background: #f3fbfa;
+
+  color: #0c7669;
+
+  padding: 14px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  margin-bottom: 25px;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.add-blog-container form > button[type="button"]:hover {
+  background: #e8f7f5;
+
+  border-color: #18a8b8;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.add-blog-field input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+
+  min-height: auto;
+
+  accent-color: #0c7669;
+
+  cursor: pointer;
+
+  margin: 0;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   CHECKBOX LABEL
+========================================================= */
+
+.add-blog-field label:has(input[type="checkbox"]) {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+========================================================= */
+
+.add-blog-success {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 16px;
+
+  margin-bottom: 20px;
+
+  border-radius: 11px;
+
+  border: 1px solid #b9e4dc;
+
+  background: #ecfaf7;
+
+  color: #087568;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+.add-blog-error {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 16px;
+
+  margin-bottom: 20px;
+
+  border-radius: 11px;
+
+  border: 1px solid #f0c5c8;
+
+  background: #fff1f2;
+
+  color: #d6242e;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.add-blog-container form > button[type="submit"] {
+  border: none;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0c7669,
+      #18a8b8
+    );
+
+  color: #ffffff;
+
+  padding: 14px 25px;
+
+  min-width: 150px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-left: auto;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px
+    rgba(12, 118, 105, 0.18);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.add-blog-container form > button[type="submit"]:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px
+    rgba(12, 118, 105, 0.24);
+}
+
+.add-blog-container form > button[type="submit"]:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   REQUIRED INPUT
+========================================================= */
+
+.add-blog-field input:required:invalid:not(:placeholder-shown),
+.add-blog-field textarea:required:invalid:not(:placeholder-shown) {
+  border-color: #e1a5aa;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .add-blog-page {
+    padding: 30px 18px;
+  }
+
+  .add-blog-container > h1 {
+    font-size: 27px;
+
+    margin-bottom: 28px;
+  }
+
+  .add-blog-section {
+    padding: 20px;
+
+    border-radius: 16px;
+  }
+
+  .add-blog-section h3 {
+    font-size: 17px;
+  }
+
+  .add-blog-container form > button[type="submit"] {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .add-blog-page {
+    padding: 22px 12px;
+  }
+
+  .add-blog-container > h1 {
+    font-size: 23px;
+
+    padding-left: 15px;
+
+    margin-bottom: 25px;
+  }
+
+  .add-blog-container > h1::before {
+    width: 4px;
+
+    height: 27px;
+
+    top: 1px;
+  }
+
+  .add-blog-field {
+    gap: 7px;
+
+    margin-bottom: 18px;
+  }
+
+  .add-blog-field label {
+    font-size: 13px;
+  }
+
+  .add-blog-field input,
+  .add-blog-field textarea,
+  .add-blog-field select {
+    padding: 12px;
+
+    font-size: 13px;
+  }
+
+  .add-blog-section {
+    padding: 17px;
+
+    border-radius: 15px;
+
+    margin-bottom: 17px;
+  }
+
+  .add-blog-section h3 {
+    font-size: 16px;
+
+    margin-bottom: 17px;
+  }
+
+  .add-blog-section h4 {
+    font-size: 13px;
+  }
+
+  .add-blog-section textarea {
+    min-height: 105px;
+
+    font-size: 13px;
+  }
+
+  .add-blog-section button {
+    font-size: 11px;
+
+    padding: 8px 11px;
+  }
+
+  .add-blog-success,
+  .add-blog-error {
+    font-size: 12px;
+
+    padding: 11px 13px;
+  }
+
+  .add-blog-container form > button[type="submit"] {
+    padding: 13px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .add-blog-page {
+    padding: 18px 10px;
+  }
+
+  .add-blog-container > h1 {
+    font-size: 21px;
+  }
+
+  .add-blog-section {
+    padding: 14px;
+  }
+
+  .add-blog-section h3 {
+    font-size: 15px;
+  }
+
+}

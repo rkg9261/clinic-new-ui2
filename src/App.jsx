@@ -102,6 +102,7 @@ import ClinicPhotos from "./pages/ClinicPhotos/ClinicPhotos";
 import BlogDetail from "./pages/BlogDetails/BlogDetail";
 import FacilityDetails from "./pages/FacilityDetails/FacilityDetails";
 import ClinicPhotoDetails from "./pages/ClinicPhotoDetails/ClinicPhotoDetails";
+import AddBlog from "./pages/BlogBlock/AddBlog";
 
 //====================================================
 // WEBSITE HOME CONTENT
@@ -312,6 +313,13 @@ function App() {
             path="/prescription"
             element={<PrescriptionForm />}
           />
+
+    
+    {/* AddBlog */}
+        <Route  path="/admin/add-blog" element={<AddBlog />} />
+          
+           
+         
 
 
           
