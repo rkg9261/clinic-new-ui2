@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
 import { useLocation } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
-
+import { toast } from "react-toastify";
 export default function AddClinic() {
 
 const navigate = useNavigate();
@@ -123,19 +123,19 @@ const handleSubmit = async (e) => {
   !password ||
   !confirmPassword
 ) {
-  alert("Please Fill All Fields");
+  toast.info("Please Fill All Fields");
   return;
 }
 
 if (password.length < 6) {
-  alert(
+  toast.info(
     "Password must be at least 6 characters"
   );
   return;
 }
 
 if (password !== confirmPassword) {
-  alert(
+  toast.error(
     "Confirm Password does not match"
   );
   return;
@@ -281,7 +281,7 @@ response = await fetch(
 
     if (!response.ok) {
 
-      alert(
+      toast.error(
         data.message ||
         "Failed to Add Clinic"
       );
@@ -289,7 +289,7 @@ response = await fetch(
       return;
     }
 
-    alert(
+    toast.success(
   isEdit
     ? "Clinic Updated Successfully"
     : "Clinic Added Successfully"
@@ -303,7 +303,7 @@ navigate(
 
     console.log(error);
 
-    alert("Server Error");
+    toast.error("Server Error");
   }
 };
 

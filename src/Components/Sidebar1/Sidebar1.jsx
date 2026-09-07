@@ -185,15 +185,14 @@ const Sidebar1 = () => {
 
               <hr />
 
-              <button>
-                <FaUserCircle />
-                Profile
-              </button>
+               <button
+                onClick={() =>navigate("/admin-profile")}>
+                <FaUserCircle /> Profile  
+               </button>  
 
-              <button>
-                <FaKey />
-                Change Password
-              </button>
+            <button onClick={() => navigate("/admin-change-password") }>
+                <FaKey /> Change Password 
+               </button>
 
               <button onClick={handleLogout}>
                 <FaSignOutAlt />

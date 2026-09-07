@@ -87,8 +87,21 @@ import DashboardClinic from "./Components/DashboardClinic/DashboardClinic";
 import BookAppointment from"./pages/BookAppointment/BookAppointment";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import AppointmentAvailability from "./pages/Settings/AppointmentAvailability/AppointmentAvailability";
+import FrequentlyAskedQuestions from "./Components/FrequentlyAskedQuestions/FrequentlyAskedQuestions";
+import Profile from "./pages/Profile/Profile";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
 
-
+// tostify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AdminProfile from "./pages/AdminProfile/AdminProfile";
+import AdminChangePassword from "./pages/AdminChangePassword/AdminChangePassword";
+import BlogBlock from "./pages/BlogBlock/BlogBlock";
+import Facility from "./pages/Facility/Facility";
+import ClinicPhotos from "./pages/ClinicPhotos/ClinicPhotos";
+import BlogDetail from "./pages/BlogDetails/BlogDetail";
+import FacilityDetails from "./pages/FacilityDetails/FacilityDetails";
+import ClinicPhotoDetails from "./pages/ClinicPhotoDetails/ClinicPhotoDetails";
 
 //====================================================
 // WEBSITE HOME CONTENT
@@ -112,7 +125,7 @@ function WebsiteHome() {
       <BlogSlider />
 
       <AppointmentForm />
-      
+      <FrequentlyAskedQuestions/>
 
     </>
   );
@@ -151,6 +164,14 @@ function App() {
   return (
 
     <HashRouter>
+         {/* react toastify */}
+         <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+      />
 
       <Routes>
 
@@ -162,17 +183,34 @@ function App() {
         <Route element={<WebsiteLayout />}>
 
 
-          {/* HOME */}
+                  {/* HOME */}
 
       <Route path="/"  element={<WebsiteHome />}/>
 
-          {/* ABOUT US */}
+                 {/* ABOUT US */}
 
         <Route   path="/about-us"  element={<AboutUs />} />
 
           {/* BOOK APPOINTMENT */}
 
           <Route path="/book-appointment"  element={<BookAppointment />} />
+
+                           {/* BlogBlock */}
+             <Route path="/blog"  element={<BlogBlock/>} />
+                  
+        <Route path="/blog/:id"  element={<BlogDetail/>} />
+
+
+
+                       {/* Facility (therapy) */}
+             <Route path="/facility"  element={<Facility/>} />
+
+               <Route path="/facility/:id"  element={<FacilityDetails/>} />
+
+                   {/* Clinic Photos */}
+              <Route path="/clinic-photos"  element={<ClinicPhotos/>} />
+
+              <Route path="/clinic-photos/:id"  element={<ClinicPhotoDetails/>} />
         </Route>
 
 
@@ -276,6 +314,13 @@ function App() {
           />
 
 
+          
+                        {/* Clinic Profile */}
+            <Route  path="/clinic-profile"  element={<Profile />}/>
+           <Route  path="/change-password"  element={<ChangePassword />}/>
+          
+          
+
         </Route>
 
 
@@ -286,38 +331,26 @@ function App() {
         <Route element={<Layout />}>
 
 
-          {/* ADD CLINIC */}
+                      {/* ADD CLINIC */}
 
-          <Route
-            path="/add-clinic"
-            element={<AddClinic />}
-          />
+          <Route  path="/add-clinic"   element={<AddClinic />}  />
 
+                      {/* RUNNING CLINICS */}
 
-          {/* RUNNING CLINICS */}
+          <Route   path="/running-clinic"  element={<PreviouslyAddedClinics />}/>
 
-          <Route
-            path="/running-clinic"
-            element={<PreviouslyAddedClinics />}
-          />
+                    {/* ADMIN DASHBOARD */}
 
+          <Route  path="/dashboard-admin" element={<Dashboard />}/>
 
-          {/* ADMIN DASHBOARD */}
+                      {/* SUSPENDED CLINIC */}
 
-          <Route
-            path="/dashboard-admin"
-            element={<Dashboard />}
-          />
-
-
-          {/* SUSPENDED CLINIC */}
-
-          <Route
-            path="/suspended-clinic"
-            element={<ClinicSuspended />}
-          />
-
-
+          <Route   path="/suspended-clinic"  element={<ClinicSuspended />}  />
+         
+                     {/* Admin profile  */}
+        
+            <Route   path="/admin-profile"  element={<AdminProfile />}  />
+                <Route   path="/admin-change-password"  element={<AdminChangePassword />}  />
         </Route>
 
 
@@ -328,18 +361,14 @@ function App() {
 
         {/* ADMIN SIDEBAR */}
 
-        <Route
-          path="/sidebar-admin"
-          element={<Sidebar1 />}
-        />
-
+        <Route path="/sidebar-admin"  element={<Sidebar1 />} />
 
         {/* CLINIC SIDEBAR */}
 
-        <Route
-          path="/sidebar-clinic"
-          element={<ClinicSidebar />}
-        />
+        <Route path="/sidebar-clinic"  element={<ClinicSidebar />}/>
+          
+        
+        
 
 
       </Routes>

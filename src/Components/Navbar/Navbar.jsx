@@ -232,15 +232,19 @@ const Navbar = () => {
 
           <li>
 
-            <ScrollLink
-              to="facilities"
-              smooth={true}
-              duration={500}
-              offset={-90}
-              onClick={closeMenu}
+            <button
+              type="button"
+              className="simple-nav-link"
+              onClick={() => {
+
+                closeMenu();
+
+                navigate("/facility");
+
+              }}
             >
-              Facilities
-            </ScrollLink>
+              Facility
+            </button>
 
           </li>
 
@@ -272,17 +276,44 @@ const Navbar = () => {
             CLINIC PHOTOS
           ====================================*/}
 
+          
           <li>
 
-            <ScrollLink
-              to="gallery"
-              smooth={true}
-              duration={500}
-              offset={-90}
-              onClick={closeMenu}
+            <button
+              type="button"
+              className="simple-nav-link"
+              onClick={() => {
+
+                closeMenu();
+
+                navigate("/clinic-photos");
+
+              }}
             >
-              Clinic Photos
-            </ScrollLink>
+             Clinic Photos
+            </button>
+
+          </li>
+
+             {/*====================================
+            Blogs
+          ====================================*/}
+
+          <li>
+
+            <button
+              type="button"
+              className="simple-nav-link"
+              onClick={() => {
+
+                closeMenu();
+
+                navigate("/blog");
+
+              }}
+            >
+             Blogs
+            </button>
 
           </li>
 
@@ -302,7 +333,8 @@ const Navbar = () => {
             </button>
 
           </li>
-
+         
+  
 
           {/*====================================
             LOGIN

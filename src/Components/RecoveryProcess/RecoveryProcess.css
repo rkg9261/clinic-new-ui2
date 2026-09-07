@@ -1,307 +1,1444 @@
-/*=========================
+/*====================================================
   RECOVERY PROCESS
-==========================*/
+====================================================*/
 
-.recovery-process-section{
+.recovery-process-section {
+
     width:100%;
+
     padding:90px 8%;
+
     background:#ffffff;
-}
 
-.recovery-process-heading{
-    text-align:center;
-    margin-bottom:60px;
-}
-
-.recovery-process-subtitle{
-    color:#1aa7b8;
-    font-size:13px;
-    font-weight:700;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin-bottom:10px;
-}
-
-.recovery-process-title{
-    font-size:40px;
-    color:#1d2b38;
-    font-weight:800;
-}
-
-
-/*=========================
-  WRAPPER
-==========================*/
-
-.recovery-process-wrapper{
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    flex-wrap:nowrap;
-    gap:0;
-}
-
-
-/*=========================
-  CARD
-==========================*/
-
-.recovery-process-card{
-    width:180px;
-    text-align:center;
     position:relative;
+
+    overflow:hidden;
+
+    color:#1d2b38;
 }
 
-/*=========================
-  CIRCLE
-==========================*/
 
-.recovery-process-circle{
+/*====================================================
+  SOFT BACKGROUND DECORATION
+====================================================*/
+
+.recovery-process-section::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(26,167,184,.08),
+            transparent 70%
+        );
+
+    left:-220px;
+    top:10%;
+
+    pointer-events:none;
+
+}
+
+
+.recovery-process-section::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(214,36,46,.045),
+            transparent 70%
+        );
+
+    right:-180px;
+    bottom:0;
+
+    pointer-events:none;
+
+}
+
+
+/*====================================================
+  HEADING
+====================================================*/
+
+.recovery-process-heading {
+
+    text-align:center;
+
+    margin-bottom:60px;
+
+    position:relative;
+
+    z-index:2;
+
+    opacity:0;
+
+    transform:translateY(35px);
+
+    transition:
+        opacity .9s ease,
+        transform .9s ease;
+}
+
+
+.recovery-process-visible
+.recovery-process-heading {
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+
+.recovery-process-subtitle {
+
+    color:#1aa7b8;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    margin-bottom:10px;
+
+    display:inline-block;
+
+    position:relative;
+
+}
+
+
+.recovery-process-subtitle::before,
+.recovery-process-subtitle::after {
+
+    content:"";
+
+    display:inline-block;
+
+    width:30px;
+
+    height:2px;
+
+    background:#e31d2d;
+
+    vertical-align:middle;
+
+    margin:0 12px;
+
+}
+
+
+.recovery-process-title {
+
+    margin:0;
+
+    font-size:40px;
+
+    color:#1d2b38;
+
+    font-weight:800;
+
+    line-height:1.2;
+
+}
+
+
+/*====================================================
+  WRAPPER
+====================================================*/
+
+.recovery-process-wrapper {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    flex-wrap:nowrap;
+
+    gap:0;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/*====================================================
+  CARD
+====================================================*/
+
+.recovery-process-card {
+
+    width:180px;
+
+    text-align:center;
+
+    position:relative;
+
+    opacity:0;
+
+    transform:
+        translateX(-80px)
+        translateY(20px)
+        scale(.88);
+
+    filter:blur(4px);
+
+    transition:
+        opacity .8s cubic-bezier(.22,1,.36,1),
+        transform .8s cubic-bezier(.22,1,.36,1),
+        filter .8s ease;
+}
+
+
+/*====================================================
+  STAGGERED CARD ANIMATION
+====================================================*/
+
+.recovery-process-visible
+.recovery-process-card:nth-child(1) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:.15s;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(3) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:.45s;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(5) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:.75s;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(7) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:1.05s;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(9) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:1.35s;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(11) {
+
+    opacity:1;
+
+    transform:
+        translateX(0)
+        translateY(0)
+        scale(1);
+
+    filter:blur(0);
+
+    transition-delay:1.65s;
+}
+
+
+/*====================================================
+  CIRCLE
+====================================================*/
+
+.recovery-process-circle {
+
     width:90px;
     height:90px;
+
     margin:auto;
+
     border-radius:50%;
-    background:#fff;
+
+    background:#ffffff;
+
     border:2px solid #dfeaf0;
+
     display:flex;
+
     justify-content:center;
     align-items:center;
+
     position:relative;
+
     overflow:hidden;
-    transition:all .7s ease;
+
     transform-style:preserve-3d;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:
+        background .55s ease,
+        border-color .55s ease,
+        transform .7s cubic-bezier(.22,1,.36,1),
+        box-shadow .55s ease;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+
 }
 
 
-/* Flip */
+/*====================================================
+  CIRCLE LIGHT
+====================================================*/
 
-.recovery-process-card:hover .recovery-process-circle{
-    background:#0b9eb3;
-    border-color:#0b9eb3;
-    transform:rotateY(360deg);
-}
+.recovery-process-circle::before {
 
-.process-number{
+    content:"";
+
     position:absolute;
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(26,167,184,.22),
+            transparent 68%
+        );
+
+    opacity:0;
+
+    transform:scale(.3);
+
+    transition:
+        opacity .5s ease,
+        transform .7s ease;
+
+}
+
+
+/*====================================================
+  OUTER HOVER RING
+====================================================*/
+
+.recovery-process-circle::after {
+
+    content:"";
+
+    position:absolute;
+
+    inset:-8px;
+
+    border-radius:50%;
+
+    border:2px solid rgba(26,167,184,.0);
+
+    transform:scale(.7);
+
+    opacity:0;
+
+    transition:
+        opacity .45s ease,
+        transform .55s ease,
+        border-color .45s ease;
+
+}
+
+
+/*====================================================
+  CIRCLE ENTRY ANIMATION
+====================================================*/
+
+.recovery-process-visible
+.recovery-process-card:nth-child(1)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        .15s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(3)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        .45s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(5)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        .75s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(7)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        1.05s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(9)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        1.35s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(11)
+.recovery-process-circle {
+
+    animation:
+        recoveryCircleReveal
+        .9s
+        1.65s
+        cubic-bezier(.22,1,.36,1)
+        both;
+}
+
+
+/*====================================================
+  PROFESSIONAL HOVER EFFECT
+====================================================*/
+
+.recovery-process-card:hover {
+
+    z-index:10;
+
+}
+
+
+/* Circle */
+
+.recovery-process-card:hover
+.recovery-process-circle {
+
+    background:#0b9eb3;
+
+    border-color:#0b9eb3;
+
+    transform:
+        translateY(-12px)
+        rotateY(360deg)
+        scale(1.12);
+
+    box-shadow:
+        0 20px 45px
+        rgba(11,158,179,.30),
+        0 0 0 8px
+        rgba(26,167,184,.06);
+
+}
+
+
+/* Inner glow */
+
+.recovery-process-card:hover
+.recovery-process-circle::before {
+
+    opacity:1;
+
+    transform:scale(1);
+
+}
+
+
+/* Outer ring */
+
+.recovery-process-card:hover
+.recovery-process-circle::after {
+
+    opacity:1;
+
+    transform:scale(1);
+
+    border-color:
+        rgba(26,167,184,.28);
+
+    animation:
+        examinationRing
+        1.5s
+        ease-in-out
+        infinite;
+
+}
+
+
+/*====================================================
+  EXAMINATION SPECIAL HOVER
+  FIRST CARD = ASSESSMENT
+====================================================*/
+
+.recovery-process-card:first-child:hover
+.recovery-process-circle {
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b9eb3,
+            #087c8d
+        );
+
+    border-color:#0b9eb3;
+
+    transform:
+        translateY(-16px)
+        rotateY(360deg)
+        scale(1.16);
+
+    box-shadow:
+        0 25px 55px
+        rgba(11,158,179,.34),
+        0 0 0 10px
+        rgba(26,167,184,.07),
+        0 0 45px
+        rgba(26,167,184,.20);
+
+}
+
+
+/*====================================================
+  EXAMINATION GLOW
+====================================================*/
+
+.recovery-process-card:first-child:hover
+.recovery-process-circle::before {
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.24),
+            transparent 65%
+        );
+
+    opacity:1;
+
+    transform:scale(1.15);
+
+}
+
+
+/*====================================================
+  NUMBER
+====================================================*/
+
+.process-number {
+
+    position:absolute;
+
     top:8px;
     left:10px;
+
     width:24px;
     height:24px;
+
     border-radius:50%;
+
     background:#1aa7b8;
+
     color:#fff;
+
     font-size:11px;
+
     font-weight:700;
+
     display:flex;
+
     justify-content:center;
     align-items:center;
+
+    z-index:5;
+
+    box-shadow:
+        0 5px 12px
+        rgba(26,167,184,.25);
+
+    transition:
+        background .35s ease,
+        color .35s ease,
+        transform .35s ease;
+
 }
 
-.process-icon{
+
+/* Number hover */
+
+.recovery-process-card:hover
+.process-number {
+
+    background:#e31d2d;
+
+    color:#ffffff;
+
+    transform:
+        scale(1.15)
+        rotate(-8deg);
+
+    box-shadow:
+        0 6px 16px
+        rgba(227,29,45,.28);
+
+}
+
+
+/*====================================================
+  ICON
+====================================================*/
+
+.process-icon {
+
+    position:relative;
+
+    z-index:3;
+
     font-size:34px;
+
     color:#0f6773;
-}
-.process-icon:hover {
-    color: #fff;
-}
 
-.recovery-process-card h3{
-    margin-top:18px;
-    font-size:18px;
-    color:#243746;
-    font-weight:700;
-}
-
-.recovery-process-card p{
-    margin-top:8px;
-    font-size:13px;
-    color:#666;
-    line-height:1.6;
-    padding:0 10px;
-}
-
-
-/*=========================
-  ARROW
-==========================*/
-
-.process-arrow{
     display:flex;
+
     justify-content:center;
     align-items:center;
-    margin-top:35px;
-    font-size:38px;
-    color:#cfd8dc;
-    padding:0 12px;
-    animation:arrowMove 1.5s infinite;
-}
 
-
-/*=========================
-  ANIMATION
-==========================*/
-
-@keyframes arrowMove{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    50%{
-        transform:translateX(8px);
-    }
-
-    100%{
-        transform:translateX(0);
-    }
-
-}
-
-/*=========================
-  LARGE TABLET
-==========================*/
-
-@media (max-width:1200px){
-
-.recovery-process-wrapper{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:25px;
-}
-
-.process-arrow{
-    display:none;
-}
-
-.recovery-process-card{
-    width:220px;
-}
+    transition:
+        color .45s ease,
+        transform .45s ease;
 
 }
 
 
-/*=========================
-  TABLET
-==========================*/
+.recovery-process-card:hover
+.process-icon {
 
-@media (max-width:992px){
+    color:#ffffff;
 
-.recovery-process-section{
-    padding:80px 6%;
-}
-
-.recovery-process-title{
-    font-size:34px;
-}
-
-.recovery-process-card{
-    width:200px;
-}
-
-.recovery-process-circle{
-    width:85px;
-    height:85px;
-}
-
-.process-icon{
-    font-size:30px;
-}
-
-.recovery-process-card h3{
-    font-size:17px;
-}
-
-.recovery-process-card p{
-    font-size:13px;
-}
+    transform:
+        scale(1.12);
 
 }
 
 
-/*=========================
-  MOBILE
-==========================*/
+/*====================================================
+  EXAMINATION ICON EFFECT
+====================================================*/
 
-@media (max-width:768px){
+.recovery-process-card:first-child:hover
+.process-icon {
 
-.recovery-process-section{
-    padding:70px 5%;
+    animation:
+        examinationIcon
+        .8s
+        ease-in-out;
+
 }
 
-.recovery-process-title{
-    font-size:28px;
-    line-height:1.3;
-}
 
-.recovery-process-subtitle{
-    font-size:12px;
-}
+/*====================================================
+  TITLE
+====================================================*/
 
-.recovery-process-wrapper{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:35px;
-}
+.recovery-process-card h3 {
 
-.recovery-process-card{
-    width:100%;
-    max-width:320px;
-    margin:auto;
-}
+    margin-top:18px;
 
-.recovery-process-circle{
-    width:80px;
-    height:80px;
-}
-
-.process-icon{
-    font-size:28px;
-}
-
-.process-number{
-    width:22px;
-    height:22px;
-    font-size:10px;
-}
-
-.recovery-process-card h3{
     font-size:18px;
+
+    color:#243746;
+
+    font-weight:700;
+
+    line-height:1.3;
+
+    transition:
+        color .35s ease,
+        transform .35s ease;
+
 }
 
-.recovery-process-card p{
+
+.recovery-process-card:hover
+h3 {
+
+    color:#0b9eb3;
+
+    transform:
+        translateY(-3px);
+
+}
+
+
+/* Examination title */
+
+.recovery-process-card:first-child:hover
+h3 {
+
+    color:#0b9eb3;
+
+}
+
+
+/*====================================================
+  DESCRIPTION
+====================================================*/
+
+.recovery-process-card p {
+
+    margin-top:8px;
+
     font-size:13px;
+
+    color:#666;
+
     line-height:1.6;
+
+    padding:0 10px;
+
+    transition:
+        color .35s ease;
+
 }
 
-.process-arrow{
-    display:none;
-}
+
+.recovery-process-card:hover
+p {
+
+    color:#53666d;
 
 }
 
 
-/*=========================
+/*====================================================
+  ARROW
+====================================================*/
+
+.process-arrow {
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    margin-top:35px;
+
+    font-size:38px;
+
+    color:#cfd8dc;
+
+    padding:0 12px;
+
+    opacity:0;
+
+    transform:
+        translateX(-20px);
+
+}
+
+
+/*====================================================
+  ARROW ANIMATION
+====================================================*/
+
+.recovery-process-visible
+.process-arrow {
+
+    animation:
+        recoveryArrowReveal
+        .7s
+        ease
+        forwards,
+        arrowMove
+        1.5s
+        2.5s
+        ease-in-out
+        infinite;
+
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(1)
++ .process-arrow {
+
+    animation-delay:
+        .55s,
+        2.5s;
+
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(3)
++ .process-arrow {
+
+    animation-delay:
+        .85s,
+        2.8s;
+
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(5)
++ .process-arrow {
+
+    animation-delay:
+        1.15s,
+        3.1s;
+
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(7)
++ .process-arrow {
+
+    animation-delay:
+        1.45s,
+        3.4s;
+
+}
+
+
+.recovery-process-visible
+.recovery-process-card:nth-child(9)
++ .process-arrow {
+
+    animation-delay:
+        1.75s,
+        3.7s;
+
+}
+
+
+/*====================================================
+  ARROW HOVER
+====================================================*/
+
+.recovery-process-card:hover
++ .process-arrow {
+
+    color:#1aa7b8;
+
+}
+
+
+.recovery-process-card:hover
++ .process-arrow svg {
+
+    transform:
+        translateX(8px)
+        scale(1.08);
+
+}
+
+
+/*====================================================
+  KEYFRAMES
+====================================================*/
+
+@keyframes recoveryCircleReveal {
+
+    0% {
+
+        opacity:0;
+
+        transform:
+            scale(.45)
+            rotateY(-90deg);
+
+        box-shadow:
+            0 0 0
+            rgba(26,167,184,0);
+
+    }
+
+    55% {
+
+        opacity:1;
+
+        transform:
+            scale(1.12)
+            rotateY(10deg);
+
+        box-shadow:
+            0 0 35px
+            rgba(26,167,184,.25);
+
+    }
+
+    100% {
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            rotateY(0deg);
+
+        box-shadow:
+            0 10px 25px
+            rgba(0,0,0,.08);
+
+    }
+
+}
+
+
+@keyframes recoveryNumberPop {
+
+    0% {
+
+        opacity:0;
+
+        transform:scale(.3);
+
+    }
+
+    70% {
+
+        opacity:1;
+
+        transform:scale(1.2);
+
+    }
+
+    100% {
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+@keyframes recoveryArrowReveal {
+
+    0% {
+
+        opacity:0;
+
+        transform:
+            translateX(-20px)
+            scale(.7);
+
+    }
+
+    70% {
+
+        opacity:1;
+
+        transform:
+            translateX(6px)
+            scale(1.05);
+
+    }
+
+    100% {
+
+        opacity:1;
+
+        transform:
+            translateX(0)
+            scale(1);
+
+    }
+
+}
+
+
+@keyframes arrowMove {
+
+    0%,
+    100% {
+
+        transform:
+            translateX(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateX(8px);
+
+    }
+
+}
+
+
+@keyframes examinationRing {
+
+    0% {
+
+        transform:scale(.92);
+
+        opacity:.3;
+
+    }
+
+    50% {
+
+        transform:scale(1.08);
+
+        opacity:.8;
+
+    }
+
+    100% {
+
+        transform:scale(.92);
+
+        opacity:.3;
+
+    }
+
+}
+
+
+@keyframes examinationIcon {
+
+    0% {
+
+        transform:
+            scale(1)
+            rotate(0deg);
+
+    }
+
+    30% {
+
+        transform:
+            scale(1.25)
+            rotate(-8deg);
+
+    }
+
+    60% {
+
+        transform:
+            scale(1.15)
+            rotate(8deg);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.12)
+            rotate(0deg);
+
+    }
+
+}
+
+
+/*====================================================
+  LARGE TABLET
+====================================================*/
+
+@media (max-width:1200px) {
+
+    .recovery-process-wrapper {
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:25px;
+
+    }
+
+
+    .process-arrow {
+
+        display:none;
+
+    }
+
+
+    .recovery-process-card {
+
+        width:220px;
+
+    }
+
+}
+
+
+/*====================================================
+  TABLET
+====================================================*/
+
+@media (max-width:992px) {
+
+    .recovery-process-section {
+
+        padding:
+            80px 6%;
+
+    }
+
+
+    .recovery-process-title {
+
+        font-size:34px;
+
+    }
+
+
+    .recovery-process-card {
+
+        width:200px;
+
+    }
+
+
+    .recovery-process-circle {
+
+        width:85px;
+
+        height:85px;
+
+    }
+
+
+    .process-icon {
+
+        font-size:30px;
+
+    }
+
+
+    .recovery-process-card h3 {
+
+        font-size:17px;
+
+    }
+
+
+    .recovery-process-card p {
+
+        font-size:13px;
+
+    }
+
+}
+
+
+/*====================================================
+  MOBILE
+====================================================*/
+
+@media (max-width:768px) {
+
+    .recovery-process-section {
+
+        padding:
+            70px 5%;
+
+    }
+
+
+    .recovery-process-heading {
+
+        margin-bottom:45px;
+
+    }
+
+
+    .recovery-process-title {
+
+        font-size:28px;
+
+        line-height:1.3;
+
+    }
+
+
+    .recovery-process-subtitle {
+
+        font-size:12px;
+
+    }
+
+
+    .recovery-process-subtitle::before,
+    .recovery-process-subtitle::after {
+
+        width:18px;
+
+        margin:0 7px;
+
+    }
+
+
+    .recovery-process-wrapper {
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:35px;
+
+    }
+
+
+    .recovery-process-card {
+
+        width:100%;
+
+        max-width:320px;
+
+        margin:auto;
+
+    }
+
+
+    .recovery-process-circle {
+
+        width:80px;
+
+        height:80px;
+
+    }
+
+
+    .process-icon {
+
+        font-size:28px;
+
+    }
+
+
+    .process-number {
+
+        width:22px;
+
+        height:22px;
+
+        font-size:10px;
+
+    }
+
+
+    .recovery-process-card h3 {
+
+        font-size:18px;
+
+    }
+
+
+    .recovery-process-card p {
+
+        font-size:13px;
+
+        line-height:1.6;
+
+    }
+
+
+    .process-arrow {
+
+        display:none;
+
+    }
+
+}
+
+
+/*====================================================
   SMALL MOBILE
-==========================*/
+====================================================*/
 
-@media (max-width:480px){
+@media (max-width:480px) {
 
-.recovery-process-title{
-    font-size:24px;
+    .recovery-process-title {
+
+        font-size:24px;
+
+    }
+
+
+    .recovery-process-card {
+
+        max-width:280px;
+
+    }
+
+
+    .recovery-process-circle {
+
+        width:75px;
+
+        height:75px;
+
+    }
+
+
+    .process-icon {
+
+        font-size:26px;
+
+    }
+
 }
 
-.recovery-process-card{
-    max-width:280px;
-}
 
-.recovery-process-circle{
-    width:75px;
-    height:75px;
-}
+/*====================================================
+  REDUCED MOTION
+====================================================*/
 
-.process-icon{
-    font-size:26px;
-}
+@media (prefers-reduced-motion:reduce) {
+
+    .recovery-process-heading {
+
+        opacity:1;
+
+        transform:none;
+
+        transition:none;
+
+    }
+
+
+    .recovery-process-card {
+
+        opacity:1;
+
+        transform:none;
+
+        filter:none;
+
+        transition:none;
+
+    }
+
+
+    .recovery-process-circle,
+    .recovery-process-circle::after {
+
+        animation:none !important;
+
+    }
+
+
+    .process-arrow {
+
+        opacity:1;
+
+        transform:none;
+
+        animation:none !important;
+
+    }
+
+
+    .process-number {
+
+        animation:none !important;
+
+    }
 
 }

@@ -1,0 +1,780 @@
+/* =========================================================
+   FREQUENTLY ASKED QUESTIONS
+   ========================================================= */
+
+.faq-section-clinic {
+  width: 100%;
+  padding: 85px 20px;
+
+  background: #ffffff;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.faq-container-clinic {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 240px minmax(0, 1fr);
+
+  column-gap: 65px;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   LEFT IMAGE AREA
+   ========================================================= */
+
+.faq-image-section-clinic {
+  position: relative;
+
+  width: 240px;
+  height: 410px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* =========================================================
+   IMAGE BACKGROUND
+   ========================================================= */
+
+.faq-image-background-clinic {
+  position: absolute;
+
+  width: 210px;
+  height: 380px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: radial-gradient(
+    ellipse,
+    rgba(30, 164, 177, 0.12) 0%,
+    rgba(30, 164, 177, 0.05) 40%,
+    transparent 72%
+  );
+
+  filter: blur(10px);
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   HUMAN BODY IMAGE
+   ========================================================= */
+
+.faq-human-image-clinic {
+  position: relative;
+
+  z-index: 2;
+
+  width: 145px;
+  height: 390px;
+
+  object-fit: contain;
+
+  opacity: 0.15;
+
+  filter:
+    grayscale(100%)
+    brightness(1.25)
+    contrast(65%);
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+
+/* Image hover */
+
+.faq-image-section-clinic:hover
+.faq-human-image-clinic {
+  opacity: 0.22;
+
+  transform: scale(1.025);
+}
+
+
+/* =========================================================
+   PAIN POINT
+   ========================================================= */
+
+.faq-pain-point-clinic {
+  position: absolute;
+
+  z-index: 5;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #27aab5;
+
+  /*
+    Position around lower-back/hip area.
+    Change top value if you want the point
+    higher or lower.
+  */
+
+  top: 175px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  box-shadow:
+    0 0 0 5px rgba(39, 170, 181, 0.10),
+    0 0 18px rgba(39, 170, 181, 0.30);
+}
+
+
+/* =========================================================
+   PAIN POINT RING
+   ========================================================= */
+
+.faq-pain-ring-clinic {
+  position: absolute;
+
+  z-index: 4;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(39, 170, 181, 0.18);
+
+  top: 167px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  animation: faqPulseClinic 2.2s infinite ease-out;
+}
+
+
+@keyframes faqPulseClinic {
+
+  0% {
+    transform: translateX(-50%) scale(0.8);
+
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: translateX(-50%) scale(1.4);
+
+    opacity: 0.15;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1.5);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   RIGHT CONTENT
+   ========================================================= */
+
+.faq-content-clinic {
+  width: 100%;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   FAQ HEADER
+   ========================================================= */
+
+.faq-header-clinic {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 25px;
+
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.faq-subtitle-clinic {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #2ca8b4;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.4px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+   ========================================================= */
+
+.faq-heading-clinic {
+  margin: 0;
+
+  color: #1b4149;
+
+  font-size: 27px;
+
+  font-weight: 700;
+
+  line-height: 1.25;
+
+  letter-spacing: -0.4px;
+}
+
+
+/* =========================================================
+   VIEW ALL FAQ
+   ========================================================= */
+
+.faq-view-all-clinic {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #2ca8b4;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  cursor: pointer;
+
+  transition: color 0.3s ease;
+}
+
+
+.faq-view-all-clinic:hover {
+  color: #167e89;
+}
+
+
+/* Arrow */
+
+.faq-arrow-clinic {
+  font-size: 15px;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+
+.faq-view-all-clinic:hover
+.faq-arrow-clinic {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   FAQ COLUMNS
+   ========================================================= */
+
+.faq-columns-clinic {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 40px;
+}
+
+
+/* =========================================================
+   FAQ COLUMN
+   ========================================================= */
+
+.faq-column-clinic {
+  width: 100%;
+}
+
+
+/* =========================================================
+   FAQ ITEM
+   ========================================================= */
+
+.faq-item-clinic {
+  width: 100%;
+
+  border-top: 1px solid #e8eeee;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+/*
+  Last FAQ item also gets bottom border.
+*/
+
+.faq-column-clinic
+.faq-item-clinic:last-child {
+  border-bottom: 1px solid #e8eeee;
+}
+
+
+/* =========================================================
+   QUESTION BUTTON
+   ========================================================= */
+
+.faq-question-clinic {
+  width: 100%;
+
+  min-height: 53px;
+
+  padding: 0 2px;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  color: #3c555a;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  transition: color 0.3s ease;
+}
+
+
+/* =========================================================
+   QUESTION TEXT
+   ========================================================= */
+
+.faq-question-text-clinic {
+  display: block;
+
+  padding-right: 10px;
+}
+
+
+/* =========================================================
+   PLUS ICON
+   ========================================================= */
+
+.faq-plus-clinic {
+  flex-shrink: 0;
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  color: #329da7;
+
+  font-size: 18px;
+
+  font-weight: 300;
+
+  line-height: 1;
+
+  transition:
+    transform 0.35s ease,
+    color 0.3s ease;
+}
+
+
+/* =========================================================
+   OPEN QUESTION
+   ========================================================= */
+
+.faq-item-open-clinic {
+  background: rgba(243, 250, 250, 0.55);
+}
+
+
+.faq-item-open-clinic
+.faq-question-clinic {
+  color: #1f9ba6;
+}
+
+
+.faq-plus-open-clinic {
+  transform: rotate(180deg);
+
+  color: #1f9ba6;
+}
+
+
+/* =========================================================
+   ANSWER WRAPPER
+   ========================================================= */
+
+.faq-answer-wrapper-clinic {
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  opacity: 0;
+
+  transition:
+    grid-template-rows 0.35s ease,
+    opacity 0.25s ease;
+}
+
+
+.faq-answer-visible-clinic {
+  grid-template-rows: 1fr;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   ANSWER
+   ========================================================= */
+
+.faq-answer-clinic {
+  overflow: hidden;
+
+  padding: 0 35px 0 2px;
+}
+
+
+.faq-answer-clinic p {
+  margin: 0;
+
+  padding-bottom: 17px;
+
+  color: #758589;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.faq-item-clinic:hover {
+  background: rgba(248, 252, 252, 0.8);
+}
+
+
+.faq-item-clinic:hover
+.faq-question-clinic {
+  color: #229ba6;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .faq-section-clinic {
+    padding: 70px 25px;
+  }
+
+
+  .faq-container-clinic {
+    grid-template-columns: 190px minmax(0, 1fr);
+
+    column-gap: 40px;
+  }
+
+
+  .faq-image-section-clinic {
+    width: 190px;
+    height: 370px;
+  }
+
+
+  .faq-human-image-clinic {
+    width: 125px;
+    height: 350px;
+  }
+
+
+  .faq-heading-clinic {
+    font-size: 24px;
+  }
+
+
+  .faq-columns-clinic {
+    gap: 25px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .faq-section-clinic {
+    padding: 60px 20px;
+  }
+
+
+  .faq-container-clinic {
+    display: block;
+  }
+
+
+  /*
+    Show smaller body image on mobile.
+  */
+
+  .faq-image-section-clinic {
+    width: 100%;
+
+    height: 230px;
+
+    margin-bottom: 20px;
+  }
+
+
+  .faq-human-image-clinic {
+    width: 80px;
+
+    height: 220px;
+  }
+
+
+  .faq-image-background-clinic {
+    width: 160px;
+
+    height: 220px;
+  }
+
+
+  .faq-pain-point-clinic {
+    top: 98px;
+  }
+
+
+  .faq-pain-ring-clinic {
+    top: 90px;
+  }
+
+
+  /* Header */
+
+  .faq-header-clinic {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    margin-bottom: 25px;
+
+    gap: 15px;
+  }
+
+
+  .faq-heading-clinic {
+    font-size: 25px;
+  }
+
+
+  /* FAQ */
+
+  .faq-columns-clinic {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+
+
+  .faq-question-clinic {
+    min-height: 58px;
+
+    font-size: 13px;
+  }
+
+
+  .faq-answer-clinic p {
+    font-size: 12px;
+  }
+
+
+  /*
+    Add a little separation between
+    second column and first column.
+  */
+
+  .faq-column-clinic + .faq-column-clinic {
+    margin-top: 0;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .faq-section-clinic {
+    padding: 50px 15px;
+  }
+
+
+  .faq-image-section-clinic {
+    height: 200px;
+  }
+
+
+  .faq-human-image-clinic {
+    width: 70px;
+
+    height: 190px;
+  }
+
+
+  .faq-image-background-clinic {
+    width: 140px;
+
+    height: 190px;
+  }
+
+
+  .faq-pain-point-clinic {
+    top: 85px;
+
+    width: 8px;
+    height: 8px;
+  }
+
+
+  .faq-pain-ring-clinic {
+    top: 78px;
+
+    width: 22px;
+    height: 22px;
+  }
+
+
+  .faq-subtitle-clinic {
+    font-size: 9px;
+
+    letter-spacing: 1.2px;
+  }
+
+
+  .faq-heading-clinic {
+    font-size: 22px;
+  }
+
+
+  .faq-view-all-clinic {
+    font-size: 9px;
+  }
+
+
+  .faq-question-clinic {
+    min-height: 55px;
+
+    font-size: 12px;
+  }
+
+
+  .faq-plus-clinic {
+    width: 20px;
+    height: 20px;
+
+    font-size: 17px;
+  }
+
+
+  .faq-answer-clinic {
+    padding-right: 20px;
+  }
+
+
+  .faq-answer-clinic p {
+    font-size: 11px;
+
+    line-height: 1.65;
+  }
+
+}

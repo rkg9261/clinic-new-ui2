@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./RecoveryProcess.css";
 
 import {
@@ -17,43 +17,86 @@ const processData = [
     id: "01",
     icon: <FaClipboardCheck />,
     title: "Assessment",
-    desc: "Detailed evaluation & problem identification"
+    desc: "Detailed examination, evaluation & problem identification"
   },
   {
     id: "02",
     icon: <FaSearch />,
     title: "Diagnosis",
-    desc: "Evidence-based diagnosis"
+    desc: "Evidence-based diagnosis and movement analysis"
   },
   {
     id: "03",
     icon: <FaNotesMedical />,
     title: "Treatment Plan",
-    desc: "Customized plan for your condition"
+    desc: "Customized treatment plan designed for your condition"
   },
   {
     id: "04",
     icon: <FaProcedures />,
     title: "Therapy Sessions",
-    desc: "Advanced therapies & manual techniques"
+    desc: "Advanced therapies, exercises & manual techniques"
   },
   {
     id: "05",
     icon: <FaRunning />,
     title: "Rehabilitation",
-    desc: "Strengthening & functional training"
+    desc: "Strengthening, mobility & functional training"
   },
   {
     id: "06",
     icon: <FaShieldAlt />,
     title: "Recovery & Prevention",
-    desc: "Long-term management & injury prevention"
+    desc: "Long-term recovery, management & injury prevention"
   }
 ];
 
 const RecoveryProcess = () => {
+
+  useEffect(() => {
+
+    const section = document.querySelector(
+      ".recovery-process-section"
+    );
+
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              "recovery-process-visible"
+            );
+
+            observer.unobserve(entry.target);
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+
+  }, []);
+
   return (
+
     <section className="recovery-process-section">
+
+      {/* HEADING */}
 
       <div className="recovery-process-heading">
 
@@ -65,7 +108,16 @@ const RecoveryProcess = () => {
           A Structured Path to Your Recovery
         </h2>
 
+        {/* <p className="recovery-process-heading-description">
+          From detailed examination to complete rehabilitation,
+          our structured approach helps you move confidently
+          toward better health and long-term recovery.
+        </p> */}
+
       </div>
+
+
+      {/* PROCESS */}
 
       <div className="recovery-process-wrapper">
 
@@ -73,13 +125,24 @@ const RecoveryProcess = () => {
 
           <React.Fragment key={item.id}>
 
-            <div className="recovery-process-card">
+            {/* PROCESS CARD */}
+
+            <div
+              className="recovery-process-card"
+              style={{
+                "--process-delay": `${index * 0.42}s`
+              }}
+            >
 
               <div className="recovery-process-circle">
+
+                {/* NUMBER */}
 
                 <span className="process-number">
                   {item.id}
                 </span>
+
+                {/* ICON */}
 
                 <div className="process-icon">
                   {item.icon}
@@ -87,16 +150,39 @@ const RecoveryProcess = () => {
 
               </div>
 
-              <h3>{item.title}</h3>
 
-              <p>{item.desc}</p>
+              {/* TITLE */}
+
+              <h3>
+                {item.title}
+              </h3>
+
+
+              {/* DESCRIPTION */}
+
+              <p>
+                {item.desc}
+              </p>
 
             </div>
 
+
+            {/* ARROW */}
+
             {index !== processData.length - 1 && (
-              <div className="process-arrow">
+
+              <div
+                className="process-arrow"
+                style={{
+                  "--arrow-delay":
+                    `${index * 0.42 + 0.28}s`
+                }}
+              >
+
                 <HiArrowLongRight />
+
               </div>
+
             )}
 
           </React.Fragment>
@@ -106,6 +192,7 @@ const RecoveryProcess = () => {
       </div>
 
     </section>
+
   );
 };
 

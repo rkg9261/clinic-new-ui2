@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./AddDoctor.css";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/api";
-
+import { toast } from "react-toastify";
 export default function AddDoctor() {
   const [formData, setFormData] = useState({
     doctorName: "",
@@ -39,12 +39,12 @@ export default function AddDoctor() {
       !formData.hospitalName.trim() ||
       !formData.address.trim()
     ) {
-      alert("Please fill all fields.");
+      toast.info("Please fill all fields.");
       return;
     }
 
     if (formData.mobile.length !== 10) {
-      alert("Mobile number must be exactly 10 digits.");
+      toast.info("Mobile number must be exactly 10 digits.");
       return;
     }
 
@@ -56,7 +56,7 @@ export default function AddDoctor() {
         Cookies.get("token") || localStorage.getItem("token");
 
       if (!token) {
-        alert("Login session expired. Please login again.");
+        toast.error("Login session expired. Please login again.");
         return;
       }
 
@@ -96,7 +96,7 @@ export default function AddDoctor() {
       console.log("===================================");
 
       if (response.ok && data.success) {
-        alert(data.message || "Doctor added successfully.");
+        toast.success(data.message || "Doctor added successfully.");
 
         setFormData({
           doctorName: "",
@@ -105,14 +105,14 @@ export default function AddDoctor() {
           address: "",
         });
       } else {
-        alert(data.message || "Unable to add doctor.");
+         toast.error(data.message || "Unable to add doctor.");
       }
     } catch (error) {
       console.error("========== ADD DOCTOR ERROR ==========");
       console.error("Error:", error);
       console.log("Form Data:", formData);
       console.log("=====================================");
-      alert("Something went wrong. Please try again.");
+       toast.info("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

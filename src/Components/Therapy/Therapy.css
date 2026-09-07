@@ -1615,3 +1615,35 @@ transform:translateY(0);
     transform:scale(.96);
 
 }
+
+/*====================================
+  FIRST VISIT SECTION ANIMATION
+  ONLY ADD THIS CODE
+====================================*/
+/* Before user reaches Therapy section */
+.therapy-section:not(.therapy-first-visit) .therapy-heading,
+.therapy-section:not(.therapy-first-visit) .therapy-grid,
+.therapy-section:not(.therapy-first-visit) .therapy-btn-area {
+    opacity: 0;
+    transform: translateY(100px);
+}
+/* When user reaches Therapy section */
+.therapy-section.therapy-first-visit .therapy-heading,
+.therapy-section.therapy-first-visit .therapy-grid,
+.therapy-section.therapy-first-visit .therapy-btn-area {
+    animation: therapyFirstBottomToTop 1.9s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both;
+}
+/* Slow Bottom → Top */
+@keyframes therapyFirstBottomToTop {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

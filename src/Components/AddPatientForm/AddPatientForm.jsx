@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import "./AddPatientForm.css";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
+import { toast } from "react-toastify";
 
 export default function AddPatientForm() {
   const navigate = useNavigate();
@@ -293,7 +294,7 @@ return true;
       console.log("User:", user);
 
       if (!token) {
-        alert(
+         toast.error(
           "Token not found. Please login again."
         );
 
@@ -373,7 +374,7 @@ return true;
 
         localStorage.removeItem("user");
 
-        alert( "Session expired. Please login again.");
+         toast.error( "Session expired. Please login again.");
  
         navigate("/login");
 
@@ -385,7 +386,7 @@ return true;
       // ==========================================
 
       if (response.status === 403) {
-        alert(
+         toast.error(
           data.message ||
             "You do not have permission to add patient. Please login with Clinic account."
         );
@@ -398,7 +399,7 @@ return true;
       // ==========================================
 
       if (!response.ok) {
-        alert(
+         toast.error(
           data.message ||
             data.error ||
             "Failed to save patient"
@@ -407,7 +408,7 @@ return true;
         return;
       }
 
-      alert(
+       toast.success(
         "Patient Saved Successfully!"
       );
 
@@ -437,7 +438,7 @@ return true;
         error
       );
 
-      alert("Something went wrong!");
+       toast.info("Something went wrong!");
     } finally {
       setLoading(false);
     }

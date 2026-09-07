@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import './AddDoctorList.css'
 import { BASE_URL } from "../../config/api";
+import { toast } from "react-toastify";
+
+
+
 export default function AddDoctorList() {
 
 
@@ -86,11 +90,11 @@ export default function AddDoctorList() {
     if (response.ok && data.success) {
       fetchDoctors();
     } else {
-      alert(data.message || "Delete failed");
+       toast.error(data.message || "Delete failed");
     }
   } catch (error) {
     console.log(error);
-    alert("Something went wrong.");
+     toast.error("Something went wrong.");
   }
 };
 
@@ -148,15 +152,15 @@ const handleSave = async (id) => {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      alert("Doctor Updated Successfully");
+       toast.success("Doctor Updated Successfully");
       setEditDoctorId(null);
       fetchDoctors();
     } else {
-      alert(data.message || "Update failed");
+       toast.error(data.message || "Update failed");
     }
   } catch (error) {
     console.log(error);
-    alert("Something went wrong.");
+     toast.info("Something went wrong.");
   }
 };
   // ===========================

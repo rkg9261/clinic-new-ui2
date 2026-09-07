@@ -2,7 +2,7 @@ import "./Hero.css";
 import { useNavigate } from "react-router-dom";
 
 import heroBg from "../../assets/hero-bg.avif";
-import spineMan from "../../assets/spine-man1.png";
+import spineMan from "../../assets/spine-man8.png";
 import spine1 from "../../assets/spine1.jpg";
 import spine2 from "../../assets/spine2.jpeg";
 import spine3 from "../../assets/spine3.jpeg";
