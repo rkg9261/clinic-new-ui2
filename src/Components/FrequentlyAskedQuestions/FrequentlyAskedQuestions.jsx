@@ -1,55 +1,127 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FrequentlyAskedQuestions.css";
-import humanBodyImage from "../../assets/human-body-physiotherapy2.png"
+
+import humanBodyImage from "../../assets/human-body-physiotherapy2.png";
+
+import { API } from "../../config/api";
+import { getAuthHeaders } from "../../utils/auth";
 
 const FrequentlyAskedQuestions = () => {
+ 
+  // OPEN FAQ
+ 
+
   const [openQuestion, setOpenQuestion] = useState(null);
 
-  const faqData = [
-    {
-      id: 1,
-      question: "Do I need surgery for slip disc?",
-      answer:
-        "Not necessarily. Many slip disc problems can be managed with physiotherapy, exercises, posture correction and lifestyle changes. Surgery may only be recommended in specific severe cases."
-    },
-    {
-      id: 2,
-      question: "How many sessions will I need?",
-      answer:
-        "The number of physiotherapy sessions depends on your condition, symptoms and recovery progress. Your physiotherapist will recommend a treatment plan according to your individual requirements."
-    },
-    {
-      id: 3,
-      question: "Is physiotherapy painful?",
-      answer:
-        "Physiotherapy should generally be comfortable. Some exercises or manual techniques may cause mild temporary discomfort, but your therapist will adjust the treatment according to your comfort."
-    },
-    {
-      id: 4,
-      question: "Do you provide home physiotherapy?",
-      answer:
-        "Yes. Home physiotherapy services can be useful for patients who have difficulty travelling to the clinic or require treatment in the comfort of their home."
-    },
-    {
-      id: 5,
-      question: "What should I wear during therapy?",
-      answer:
-        "We recommend comfortable and loose-fitting clothes that allow easy movement and provide your physiotherapist access to the area being treated."
-    },
-    {
-      id: 6,
-      question: "Do you treat sports injuries?",
-      answer:
-        "Yes. Physiotherapy can help with sports injuries including muscle strains, ligament injuries, sprains, joint pain and movement-related problems."
-    }
-  ];
+ 
+  // FAQ DATA
+ 
 
-  const leftFaqs = faqData.slice(0, 3);
-  const rightFaqs = faqData.slice(3, 6);
+  const [faqData, setFaqData] = useState([]);
+
+ 
+  // LOADING
+ 
+
+  const [loading, setLoading] = useState(true);
+
+ 
+  // ERROR
+ 
+
+  const [error, setError] = useState("");
+
+ 
+  // GET FAQ API
+ 
+
+  const fetchFAQs = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const authHeaders = getAuthHeaders();
+
+      const response = await fetch(API.FAQS, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...(authHeaders || {}),
+        },
+      });
+
+      const result = await response.json();
+
+      console.log("FAQ GET RESPONSE:", result);
+
+      if (!response.ok) {
+        throw new Error(
+          result?.message || "Failed to load FAQs."
+        );
+      }
+
+      
+      // GET API RESPONSE DATA
+      
+
+      let data = [];
+
+      if (Array.isArray(result?.data)) {
+        data = result.data;
+      } else if (Array.isArray(result?.data?.data)) {
+        data = result.data.data;
+      } else if (Array.isArray(result)) {
+        data = result;
+      }
+
+      
+      // ONLY ACTIVE FAQs
+      
+
+      const activeFAQs = data.filter((item) => {
+        return (
+          item.is_active === 1 ||
+          item.is_active === true ||
+          item.isActive === true ||
+          item.isActive === 1
+        );
+      });
+
+      setFaqData(activeFAQs);
+    } catch (err) {
+      console.error("FAQ GET ERROR:", err);
+
+      setError(
+        err.message || "Unable to load FAQs."
+      );
+
+      setFaqData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+ 
+  // CALL GET API WHEN PAGE LOADS
+ 
+
+  useEffect(() => {
+    fetchFAQs();
+  }, []);
+
+ 
+  // TOGGLE FAQ
+ 
 
   const toggleFAQ = (id) => {
-    setOpenQuestion(openQuestion === id ? null : id);
+    setOpenQuestion(
+      openQuestion === id ? null : id
+    );
   };
+
+ 
+  // FAQ ITEM
+ 
 
   const FAQItem = ({ item }) => {
     const isOpen = openQuestion === item.id;
@@ -60,12 +132,14 @@ const FrequentlyAskedQuestions = () => {
           isOpen ? "faq-item-open-clinic" : ""
         }`}
       >
+
         <button
           type="button"
           className="faq-question-clinic"
           onClick={() => toggleFAQ(item.id)}
           aria-expanded={isOpen}
         >
+
           <span className="faq-question-text-clinic">
             {item.question}
           </span>
@@ -77,23 +151,60 @@ const FrequentlyAskedQuestions = () => {
           >
             {isOpen ? "−" : "+"}
           </span>
+
         </button>
 
         <div
           className={`faq-answer-wrapper-clinic ${
-            isOpen ? "faq-answer-visible-clinic" : ""
+            isOpen
+              ? "faq-answer-visible-clinic"
+              : ""
           }`}
         >
+
           <div className="faq-answer-clinic">
-            <p>{item.answer}</p>
+
+            <p>
+              {item.answer}
+            </p>
+
           </div>
+
         </div>
+
       </div>
     );
   };
 
+ 
+  // SPLIT FAQS INTO TWO COLUMNS
+ 
+
+  const leftFaqs = faqData.filter(
+    (_, index) => index % 2 === 0
+  );
+
+  const rightFaqs = faqData.filter(
+    (_, index) => index % 2 !== 0
+  );
+
+ 
+  // VIEW ALL FAQS
+ 
+
+  const handleViewAll = () => {
+    setOpenQuestion(null);
+  };
+
+ 
+  // RETURN
+ 
+
   return (
-    <section className="faq-section-clinic" id="faq">
+    <section
+      className="faq-section-clinic"
+      id="faq"
+    >
 
       <div className="faq-container-clinic">
 
@@ -111,7 +222,6 @@ const FrequentlyAskedQuestions = () => {
             className="faq-human-image-clinic"
           />
 
-          {/* Physiotherapy treatment point */}
           <div className="faq-pain-point-clinic"></div>
 
           <div className="faq-pain-ring-clinic"></div>
@@ -125,7 +235,9 @@ const FrequentlyAskedQuestions = () => {
 
         <div className="faq-content-clinic">
 
-          {/* Header */}
+          {/* =====================================
+              HEADER
+          ====================================== */}
 
           <div className="faq-header-clinic">
 
@@ -145,47 +257,98 @@ const FrequentlyAskedQuestions = () => {
             <button
               type="button"
               className="faq-view-all-clinic"
-              onClick={() => setOpenQuestion(null)}
+              onClick={handleViewAll}
             >
               VIEW ALL FAQS
-              <span className="faq-arrow-clinic">→</span>
+
+              <span className="faq-arrow-clinic">
+                →
+              </span>
+
             </button>
 
           </div>
 
 
-          {/* FAQ columns */}
+          {/* =====================================
+              LOADING
+          ====================================== */}
 
-          <div className="faq-columns-clinic">
-
-            {/* Left column */}
-
-            <div className="faq-column-clinic">
-
-              {leftFaqs.map((item) => (
-                <FAQItem
-                  key={item.id}
-                  item={item}
-                />
-              ))}
-
+          {loading && (
+            <div className="faq-loading-clinic">
+              Loading FAQs...
             </div>
+          )}
 
 
-            {/* Right column */}
+          {/* =====================================
+              ERROR
+          ====================================== */}
 
-            <div className="faq-column-clinic">
-
-              {rightFaqs.map((item) => (
-                <FAQItem
-                  key={item.id}
-                  item={item}
-                />
-              ))}
-
+          {!loading && error && (
+            <div className="faq-error-clinic">
+              {error}
             </div>
+          )}
 
-          </div>
+
+          {/* =====================================
+              NO FAQ
+          ====================================== */}
+
+          {!loading &&
+            !error &&
+            faqData.length === 0 && (
+              <div className="faq-empty-clinic">
+                No frequently asked questions available.
+              </div>
+            )}
+
+
+          {/* =====================================
+              FAQ COLUMNS
+          ====================================== */}
+
+          {!loading &&
+            !error &&
+            faqData.length > 0 && (
+
+              <div className="faq-columns-clinic">
+
+                {/* =================================
+                    LEFT COLUMN
+                ================================== */}
+
+                <div className="faq-column-clinic">
+
+                  {leftFaqs.map((item) => (
+                    <FAQItem
+                      key={item.id}
+                      item={item}
+                    />
+                  ))}
+
+                </div>
+
+
+                {/* =================================
+                    RIGHT COLUMN
+                ================================== */}
+
+                <div className="faq-column-clinic">
+
+                  {rightFaqs.map((item) => (
+                    <FAQItem
+                      key={item.id}
+                      item={item}
+                    />
+                  ))}
+
+                </div>
+
+              </div>
+
+            )}
 
         </div>
 

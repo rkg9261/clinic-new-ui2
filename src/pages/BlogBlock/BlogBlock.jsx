@@ -4,42 +4,37 @@ import React, {
     useState
 } from "react";
 
-import "./BlogBlock.css";
-
-import {
-    FaFilter,
-    FaArrowRight,
-    FaBookOpen,
-    FaCalendarAlt
-} from "react-icons/fa";
-
 import {
     useNavigate
 } from "react-router-dom";
 
 import {
+    FaCalendarAlt,
+    FaArrowRight,
+    FaBookOpen,
+    FaFilter
+} from "react-icons/fa";
+
+import "./BlogBlock.css";
+
+import {
     API
 } from "../../config/api";
+
+import {
+    getAuthHeaders
+} from "../../utils/auth";
 
 
 const BlogBlock = () => {
 
-    const navigate = useNavigate();
+    const navigate =
+        useNavigate();
 
 
     /*====================================================
       STATE
     ====================================================*/
-
-    const [
-        selectedCategory,
-        setSelectedCategory
-    ] = useState("ALL");
-
-
-    /*
-      DYNAMIC BLOG DATA
-    */
 
     const [
         blogs,
@@ -59,16 +54,341 @@ const BlogBlock = () => {
     ] = useState("");
 
 
+    const [
+        selectedCategory,
+        setSelectedCategory
+    ] = useState("All");
+
+
+    const [
+        showAll,
+        setShowAll
+    ] = useState(false);
+
+
     /*====================================================
-      GET AUTH TOKEN
+      GET API ORIGIN
     ====================================================*/
 
-    const getToken = () => {
+    const getApiOrigin = () => {
+
+        try {
+
+            return new URL(
+                API.BLOGS
+            ).origin;
+
+        } catch {
+
+            return "";
+
+        }
+
+    };
+
+
+    /*====================================================
+      CHECK BASE64
+    ====================================================*/
+
+    const isBase64Image = (
+        value
+    ) => {
+
+        if (
+            !value ||
+            typeof value !== "string"
+        ) {
+
+            return false;
+
+        }
+
+
+        if (
+            value.startsWith(
+                "http://"
+            ) ||
+            value.startsWith(
+                "https://"
+            ) ||
+            value.startsWith(
+                "blob:"
+            ) ||
+            value.startsWith(
+                "/"
+            )
+        ) {
+
+            return false;
+
+        }
+
+
+        const cleanValue =
+            value.replace(
+                /\s/g,
+                ""
+            );
+
 
         return (
-            localStorage.getItem("token") ||
-            localStorage.getItem("authToken") ||
-            localStorage.getItem("accessToken")
+            cleanValue.length > 100 &&
+            /^[A-Za-z0-9+/]+={0,2}$/.test(
+                cleanValue
+            )
+        );
+
+    };
+
+
+    /*====================================================
+      IMAGE URL HANDLER
+    ====================================================*/
+
+    const getImageUrl = (
+        imageValue
+    ) => {
+
+        if (
+            imageValue === null ||
+            imageValue === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        /*================================================
+          OBJECT
+        =================================================*/
+
+        if (
+            typeof imageValue === "object"
+        ) {
+
+            return getImageUrl(
+
+                imageValue.featured_image ||
+
+                imageValue.featuredImage ||
+
+                imageValue.image ||
+
+                imageValue.image_url ||
+
+                imageValue.imageUrl ||
+
+                imageValue.url ||
+
+                imageValue.src ||
+
+                imageValue.path ||
+
+                imageValue.file_path ||
+
+                imageValue.filePath ||
+
+                imageValue.location ||
+
+                ""
+
+            );
+
+        }
+
+
+        /*================================================
+          STRING
+        =================================================*/
+
+        let image =
+            String(
+                imageValue
+            ).trim();
+
+
+        if (!image) {
+
+            return "";
+
+        }
+
+
+        /*================================================
+          REMOVE QUOTES
+        =================================================*/
+
+        if (
+            (
+                image.startsWith('"') &&
+                image.endsWith('"')
+            ) ||
+            (
+                image.startsWith("'") &&
+                image.endsWith("'")
+            )
+        ) {
+
+            image =
+                image.slice(
+                    1,
+                    -1
+                ).trim();
+
+        }
+
+
+        /*================================================
+          DATA IMAGE BASE64
+        =================================================*/
+
+        if (
+            /^data:image\/[^;]+;base64,/i.test(
+                image
+            )
+        ) {
+
+            /*
+              IMPORTANT:
+
+              Do not use encodeURIComponent().
+              Do not decode Base64.
+
+              Browser can directly display it.
+            */
+
+            const commaIndex =
+                image.indexOf(",");
+
+
+            if (
+                commaIndex !== -1
+            ) {
+
+                const prefix =
+                    image.substring(
+                        0,
+                        commaIndex
+                    );
+
+
+                const base64 =
+                    image
+                        .substring(
+                            commaIndex + 1
+                        )
+                        .replace(
+                            /\s/g,
+                            ""
+                        );
+
+
+                return (
+                    prefix +
+                    "," +
+                    base64
+                );
+
+            }
+
+
+            return image;
+
+        }
+
+
+        /*================================================
+          BASE64 WITHOUT PREFIX
+        =================================================*/
+
+        if (
+            isBase64Image(
+                image
+            )
+        ) {
+
+            return (
+                "data:image/jpeg;base64," +
+                image.replace(
+                    /\s/g,
+                    ""
+                )
+            );
+
+        }
+
+
+        /*================================================
+          HTTP URL
+        =================================================*/
+
+        if (
+            image.startsWith(
+                "http://"
+            ) ||
+            image.startsWith(
+                "https://"
+            )
+        ) {
+
+            return image;
+
+        }
+
+
+        /*================================================
+          BLOB
+        =================================================*/
+
+        if (
+            image.startsWith(
+                "blob:"
+            )
+        ) {
+
+            return image;
+
+        }
+
+
+        /*================================================
+          RELATIVE PATH
+        =================================================*/
+
+        const apiOrigin =
+            getApiOrigin();
+
+
+        if (
+            image.startsWith("/")
+        ) {
+
+            return (
+                apiOrigin +
+                image
+            );
+
+        }
+
+
+        if (
+            image.startsWith("./")
+        ) {
+
+            image =
+                image.substring(
+                    2
+                );
+
+        }
+
+
+        return (
+            apiOrigin +
+            "/" +
+            image
         );
 
     };
@@ -78,7 +398,7 @@ const BlogBlock = () => {
       FORMAT DATE
     ====================================================*/
 
-    const formatDate = (
+    const formatPublishedAt = (
         publishedAt
     ) => {
 
@@ -101,18 +421,103 @@ const BlogBlock = () => {
             )
         ) {
 
-            return publishedAt;
+            return String(
+                publishedAt
+            );
 
         }
 
 
-        return date.toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
+        const datePart =
+            date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+
+        const timePart =
+            date.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                }
+            );
+
+
+        return (
+            `${datePart} • ${timePart}`
+        );
+
+    };
+
+
+    /*====================================================
+      READ TIME
+    ====================================================*/
+
+    const calculateReadTime = (
+        content
+    ) => {
+
+        if (!content) {
+
+            return "1 min read";
+
+        }
+
+
+        let text = "";
+
+
+        if (
+            typeof content === "string"
+        ) {
+
+            text =
+                content;
+
+        } else {
+
+            text =
+                JSON.stringify(
+                    content
+                );
+
+        }
+
+
+        let words =
+            text
+                .replace(
+                    /[{}[\]":,]/g,
+                    " "
+                )
+                .split(
+                    /\s+/
+                )
+                .filter(
+                    Boolean
+                )
+                .length;
+
+
+        const minutes =
+            Math.max(
+                1,
+                Math.ceil(
+                    words / 200
+                )
+            );
+
+
+        return (
+            `${minutes} min read`
         );
 
     };
@@ -129,71 +534,159 @@ const BlogBlock = () => {
         if (!content) {
 
             return {
+
                 intro: "",
-                sections: []
+
+                sections: [],
+
+                paragraphs: []
+
             };
 
         }
 
 
-        try {
+        /*================================================
+          OBJECT
+        =================================================*/
 
-            if (
-                typeof content ===
-                "object"
-            ) {
+        if (
+            typeof content === "object"
+        ) {
+
+            const sections =
+                Array.isArray(
+                    content.sections
+                )
+                    ? content.sections
+                    : [];
+
+
+            const paragraphs =
+                Array.isArray(
+                    content.paragraphs
+                )
+                    ? content.paragraphs
+                    : sections.flatMap(
+                        (
+                            section
+                        ) =>
+                            Array.isArray(
+                                section.paragraphs
+                            )
+                                ? section.paragraphs
+                                : []
+                    );
+
+
+            return {
+
+                intro:
+                    content.intro ||
+                    "",
+
+                sections:
+                    sections,
+
+                paragraphs:
+                    paragraphs
+
+            };
+
+        }
+
+
+        /*================================================
+          JSON STRING
+        ====================================================*/
+
+        if (
+            typeof content === "string"
+        ) {
+
+            try {
+
+                const parsed =
+                    JSON.parse(
+                        content
+                    );
+
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+
+                    const sections =
+                        Array.isArray(
+                            parsed.sections
+                        )
+                            ? parsed.sections
+                            : [];
+
+
+                    const paragraphs =
+                        Array.isArray(
+                            parsed.paragraphs
+                        )
+                            ? parsed.paragraphs
+                            : sections.flatMap(
+                                (
+                                    section
+                                ) =>
+                                    Array.isArray(
+                                        section.paragraphs
+                                    )
+                                        ? section.paragraphs
+                                        : []
+                            );
+
+
+                    return {
+
+                        intro:
+                            parsed.intro ||
+                            "",
+
+                        sections:
+                            sections,
+
+                        paragraphs:
+                            paragraphs
+
+                    };
+
+                }
+
+            } catch {
 
                 return {
 
                     intro:
-                        content.intro ||
-                        "",
+                        content,
 
-                    sections:
-                        Array.isArray(
-                            content.sections
-                        )
-                            ? content.sections
-                            : []
+                    sections: [],
+
+                    paragraphs: [
+                        content
+                    ]
 
                 };
 
             }
 
-
-            const parsed =
-                JSON.parse(
-                    content
-                );
-
-
-            return {
-
-                intro:
-                    parsed?.intro ||
-                    "",
-
-                sections:
-                    Array.isArray(
-                        parsed?.sections
-                    )
-                        ? parsed.sections
-                        : []
-
-            };
-
-        } catch {
-
-            return {
-
-                intro:
-                    content || "",
-
-                sections: []
-
-            };
-
         }
+
+
+        return {
+
+            intro: "",
+
+            sections: [],
+
+            paragraphs: []
+
+        };
 
     };
 
@@ -203,66 +696,218 @@ const BlogBlock = () => {
     ====================================================*/
 
     const convertBlog = (
-        blog
+        apiBlog
     ) => {
 
+        if (!apiBlog) {
+
+            return null;
+
+        }
+
+
+        /*================================================
+          EXACT API FIELDS
+        =================================================*/
+
+        const id =
+            apiBlog.id;
+
+
+        const title =
+            apiBlog.title ||
+            "";
+
+
+        const slug =
+            apiBlog.slug ||
+            "";
+
+
+        const shortDescription =
+            apiBlog.short_description ??
+            apiBlog.shortDescription ??
+            "";
+
+
         const content =
+            apiBlog.content ??
+            "";
+
+
+        /*================================================
+          IMPORTANT IMAGE FIELD
+
+          GET API:
+
+          featured_image
+        =================================================*/
+
+        const featuredImage =
+            apiBlog.featured_image ??
+            apiBlog.featuredImage ??
+            apiBlog.image ??
+            apiBlog.image_url ??
+            apiBlog.imageUrl ??
+            apiBlog.url ??
+            "";
+
+
+        const isActive =
+            apiBlog.is_active ??
+            apiBlog.isActive;
+
+
+        const publishedAt =
+            apiBlog.published_at ??
+            apiBlog.publishedAt ??
+            "";
+
+
+        const createdAt =
+            apiBlog.created_at ??
+            apiBlog.createdAt ??
+            "";
+
+
+        const updatedAt =
+            apiBlog.updated_at ??
+            apiBlog.updatedAt ??
+            "";
+
+
+        /*================================================
+          CONTENT
+        ====================================================*/
+
+        const parsedContent =
             parseContent(
-                blog.content
+                content
             );
+
+
+        /*================================================
+          IMAGE
+        ====================================================*/
+
+        const image =
+            getImageUrl(
+                featuredImage
+            );
+
+
+        console.log(
+            "===================================="
+        );
+
+        console.log(
+            "BLOG BLOCK IMAGE"
+        );
+
+        console.log(
+            "BLOG ID:",
+            id
+        );
+
+        console.log(
+            "FEATURED IMAGE:",
+            featuredImage
+        );
+
+        console.log(
+            "FINAL IMAGE:",
+            image
+        );
+
+        console.log(
+            "IMAGE LENGTH:",
+            image.length
+        );
+
+        console.log(
+            "IS BASE64:",
+            image.startsWith(
+                "data:image/"
+            )
+        );
+
+        console.log(
+            "===================================="
+        );
 
 
         return {
 
-            ...blog,
+            id:
+                id,
 
-            /*
-              API featuredImage
-              becomes existing
-              frontend image field
-            */
+            branch_id:
+                apiBlog.branch_id ??
+                apiBlog.branchId ??
+                null,
+
+            title:
+                title,
+
+            slug:
+                slug,
+
+            short_description:
+                shortDescription,
+
+            content:
+                content,
+
+            featured_image:
+                featuredImage,
+
+            is_active:
+                isActive,
+
+            published_at:
+                publishedAt,
+
+            created_at:
+                createdAt,
+
+            updated_at:
+                updatedAt,
+
+
+            /*============================================
+              FRONTEND FIELDS
+            ============================================*/
+
+            category:
+                apiBlog.category ||
+                apiBlog.category_name ||
+                title ||
+                "Physiotherapy",
 
             image:
-                blog.featuredImage ||
-                blog.image ||
-                "",
+                image,
 
-
-            /*
-              API shortDescription
-              becomes existing
-              frontend subtitle
-            */
-
-            subtitle:
-                blog.shortDescription ||
-                blog.subtitle ||
-                "",
-
-
-            /*
-              API publishedAt
-              becomes existing
-              frontend date
-            */
+            shortDescription:
+                shortDescription,
 
             date:
-                formatDate(
-                    blog.publishedAt ||
-                    blog.date
+                formatPublishedAt(
+                    publishedAt
                 ),
 
-
-            /*
-              Existing detail
-              structure
-            */
+            readTime:
+                calculateReadTime(
+                    content
+                ),
 
             intro:
-                content.intro,
+                parsedContent.intro,
 
             sections:
-                content.sections,
+                parsedContent.sections,
+
+            paragraphs:
+                parsedContent.paragraphs
 
         };
 
@@ -270,29 +915,125 @@ const BlogBlock = () => {
 
 
     /*====================================================
-      GET BLOG LIST
+      EXTRACT BLOG ARRAY
+    ====================================================*/
+
+    const extractBlogs = (
+        result
+    ) => {
+
+        if (
+            Array.isArray(
+                result
+            )
+        ) {
+
+            return result;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.data
+            )
+        ) {
+
+            return result.data;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.blogs
+            )
+        ) {
+
+            return result.blogs;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.data?.blogs
+            )
+        ) {
+
+            return result.data.blogs;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.result
+            )
+        ) {
+
+            return result.result;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.result?.data
+            )
+        ) {
+
+            return result.result.data;
+
+        }
+
+
+        if (
+            Array.isArray(
+                result?.result?.blogs
+            )
+        ) {
+
+            return result.result.blogs;
+
+        }
+
+
+        return [];
+
+    };
+
+
+    /*====================================================
+      FETCH BLOGS
     ====================================================*/
 
     const fetchBlogs = async () => {
 
         try {
 
-            setLoading(true);
+            setLoading(
+                true
+            );
 
             setError("");
 
 
-            const token =
-                getToken();
+            /*============================================
+              AUTH
+            ============================================*/
+
+            const authHeaders =
+                getAuthHeaders();
 
 
             console.log(
-                "BLOG LIST TOKEN:",
-                token
+                "BLOG BLOCK AUTH HEADERS:",
+                authHeaders
             );
 
 
-            if (!token) {
+            if (!authHeaders) {
 
                 throw new Error(
                     "Unauthorized. Token missing. Please login again."
@@ -301,23 +1042,41 @@ const BlogBlock = () => {
             }
 
 
-            /*================================================
-              GET /api/blogs
-            =================================================*/
+            /*============================================
+              GET API
+            ============================================*/
+
+            console.log(
+                "===================================="
+            );
+
+            console.log(
+                "GET BLOG LIST"
+            );
+
+            console.log(
+                "URL:",
+                API.BLOGS
+            );
+
+            console.log(
+                "===================================="
+            );
+
 
             const response =
                 await fetch(
                     API.BLOGS,
                     {
 
-                        method: "GET",
+                        method:
+                            "GET",
 
                         headers: {
 
-                            Authorization:
-                                `Bearer ${token}`,
+                            ...authHeaders,
 
-                            "Content-Type":
+                            Accept:
                                 "application/json"
 
                         }
@@ -326,15 +1085,22 @@ const BlogBlock = () => {
                 );
 
 
-            /*================================================
-              READ RESPONSE
-            =================================================*/
+            /*============================================
+              RESPONSE
+            ============================================*/
 
             const responseText =
                 await response.text();
 
 
-            let result = null;
+            console.log(
+                "BLOG BLOCK RESPONSE TEXT:",
+                responseText
+            );
+
+
+            let result =
+                null;
 
 
             try {
@@ -359,18 +1125,17 @@ const BlogBlock = () => {
 
 
             console.log(
-                "BLOG GET API RESPONSE:",
+                "BLOG BLOCK API RESPONSE:",
                 result
             );
 
 
-            /*================================================
-              UNAUTHORIZED
-            =================================================*/
+            /*============================================
+              401
+            ============================================*/
 
             if (
-                response.status ===
-                401
+                response.status === 401
             ) {
 
                 throw new Error(
@@ -380,9 +1145,9 @@ const BlogBlock = () => {
             }
 
 
-            /*================================================
+            /*============================================
               OTHER ERROR
-            =================================================*/
+            ============================================*/
 
             if (
                 !response.ok
@@ -403,89 +1168,82 @@ const BlogBlock = () => {
             }
 
 
-            /*================================================
-              RESPONSE DATA
-            =================================================*/
+            /*============================================
+              EXTRACT
+            ============================================*/
 
-            let apiBlogs = [];
-
-
-            if (
-                Array.isArray(
+            const apiBlogs =
+                extractBlogs(
                     result
-                )
-            ) {
-
-                apiBlogs =
-                    result;
-
-            } else if (
-                Array.isArray(
-                    result?.data
-                )
-            ) {
-
-                apiBlogs =
-                    result.data;
-
-            } else if (
-                Array.isArray(
-                    result?.blogs
-                )
-            ) {
-
-                apiBlogs =
-                    result.blogs;
-
-            } else if (
-                Array.isArray(
-                    result?.data?.blogs
-                )
-            ) {
-
-                apiBlogs =
-                    result.data.blogs;
-
-            }
+                );
 
 
-            /*================================================
-              CONVERT API DATA
-            =================================================*/
+            console.log(
+                "BLOG BLOCK API BLOG COUNT:",
+                apiBlogs.length
+            );
+
+
+            /*============================================
+              CONVERT
+            ============================================*/
 
             const convertedBlogs =
-                apiBlogs.map(
-                    (blog) =>
-                        convertBlog(
-                            blog
-                        )
-                );
+                apiBlogs
+                    .map(
+                        (
+                            item
+                        ) =>
+                            convertBlog(
+                                item
+                            )
+                    )
+                    .filter(
+                        Boolean
+                    )
+                    .filter(
+                        (
+                            item
+                        ) =>
+                            item.is_active !== false
+                    );
+
+
+            console.log(
+                "BLOG BLOCK FINAL BLOGS:",
+                convertedBlogs
+            );
 
 
             setBlogs(
                 convertedBlogs
             );
 
-
-        } catch (error) {
+        } catch (
+            fetchError
+        ) {
 
             console.error(
-                "Blog API Error:",
-                error
+                "BLOG BLOCK API ERROR:",
+                fetchError
             );
 
 
             setError(
-                error.message ||
+                fetchError.message ||
                 "Unable to load blogs."
             );
 
 
-            setBlogs([]);
+            setBlogs(
+                []
+            );
 
         } finally {
 
-            setLoading(false);
+            setLoading(
+                false
+            );
 
         }
 
@@ -493,7 +1251,7 @@ const BlogBlock = () => {
 
 
     /*====================================================
-      GET BLOGS FROM API
+      LOAD BLOGS
     ====================================================*/
 
     useEffect(() => {
@@ -504,79 +1262,159 @@ const BlogBlock = () => {
 
 
     /*====================================================
-      GET UNIQUE CATEGORIES
+      CATEGORIES
     ====================================================*/
 
-    const categories = useMemo(() => {
+    const categories =
+        useMemo(
+            () => {
 
-        return [
-            ...new Set(
-                blogs
-                    .map(
-                        (blog) =>
-                            blog.category
+                const values =
+                    blogs
+                        .map(
+                            (
+                                blog
+                            ) =>
+                                blog.category
+                        )
+                        .filter(
+                            Boolean
+                        );
+
+
+                return [
+                    "All",
+                    ...Array.from(
+                        new Set(
+                            values
+                        )
                     )
-                    .filter(Boolean)
-            )
-        ];
+                ];
 
-    }, [blogs]);
+            },
+            [
+                blogs
+            ]
+        );
 
 
     /*====================================================
       FILTER BLOGS
     ====================================================*/
 
-    const filteredBlogs = useMemo(() => {
+    const filteredBlogs =
+        useMemo(
+            () => {
 
-        if (
-            selectedCategory ===
-            "ALL"
-        ) {
+                if (
+                    selectedCategory ===
+                    "All"
+                ) {
 
-            return blogs;
+                    return blogs;
 
-        }
+                }
 
 
-        return blogs.filter(
-            (blog) =>
-                blog.category ===
+                return blogs.filter(
+                    (
+                        blog
+                    ) =>
+                        blog.category ===
+                        selectedCategory
+                );
+
+            },
+            [
+                blogs,
                 selectedCategory
+            ]
         );
-
-    }, [
-        selectedCategory,
-        blogs
-    ]);
 
 
     /*====================================================
-      CATEGORY COUNT
+      VISIBLE BLOGS
     ====================================================*/
 
-    const getCategoryCount = (
-        category
+    const visibleBlogs =
+        showAll
+            ? filteredBlogs
+            : filteredBlogs.slice(
+                0,
+                6
+            );
+
+
+    /*====================================================
+      OPEN BLOG
+    ====================================================*/
+
+    const openBlog = (
+        blogId
     ) => {
 
-        return blogs.filter(
-            (blog) =>
-                blog.category ===
-                category
-        ).length;
+        navigate(
+            `/blog/${blogId}`
+        );
 
     };
 
 
     /*====================================================
-      OPEN BLOG DETAIL
+      IMAGE ERROR
     ====================================================*/
 
-    const openBlog = (blog) => {
+    const handleImageError = (
+        event,
+        currentBlog
+    ) => {
 
-        navigate(
-            `/blog/${blog.id}`
+        console.error(
+            "===================================="
         );
+
+        console.error(
+            "BLOG BLOCK IMAGE FAILED"
+        );
+
+        console.error(
+            "BLOG ID:",
+            currentBlog?.id
+        );
+
+        console.error(
+            "FEATURED IMAGE:",
+            currentBlog?.featured_image
+        );
+
+        console.error(
+            "FINAL IMAGE:",
+            currentBlog?.image
+        );
+
+        console.error(
+            "IMAGE LENGTH:",
+            currentBlog?.image?.length
+        );
+
+        console.error(
+            "SRC:",
+            event?.currentTarget?.src
+        );
+
+        console.error(
+            "===================================="
+        );
+
+
+        if (
+            event?.currentTarget
+        ) {
+
+            event.currentTarget.style.display =
+                "none";
+
+        }
 
     };
 
@@ -585,66 +1423,52 @@ const BlogBlock = () => {
       LOADING
     ====================================================*/
 
-    if (loading) {
+    if (
+        loading
+    ) {
 
         return (
 
-            <section className="blog-block-section">
+            <section className="
+                blog-block-section
+            ">
 
-                <div className="blog-block-no-results">
+                <div className="
+                    blog-block-header
+                ">
 
-                    <FaBookOpen />
+                    <div className="
+                        blog-block-header-content
+                    ">
 
-                    <h3>
-                        Loading Blogs
-                    </h3>
+                        <span className="
+                            blog-block-subtitle
+                        ">
 
-                    <p>
-                        Please wait while blogs are loading.
-                    </p>
+                            OUR BLOG
 
-                </div>
-
-            </section>
-
-        );
-
-    }
+                        </span>
 
 
-    /*====================================================
-      ERROR
-    ====================================================*/
+                        <h2 className="
+                            blog-block-title
+                        ">
 
-    if (error) {
+                            Physiotherapy Insights
 
-        return (
+                        </h2>
 
-            <section className="blog-block-section">
 
-                <div className="blog-block-no-results">
+                        <p className="
+                            blog-block-description
+                        ">
 
-                    <FaBookOpen />
+                            Loading our latest
+                            physiotherapy articles...
 
-                    <h3>
-                        Unable to Load Blogs
-                    </h3>
+                        </p>
 
-                    <p>
-                        {error}
-                    </p>
-
-                    <button
-                        type="button"
-
-                        onClick={
-                            fetchBlogs
-                        }
-                    >
-
-                        Try Again
-
-                    </button>
+                    </div>
 
                 </div>
 
@@ -657,100 +1481,89 @@ const BlogBlock = () => {
 
     return (
 
-        <section className="blog-block-section">
+        <section className="
+            blog-block-section
+        ">
 
 
             {/*================================================
-              BACKGROUND BLOBS
+              BACKGROUND
             =================================================*/}
 
-            <div
-                className="
-                    blog-block-blob
-                    blog-block-blob-1
-                "
-            ></div>
+            <div className="
+                blog-block-blob
+                blog-block-blob-1
+            "></div>
 
 
-            <div
-                className="
-                    blog-block-blob
-                    blog-block-blob-2
-                "
-            ></div>
+            <div className="
+                blog-block-blob
+                blog-block-blob-2
+            "></div>
 
 
-            {/*================================================
-              FLOATING BUBBLES
-            =================================================*/}
-
-            <span
-                className="
-                    blog-block-bubble
-                    blog-block-b1
-                "
-            ></span>
+            <span className="
+                blog-block-bubble
+                blog-block-b1
+            "></span>
 
 
-            <span
-                className="
-                    blog-block-bubble
-                    blog-block-b2
-                "
-            ></span>
+            <span className="
+                blog-block-bubble
+                blog-block-b2
+            "></span>
 
 
-            <span
-                className="
-                    blog-block-bubble
-                    blog-block-b3
-                "
-            ></span>
+            <span className="
+                blog-block-bubble
+                blog-block-b3
+            "></span>
 
 
-            <span
-                className="
-                    blog-block-bubble
-                    blog-block-b4
-                "
-            ></span>
+            <span className="
+                blog-block-bubble
+                blog-block-b4
+            "></span>
 
 
             {/*================================================
               HEADER
             =================================================*/}
 
-            <div className="blog-block-header">
+            <div className="
+                blog-block-header
+            ">
 
                 <div className="
                     blog-block-header-content
                 ">
 
-                    <p className="
+                    <span className="
                         blog-block-subtitle
                     ">
 
-                        LATEST BLOGS
+                        PHYSIOTHERAPY BLOG
 
-                    </p>
+                    </span>
 
 
-                    <h1 className="
+                    <h2 className="
                         blog-block-title
                     ">
 
-                        Health Tips &amp; Insights
+                        Expert Guidance for
+                        Better Recovery
 
-                    </h1>
+                    </h2>
 
 
                     <p className="
                         blog-block-description
                     ">
 
-                        Explore our physiotherapy tips,
-                        recovery guidance, exercise advice
-                        and expert health insights.
+                        Explore practical physiotherapy
+                        advice, recovery techniques and
+                        expert health guidance.
 
                     </p>
 
@@ -760,7 +1573,7 @@ const BlogBlock = () => {
 
 
             {/*================================================
-              MAIN LAYOUT
+              LAYOUT
             =================================================*/}
 
             <div className="
@@ -769,7 +1582,7 @@ const BlogBlock = () => {
 
 
                 {/*================================================
-                  LEFT FILTER
+                  FILTER
                 =================================================*/}
 
                 <aside className="
@@ -781,121 +1594,70 @@ const BlogBlock = () => {
                         blog-block-filter-header
                     ">
 
-                        <div className="
+                        <FaFilter className="
                             blog-block-filter-icon
-                        ">
+                        " />
 
-                            <FaFilter />
-
-                        </div>
-
-
-                        <div>
-
-                            <h3>
-                                Blog Categories
-                            </h3>
-
-                            <span>
-                                Filter by topic
-                            </span>
-
-                        </div>
+                        <span>
+                            Categories
+                        </span>
 
                     </div>
 
-
-                    {/*================================================
-                      ALL BLOGS
-                    =================================================*/}
-
-                    <button
-                        type="button"
-
-                        className={`
-                            blog-block-filter-button
-                            ${
-                                selectedCategory ===
-                                "ALL"
-                                    ? "active-blog-block-filter"
-                                    : ""
-                            }
-                        `}
-
-                        onClick={() =>
-                            setSelectedCategory(
-                                "ALL"
-                            )
-                        }
-                    >
-
-                        <span>
-                            All Blogs
-                        </span>
-
-                        <strong>
-                            {blogs.length}
-                        </strong>
-
-                    </button>
-
-
-                    {/*================================================
-                      CATEGORY BUTTONS
-                    =================================================*/}
 
                     <div className="
                         blog-block-category-list
                     ">
 
-                        {categories.map(
-                            (category) => (
 
-                                <button
-                                    type="button"
+                        {
+                            categories.map(
+                                (
+                                    category
+                                ) => (
 
-                                    key={category}
-
-                                    className={`
-                                        blog-block-filter-button
-                                        ${
-                                            selectedCategory ===
+                                    <button
+                                        key={
                                             category
-                                                ? "active-blog-block-filter"
-                                                : ""
                                         }
-                                    `}
 
-                                    onClick={() =>
-                                        setSelectedCategory(
-                                            category
-                                        )
-                                    }
-                                >
+                                        type="button"
 
-                                    <span>
-                                        {category}
-                                    </span>
-
-                                    <strong>
-                                        {
-                                            getCategoryCount(
+                                        className={`
+                                            blog-block-filter-button
+                                            ${
+                                                selectedCategory ===
                                                 category
-                                            )
+                                                    ? "active-blog-block-filter"
+                                                    : ""
+                                            }
+                                        `}
+
+                                        onClick={() => {
+
+                                            setSelectedCategory(
+                                                category
+                                            );
+
+                                            setShowAll(
+                                                false
+                                            );
+
+                                        }}
+                                    >
+
+                                        {
+                                            category
                                         }
-                                    </strong>
 
-                                </button>
+                                    </button>
 
+                                )
                             )
-                        )}
+                        }
 
                     </div>
 
-
-                    {/*================================================
-                      FILTER INFORMATION
-                    =================================================*/}
 
                     <div className="
                         blog-block-filter-info
@@ -905,9 +1667,9 @@ const BlogBlock = () => {
 
                         <p>
 
-                            Select a category to
-                            discover related health
-                            and physiotherapy articles.
+                            Select a blog title to
+                            discover practical
+                            physiotherapy articles.
 
                         </p>
 
@@ -917,7 +1679,7 @@ const BlogBlock = () => {
 
 
                 {/*================================================
-                  RIGHT CONTENT
+                  CONTENT
                 =================================================*/}
 
                 <div className="
@@ -933,221 +1695,321 @@ const BlogBlock = () => {
                         blog-block-results-header
                     ">
 
-                        <div>
-
-                            <span>
-                                Showing blogs from
-                            </span>
-
-                            <h2>
-
-                                {
-                                    selectedCategory ===
-                                    "ALL"
-                                        ? "All Categories"
-                                        : selectedCategory
-                                }
-
-                            </h2>
-
-                        </div>
-
-
-                        <div className="
+                        <span className="
                             blog-block-result-count
                         ">
 
-                            {filteredBlogs.length}
+                            {
+                                filteredBlogs.length
+                            }
 
-                            <span>
+                            {" "}
 
-                                {
-                                    filteredBlogs.length ===
-                                    1
-                                        ? " Article"
-                                        : " Articles"
-                                }
+                            {
+                                filteredBlogs.length === 1
+                                    ? "Article"
+                                    : "Articles"
+                            }
 
-                            </span>
-
-                        </div>
+                        </span>
 
                     </div>
 
 
                     {/*================================================
-                      BLOG GRID
+                      ERROR
                     =================================================*/}
 
-                    {filteredBlogs.length > 0 ? (
+                    {
+                        error && (
 
-                        <div className="
-                            blog-block-grid
-                        ">
+                            <div className="
+                                blog-block-no-results
+                            ">
 
-                            {filteredBlogs.map(
-                                (blog, index) => (
+                                <FaBookOpen />
 
-                                    <article
-                                        className="
-                                            blog-block-card
-                                        "
+                                <p>
+                                    {error}
+                                </p>
 
-                                        key={blog.id}
+                            </div>
 
-                                        style={{
-                                            animationDelay:
-                                                `${index * 0.08}s`
-                                        }}
-                                    >
-
-                                        <div className="
-                                            blog-block-card-inner
-                                        ">
+                        )
+                    }
 
 
-                                            {/* IMAGE */}
+                    {/*================================================
+                      GRID
+                    =================================================*/}
 
-                                            <div className="
-                                                blog-block-image-box
-                                            ">
+                    {
+                        !error &&
+                        visibleBlogs.length > 0 && (
 
-                                                <span className="
-                                                    blog-block-shine
-                                                "></span>
-
-
-                                                <img
-                                                    src={
-                                                        blog.image
-                                                    }
-
-                                                    alt={
-                                                        blog.title
-                                                    }
-
-                                                    className="
-                                                        blog-block-image
-                                                    "
-                                                />
+                            <div className="
+                                blog-block-grid
+                            ">
 
 
-                                                <span className="
-                                                    blog-block-category
-                                                ">
+                                {
+                                    visibleBlogs.map(
+                                        (
+                                            blog
+                                        ) => (
 
-                                                    {
-                                                        blog.category
-                                                    }
+                                            <article
+                                                key={
+                                                    blog.id
+                                                }
 
-                                                </span>
+                                                className="
+                                                    blog-block-card
+                                                "
 
-                                            </div>
-
-
-                                            {/* CONTENT */}
-
-                                            <div className="
-                                                blog-block-card-content
-                                            ">
-
+                                                onClick={() =>
+                                                    openBlog(
+                                                        blog.id
+                                                    )
+                                                }
+                                            >
 
                                                 <div className="
-                                                    blog-block-date
+                                                    blog-block-card-inner
                                                 ">
 
-                                                    <FaCalendarAlt />
 
-                                                    <span>
-                                                        {blog.date}
-                                                    </span>
+                                                    {/* IMAGE */}
+
+                                                    <div className="
+                                                        blog-block-image-box
+                                                    ">
+
+
+                                                        {
+                                                            blog.image ? (
+
+                                                                <>
+
+                                                                    <img
+                                                                        className="
+                                                                            blog-block-image
+                                                                        "
+
+                                                                        src={
+                                                                            blog.image
+                                                                        }
+
+                                                                        alt={
+                                                                            blog.title
+                                                                        }
+
+                                                                        loading="lazy"
+
+                                                                        onError={(event) => {
+
+                                                                            handleImageError(
+                                                                                event,
+                                                                                blog
+                                                                            );
+
+                                                                        }}
+
+                                                                    />
+
+                                                                    <div className="
+                                                                        blog-block-shine
+                                                                    "></div>
+
+                                                                </>
+
+                                                            ) : (
+
+                                                                <div
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        minHeight: "220px",
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center"
+                                                                    }}
+                                                                >
+
+                                                                    <FaBookOpen />
+
+                                                                </div>
+
+                                                            )
+                                                        }
+
+
+                                                        <span className="
+                                                            blog-block-category
+                                                        ">
+
+                                                            {
+                                                                blog.category
+                                                            }
+
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    {/* CONTENT */}
+
+                                                    <div className="
+                                                        blog-block-card-content
+                                                    ">
+
+
+                                                        <div className="
+                                                            blog-block-date
+                                                        ">
+
+                                                            <FaCalendarAlt />
+
+                                                            {
+                                                                blog.date
+                                                            }
+
+                                                        </div>
+
+
+                                                        <h3>
+
+                                                            {
+                                                                blog.title
+                                                            }
+
+                                                        </h3>
+
+
+                                                        <p className="
+                                                            blog-block-short-description
+                                                        ">
+
+                                                            {
+                                                                blog.shortDescription
+                                                            }
+
+                                                        </p>
+
+
+                                                        <button
+                                                            type="button"
+
+                                                            className="
+                                                                blog-block-read-more
+                                                            "
+
+                                                            onClick={(event) => {
+
+                                                                event.stopPropagation();
+
+                                                                openBlog(
+                                                                    blog.id
+                                                                );
+
+                                                            }}
+                                                        >
+
+                                                            Read More
+
+                                                            <FaArrowRight />
+
+                                                        </button>
+
+                                                    </div>
 
                                                 </div>
 
+                                            </article>
 
-                                                <h3>
-                                                    {blog.title}
-                                                </h3>
-
-
-                                                <p className="
-                                                    blog-block-short-description
-                                                ">
-
-                                                    {
-                                                        blog.subtitle
-                                                    }
-
-                                                </p>
-
-
-                                                {/* READ MORE */}
-
-                                                <button
-                                                    type="button"
-
-                                                    className="
-                                                        blog-block-read-more
-                                                    "
-
-                                                    onClick={() =>
-                                                        openBlog(
-                                                            blog
-                                                        )
-                                                    }
-                                                >
-
-                                                    Read More
-
-                                                    <FaArrowRight />
-
-                                                </button>
-
-                                            </div>
-
-                                        </div>
-
-                                    </article>
-
-                                )
-                            )}
-
-                        </div>
-
-                    ) : (
-
-                        <div className="
-                            blog-block-no-results
-                        ">
-
-                            <FaBookOpen />
-
-                            <h3>
-                                No Blogs Found
-                            </h3>
-
-                            <p>
-                                No blogs are available
-                                for this category.
-                            </p>
-
-                            <button
-                                type="button"
-
-                                onClick={() =>
-                                    setSelectedCategory(
-                                        "ALL"
+                                        )
                                     )
                                 }
+
+                            </div>
+
+                        )
+                    }
+
+
+                    {/*================================================
+                      NO RESULTS
+                    =================================================*/}
+
+                    {
+                        !error &&
+                        visibleBlogs.length === 0 && (
+
+                            <div className="
+                                blog-block-no-results
+                            ">
+
+                                <FaBookOpen />
+
+                                <h3>
+                                    No Blogs Found
+                                </h3>
+
+                                <p>
+                                    There are no blogs available
+                                    for this category.
+                                </p>
+
+                            </div>
+
+                        )
+                    }
+
+
+                    {/*================================================
+                      SHOW ALL
+                    =================================================*/}
+
+                    {
+                        filteredBlogs.length > 6 && (
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: "35px"
+                                }}
                             >
 
-                                View All Blogs
+                                <button
+                                    type="button"
 
-                            </button>
+                                    className="
+                                        blog-block-filter-button
+                                    "
 
-                        </div>
+                                    onClick={() =>
+                                        setShowAll(
+                                            (previous) =>
+                                                !previous
+                                        )
+                                    }
+                                >
 
-                    )}
+                                    {
+                                        showAll
+                                            ? "Show Less"
+                                            : `View All Blogs (${filteredBlogs.length})`
+                                    }
+
+                                    <FaArrowRight />
+
+                                </button>
+
+                            </div>
+
+                        )
+                    }
 
                 </div>
 

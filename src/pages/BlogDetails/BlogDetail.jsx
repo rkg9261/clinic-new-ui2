@@ -25,6 +25,10 @@ import {
     API
 } from "../../config/api";
 
+import {
+    getAuthHeaders
+} from "../../utils/auth";
+
 
 const BlogDetail = () => {
 
@@ -34,53 +38,270 @@ const BlogDetail = () => {
 
 
     /*====================================================
-      DYNAMIC BLOG DATA
+      STATE
     ====================================================*/
 
-    const [
-        blogs,
-        setBlogs
-    ] = useState([]);
+    const [blogs, setBlogs] = useState([]);
 
+    const [blog, setBlog] = useState(null);
 
-    const [
-        blog,
-        setBlog
-    ] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-
-    const [
-        loading,
-        setLoading
-    ] = useState(true);
-
-
-    const [
-        error,
-        setError
-    ] = useState("");
+    const [error, setError] = useState("");
 
 
     /*====================================================
-      GET AUTH TOKEN
+      AUTH
     ====================================================*/
 
-    const getToken = () => {
+    const getHeaders = () => {
+
+        const headers = getAuthHeaders();
+
+        console.log(
+            "BLOG DETAIL AUTH HEADERS:",
+            headers
+        );
+
+        return headers;
+
+    };
+
+
+    /*====================================================
+      IMAGE HANDLER
+    ====================================================*/
+
+    const getImageUrl = (imageValue) => {
+
+        if (
+            imageValue === null ||
+            imageValue === undefined
+        ) {
+            return "";
+        }
+
+
+        /*================================================
+          OBJECT
+        =================================================*/
+
+        if (
+            typeof imageValue === "object"
+        ) {
+
+            return getImageUrl(
+
+                imageValue.featured_image ||
+
+                imageValue.featuredImage ||
+
+                imageValue.image_url ||
+
+                imageValue.imageUrl ||
+
+                imageValue.url ||
+
+                imageValue.src ||
+
+                imageValue.path ||
+
+                imageValue.file_path ||
+
+                imageValue.filePath ||
+
+                ""
+
+            );
+
+        }
+
+
+        /*================================================
+          STRING
+        =================================================*/
+
+        let image = String(imageValue).trim();
+
+
+        if (!image) {
+
+            return "";
+
+        }
+
+
+        /*================================================
+          REMOVE JSON QUOTES
+        =================================================*/
+
+        if (
+            image.startsWith('"') &&
+            image.endsWith('"')
+        ) {
+
+            image = image.slice(1, -1);
+
+        }
+
+
+        if (
+            image.startsWith("'") &&
+            image.endsWith("'")
+        ) {
+
+            image = image.slice(1, -1);
+
+        }
+
+
+        image = image.trim();
+
+
+        /*================================================
+          BASE64 IMAGE
+
+          DO NOT MODIFY THE BASE64 DATA.
+
+          This is very important.
+        =================================================*/
+
+        if (
+            image.startsWith("data:image/")
+        ) {
+
+            return image;
+
+        }
+
+
+        /*================================================
+          HTTP / HTTPS
+        =================================================*/
+
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://")
+        ) {
+
+            return image;
+
+        }
+
+
+        /*================================================
+          BLOB
+        =================================================*/
+
+        if (
+            image.startsWith("blob:")
+        ) {
+
+            return image;
+
+        }
+
+
+        /*================================================
+          RELATIVE URL
+        =================================================*/
+
+        let apiOrigin = "";
+
+        try {
+
+            apiOrigin =
+                new URL(
+                    API.BLOGS
+                ).origin;
+
+        } catch {
+
+            apiOrigin = "";
+
+        }
+
+
+        if (
+            image.startsWith("/")
+        ) {
+
+            return (
+                apiOrigin +
+                image
+            );
+
+        }
+
+
+        if (
+            image.startsWith("./")
+        ) {
+
+            image =
+                image.substring(2);
+
+        }
+
 
         return (
-            localStorage.getItem("token") ||
-            localStorage.getItem("authToken") ||
-            localStorage.getItem("accessToken")
+            apiOrigin +
+            "/" +
+            image
         );
 
     };
 
 
     /*====================================================
-      FORMAT DATE
+      IMAGE ERROR
     ====================================================*/
 
-    const formatDate = (
+    const handleImageError = (
+        event,
+        currentBlog
+    ) => {
+
+        console.error(
+            "===================================="
+        );
+
+        console.error(
+            "BLOG IMAGE FAILED"
+        );
+
+        console.error(
+            "BLOG ID:",
+            currentBlog?.id
+        );
+
+        console.error(
+            "FEATURED IMAGE:",
+            currentBlog?.featured_image
+        );
+
+        console.error(
+            "IMAGE LENGTH:",
+            currentBlog?.image?.length
+        );
+
+        console.error(
+            "FINAL SRC:",
+            event?.currentTarget?.src
+        );
+
+        console.error(
+            "===================================="
+        );
+
+    };
+
+
+    /*====================================================
+      DATE
+    ====================================================*/
+
+    const formatPublishedAt = (
         publishedAt
     ) => {
 
@@ -103,19 +324,95 @@ const BlogDetail = () => {
             )
         ) {
 
-            return publishedAt;
+            return String(
+                publishedAt
+            );
 
         }
 
 
-        return date.toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
+        const datePart =
+            date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+
+        const timePart =
+            date.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                }
+            );
+
+
+        return `${datePart} • ${timePart}`;
+
+    };
+
+
+    /*====================================================
+      READ TIME
+    ====================================================*/
+
+    const calculateReadTime = (
+        content
+    ) => {
+
+        if (!content) {
+
+            return "1 min read";
+
+        }
+
+
+        let text = "";
+
+
+        if (
+            typeof content === "string"
+        ) {
+
+            text = content;
+
+        } else {
+
+            text =
+                JSON.stringify(
+                    content
+                );
+
+        }
+
+
+        const words =
+            text
+                .replace(
+                    /[{}[\]":,]/g,
+                    " "
+                )
+                .split(/\s+/)
+                .filter(Boolean)
+                .length;
+
+
+        const minutes =
+            Math.max(
+                1,
+                Math.ceil(
+                    words / 200
+                )
+            );
+
+
+        return `${minutes} min read`;
 
     };
 
@@ -131,141 +428,135 @@ const BlogDetail = () => {
         if (!content) {
 
             return {
-
                 intro: "",
+                sections: [],
+                paragraphs: []
+            };
 
-                sections: []
+        }
+
+
+        if (
+            typeof content === "object"
+        ) {
+
+            const sections =
+                Array.isArray(
+                    content.sections
+                )
+                    ? content.sections
+                    : [];
+
+
+            const paragraphs =
+                Array.isArray(
+                    content.paragraphs
+                )
+                    ? content.paragraphs
+                    : sections.flatMap(
+                        (section) =>
+                            Array.isArray(
+                                section.paragraphs
+                            )
+                                ? section.paragraphs
+                                : []
+                    );
+
+
+            return {
+
+                intro:
+                    content.intro || "",
+
+                sections,
+
+                paragraphs
 
             };
 
         }
 
 
-        try {
+        if (
+            typeof content === "string"
+        ) {
 
-            if (
-                typeof content ===
-                "object"
-            ) {
+            try {
+
+                const parsed =
+                    JSON.parse(
+                        content
+                    );
+
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+
+                    const sections =
+                        Array.isArray(
+                            parsed.sections
+                        )
+                            ? parsed.sections
+                            : [];
+
+
+                    const paragraphs =
+                        Array.isArray(
+                            parsed.paragraphs
+                        )
+                            ? parsed.paragraphs
+                            : sections.flatMap(
+                                (section) =>
+                                    Array.isArray(
+                                        section.paragraphs
+                                    )
+                                        ? section.paragraphs
+                                        : []
+                            );
+
+
+                    return {
+
+                        intro:
+                            parsed.intro || "",
+
+                        sections,
+
+                        paragraphs
+
+                    };
+
+                }
+
+            } catch {
 
                 return {
 
                     intro:
-                        content.intro ||
-                        "",
+                        content,
 
-                    sections:
-                        Array.isArray(
-                            content.sections
-                        )
-                            ? content.sections
-                            : []
+                    sections: [],
+
+                    paragraphs: [
+                        content
+                    ]
 
                 };
 
             }
 
-
-            const parsed =
-                JSON.parse(
-                    content
-                );
-
-
-            return {
-
-                intro:
-                    parsed?.intro ||
-                    "",
-
-                sections:
-                    Array.isArray(
-                        parsed?.sections
-                    )
-                        ? parsed.sections
-                        : []
-
-            };
-
-        } catch {
-
-            return {
-
-                intro:
-                    content || "",
-
-                sections: []
-
-            };
-
         }
-
-    };
-
-
-    /*====================================================
-      CONVERT API BLOG
-    ====================================================*/
-
-    const convertBlog = (
-        apiBlog
-    ) => {
-
-        const content =
-            parseContent(
-                apiBlog?.content
-            );
 
 
         return {
 
-            ...apiBlog,
+            intro: "",
 
+            sections: [],
 
-            /*
-              API featuredImage
-              -> existing image
-            */
-
-            image:
-                apiBlog?.featuredImage ||
-                apiBlog?.image ||
-                "",
-
-
-            /*
-              API shortDescription
-              -> existing subtitle
-            */
-
-            subtitle:
-                apiBlog?.shortDescription ||
-                apiBlog?.subtitle ||
-                "",
-
-
-            /*
-              API publishedAt
-              -> existing date
-            */
-
-            date:
-                formatDate(
-                    apiBlog?.publishedAt ||
-                    apiBlog?.date
-                ),
-
-
-            /*
-              API content
-              -> existing detail structure
-            */
-
-            intro:
-                content.intro,
-
-            sections:
-                content.sections
+            paragraphs: []
 
         };
 
@@ -273,7 +564,304 @@ const BlogDetail = () => {
 
 
     /*====================================================
-      GET BLOG BY ID
+      CONVERT BLOG
+    ====================================================*/
+
+    const convertBlog = (
+        apiBlog
+    ) => {
+
+        if (!apiBlog) {
+
+            return null;
+
+        }
+
+
+        console.log(
+            "===================================="
+        );
+
+        console.log(
+            "BLOG DETAIL API OBJECT:",
+            apiBlog
+        );
+
+        console.log(
+            "===================================="
+        );
+
+
+        const featuredImage =
+            apiBlog.featured_image ??
+            apiBlog.featuredImage ??
+            "";
+
+
+        const content =
+            apiBlog.content ?? "";
+
+
+        const parsedContent =
+            parseContent(
+                content
+            );
+
+
+        const image =
+            getImageUrl(
+                featuredImage
+            );
+
+
+        console.log(
+            "BLOG DETAIL FEATURED IMAGE:",
+            featuredImage
+        );
+
+        console.log(
+            "BLOG DETAIL FINAL IMAGE:",
+            image
+        );
+
+        console.log(
+            "BLOG DETAIL IMAGE LENGTH:",
+            image.length
+        );
+
+        console.log(
+            "BLOG DETAIL IS BASE64:",
+            image.startsWith(
+                "data:image/"
+            )
+        );
+
+
+        return {
+
+            id:
+                apiBlog.id,
+
+            branch_id:
+                apiBlog.branch_id,
+
+            title:
+                apiBlog.title || "",
+
+            slug:
+                apiBlog.slug || "",
+
+            short_description:
+                apiBlog.short_description || "",
+
+            content:
+                content,
+
+            featured_image:
+                featuredImage,
+
+            is_active:
+                apiBlog.is_active,
+
+            published_at:
+                apiBlog.published_at || "",
+
+            created_at:
+                apiBlog.created_at || "",
+
+            updated_at:
+                apiBlog.updated_at || "",
+
+
+            category:
+                apiBlog.title || "Physiotherapy",
+
+            image:
+
+                image,
+
+            shortDescription:
+                apiBlog.short_description || "",
+
+            date:
+                formatPublishedAt(
+                    apiBlog.published_at
+                ),
+
+            readTime:
+                calculateReadTime(
+                    content
+                ),
+
+            intro:
+                parsedContent.intro,
+
+            sections:
+                parsedContent.sections,
+
+            paragraphs:
+                parsedContent.paragraphs
+
+        };
+
+    };
+
+
+    /*====================================================
+      EXTRACT SINGLE BLOG
+    ====================================================*/
+
+    const extractBlog = (
+        result
+    ) => {
+
+        if (
+            result &&
+            !Array.isArray(result) &&
+            (
+                result.id !== undefined ||
+                result.title !== undefined ||
+                result.slug !== undefined
+            )
+        ) {
+
+            return result;
+
+        }
+
+
+        if (
+            result?.data &&
+            !Array.isArray(result.data)
+        ) {
+
+            return result.data;
+
+        }
+
+
+        if (
+            Array.isArray(result?.data)
+        ) {
+
+            return result.data[0] || null;
+
+        }
+
+
+        if (
+            result?.blog &&
+            !Array.isArray(result.blog)
+        ) {
+
+            return result.blog;
+
+        }
+
+
+        if (
+            result?.result &&
+            !Array.isArray(result.result)
+        ) {
+
+            return result.result;
+
+        }
+
+
+        if (
+            result?.result?.data &&
+            !Array.isArray(result.result.data)
+        ) {
+
+            return result.result.data;
+
+        }
+
+
+        return null;
+
+    };
+
+
+    /*====================================================
+      EXTRACT BLOG ARRAY
+    ====================================================*/
+
+    const extractBlogs = (
+        result
+    ) => {
+
+        if (
+            Array.isArray(result)
+        ) {
+
+            return result;
+
+        }
+
+
+        if (
+            Array.isArray(result?.data)
+        ) {
+
+            return result.data;
+
+        }
+
+
+        if (
+            Array.isArray(result?.blogs)
+        ) {
+
+            return result.blogs;
+
+        }
+
+
+        if (
+            Array.isArray(result?.data?.blogs)
+        ) {
+
+            return result.data.blogs;
+
+        }
+
+
+        if (
+            Array.isArray(result?.result)
+        ) {
+
+            return result.result;
+
+        }
+
+
+        if (
+            Array.isArray(result?.result?.data)
+        ) {
+
+            return result.result.data;
+
+        }
+
+
+        if (
+            Array.isArray(result?.result?.blogs)
+        ) {
+
+            return result.result.blogs;
+
+        }
+
+
+        return [];
+
+    };
+
+
+    /*====================================================
+      FETCH BLOG
     ====================================================*/
 
     const fetchBlog = async () => {
@@ -285,17 +873,20 @@ const BlogDetail = () => {
             setError("");
 
 
-            const token =
-                getToken();
+            if (!id) {
+
+                throw new Error(
+                    "Blog ID is missing."
+                );
+
+            }
 
 
-            console.log(
-                "BLOG DETAIL TOKEN:",
-                token
-            );
+            const authHeaders =
+                getHeaders();
 
 
-            if (!token) {
+            if (!authHeaders) {
 
                 throw new Error(
                     "Unauthorized. Token missing. Please login again."
@@ -304,23 +895,28 @@ const BlogDetail = () => {
             }
 
 
-            /*================================================
-              GET /api/blogs/{id}
-            =================================================*/
+            const blogUrl =
+                `${API.BLOGS}/${id}`;
+
+
+            console.log(
+                "GET BLOG DETAIL:",
+                blogUrl
+            );
+
 
             const response =
                 await fetch(
-                    `${API.BLOGS}/${id}`,
+                    blogUrl,
                     {
 
                         method: "GET",
 
                         headers: {
 
-                            Authorization:
-                                `Bearer ${token}`,
+                            ...authHeaders,
 
-                            "Content-Type":
+                            Accept:
                                 "application/json"
 
                         }
@@ -328,10 +924,6 @@ const BlogDetail = () => {
                     }
                 );
 
-
-            /*================================================
-              RESPONSE
-            =================================================*/
 
             const responseText =
                 await response.text();
@@ -362,18 +954,13 @@ const BlogDetail = () => {
 
 
             console.log(
-                "BLOG DETAIL API RESPONSE:",
+                "BLOG DETAIL RESPONSE:",
                 result
             );
 
 
-            /*================================================
-              UNAUTHORIZED
-            =================================================*/
-
             if (
-                response.status ===
-                401
+                response.status === 401
             ) {
 
                 throw new Error(
@@ -383,13 +970,8 @@ const BlogDetail = () => {
             }
 
 
-            /*================================================
-              NOT FOUND
-            =================================================*/
-
             if (
-                response.status ===
-                404
+                response.status === 404
             ) {
 
                 throw new Error(
@@ -398,10 +980,6 @@ const BlogDetail = () => {
 
             }
 
-
-            /*================================================
-              OTHER ERROR
-            =================================================*/
 
             if (
                 !response.ok
@@ -413,8 +991,6 @@ const BlogDetail = () => {
 
                     result?.error ||
 
-                    result?.title ||
-
                     "Failed to fetch blog."
 
                 );
@@ -422,37 +998,20 @@ const BlogDetail = () => {
             }
 
 
-            /*================================================
-              GET ACTUAL BLOG OBJECT
-            =================================================*/
-
-            let apiBlog =
-                result;
+            const apiBlog =
+                extractBlog(
+                    result
+                );
 
 
-            if (
-                result?.data &&
-                !Array.isArray(
-                    result.data
-                )
-            ) {
+            if (!apiBlog) {
 
-                apiBlog =
-                    result.data;
-
-            } else if (
-                result?.blog
-            ) {
-
-                apiBlog =
-                    result.blog;
+                throw new Error(
+                    "Blog data was not found in API response."
+                );
 
             }
 
-
-            /*================================================
-              CONVERT BLOG
-            =================================================*/
 
             const convertedBlog =
                 convertBlog(
@@ -464,62 +1023,16 @@ const BlogDetail = () => {
                 convertedBlog
             );
 
-
-            /*================================================
-              STORE FOR RELATED BLOGS
-            =================================================*/
-
-            setBlogs(
-                previous => {
-
-                    const exists =
-                        previous.some(
-                            (item) =>
-                                String(
-                                    item.id
-                                ) ===
-                                String(
-                                    convertedBlog.id
-                                )
-                        );
-
-
-                    if (exists) {
-
-                        return previous.map(
-                            (item) =>
-                                String(
-                                    item.id
-                                ) ===
-                                String(
-                                    convertedBlog.id
-                                )
-                                    ? convertedBlog
-                                    : item
-                        );
-
-                    }
-
-
-                    return [
-                        ...previous,
-                        convertedBlog
-                    ];
-
-                }
-            );
-
-
-        } catch (error) {
+        } catch (fetchError) {
 
             console.error(
-                "Blog Detail API Error:",
-                error
+                "BLOG DETAIL API ERROR:",
+                fetchError
             );
 
 
             setError(
-                error.message ||
+                fetchError.message ||
                 "Unable to load blog."
             );
 
@@ -536,7 +1049,7 @@ const BlogDetail = () => {
 
 
     /*====================================================
-      GET ALL BLOGS FOR RELATED BLOGS
+      RELATED BLOGS
     ====================================================*/
 
     const fetchRelatedBlogs =
@@ -544,11 +1057,11 @@ const BlogDetail = () => {
 
             try {
 
-                const token =
-                    getToken();
+                const authHeaders =
+                    getHeaders();
 
 
-                if (!token) {
+                if (!authHeaders) {
 
                     return;
 
@@ -564,10 +1077,9 @@ const BlogDetail = () => {
 
                             headers: {
 
-                                Authorization:
-                                    `Bearer ${token}`,
+                                ...authHeaders,
 
-                                "Content-Type":
+                                Accept:
                                     "application/json"
 
                             }
@@ -576,19 +1088,18 @@ const BlogDetail = () => {
                     );
 
 
-                if (
-                    response.status ===
-                    401
-                ) {
+                if (!response.ok) {
 
                     return;
 
                 }
 
 
-                if (
-                    !response.ok
-                ) {
+                const responseText =
+                    await response.text();
+
+
+                if (!responseText) {
 
                     return;
 
@@ -596,70 +1107,37 @@ const BlogDetail = () => {
 
 
                 const result =
-                    await response.json();
+                    JSON.parse(
+                        responseText
+                    );
 
 
-                let apiBlogs = [];
-
-
-                if (
-                    Array.isArray(
+                const apiBlogs =
+                    extractBlogs(
                         result
-                    )
-                ) {
-
-                    apiBlogs =
-                        result;
-
-                } else if (
-                    Array.isArray(
-                        result?.data
-                    )
-                ) {
-
-                    apiBlogs =
-                        result.data;
-
-                } else if (
-                    Array.isArray(
-                        result?.blogs
-                    )
-                ) {
-
-                    apiBlogs =
-                        result.blogs;
-
-                } else if (
-                    Array.isArray(
-                        result?.data?.blogs
-                    )
-                ) {
-
-                    apiBlogs =
-                        result.data.blogs;
-
-                }
+                    );
 
 
                 const convertedBlogs =
-                    apiBlogs.map(
-                        (item) =>
-                            convertBlog(
-                                item
-                            )
-                    );
+                    apiBlogs
+                        .map(
+                            (item) =>
+                                convertBlog(
+                                    item
+                                )
+                        )
+                        .filter(Boolean);
 
 
                 setBlogs(
                     convertedBlogs
                 );
 
-
-            } catch (error) {
+            } catch (relatedError) {
 
                 console.error(
-                    "Related Blog API Error:",
-                    error
+                    "RELATED BLOG API ERROR:",
+                    relatedError
                 );
 
             }
@@ -668,7 +1146,7 @@ const BlogDetail = () => {
 
 
     /*====================================================
-      GET BLOG
+      LOAD
     ====================================================*/
 
     useEffect(() => {
@@ -681,7 +1159,7 @@ const BlogDetail = () => {
 
 
     /*====================================================
-      SCROLL TO TOP
+      SCROLL TOP
     ====================================================*/
 
     useEffect(() => {
@@ -698,48 +1176,53 @@ const BlogDetail = () => {
       RELATED BLOGS
     ====================================================*/
 
-    const relatedBlogs = useMemo(() => {
+    const relatedBlogs =
+        useMemo(() => {
 
-        if (!blog) {
+            if (!blog) {
 
-            return [];
+                return [];
 
-        }
-
-
-        const sameCategoryBlogs =
-            blogs.filter(
-                (item) =>
-                    String(item.id) !==
-                        String(blog.id) &&
-                    item.category ===
-                        blog.category
-            );
+            }
 
 
-        const otherCategoryBlogs =
-            blogs.filter(
-                (item) =>
-                    String(item.id) !==
-                        String(blog.id) &&
-                    item.category !==
-                        blog.category
-            );
+            return blogs
+                .filter(
+                    (item) =>
+                        String(item.id) !==
+                        String(blog.id)
+                )
+                .slice(0, 3);
 
-
-        return [
-            ...sameCategoryBlogs,
-            ...otherCategoryBlogs
-        ].slice(0, 3);
-
-    }, [
-        blogs,
-        blog
-    ]);
+        }, [blogs, blog]);
 
 
     /*====================================================
-      BLOG NOT FOUND
+      NAVIGATION
+    ====================================================*/
+
+    const bookAppointment = () => {
+
+        navigate(
+            "/book-appointment"
+        );
+
+    };
+
+
+    const openRelatedBlog = (
+        blogId
+    ) => {
+
+        navigate(
+            `/blog/${blogId}`
+        );
+
+    };
+
+
+    /*====================================================
+      LOADING
     ====================================================*/
 
     if (loading) {
@@ -765,6 +1248,10 @@ const BlogDetail = () => {
     }
 
 
+    /*====================================================
+      NOT FOUND
+    ====================================================*/
+
     if (!blog) {
 
         return (
@@ -778,16 +1265,17 @@ const BlogDetail = () => {
                 </h2>
 
                 <p>
+
                     {
                         error ||
                         "The blog you are looking for is not available."
                     }
+
                 </p>
 
 
                 <button
                     type="button"
-
                     onClick={() =>
                         navigate("/blog")
                     }
@@ -806,34 +1294,6 @@ const BlogDetail = () => {
     }
 
 
-    /*====================================================
-      BOOK APPOINTMENT
-    ====================================================*/
-
-    const bookAppointment = () => {
-
-        navigate(
-            "/book-appointment"
-        );
-
-    };
-
-
-    /*====================================================
-      OPEN RELATED BLOG
-    ====================================================*/
-
-    const openRelatedBlog = (
-        blogId
-    ) => {
-
-        navigate(
-            `/blog/${blogId}`
-        );
-
-    };
-
-
     return (
 
         <section className="
@@ -841,9 +1301,9 @@ const BlogDetail = () => {
         ">
 
 
-            {/*
+            {/*================================================
               BACKGROUND
-            */}
+            =================================================*/}
 
             <div className="
                 blog-detail-background-one
@@ -870,9 +1330,9 @@ const BlogDetail = () => {
             "></span>
 
 
-            {/*
+            {/*================================================
               HERO
-            */}
+            =================================================*/}
 
             <header className="
                 blog-detail-hero
@@ -887,21 +1347,27 @@ const BlogDetail = () => {
                         blog-detail-category
                     ">
 
-                        {blog.category}
+                        {
+                            blog.title
+                        }
 
                     </span>
 
 
                     <h1>
 
-                        {blog.title}
+                        {
+                            blog.title
+                        }
 
                     </h1>
 
 
                     <p>
 
-                        {blog.subtitle}
+                        {
+                            blog.shortDescription
+                        }
 
                     </p>
 
@@ -910,12 +1376,12 @@ const BlogDetail = () => {
             </header>
 
 
-            {/* MAIN LAYOUT */}
+            {/*================================================
+              MAIN
+            =================================================*/}
 
             <div className=" blog-detail-layout  ">
 
-
-                {/* MAIN ARTICLE */}
 
                 <main className=" blog-detail-main ">
 
@@ -924,9 +1390,7 @@ const BlogDetail = () => {
 
                     <button
                         type="button"
-
                         className="blog-detail-back "
-
                         onClick={() =>
                             navigate("/blog")
                         }
@@ -939,28 +1403,79 @@ const BlogDetail = () => {
                     </button>
 
 
-                    {/* MAIN IMAGE */}
+                    {/*================================================
+                      IMAGE
+                    =================================================*/}
 
                     <div className="blog-detail-main-image">
 
+                        {
+                            blog.image ? (
 
-                        <img
-                            src={blog.image}
+                                <img
+                                    src={blog.image}
+                                    alt={blog.title}
 
-                            alt={blog.title}
-                        />
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        display: "block"
+                                    }}
+
+                                    onLoad={() => {
+
+                                        console.log(
+                                            "BLOG DETAIL IMAGE LOADED:",
+                                            blog.id
+                                        );
+
+                                    }}
+
+                                    onError={(event) => {
+
+                                        handleImageError(
+                                            event,
+                                            blog
+                                        );
+
+                                    }}
+                                />
+
+                            ) : (
+
+                                <div
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center"
+                                    }}
+                                >
+
+                                    <FaBookOpen />
+
+                                </div>
+
+                            )
+                        }
 
 
                         <span className="blog-detail-image-category">
 
-                            {blog.category}
+                            {
+                                blog.title
+                            }
 
                         </span>
 
                     </div>
 
 
-                    {/* META */}
+                    {/*================================================
+                      META
+                    =================================================*/}
 
                     <div className=" blog-detail-meta ">
 
@@ -968,7 +1483,9 @@ const BlogDetail = () => {
 
                             <FaCalendarAlt />
 
-                            {blog.date}
+                            {
+                                blog.date
+                            }
 
                         </span>
 
@@ -977,120 +1494,204 @@ const BlogDetail = () => {
 
                             <FaClock />
 
-                            {blog.readTime}
+                            {
+                                blog.readTime
+                            }
 
                         </span>
 
                     </div>
 
 
-                    {/* INTRO */}
+                    {/*================================================
+                      INTRO
+                    =================================================*/}
 
                     <div className=" blog-detail-intro ">
 
                         <p>
-                            {blog.intro}
+
+                            {
+                                blog.shortDescription
+                            }
+
                         </p>
 
                     </div>
 
 
-                    {/* ARTICLE SECTIONS */}
+                    {/*================================================
+                      ARTICLE
+                    =================================================*/}
 
                     <div className="blog-detail-article">
 
 
-                        {blog.sections?.map(
-                            (
-                                section,
-                                index
-                            ) => (
+                        {
+                            blog.intro &&
+                            blog.intro !==
+                                blog.shortDescription && (
 
-                                <section
-                                    className="blog-detail-section "
-                                    key={
-                                        section.id ||
-                                        index
-                                    }
-                                >
+                                <section className="blog-detail-section ">
 
-                                    <h2>
+                                    <p>
 
-                                        {section.heading}
+                                        {
+                                            blog.intro
+                                        }
 
-                                    </h2>
-
-
-                                    {section.paragraphs?.map(
-                                        (
-                                            paragraph,
-                                            paragraphIndex
-                                        ) => (
-
-                                            <p
-                                                key={
-                                                    paragraphIndex
-                                                }
-                                            >
-
-                                                {
-                                                    paragraph
-                                                }
-
-                                            </p>
-
-                                        )
-                                    )}
-
-
-                                    {section.exercises &&
-                                        section.exercises.length >
-                                            0 && (
-
-                                            <ul className="
-                                                blog-detail-exercise-list
-                                            ">
-
-                                                {section.exercises.map(
-                                                    (
-                                                        exercise,
-                                                        exerciseIndex
-                                                    ) => (
-
-                                                        <li
-                                                            key={
-                                                                exerciseIndex
-                                                            }
-                                                        >
-
-                                                            <FaCheckCircle />
-
-                                                            <span>
-
-                                                                {
-                                                                    exercise
-                                                                }
-
-                                                            </span>
-
-                                                        </li>
-
-                                                    )
-                                                )}
-
-                                            </ul>
-
-                                        )}
+                                    </p>
 
                                 </section>
 
                             )
-                        )}
+                        }
+
+
+                        {
+                            blog.sections?.map(
+                                (
+                                    section,
+                                    index
+                                ) => (
+
+                                    <section
+                                        className="blog-detail-section "
+                                        key={
+                                            section.id ||
+                                            index
+                                        }
+                                    >
+
+                                        {
+                                            section.heading && (
+
+                                                <h2>
+
+                                                    {
+                                                        section.heading
+                                                    }
+
+                                                </h2>
+
+                                            )
+                                        }
+
+
+                                        {
+                                            Array.isArray(
+                                                section.paragraphs
+                                            ) &&
+                                            section.paragraphs.map(
+                                                (
+                                                    paragraph,
+                                                    paragraphIndex
+                                                ) => (
+
+                                                    <p
+                                                        key={
+                                                            paragraphIndex
+                                                        }
+                                                    >
+
+                                                        {
+                                                            paragraph
+                                                        }
+
+                                                    </p>
+
+                                                )
+                                            )
+                                        }
+
+
+                                        {
+                                            Array.isArray(
+                                                section.exercises
+                                            ) &&
+                                            section.exercises.length > 0 && (
+
+                                                <ul className="
+                                                    blog-detail-exercise-list
+                                                ">
+
+                                                    {
+                                                        section.exercises.map(
+                                                            (
+                                                                exercise,
+                                                                exerciseIndex
+                                                            ) => (
+
+                                                                <li
+                                                                    key={
+                                                                        exerciseIndex
+                                                                    }
+                                                                >
+
+                                                                    <FaCheckCircle />
+
+                                                                    <span>
+
+                                                                        {
+                                                                            exercise
+                                                                        }
+
+                                                                    </span>
+
+                                                                </li>
+
+                                                            )
+                                                        )
+                                                    }
+
+                                                </ul>
+
+                                            )
+                                        }
+
+                                    </section>
+
+                                )
+                            )
+                        }
+
+
+                        {
+                            blog.sections?.length === 0 &&
+                            blog.paragraphs?.length > 0 && (
+
+                                <section className="blog-detail-section ">
+
+                                    {
+                                        blog.paragraphs.map(
+                                            (
+                                                paragraph,
+                                                index
+                                            ) => (
+
+                                                <p key={index}>
+
+                                                    {
+                                                        paragraph
+                                                    }
+
+                                                </p>
+
+                                            )
+                                        )
+                                    }
+
+                                </section>
+
+                            )
+                        }
 
                     </div>
 
 
-                    {/* CLINIC CTA */}
+                    {/*================================================
+                      CTA
+                    =================================================*/}
 
                     <div className=" blog-detail-cta ">
 
@@ -1124,7 +1725,6 @@ const BlogDetail = () => {
 
                             <button
                                 type="button"
-
                                 onClick={
                                     bookAppointment
                                 }
@@ -1143,14 +1743,16 @@ const BlogDetail = () => {
                 </main>
 
 
-                {/* RIGHT SIDEBAR */}
+                {/*================================================
+                  SIDEBAR
+                =================================================*/}
 
                 <aside className="
                     blog-detail-sidebar
                 ">
 
 
-                    {/* RELATED BLOGS */}
+                    {/* RELATED */}
 
                     <div className="
                         blog-detail-related
@@ -1175,89 +1777,118 @@ const BlogDetail = () => {
                             blog-detail-related-list
                         ">
 
+                            {
+                                relatedBlogs.map(
+                                    (
+                                        relatedBlog
+                                    ) => (
 
-                            {relatedBlogs.map(
-                                (relatedBlog) => (
-
-                                    <article
-                                        key={
-                                            relatedBlog.id
-                                        }
-
-                                        className="
-                                            blog-detail-related-card
-                                        "
-
-                                        onClick={() =>
-                                            openRelatedBlog(
+                                        <article
+                                            key={
                                                 relatedBlog.id
-                                            )
-                                        }
-                                    >
+                                            }
 
+                                            className="
+                                                blog-detail-related-card
+                                            "
 
-                                        <div className="
-                                            blog-detail-related-image
-                                        ">
+                                            onClick={() =>
+                                                openRelatedBlog(
+                                                    relatedBlog.id
+                                                )
+                                            }
+                                        >
 
-
-                                            <img
-                                                src={
-                                                    relatedBlog.image
-                                                }
-
-                                                alt={
-                                                    relatedBlog.title
-                                                }
-                                            />
-
-                                        </div>
-
-
-                                        <div className="
-                                            blog-detail-related-content
-                                        ">
-
-
-                                            <span>
+                                            <div className="
+                                                blog-detail-related-image
+                                            ">
 
                                                 {
-                                                    relatedBlog.category
+                                                    relatedBlog.image ? (
+
+                                                        <img
+                                                            src={
+                                                                relatedBlog.image
+                                                            }
+
+                                                            alt={
+                                                                relatedBlog.title
+                                                            }
+
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "cover",
+                                                                display: "block"
+                                                            }}
+
+                                                            onError={(event) => {
+
+                                                                console.error(
+                                                                    "RELATED IMAGE FAILED:",
+                                                                    relatedBlog.id
+                                                                );
+
+                                                                event.currentTarget.style.display =
+                                                                    "none";
+
+                                                            }}
+                                                        />
+
+                                                    ) : (
+
+                                                        <FaBookOpen />
+
+                                                    )
                                                 }
 
-                                            </span>
+                                            </div>
 
 
-                                            <h4>
+                                            <div className="
+                                                blog-detail-related-content
+                                            ">
 
-                                                {
-                                                    relatedBlog.title
-                                                }
+                                                <span>
 
-                                            </h4>
+                                                    {
+                                                        relatedBlog.title
+                                                    }
+
+                                                </span>
 
 
-                                            <small>
+                                                <h4>
 
-                                                {
-                                                    relatedBlog.date
-                                                }
+                                                    {
+                                                        relatedBlog.title
+                                                    }
 
-                                            </small>
+                                                </h4>
 
-                                        </div>
 
-                                    </article>
+                                                <small>
 
+                                                    {
+                                                        relatedBlog.date
+                                                    }
+
+                                                </small>
+
+                                            </div>
+
+                                        </article>
+
+                                    )
                                 )
-                            )}
+                            }
 
                         </div>
 
                     </div>
 
 
-                    {/* CURRENT CATEGORY */}
+                    {/* CATEGORY */}
 
                     <div className="
                         blog-detail-category-box
@@ -1278,7 +1909,11 @@ const BlogDetail = () => {
 
 
                         <h3>
-                            {blog.category}
+
+                            {
+                                blog.title
+                            }
+
                         </h3>
 
 
@@ -1293,7 +1928,6 @@ const BlogDetail = () => {
 
                         <button
                             type="button"
-
                             onClick={() =>
                                 navigate("/blog")
                             }
@@ -1313,7 +1947,6 @@ const BlogDetail = () => {
                     <div className="
                         blog-detail-appointment-box
                     ">
-
 
                         <div className="
                             blog-detail-appointment-icon
@@ -1339,7 +1972,6 @@ const BlogDetail = () => {
 
                         <button
                             type="button"
-
                             onClick={
                                 bookAppointment
                             }
@@ -1356,16 +1988,16 @@ const BlogDetail = () => {
             </div>
 
 
-            {/* BOTTOM NAVIGATION */}
+            {/*================================================
+              BOTTOM NAVIGATION
+            =================================================*/}
 
             <div className="
                 blog-detail-bottom-navigation
             ">
 
-
                 <button
                     type="button"
-
                     onClick={() =>
                         navigate("/blog")
                     }
@@ -1380,7 +2012,6 @@ const BlogDetail = () => {
 
                 <button
                     type="button"
-
                     onClick={
                         bookAppointment
                     }

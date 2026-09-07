@@ -640,6 +640,20 @@ const handleMenuClick = () => {
 >
   <FaPlusCircle /> Add Blog
 </NavLink>
+
+
+                   {/* Add Blog */}
+                        <NavLink
+  to="/admin/add-faq"
+  onClick={handleMenuClick}
+  className={({ isActive }) =>
+    isActive
+      ? "menu-btn-sidebar1-clinic active"
+      : "menu-btn-sidebar1-clinic"
+  }
+>
+  <FaPlusCircle /> Add FAQ
+</NavLink>
                     {/* Download submenu */}
           <NavLink
             to="/download-report"

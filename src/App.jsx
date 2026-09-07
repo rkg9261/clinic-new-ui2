@@ -103,6 +103,11 @@ import BlogDetail from "./pages/BlogDetails/BlogDetail";
 import FacilityDetails from "./pages/FacilityDetails/FacilityDetails";
 import ClinicPhotoDetails from "./pages/ClinicPhotoDetails/ClinicPhotoDetails";
 import AddBlog from "./pages/BlogBlock/AddBlog";
+import AddFrequentlyAskedQuestion from "./pages/AddFrequentlyAskedQuestion/AddFrequentlyAskedQuestion";
+
+
+
+
 
 //====================================================
 // WEBSITE HOME CONTENT
@@ -317,10 +322,9 @@ function App() {
     
     {/* AddBlog */}
         <Route  path="/admin/add-blog" element={<AddBlog />} />
-          
+          {/* Add faq */}
            
-         
-
+          <Route  path="/admin/add-faq" element={<AddFrequentlyAskedQuestion/>} />  
 
           
                         {/* Clinic Profile */}

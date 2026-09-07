@@ -6,14 +6,18 @@ import React, {
 import "./HomePage.css";
 
 import Cookies from "js-cookie";
-import { BASE_URL } from "../../config/api";
+
+import {
+  BASE_URL,
+  API,
+} from "../../config/api";
+
 import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
 
 import {
-  // FaCamera,
   FaTimes,
   FaWallet,
   FaFolder,
@@ -22,89 +26,125 @@ import {
   FaFilePrescription,
   FaClipboardList,
   FaCalendarCheck,
-  // FaSearch,
 } from "react-icons/fa";
 
 
-
 const HomePage = () => {
+
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  // ================= STATES =================
 
-  // const [
-  //   showAppointments,
-  //   setShowAppointments,
-  // ] = useState(false);
+
+  // STATES
+
 
   const [
     currentPatient,
     setCurrentPatient,
   ] = useState(null);
 
-  // const [
-  //   searchValue,
-  //   setSearchValue,
-  // ] = useState("");
 
   const [
     showPatientCard,
     setShowPatientCard,
   ] = useState(false);
 
+
   const [
     attendanceMarked,
     setAttendanceMarked,
   ] = useState(false);
+
 
   const [
     attendanceDate,
     setAttendanceDate,
   ] = useState("Not Marked");
 
+
   const [
     loading,
     setLoading,
   ] = useState(true);
+
 
   const [
     patientList,
     setPatientList,
   ] = useState([]);
 
+
   const [
     showProfileModal,
     setShowProfileModal,
   ] = useState(false);
+
 
   const [
     userData,
     setUserData,
   ] = useState(null);
 
-  const [
-    searchLoading,
-    setSearchLoading,
-  ] = useState(false);
 
   const [
     attendanceLoading,
     setAttendanceLoading,
   ] = useState(false);
 
-  // ================= CHECK TODAY ATTENDANCE =================
+
+
+  // FORMAT DATE
+
+
+  const formatAppointmentDate = (
+    dateValue
+  ) => {
+
+    if (!dateValue) {
+      return "-";
+    }
+
+    const date =
+      new Date(dateValue);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return dateValue;
+    }
+
+    return date.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }
+    );
+
+  };
+
+
+
+  // CHECK TODAY ATTENDANCE
+
 
   const isAttendanceMarkedToday = (
     attendanceValue
   ) => {
+
     if (!attendanceValue) {
       return false;
     }
 
     const attendanceDateValue =
-      new Date(attendanceValue);
+      new Date(
+        attendanceValue
+      );
 
     if (
       Number.isNaN(
@@ -114,23 +154,31 @@ const HomePage = () => {
       return false;
     }
 
-    const today = new Date();
+    const today =
+      new Date();
 
     return (
       attendanceDateValue.getFullYear() ===
         today.getFullYear() &&
+
       attendanceDateValue.getMonth() ===
         today.getMonth() &&
+
       attendanceDateValue.getDate() ===
         today.getDate()
     );
+
   };
 
-  // ================= SET ATTENDANCE STATUS =================
+
+
+  // SET ATTENDANCE STATUS
+
 
   const setPatientAttendanceStatus = (
     patient
   ) => {
+
     const lastAttendance =
       patient?.lastAttendanceDate ||
       patient?.last_attendance_date ||
@@ -141,17 +189,23 @@ const HomePage = () => {
         lastAttendance
       );
 
+
     console.log(
       "LAST ATTENDANCE:",
       lastAttendance
     );
+
 
     console.log(
       "ATTENDANCE MARKED TODAY:",
       markedToday
     );
 
-    setAttendanceMarked(markedToday);
+
+    setAttendanceMarked(
+      markedToday
+    );
+
 
     setAttendanceDate(
       lastAttendance
@@ -162,676 +216,362 @@ const HomePage = () => {
           )
         : "Not Marked"
     );
+
   };
 
-  // ================= FORMAT PATIENT =================
 
-  const formatPatient = (item) => {
-    const payableAmount = Number(
-      item.amount ??
-        item.payable_amount ??
-        item.package_amount ??
-        700
-    );
 
-    const cashPaid = Number(
-      item.cash_amount ??
-        item.cash ??
-        0
-    );
+  // FORMAT APPOINTMENT
 
-    const upiPaid = Number(
-      item.upi_amount ??
-        item.online_amount ??
-        item.upi ??
-        0
-    );
 
-    const totalPaid =
-      cashPaid + upiPaid;
+  const formatPatient = (
+    item
+  ) => {
 
     return {
+
       ...item,
+
+
+      
+      // ID
+      
+
+      id:
+        item.id ||
+        item._id ||
+        "",
+
 
       _id:
         item.id ||
         item._id ||
         "",
 
+
+      
+      //  API FIELDS
+      
+
       name:
-        item.full_name ||
         item.name ||
         "",
 
+
       age:
-        item.age ?? "",
+        item.age ??
+        "",
+
 
       gender:
         item.gender ||
-        item.sex ||
         "",
+
+
+      whatsapp_number:
+        item.whatsapp_number ||
+        "",
+
+
+      appointment_date:
+        item.appointment_date ||
+        "",
+
+
+      appointment_time:
+        item.appointment_time ||
+        "",
+
+
+      appointment_time_to:
+        item.appointment_time_to ||
+        "",
+
+
+      
+      // FRONTEND DISPLAY ALIASES
+      
 
       mobileNumber:
-        item.mobile_number ||
-        item.mobileNumber ||
-        item.mobile ||
+        item.whatsapp_number ||
         "",
 
-      address:
-        item.address || "",
 
-      problem: "",
-        // item.problem ||
-        // item.disease_problem ||
-       
-
-      appointmentType:
-        item.appointment_type ||
-        item.appointmentType ||
+      appointmentDate:
+        item.appointment_date ||
         "",
 
- appointmentDate:
-  item.appointment_type === "STANDARD"
-    ? (item.available_date ||
-       item.availableDate)
-    : (item.appointment_date ||
-       item.appointmentDate ||
-       item.created_date),
 
-appointmentTime:
-  item.appointment_type === "STANDARD"
-    ? (item.available_time_slot ||
-       item.availableTimeSlot)
-    : (item.appointment_time ||
-       item.appointmentTime ||
-       ""),
-
-      amount: payableAmount,
-
-      cash: cashPaid,
-
-      upi: upiPaid,
-
-      total: totalPaid,
-
-      backendTotalAmount: Number(
-        item.total_amount ?? 0
-      ),
-
-      fileNo:
-        item.file_number ||
-        item.fileNo ||
+      appointmentTime:
+        item.appointment_time ||
         "",
+
+
+      appointmentTimeTo:
+        item.appointment_time_to ||
+        "",
+
+
+      
+      //  PATIENT FIELDS
+      
 
       patientCode:
         item.patient_code ||
         item.patientCode ||
         "",
 
+
+      address:
+        item.address ||
+        "",
+
+
+      problem:
+        item.problem ||
+        item.disease_problem ||
+        "",
+
+
+      appointmentType:
+        item.appointment_type ||
+        item.appointmentType ||
+        "",
+
+
+      fileNo:
+        item.file_number ||
+        item.fileNo ||
+        "",
+
+
       lastAttendanceDate:
         item.last_attendance_date ||
         item.lastAttendanceDate ||
         "",
 
-      paymentMethod:
-        item.payment_method ||
-        "",
-
-      packageName:
-        item.package_name ||
-        "",
-
-      sessionsRemaining:
-        item.sessions_remaining ??
-        0,
-
-      reportType:
-        item.report_type ||
-        "",
-
-      startDate:
-        item.start_date || "",
-
-      createdDate:
-        item.created_date ||
-        "",
-
-      branchId:
-        item.branch_id || "",
-
-      documentFile:
-        item.document_file ||
-        null,
     };
+
   };
 
-  // ================= PROFILE DATA =================
+
+
+  // PROFILE DATA
+
 
   useEffect(() => {
+
     const userCookie =
       Cookies.get("user");
 
     const localUser =
-      localStorage.getItem("user");
+      localStorage.getItem(
+        "user"
+      );
+
 
     try {
+
       if (userCookie) {
-        const user =
-          JSON.parse(userCookie);
 
-        setUserData(user);
-      } else if (localUser) {
         const user =
-          JSON.parse(localUser);
+          JSON.parse(
+            userCookie
+          );
 
-        setUserData(user);
+        setUserData(
+          user
+        );
+
       }
-    } catch (error) {
+
+      else if (localUser) {
+
+        const user =
+          JSON.parse(
+            localUser
+          );
+
+        setUserData(
+          user
+        );
+
+      }
+
+    }
+
+    catch (error) {
+
       console.error(
         "User Parse Error:",
         error
       );
+
     }
+
   }, []);
 
-  // ================= GET ALL PATIENTS API =================
 
-  const fetchPatients = async () => {
-    try {
-      setLoading(true);
 
-      const token =
-        localStorage.getItem("token");
+  // GET ALL APPOINTMENTS API
 
-      if (!token) {
-        alert(
-          "Token not found. Please login again."
-        );
 
-        navigate("/login");
-
-        return [];
-      }
-
-      const response = await fetch(
-        `${BASE_URL}/api/clinic/patients`,
-        {
-          method: "GET",
-
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
-        }
-      );
-
-      const responseText =
-        await response.text();
-
-      let data = {};
-
-      try {
-        data = responseText
-          ? JSON.parse(responseText)
-          : {};
-      } catch (error) {
-        console.error(
-          "PATIENT JSON ERROR:",
-          error
-        );
-      }
-
-      console.log(
-        "GET STATUS:",
-        response.status
-      );
-
-      console.log(
-        "COMPLETE GET RESPONSE:",
-        data
-      );
-
-      if (response.status === 401) {
-        localStorage.removeItem(
-          "token"
-        );
-
-        localStorage.removeItem(
-          "user"
-        );
-
-        alert(
-          "Session expired. Please login again."
-        );
-
-        navigate("/login");
-
-        return [];
-      }
-
-      if (response.status === 403) {
-        alert(
-          data.message ||
-            "You do not have permission to view patients."
-        );
-
-        return [];
-      }
-
-      if (!response.ok) {
-        alert(
-          data.message ||
-            data.error ||
-            "Failed to get patients"
-        );
-
-        return [];
-      }
-
-      let patients = [];
-
-      if (Array.isArray(data)) {
-        patients = data;
-      } else if (
-        Array.isArray(data.data)
-      ) {
-        patients = data.data;
-      } else if (
-        Array.isArray(data.patients)
-      ) {
-        patients = data.patients;
-      } else if (
-        Array.isArray(
-          data.data?.patients
-        )
-      ) {
-        patients =
-          data.data.patients;
-      } else if (
-        Array.isArray(data.result)
-      ) {
-        patients = data.result;
-      }
-
-      const formattedPatients =
-        patients.map((item) =>
-          formatPatient(item)
-        );
-
-      console.log(
-        "FORMATTED PATIENT DATA:",
-        formattedPatients
-      );
-
-      setPatientList(
-        formattedPatients
-      );
-
-      return formattedPatients;
-    } catch (error) {
-      console.error(
-        "Fetch Patient Error:",
-        error
-      );
-
-      alert(
-        "Something went wrong while loading patients!"
-      );
-
-      return [];
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ================= CALL GET API =================
-
-  useEffect(() => {
-    fetchPatients();
-  }, []);
-
-  // ================= OPEN PATIENT FROM LOCATION =================
-
-useEffect(() => {
-  if (
-    location.state?.openPatientPopup &&
-    location.state?.patient
-  ) {
-    const patient = formatPatient(location.state.patient);
-
-    setCurrentPatient(patient);
-
-    setPatientAttendanceStatus(patient);
-
-    setShowPatientCard(true);
-  }
-}, [location]);
-
-  // ================= OPEN PATIENT =================
-
-  const openPatient = (
-    patientData
-  ) => {
-    const patient =
-      formatPatient(patientData);
-
-    setCurrentPatient(patient);
-
-    setPatientAttendanceStatus(
-      patient
-    );
-
-    setShowPatientCard(true);
-  };
-
-  // ================= SEARCH PATIENT API =================
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     const fileNumber =
-  //       searchValue.trim();
-
-  //     if (!fileNumber) {
-  //       return;
-  //     }
-
-  //     const token =
-  //       localStorage.getItem("token");
-
-  //     if (!token) {
-  //       alert(
-  //         "Token not found. Please login again."
-  //       );
-
-  //       navigate("/login");
-
-  //       return;
-  //     }
-
-  //     setSearchLoading(true);
-
-  //     const response = await fetch(
-  //       `${BASE_URL}/api/clinic/patients/search?file_number=${encodeURIComponent(
-  //         fileNumber
-  //       )}`,
-  //       {
-  //         method: "GET",
-
-  //         headers: {
-  //           Authorization:
-  //             `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     const responseText =
-  //       await response.text();
-
-  //     let data = {};
-
-  //     try {
-  //       data = responseText
-  //         ? JSON.parse(responseText)
-  //         : {};
-  //     } catch (error) {
-  //       console.error(
-  //         "SEARCH JSON ERROR:",
-  //         error
-  //       );
-  //     }
-
-  //     console.log(
-  //       "SEARCH STATUS:",
-  //       response.status
-  //     );
-
-  //     console.log(
-  //       "SEARCH RESPONSE:",
-  //       data
-  //     );
-
-  //     if (response.status === 401) {
-  //       localStorage.removeItem(
-  //         "token"
-  //       );
-
-  //       localStorage.removeItem(
-  //         "user"
-  //       );
-
-  //       alert(
-  //         "Session expired. Please login again."
-  //       );
-
-  //       navigate("/login");
-
-  //       return;
-  //     }
-
-  //     if (response.status === 403) {
-  //       alert(
-  //         data.message ||
-  //           "You do not have permission to search patients."
-  //       );
-
-  //       return;
-  //     }
-
-  //     if (response.status === 404) {
-  //       alert(
-  //         data.message ||
-  //           "Patient Not Found"
-  //       );
-
-  //       return;
-  //     }
-
-  //     if (!response.ok) {
-  //       alert(
-  //         data.message ||
-  //           data.error ||
-  //           `Patient search failed. Status: ${response.status}`
-  //       );
-
-  //       return;
-  //     }
-
-  //     let patient = null;
-
-  //     if (
-  //       data &&
-  //       !Array.isArray(data) &&
-  //       (
-  //         data.id ||
-  //         data._id ||
-  //         data.file_number ||
-  //         data.patient_code
-  //       )
-  //     ) {
-  //       patient = data;
-  //     } else if (
-  //       data.data &&
-  //       !Array.isArray(data.data)
-  //     ) {
-  //       patient =
-  //         data.data.patient ||
-  //         data.data;
-  //     } else if (
-  //       data.patient &&
-  //       !Array.isArray(data.patient)
-  //     ) {
-  //       patient = data.patient;
-  //     } else if (
-  //       Array.isArray(data) &&
-  //       data.length > 0
-  //     ) {
-  //       patient = data[0];
-  //     } else if (
-  //       Array.isArray(data.data) &&
-  //       data.data.length > 0
-  //     ) {
-  //       patient = data.data[0];
-  //     } else if (
-  //       Array.isArray(
-  //         data.patients
-  //       ) &&
-  //       data.patients.length > 0
-  //     ) {
-  //       patient =
-  //         data.patients[0];
-  //     } else if (
-  //       Array.isArray(data.result) &&
-  //       data.result.length > 0
-  //     ) {
-  //       patient =
-  //         data.result[0];
-  //     }
-
-  //     if (!patient) {
-  //       alert("Patient Not Found");
-
-  //       return;
-  //     }
-
-  //     openPatient(patient);
-  //   } catch (error) {
-  //     console.error(
-  //       "SEARCH PATIENT ERROR:",
-  //       error
-  //     );
-
-  //     alert(
-  //       "Something went wrong while searching patient!"
-  //     );
-  //   } finally {
-  //     setSearchLoading(false);
-  //   }
-  // };
-
-  // ================= CAMERA =================
-
-  // const handleCameraClick = () => {
-  //   alert(
-  //     "Camera Scanner Opened Successfully"
-  //   );
-  // };
-
-  // ================= ENTER KEY =================
-
-  // const handleEnterKey = (e) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-
-  //     handleSubmit();
-  //   }
-  // };
-
-  // ================= MARK ATTENDANCE API =================
-
-  const handleMarkAttendance =
+  const fetchAppointments =
     async () => {
-      try {
-        if (attendanceMarked) {
-          alert(
-            "Attendance already marked for today."
-          );
 
-          return;
-        }
+      try {
+
+        setLoading(
+          true
+        );
+
+
+        
+        // TOKEN
+        
 
         const token =
           localStorage.getItem(
             "token"
           );
 
+
         if (!token) {
+
           alert(
             "Token not found. Please login again."
           );
 
-          navigate("/login");
-
-          return;
-        }
-
-        if (!currentPatient) {
-          alert(
-            "Patient data not found"
+          navigate(
+            "/login"
           );
 
-          return;
+          return [];
+
         }
 
-        const patientId =
-          currentPatient.id ||
-          currentPatient._id;
 
-        if (!patientId) {
-          alert(
-            "Patient ID not found"
-          );
+        
+        // API URL
+        
 
-          return;
-        }
+        const appointmentListUrl =
+          API.APPOINTMENT_LIST ||
+          `${BASE_URL}/api/appointment/list`;
 
-        setAttendanceLoading(true);
-
-        const attendancePayload = {
-          patientId:
-            Number(patientId),
-        };
 
         console.log(
-          "ATTENDANCE PAYLOAD:",
-          attendancePayload
+          "===================================="
         );
 
-        const response = await fetch(
-          `${BASE_URL}/api/clinic/patients/attendance`,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`,
-            },
-
-            body: JSON.stringify(
-              attendancePayload
-            ),
-          }
+        console.log(
+          "GET APPOINTMENT LIST API"
         );
+
+        console.log(
+          "API URL:",
+          appointmentListUrl
+        );
+
+        console.log(
+          "===================================="
+        );
+
+
+        
+        // GET API
+        
+
+        const response =
+          await fetch(
+            appointmentListUrl,
+            {
+
+              method:
+                "GET",
+
+              headers: {
+
+                Authorization:
+                  `Bearer ${token}`,
+
+                Accept:
+                  "application/json",
+
+              },
+
+            }
+          );
+
+
+        
+        // RESPONSE TEXT
+        
 
         const responseText =
           await response.text();
 
-        let data = {};
+
+        let data =
+          {};
+
 
         try {
-          data = responseText
-            ? JSON.parse(responseText)
-            : {};
-        } catch (error) {
-          console.error(
-            "ATTENDANCE JSON ERROR:",
-            error
-          );
+
+          data =
+            responseText
+              ? JSON.parse(
+                  responseText
+                )
+              : {};
+
         }
 
+        catch (error) {
+
+          console.error(
+            "APPOINTMENT JSON ERROR:",
+            error
+          );
+
+          data =
+            {};
+
+        }
+
+
+        
+        // CONSOLE RESPONSE
+        
+
         console.log(
-          "ATTENDANCE STATUS:",
+          "===================================="
+        );
+
+        console.log(
+          "APPOINTMENT GET STATUS:",
           response.status
         );
 
         console.log(
-          "ATTENDANCE RESPONSE:",
+          "APPOINTMENT GET RESPONSE:",
           data
         );
 
-        if (response.status === 401) {
+        console.log(
+          "===================================="
+        );
+
+
+        
+        // 401
+        
+
+        if (
+          response.status ===
+          401
+        ) {
+
           localStorage.removeItem(
             "token"
           );
@@ -840,53 +580,558 @@ useEffect(() => {
             "user"
           );
 
+
           alert(
             "Session expired. Please login again."
           );
 
-          navigate("/login");
 
-          return;
+          navigate(
+            "/login"
+          );
+
+
+          return [];
+
         }
 
-        if (response.status === 403) {
+
+        
+        // 403
+        
+
+        if (
+          response.status ===
+          403
+        ) {
+
           alert(
-            data.message ||
-              "You do not have permission to mark attendance."
+            data?.message ||
+            "You do not have permission to view appointments."
+          );
+
+          return [];
+
+        }
+
+
+        
+        // OTHER ERROR
+        
+
+        if (
+          !response.ok
+        ) {
+
+          alert(
+            data?.message ||
+            data?.error ||
+            "Failed to get appointments."
+          );
+
+          return [];
+
+        }
+
+
+        
+        // EXTRACT APPOINTMENT ARRAY
+        
+
+        let appointments =
+          [];
+
+
+      
+
+        if (
+          Array.isArray(
+            data
+          )
+        ) {
+
+          appointments =
+            data;
+
+        }
+
+
+     
+        else if (
+          Array.isArray(
+            data.data
+          )
+        ) {
+
+          appointments =
+            data.data;
+
+        }
+
+
+       
+
+        else if (
+          Array.isArray(
+            data.appointments
+          )
+        ) {
+
+          appointments =
+            data.appointments;
+
+        }
+
+
+    
+
+        else if (
+          Array.isArray(
+            data.data?.appointments
+          )
+        ) {
+
+          appointments =
+            data.data.appointments;
+
+        }
+
+
+      
+
+        else if (
+          Array.isArray(
+            data.result
+          )
+        ) {
+
+          appointments =
+            data.result;
+
+        }
+
+
+        else if (
+          Array.isArray(
+            data.result?.data
+          )
+        ) {
+
+          appointments =
+            data.result.data;
+
+        }
+
+
+      
+        else if (
+          Array.isArray(
+            data.result?.appointments
+          )
+        ) {
+
+          appointments =
+            data.result.appointments;
+
+        }
+
+
+        console.log(
+          "ACTUAL APPOINTMENT ARRAY:",
+          appointments
+        );
+
+
+        
+        // FORMAT
+        
+
+        const formattedAppointments =
+          appointments.map(
+            (
+              item
+            ) =>
+              formatPatient(
+                item
+              )
+          );
+
+
+        console.log(
+          "FORMATTED APPOINTMENTS:",
+          formattedAppointments
+        );
+
+
+        
+        // SET LIST
+        
+
+        setPatientList(
+          formattedAppointments
+        );
+
+
+        return formattedAppointments;
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "GET APPOINTMENT ERROR:",
+          error
+        );
+
+
+        alert(
+          "Something went wrong while loading appointments!"
+        );
+
+
+        return [];
+
+      }
+
+      finally {
+
+        setLoading(
+          false
+        );
+
+      }
+
+    };
+
+
+
+  // CALL GET API
+
+
+  useEffect(() => {
+
+    fetchAppointments();
+
+  }, []);
+
+
+
+  // OPEN PATIENT FROM LOCATION
+
+
+  useEffect(() => {
+
+    if (
+      location.state?.openPatientPopup &&
+      location.state?.patient
+    ) {
+
+      const patient =
+        formatPatient(
+          location.state.patient
+        );
+
+
+      setCurrentPatient(
+        patient
+      );
+
+
+      setPatientAttendanceStatus(
+        patient
+      );
+
+
+      setShowPatientCard(
+        true
+      );
+
+    }
+
+  }, [
+    location
+  ]);
+
+
+
+  // OPEN APPOINTMENT
+
+
+  const openPatient = (
+    appointmentData
+  ) => {
+
+    const patient =
+      formatPatient(
+        appointmentData
+      );
+
+
+    setCurrentPatient(
+      patient
+    );
+
+
+    setPatientAttendanceStatus(
+      patient
+    );
+
+
+    setShowPatientCard(
+      true
+    );
+
+  };
+
+
+
+  // MARK ATTENDANCE API
+
+
+  const handleMarkAttendance =
+    async () => {
+
+      try {
+
+        if (
+          attendanceMarked
+        ) {
+
+          alert(
+            "Attendance already marked for today."
           );
 
           return;
+
         }
 
-        if (!response.ok) {
+
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
+
+        if (!token) {
+
           alert(
-            data.message ||
-              data.error ||
-              `Attendance failed. Status: ${response.status}`
+            "Token not found. Please login again."
+          );
+
+          navigate(
+            "/login"
           );
 
           return;
+
         }
+
+
+        if (!currentPatient) {
+
+          alert(
+            "Patient data not found"
+          );
+
+          return;
+
+        }
+
+
+        const patientId =
+          currentPatient.id ||
+          currentPatient._id;
+
+
+        if (!patientId) {
+
+          alert(
+            "Patient ID not found"
+          );
+
+          return;
+
+        }
+
+
+        setAttendanceLoading(
+          true
+        );
+
+
+        const attendancePayload = {
+
+          patientId:
+            Number(
+              patientId
+            ),
+
+        };
+
+
+        console.log(
+          "ATTENDANCE PAYLOAD:",
+          attendancePayload
+        );
+
+
+        const response =
+          await fetch(
+            `${BASE_URL}/api/clinic/patients/attendance`,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${token}`,
+
+              },
+
+              body:
+                JSON.stringify(
+                  attendancePayload
+                ),
+
+            }
+          );
+
+
+        const responseText =
+          await response.text();
+
+
+        let data =
+          {};
+
+
+        try {
+
+          data =
+            responseText
+              ? JSON.parse(
+                  responseText
+                )
+              : {};
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "ATTENDANCE JSON ERROR:",
+            error
+          );
+
+        }
+
+
+        console.log(
+          "ATTENDANCE STATUS:",
+          response.status
+        );
+
+
+        console.log(
+          "ATTENDANCE RESPONSE:",
+          data
+        );
+
+
+        
+        // 401
+        
+
+        if (
+          response.status ===
+          401
+        ) {
+
+          localStorage.removeItem(
+            "token"
+          );
+
+          localStorage.removeItem(
+            "user"
+          );
+
+
+          alert(
+            "Session expired. Please login again."
+          );
+
+
+          navigate(
+            "/login"
+          );
+
+
+          return;
+
+        }
+
+
+        
+        // 403
+        
+
+        if (
+          response.status ===
+          403
+        ) {
+
+          alert(
+            data.message ||
+            "You do not have permission to mark attendance."
+          );
+
+          return;
+
+        }
+
+
+        
+        // ERROR
+        
+
+        if (
+          !response.ok
+        ) {
+
+          alert(
+            data.message ||
+            data.error ||
+            `Attendance failed. Status: ${response.status}`
+          );
+
+          return;
+
+        }
+
+
+        
+        // ATTENDANCE DATE
+        
 
         const attendanceDateFromApi =
           data.attendance_date ||
-          data.data
-            ?.attendance_date ||
+          data.data?.attendance_date ||
           data.last_attendance_date ||
-          data.data
-            ?.last_attendance_date ||
+          data.data?.last_attendance_date ||
           new Date().toISOString();
 
-        const fileNumberFromApi =
-          data.file_number ||
-          data.fileNo ||
-          data.data?.file_number ||
-          data.data?.fileNo ||
-          currentPatient.file_number ||
-          currentPatient.fileNo ||
-          "";
+
+        
+        // UPDATE CURRENT APPOINTMENT
+        
 
         const updatedPatient = {
+
           ...currentPatient,
 
           lastAttendanceDate:
@@ -895,239 +1140,309 @@ useEffect(() => {
           last_attendance_date:
             attendanceDateFromApi,
 
-          fileNo:
-            fileNumberFromApi,
-
-          file_number:
-            fileNumberFromApi,
         };
+
 
         setCurrentPatient(
           updatedPatient
         );
 
+
         setPatientAttendanceStatus(
           updatedPatient
         );
 
+
         alert(
           data.message ||
-            "Attendance Marked Successfully"
+          "Attendance Marked Successfully"
         );
 
-        const updatedPatients =
-          await fetchPatients();
 
-        const refreshedPatient =
-          updatedPatients.find(
-            (item) =>
-              String(
-                item.id ||
-                  item._id
-              ) ===
-              String(patientId)
-          );
+        
+        // REFRESH APPOINTMENT LIST
+        
 
-        if (refreshedPatient) {
-          setCurrentPatient(
-            refreshedPatient
-          );
+        await fetchAppointments();
 
-          setPatientAttendanceStatus(
-            refreshedPatient
-          );
-        }
-      } catch (error) {
+      }
+
+      catch (error) {
+
         console.error(
           "MARK ATTENDANCE ERROR:",
           error
         );
 
+
         alert(
           "Something went wrong while marking attendance!"
         );
-      } finally {
-        setAttendanceLoading(false);
+
       }
+
+      finally {
+
+        setAttendanceLoading(
+          false
+        );
+
+      }
+
     };
 
+
+
+  // RENDER
+
+
   return (
+
     <div className="container-homepage">
 
-      {/* ================= SEARCH BOX ================= */}
 
-      {/* <div className="search-box">
-        <input
-          type="text"
-          placeholder="Enter File No"
-          value={searchValue}
-          onChange={(e) =>
-            setSearchValue(
-              e.target.value
-            )
-          }
-          onKeyDown={handleEnterKey}
-          disabled={searchLoading}
-        />
+      {/*  APPOINTMENT RECORDS */}
+        
+     
 
-        {searchValue.trim().length >
-        0 ? (
-          <button
-            className="search-icon-btn"
-            onClick={handleSubmit}
-            disabled={searchLoading}
-          >
-            <FaSearch size={20} />
-          </button>
-        ) : (
-          <button
-            className="search-icon-btn"
-            onClick={
-              handleCameraClick
-            }
-          >
-            <FaCamera size={20} />
-          </button>
-        )}
-      </div> */}
+      {loading ? (
 
-    
+        <h3 className="loading-text">
 
-     {/* ================= PATIENT RECORDS ================= */}
+          Loading Appointment Records...
 
-{loading ? (
-  <h3 className="loading-text">
-    Loading Patient Records...
-  </h3>
-) : (
-  <div className="records-section">
+        </h3>
 
-    {patientList.length === 0 ? (
+      ) : (
 
-      <p>No Patient Added</p>
+        <div className="records-section">
 
-    ) : (
 
-      <div className="table-container">
-           <h2 className="heading-patient-appointment"> Patient Appointment</h2>
-        <table className="appointment-table">
-         
+          {patientList.length === 0 ? (
 
-          <thead>
+            <p>
+              No Appointment Found
+            </p>
 
-            <tr>
+          ) : (
 
-              <th>S.No</th>
+            <div className="table-container">
 
-              <th>Name</th>
 
-              <th>Age</th>
+              <h2 className="heading-patient-appointment">
 
-              <th>Gender</th>
+                Patient Appointment
 
-              <th>Mobile</th>
+              </h2>
 
-              <th>Address</th>
 
-              <th>Appointment Type</th>
+              <table className="appointment-table">
 
-              <th>Appointment Date</th>
 
-              <th>Appointment Time</th>
+                <thead>
 
-              <th>Cash Paid</th>
+                  <tr>
 
-              <th>UPI / Online</th>
+                    <th>
+                      S.No
+                    </th>
 
-              <th>Total Paid</th>
+                    <th>
+                      Name
+                    </th>
 
-              <th>Action</th>
+                    <th>
+                      Age
+                    </th>
 
-            </tr>
+                    <th>
+                      Gender
+                    </th>
 
-          </thead>
+                    <th>
+                      WhatsApp Number
+                    </th>
 
-          <tbody>
+                    <th>
+                      Appointment Date
+                    </th>
 
-            {patientList.map((item, index) => {
+                    <th>
+                      Appointment From
+                    </th>
 
-              const cashPaid = Number(item.cash || 0);
+                    <th>
+                      Appointment To
+                    </th>
 
-              const upiPaid = Number(item.upi || 0);
+                    <th>
+                      Action
+                    </th>
 
-              const totalPaid = cashPaid + upiPaid;
+                  </tr>
 
-              return (
+                </thead>
 
-                <tr key={item._id || index}>
 
-                  <td>{index + 1}</td>
+                <tbody>
 
-                  <td>{item.name || "-"}</td>
 
-                  <td>{item.age ?? "-"}</td>
+                  {patientList.map(
+                    (
+                      item,
+                      index
+                    ) => (
 
-                  <td>{item.gender || "-"}</td>
+                      <tr
+                        key={
+                          item.id ||
+                          item._id ||
+                          index
+                        }
+                      >
 
-                  <td>{item.mobileNumber || "-"}</td>
 
-                  <td>{item.address || "-"}</td>
+                        {/* S.NO */}
 
-                  <td>{item.appointmentType || "-"}</td>
+                        <td>
 
-                  <td>
-                    {item.appointmentDate
-                      ? new Date(
-                          item.appointmentDate
-                        ).toLocaleDateString("en-IN")
-                      : "-"}
-                  </td>
+                          {index + 1}
 
-                  <td>{item.appointmentTime || "-"}</td>
+                        </td>
 
-                  <td>₹{cashPaid}</td>
 
-                  <td>₹{upiPaid}</td>
+                        {/* NAME */}
 
-                  <td>₹{totalPaid}</td>
+                        <td>
 
-                  <td>
+                          {item.name ||
+                            "-"}
 
-                    <button
-                      className="enter-btn"
-                      onClick={() => openPatient(item)}
-                    >
-                      Enter
-                    </button>
+                        </td>
 
-                  </td>
 
-                </tr>
+                        {/* AGE */}
 
-              );
+                        <td>
 
-            })}
+                          {item.age ??
+                            "-"}
 
-          </tbody>
+                        </td>
 
-        </table>
 
-      </div>
+                        {/* GENDER */}
 
-    )}
+                        <td>
 
-  </div>
-)}
+                          {item.gender ||
+                            "-"}
 
-      {/* ================= PATIENT MODAL ================= */}
+                        </td>
+
+
+                        {/* WHATSAPP NUMBER */}
+
+                        <td>
+
+                          {item.whatsapp_number ||
+                            "-"}
+
+                        </td>
+
+
+                        {/* APPOINTMENT DATE */}
+
+                        <td>
+
+                          {
+                            formatAppointmentDate(
+                              item.appointment_date
+                            )
+                          }
+
+                        </td>
+
+
+                        {/* APPOINTMENT FROM */}
+
+                        <td>
+
+                          {item.appointment_time ||
+                            "-"}
+
+                        </td>
+
+
+                        {/* APPOINTMENT TO */}
+
+                        <td>
+
+                          {item.appointment_time_to ||
+                            "-"}
+
+                        </td>
+
+
+                        {/* ACTION */}
+
+                        <td>
+
+                          <button
+                            className="enter-btn"
+
+                            onClick={() =>
+                              openPatient(
+                                item
+                              )
+                            }
+                          >
+
+                            Enter
+
+                          </button>
+
+                        </td>
+
+
+                      </tr>
+
+                    )
+                  )}
+
+
+                </tbody>
+
+
+              </table>
+
+
+            </div>
+
+          )}
+
+
+        </div>
+
+      )}
+
+
+      {/*
+          PATIENT / APPOINTMENT MODAL
+      */}
 
       {showPatientCard &&
         currentPatient && (
+
           <div className="modal-overlay">
+
+
             <div className="patient-card">
+
 
               <FaTimes
                 className="close-icon"
+
                 onClick={() =>
                   setShowPatientCard(
                     false
@@ -1135,193 +1450,409 @@ useEffect(() => {
                 }
               />
 
-            <div className="patient-header">
 
-  <h2>
-    {currentPatient.name || "Patient"} (
-    {currentPatient.age ?? "-"} / {currentPatient.gender || "-"})
-  </h2>
+              {/*
+                  HEADER
+              */}
 
-  <div className="patient-info-table-wrapper">
+              <div className="patient-header">
 
-    <table className="patient-info-table">
 
-      <tbody>
+                <h2>
 
-        <tr>
-          <th>Patient Code</th>
-          <td>{currentPatient.patientCode || "-"}</td>
+                  {
+                    currentPatient.name ||
+                    "Patient"
+                  }
 
-          <th>Mobile</th>
-          <td>{currentPatient.mobileNumber || "-"}</td>
-        </tr>
+                  {" ("}
 
-        <tr>
-          <th>Address</th>
-          <td>{currentPatient.address || "-"}</td>
- 
+                  {
+                    currentPatient.age ??
+                    "-"
+                  }
 
-          <th>Problem</th>
-          <td>{currentPatient.problem || "-"}</td>
-       </tr>
-        <tr>
-          <th>Appointment Type</th>
-          <td>{currentPatient.appointmentType || "-"}</td>
+                  {" / "}
 
-          <th>Appointment Date</th>
-          <td>
-            {currentPatient.appointmentDate
-              ? new Date(
-                  currentPatient.appointmentDate
-                ).toLocaleDateString("en-IN")
-              : "-"}
-          </td>
-        </tr>
+                  {
+                    currentPatient.gender ||
+                    "-"
+                  }
 
-        <tr>
-          <th>Last Attendance</th>
-          <td>{attendanceDate}</td>
+                  {")"}
 
-          <th>File No</th>
-          <td>
-            {currentPatient.fileNo ||
-              currentPatient.file_number ||
-              "-"}
-          </td>
-        </tr>
+                </h2>
 
-      </tbody>
 
-    </table>
+                <div className="patient-info-table-wrapper">
 
-  </div>
 
-</div>
+                  <table className="patient-info-table">
 
-              {/* ================= DAILY ATTENDANCE ================= */}
+
+                    <tbody>
+
+
+                      {/* NAME / MOBILE */}
+
+                      <tr>
+
+                        <th>
+                          Name
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.name ||
+                            "-"
+                          }
+                        </td>
+
+
+                        <th>
+                          WhatsApp
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.whatsapp_number ||
+                            "-"
+                          }
+                        </td>
+
+                      </tr>
+
+
+                      {/* AGE / GENDER */}
+
+                      <tr>
+
+                        <th>
+                          Age
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.age ??
+                            "-"
+                          }
+                        </td>
+
+
+                        <th>
+                          Gender
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.gender ||
+                            "-"
+                          }
+                        </td>
+
+                      </tr>
+
+
+                      {/* APPOINTMENT DATE */}
+
+                      <tr>
+
+                        <th>
+                          Appointment Date
+                        </th>
+
+                        <td>
+
+                          {
+                            formatAppointmentDate(
+                              currentPatient.appointment_date
+                            )
+                          }
+
+                        </td>
+
+
+                        <th>
+                          Appointment From
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.appointment_time ||
+                            "-"
+                          }
+                        </td>
+
+                      </tr>
+
+
+                      {/* APPOINTMENT TO */}
+
+                      <tr>
+
+                        <th>
+                          Appointment To
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.appointment_time_to ||
+                            "-"
+                          }
+                        </td>
+
+
+                        <th>
+                          Last Attendance
+                        </th>
+
+                        <td>
+                          {
+                            attendanceDate
+                          }
+                        </td>
+
+                      </tr>
+
+
+                      {/* OPTIONAL PATIENT CODE */}
+
+                      <tr>
+
+                        <th>
+                          Patient Code
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.patientCode ||
+                            "-"
+                          }
+                        </td>
+
+
+                        <th>
+                          File No
+                        </th>
+
+                        <td>
+                          {
+                            currentPatient.fileNo ||
+                            "-"
+                          }
+                        </td>
+
+                      </tr>
+
+
+                    </tbody>
+
+
+                  </table>
+
+
+                </div>
+
+
+              </div>
+
+
+              {/*
+                  DAILY ATTENDANCE
+              */}
 
               <div className="attendance-box">
 
+
                 {!attendanceMarked ? (
+
                   <button
                     className="attendance-btn"
+
                     onClick={
                       handleMarkAttendance
                     }
+
                     disabled={
                       attendanceLoading
                     }
                   >
+
                     {attendanceLoading
                       ? "Marking Attendance..."
                       : "Mark Attendance"}
+
                   </button>
+
                 ) : (
+
                   <div className="attendance-success">
+
                     <h3>
+
                       ✅ Today's Attendance Marked
+
                     </h3>
+
                   </div>
+
                 )}
+
 
               </div>
 
-              {/* ================= FEATURE CARDS ================= */}
+
+              {/*
+                  FEATURE CARDS
+              */}
 
               <div className="feature-row">
 
+
+                {/* RECHARGE */}
+
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate(
                       "/recharge",
                       {
                         state: {
+
                           returnToPopup:
                             true,
 
                           patient:
                             currentPatient,
+
                         },
+
                       }
                     )
                   }
                 >
-                  <FaWallet size={35} />
 
-                  <p>Recharge</p>
+                  <FaWallet
+                    size={35}
+                  />
+
+                  <p>
+                    Recharge
+                  </p>
+
                 </div>
+
+
+                {/* OPEN PATIENT FILE */}
 
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate(
                       "/openpatientlist",
                       {
                         state: {
+
                           returnToPopup:
                             true,
 
                           patient:
                             currentPatient,
+
                         },
+
                       }
                     )
                   }
                 >
-                  <FaFolder size={35} />
+
+                  <FaFolder
+                    size={35}
+                  />
 
                   <p>
                     Open Patient File
                   </p>
+
                 </div>
+
+
+                {/* HOMEPAGE */}
 
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate("/")
                   }
                 >
-                  <FaHome size={35} />
 
-                  <p>Homepage</p>
+                  <FaHome
+                    size={35}
+                  />
+
+                  <p>
+                    Homepage
+                  </p>
+
                 </div>
+
+
+                {/* PRESCRIPTION */}
 
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate(
                       "/prescription",
                       {
                         state: {
+
                           patient:
                             currentPatient,
+
                         },
+
                       }
                     )
                   }
                 >
+
                   <FaFilePrescription
                     size={35}
                   />
 
-                  <p>Prescription</p>
+                  <p>
+                    Prescription
+                  </p>
+
                 </div>
+
+
+                {/* TREATMENT PROTOCOL */}
 
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate(
                       "/treatment-protocol",
                       {
                         state: {
+
                           patient:
                             currentPatient,
+
                         },
+
                       }
                     )
                   }
                 >
+
                   <FaClipboardList
                     size={35}
                   />
@@ -1329,22 +1860,31 @@ useEffect(() => {
                   <p>
                     Treatment Protocol
                   </p>
+
                 </div>
+
+
+                {/* ATTENDANCE */}
 
                 <div
                   className="feature-card"
+
                   onClick={() =>
                     navigate(
                       "/attendance",
                       {
                         state: {
+
                           patient:
                             currentPatient,
+
                         },
+
                       }
                     )
                   }
                 >
+
                   <FaCalendarCheck
                     size={35}
                   />
@@ -1352,52 +1892,94 @@ useEffect(() => {
                   <p>
                     Attendance Sheet
                   </p>
+
                 </div>
+
 
               </div>
 
-              {/* ================= STATS ================= */}
+
+              {/*
+                  STATS
+              */}
 
               <div className="stats-row">
 
-                <div>
-                  <h3>Attendance</h3>
-
-                  <h2>72%</h2>
-
-                  <p>Good</p>
-                </div>
 
                 <div>
-                  <h3>Punctuality</h3>
 
-                  <h2>85%</h2>
+                  <h3>
+                    Attendance
+                  </h3>
 
-                  <p>Excellent</p>
+                  <h2>
+                    72%
+                  </h2>
+
+                  <p>
+                    Good
+                  </p>
+
                 </div>
+
+
+                <div>
+
+                  <h3>
+                    Punctuality
+                  </h3>
+
+                  <h2>
+                    85%
+                  </h2>
+
+                  <p>
+                    Excellent
+                  </p>
+
+                </div>
+
 
               </div>
 
-              {/* ================= WHATSAPP ================= */}
 
-              <button className="whatsapp-btn">
+              {/*
+                  WHATSAPP
+              */}
+
+              <button
+                className="whatsapp-btn"
+              >
+
                 <FaWhatsapp />
 
                 Share ID on WhatsApp
+
               </button>
 
+
             </div>
+
           </div>
+
         )}
 
-      {/* ================= PROFILE MODAL ================= */}
+
+      {/*
+          PROFILE MODAL
+      */}
 
       {showProfileModal && (
+
         <div className="modal-overlay">
+
+
           <div className="profile-modal">
+
 
             <FaTimes
               className="close-icon"
+
               onClick={() =>
                 setShowProfileModal(
                   false
@@ -1405,39 +1987,94 @@ useEffect(() => {
               }
             />
 
-            <h2>Clinic Profile</h2>
+
+            <h2>
+              Clinic Profile
+            </h2>
+
 
             <p>
-              <strong>ID:</strong>{" "}
-              {userData?.id || "-"}
+
+              <strong>
+                ID:
+              </strong>{" "}
+
+              {
+                userData?.id ||
+                "-"
+              }
+
             </p>
 
-            <p>
-              <strong>Name:</strong>{" "}
-              {userData?.name || "-"}
-            </p>
 
             <p>
-              <strong>Email:</strong>{" "}
-              {userData?.email || "-"}
+
+              <strong>
+                Name:
+              </strong>{" "}
+
+              {
+                userData?.name ||
+                "-"
+              }
+
             </p>
 
-            <p>
-              <strong>Mobile:</strong>{" "}
-              {userData?.mobile || "-"}
-            </p>
 
             <p>
-              <strong>Role:</strong>{" "}
-              {userData?.role || "-"}
+
+              <strong>
+                Email:
+              </strong>{" "}
+
+              {
+                userData?.email ||
+                "-"
+              }
+
             </p>
+
+
+            <p>
+
+              <strong>
+                Mobile:
+              </strong>{" "}
+
+              {
+                userData?.mobile ||
+                "-"
+              }
+
+            </p>
+
+
+            <p>
+
+              <strong>
+                Role:
+              </strong>{" "}
+
+              {
+                userData?.role ||
+                "-"
+              }
+
+            </p>
+
 
           </div>
+
         </div>
+
       )}
 
+
     </div>
+
   );
+
 };
+
 
 export default HomePage;
