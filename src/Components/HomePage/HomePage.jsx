@@ -1427,9 +1427,9 @@ const HomePage = () => {
       )}
 
 
-      {/*
-          PATIENT / APPOINTMENT MODAL
-      */}
+      {/*  PATIENT / APPOINTMENT MODAL*/}
+        
+      
 
       {showPatientCard &&
         currentPatient && (
@@ -1451,9 +1451,9 @@ const HomePage = () => {
               />
 
 
-              {/*
-                  HEADER
-              */}
+              {/*HEADER*/}
+                  
+              
 
               <div className="patient-header">
 
@@ -1702,9 +1702,9 @@ const HomePage = () => {
               </div>
 
 
-              {/*
-                  FEATURE CARDS
-              */}
+              {/*FEATURE CARDS  */}
+                  
+            
 
               <div className="feature-row">
 
@@ -1733,13 +1733,11 @@ const HomePage = () => {
                   }
                 >
 
-                  <FaWallet
-                    size={35}
-                  />
+                  <FaWallet size={35}/>
 
-                  <p>
-                    Recharge
-                  </p>
+                  <p>Recharge  </p>
+                    
+                
 
                 </div>
 
@@ -1772,9 +1770,7 @@ const HomePage = () => {
                     size={35}
                   />
 
-                  <p>
-                    Open Patient File
-                  </p>
+                  <p>Open Patient File </p>
 
                 </div>
 
@@ -1793,9 +1789,7 @@ const HomePage = () => {
                     size={35}
                   />
 
-                  <p>
-                    Homepage
-                  </p>
+                  <p> Homepage</p>
 
                 </div>
 

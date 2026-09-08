@@ -33,15 +33,21 @@ const AppointmentForm = () => {
       to: "12:00 PM",
     },
 
+
     {
-      label: "05:00 PM",
-      from: "05:00 PM",
-      to: "05:30 PM",
+      label: "12:00 PM",
+      from: "12:00 PM",
+      to: "12:30 PM",
     },
 
     {
-      label: "05:30 PM",
-      from: "05:30 PM",
+      label: "12:30 PM",
+      from: "12:30 PM",
+      to: "01:00 PM",
+    },
+    {
+      label: "05:15 PM",
+      from: "05:15 PM",
       to: "06:00 PM",
     },
 
@@ -49,6 +55,12 @@ const AppointmentForm = () => {
       label: "06:00 PM",
       from: "06:00 PM",
       to: "06:30 PM",
+    },
+
+    {
+      label: "06:30 PM",
+      from: "06:00 PM",
+      to: "07:00 PM",
     },
 
   ];
