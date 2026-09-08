@@ -150,6 +150,10 @@ export default function PrescriptionSettingForm() {
      
     inInv: "",
 
+   standardAppointmentCharge: "",
+
+   instantAppointmentCharge: "",
+
     investigation: "",
 
     diagnosis: "",
@@ -300,6 +304,18 @@ const [showTitlePopup, setShowTitlePopup] =  useState(false);
     }));
 
   };
+
+  // standard charges and instant chages
+  const handleAppointmentChargeChange = (e) => {
+  const { name, value } = e.target;
+
+  if (value === "" || /^\d+$/.test(value)) {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+};
 
   /*----------------------------------------------------------
       POPUP INPUT
@@ -609,6 +625,14 @@ const handleSave = async () => {
       investigationNotes: formData.inInv,
       advancedXrayLab: formData.advanceXrayLab,
       otherInvestigation: formData.investigation,
+
+      standardAppointmentCharge: Number(
+  formData.standardAppointmentCharge || 0
+),
+
+instantAppointmentCharge: Number(
+  formData.instantAppointmentCharge || 0
+),
 
       homeRehab: formData.homeRehab,
       homeRecoveryProgram: formData.hrp,
@@ -1611,6 +1635,69 @@ const onDragEnd = (result) => {
     className="textarea-settings-form"
     placeholder="Enter Prefilled Value"
     rows="1"
+  />
+</div>
+
+
+{/* ================= STANDARD APPOINTMENT CHARGE ================= */}
+
+<div className="right-section-box-settings-form">
+  <div className="right-section-header-settings-form">
+    <h3 className="right-section-title-settings-form">
+      Standard Appointment Charge
+    </h3>
+  </div>
+
+  <input
+    type="number"
+    name="standardAppointmentCharge"
+    value={formData.standardAppointmentCharge}
+    onChange={handleAppointmentChargeChange}
+    onKeyDown={(e) => {
+      if (
+        e.key === "-" ||
+        e.key === "+" ||
+        e.key === "e" ||
+        e.key === "E" ||
+        e.key === "."
+      ) {
+        e.preventDefault();
+      }
+    }}
+    min="0"
+    className="form-input-settings-form"
+    placeholder="Enter Standard Appointment Charge"
+  />
+</div>
+
+{/* ================= INSTANT APPOINTMENT CHARGE ================= */}
+
+<div className="right-section-box-settings-form">
+  <div className="right-section-header-settings-form">
+    <h3 className="right-section-title-settings-form">
+      Instant Appointment Charge
+    </h3>
+  </div>
+
+  <input
+    type="number"
+    name="instantAppointmentCharge"
+    value={formData.instantAppointmentCharge}
+    onChange={handleAppointmentChargeChange}
+    onKeyDown={(e) => {
+      if (
+        e.key === "-" ||
+        e.key === "+" ||
+        e.key === "e" ||
+        e.key === "E" ||
+        e.key === "."
+      ) {
+        e.preventDefault();
+      }
+    }}
+    min="0"
+    className="form-input-settings-form"
+    placeholder="Enter Instant Appointment Charge"
   />
 </div>
 
