@@ -1,0 +1,1407 @@
+/* =========================================================
+   APPOINTMENT PAYMENT OVERLAY
+========================================================= */
+
+.appointment-payment-overlay {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(7, 20, 18, 0.72);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+
+  z-index: 99999;
+
+  animation: appointmentPaymentOverlayIn 0.25s ease;
+}
+
+
+/* =========================================================
+   OVERLAY ANIMATION
+========================================================= */
+
+@keyframes appointmentPaymentOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   PAYMENT MODAL
+========================================================= */
+
+.appointment-payment-modal {
+  position: relative;
+
+  width: 100%;
+  max-width: 620px;
+
+  max-height: 94vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #ffffff;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+
+  animation: appointmentPaymentModalIn 0.35s ease;
+}
+
+
+/* =========================================================
+   MODAL ANIMATION
+========================================================= */
+
+@keyframes appointmentPaymentModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+========================================================= */
+
+.appointment-payment-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.appointment-payment-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appointment-payment-modal::-webkit-scrollbar-thumb {
+  background: #c8ded9;
+  border-radius: 20px;
+}
+
+.appointment-payment-modal::-webkit-scrollbar-thumb:hover {
+  background: #8ebbb3;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.appointment-payment-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 25px 28px 22px;
+
+  border-bottom: 1px solid #edf2f1;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8fcfb 100%
+    );
+}
+
+
+.appointment-payment-header h2 {
+  margin: 0;
+
+  color: #173d37;
+
+  font-size: 23px;
+  font-weight: 750;
+
+  letter-spacing: -0.3px;
+}
+
+
+.appointment-payment-header p {
+  margin: 6px 0 0;
+
+  color: #7b8986;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.appointment-payment-close {
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f6f5;
+
+  color: #60716d;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.appointment-payment-close:hover {
+  background: #e2f1ed;
+
+  color: #00796b;
+
+  transform: rotate(90deg);
+
+  box-shadow:
+    0 5px 15px rgba(0, 121, 107, 0.12);
+}
+
+
+.appointment-payment-close:active {
+  transform: rotate(90deg) scale(0.94);
+}
+
+
+.appointment-payment-close:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   APPOINTMENT DETAILS CARD
+========================================================= */
+
+.appointment-payment-appointment-card {
+  margin: 22px 28px 0;
+
+  padding: 20px;
+
+  border: 1px solid #dcece8;
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f0faf7 0%,
+      #f8fcfb 100%
+    );
+
+  box-shadow:
+    0 5px 18px rgba(0, 121, 107, 0.04);
+
+  animation:
+    appointmentPaymentCardIn
+    0.45s ease;
+}
+
+
+@keyframes appointmentPaymentCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.appointment-payment-card-title {
+  margin-bottom: 17px;
+
+  color: #17453f;
+
+  font-size: 15px;
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   INFORMATION GRID
+========================================================= */
+
+.appointment-payment-info-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 17px 20px;
+}
+
+
+/* =========================================================
+   INFORMATION ITEM
+========================================================= */
+
+.appointment-payment-info-item {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.appointment-payment-info-item > svg {
+  flex-shrink: 0;
+
+  width: 17px;
+
+  color: #008577;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   INFORMATION TEXT
+========================================================= */
+
+.appointment-payment-info-item div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.appointment-payment-info-item span {
+  color: #8b9996;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+
+.appointment-payment-info-item strong {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: #29423e;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   AMOUNT SECTION
+========================================================= */
+
+.appointment-payment-amount-section {
+  padding: 28px 20px 20px;
+
+  text-align: center;
+}
+
+
+.appointment-payment-amount-label {
+  margin-bottom: 5px;
+
+  color: #899591;
+
+  font-size: 12px;
+  font-weight: 550;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.7px;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.appointment-payment-amount {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  color: #00796b;
+
+  font-size: 44px;
+  font-weight: 800;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+}
+
+
+.appointment-payment-amount svg {
+  font-size: 27px;
+}
+
+
+/* =========================================================
+   TEST MODE NOTE
+========================================================= */
+
+.appointment-payment-test-note {
+  margin: 8px 0 0;
+
+  color: #9aa6a3;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   PAY BUTTON
+========================================================= */
+
+.appointment-payment-pay-button {
+  width: calc(100% - 56px);
+
+  min-height: 55px;
+
+  margin: 0 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  border: none;
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00796b 0%,
+      #009688 100%
+    );
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 9px 25px rgba(0, 121, 107, 0.23);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+
+.appointment-payment-pay-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 30px rgba(0, 121, 107, 0.3);
+}
+
+
+.appointment-payment-pay-button:active {
+  transform: translateY(0);
+}
+
+
+.appointment-payment-pay-button:disabled {
+  opacity: 0.72;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow:
+    0 6px 15px rgba(0, 121, 107, 0.15);
+}
+
+
+.appointment-payment-pay-button svg {
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.appointment-payment-spinner {
+  animation:
+    appointmentPaymentSpin
+    0.9s linear infinite;
+}
+
+
+@keyframes appointmentPaymentSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   SECURITY SECTION
+========================================================= */
+
+.appointment-payment-security {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 28px;
+
+  padding: 18px 20px 9px;
+}
+
+
+.appointment-payment-security div {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #84918e;
+
+  font-size: 11px;
+}
+
+
+.appointment-payment-security svg {
+  color: #008577;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TEST WARNING
+========================================================= */
+
+.appointment-payment-test-warning {
+  margin: 10px 28px 25px;
+
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  border: 1px solid #f1dfb3;
+
+  border-radius: 10px;
+
+  background: #fff9eb;
+
+  font-size: 11px;
+
+  text-align: center;
+}
+
+
+.appointment-payment-test-warning strong {
+  color: #a46b00;
+
+  font-size: 10px;
+
+  letter-spacing: 0.6px;
+}
+
+
+.appointment-payment-test-warning span {
+  color: #806d4b;
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+.appointment-payment-success {
+  position: relative;
+
+  padding: 45px 35px 35px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+========================================================= */
+
+.appointment-payment-success-icon {
+  width: 82px;
+  height: 82px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e3f8f1,
+      #f0fbf8
+    );
+
+  color: #009688;
+
+  font-size: 48px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 150, 136, 0.12);
+
+  animation:
+    appointmentPaymentSuccessPop
+    0.5s ease;
+}
+
+
+@keyframes appointmentPaymentSuccessPop {
+  0% {
+    opacity: 0;
+
+    transform: scale(0.45);
+  }
+
+  70% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   SUCCESS TITLE
+========================================================= */
+
+.appointment-payment-success h2 {
+  margin: 0;
+
+  color: #173d37;
+
+  font-size: 27px;
+  font-weight: 750;
+}
+
+
+.appointment-payment-success-text {
+  max-width: 420px;
+
+  margin: 10px auto 25px;
+
+  color: #7d8986;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   SUCCESS DETAILS
+========================================================= */
+
+.appointment-payment-success-details {
+  width: 100%;
+
+  padding: 4px 18px;
+
+  border: 1px solid #e4eeeb;
+
+  border-radius: 14px;
+
+  background: #f8fbfa;
+
+  text-align: left;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DETAIL ROW
+========================================================= */
+
+.appointment-payment-detail-row {
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #e7eeec;
+
+  font-size: 12px;
+}
+
+
+.appointment-payment-detail-row:last-child {
+  border-bottom: none;
+}
+
+
+.appointment-payment-detail-row span {
+  flex-shrink: 0;
+
+  color: #8b9794;
+}
+
+
+.appointment-payment-detail-row strong {
+  max-width: 68%;
+
+  color: #29423e;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  text-align: right;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   SUCCESS BUTTON
+========================================================= */
+
+.appointment-payment-success-button {
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 25px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00796b,
+      #009688
+    );
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 22px rgba(0, 121, 107, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.appointment-payment-success-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 27px rgba(0, 121, 107, 0.28);
+}
+
+
+/* =========================================================
+   FAILURE SCREEN
+========================================================= */
+
+.appointment-payment-failure {
+  padding: 45px 35px 35px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   FAILURE ICON
+========================================================= */
+
+.appointment-payment-failure-icon {
+  width: 78px;
+  height: 78px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff0ee,
+      #fff7f6
+    );
+
+  color: #e25545;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 9px 25px rgba(226, 85, 69, 0.09);
+
+  animation:
+    appointmentPaymentFailurePop
+    0.4s ease;
+}
+
+
+@keyframes appointmentPaymentFailurePop {
+  from {
+    opacity: 0;
+
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   FAILURE TITLE
+========================================================= */
+
+.appointment-payment-failure h2 {
+  margin: 0;
+
+  color: #3d2c29;
+
+  font-size: 27px;
+  font-weight: 750;
+}
+
+
+.appointment-payment-failure-text {
+  max-width: 440px;
+
+  margin: 12px auto 18px;
+
+  color: #7f8987;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   FAILURE AMOUNT
+========================================================= */
+
+.appointment-payment-failure-amount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  margin-bottom: 25px;
+
+  color: #e25545;
+
+  font-size: 31px;
+  font-weight: 800;
+}
+
+
+.appointment-payment-failure-amount svg {
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   RETRY BUTTON
+========================================================= */
+
+.appointment-payment-retry-button {
+  width: 100%;
+
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: none;
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00796b,
+      #009688
+    );
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 22px rgba(0, 121, 107, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.appointment-payment-retry-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 28px rgba(0, 121, 107, 0.28);
+}
+
+
+.appointment-payment-retry-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.appointment-payment-back-button {
+  margin-top: 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 5px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #8a9693;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease;
+}
+
+
+.appointment-payment-back-button:hover {
+  color: #00796b;
+}
+
+
+.appointment-payment-back-button svg {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .appointment-payment-overlay {
+    padding: 15px;
+  }
+
+  .appointment-payment-modal {
+    max-width: 560px;
+
+    border-radius: 19px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .appointment-payment-overlay {
+    align-items: center;
+
+    padding: 10px;
+  }
+
+
+  .appointment-payment-modal {
+    width: 100%;
+
+    max-height: 96vh;
+
+    border-radius: 18px;
+  }
+
+
+  /* -----------------------------------------------
+     HEADER
+  ----------------------------------------------- */
+
+  .appointment-payment-header {
+    padding: 20px;
+  }
+
+
+  .appointment-payment-header h2 {
+    font-size: 19px;
+  }
+
+
+  .appointment-payment-header p {
+    font-size: 11px;
+  }
+
+
+  .appointment-payment-close {
+    width: 36px;
+    height: 36px;
+
+    font-size: 13px;
+  }
+
+
+  /* -----------------------------------------------
+     APPOINTMENT CARD
+  ----------------------------------------------- */
+
+  .appointment-payment-appointment-card {
+    margin: 17px 18px 0;
+
+    padding: 16px;
+
+    border-radius: 14px;
+  }
+
+
+  .appointment-payment-card-title {
+    margin-bottom: 14px;
+
+    font-size: 14px;
+  }
+
+
+  /* -----------------------------------------------
+     INFO GRID
+  ----------------------------------------------- */
+
+  .appointment-payment-info-grid {
+    grid-template-columns: 1fr;
+
+    gap: 13px;
+  }
+
+
+  .appointment-payment-info-item > svg {
+    font-size: 15px;
+  }
+
+
+  .appointment-payment-info-item span {
+    font-size: 9px;
+  }
+
+
+  .appointment-payment-info-item strong {
+    font-size: 12px;
+  }
+
+
+  /* -----------------------------------------------
+     AMOUNT
+  ----------------------------------------------- */
+
+  .appointment-payment-amount-section {
+    padding: 23px 18px 17px;
+  }
+
+
+  .appointment-payment-amount {
+    font-size: 38px;
+  }
+
+
+  .appointment-payment-amount svg {
+    font-size: 23px;
+  }
+
+
+  /* -----------------------------------------------
+     PAY BUTTON
+  ----------------------------------------------- */
+
+  .appointment-payment-pay-button {
+    width: calc(100% - 36px);
+
+    margin: 0 18px;
+
+    min-height: 52px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+  }
+
+
+  /* -----------------------------------------------
+     SECURITY
+  ----------------------------------------------- */
+
+  .appointment-payment-security {
+    flex-wrap: wrap;
+
+    gap: 12px 20px;
+
+    padding-top: 16px;
+  }
+
+
+  .appointment-payment-security div {
+    font-size: 10px;
+  }
+
+
+  /* -----------------------------------------------
+     WARNING
+  ----------------------------------------------- */
+
+  .appointment-payment-test-warning {
+    margin: 9px 18px 20px;
+
+    padding: 10px;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    font-size: 10px;
+  }
+
+
+  /* -----------------------------------------------
+     SUCCESS
+  ----------------------------------------------- */
+
+  .appointment-payment-success {
+    padding: 35px 20px 25px;
+  }
+
+
+  .appointment-payment-success-icon {
+    width: 70px;
+    height: 70px;
+
+    margin-bottom: 17px;
+
+    font-size: 41px;
+  }
+
+
+  .appointment-payment-success h2 {
+    font-size: 23px;
+  }
+
+
+  .appointment-payment-success-text {
+    margin-bottom: 21px;
+
+    font-size: 12px;
+  }
+
+
+  .appointment-payment-success-details {
+    padding: 3px 14px;
+  }
+
+
+  .appointment-payment-detail-row {
+    min-height: 44px;
+
+    gap: 12px;
+  }
+
+
+  .appointment-payment-detail-row span,
+  .appointment-payment-detail-row strong {
+    font-size: 11px;
+  }
+
+
+  .appointment-payment-detail-row strong {
+    max-width: 65%;
+  }
+
+
+  /* -----------------------------------------------
+     FAILURE
+  ----------------------------------------------- */
+
+  .appointment-payment-failure {
+    padding: 35px 20px 25px;
+  }
+
+
+  .appointment-payment-failure-icon {
+    width: 68px;
+    height: 68px;
+
+    margin-bottom: 17px;
+
+    font-size: 29px;
+  }
+
+
+  .appointment-payment-failure h2 {
+    font-size: 23px;
+  }
+
+
+  .appointment-payment-failure-text {
+    font-size: 12px;
+  }
+
+
+  .appointment-payment-failure-amount {
+    margin-bottom: 22px;
+
+    font-size: 28px;
+  }
+
+
+  .appointment-payment-retry-button {
+    min-height: 48px;
+
+    font-size: 13px;
+  }
+
+
+  .appointment-payment-back-button {
+    font-size: 11px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .appointment-payment-overlay {
+    padding: 6px;
+  }
+
+
+  .appointment-payment-modal {
+    border-radius: 15px;
+  }
+
+
+  .appointment-payment-header {
+    padding: 17px;
+  }
+
+
+  .appointment-payment-header h2 {
+    font-size: 17px;
+  }
+
+
+  .appointment-payment-appointment-card {
+    margin-left: 14px;
+    margin-right: 14px;
+
+    padding: 14px;
+  }
+
+
+  .appointment-payment-amount {
+    font-size: 34px;
+  }
+
+
+  .appointment-payment-pay-button {
+    width: calc(100% - 28px);
+
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+
+  .appointment-payment-test-warning {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+
+  .appointment-payment-security {
+    gap: 8px 14px;
+  }
+
+
+  .appointment-payment-security div {
+    font-size: 9px;
+  }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.appointment-payment-pay-button:focus-visible,
+.appointment-payment-close:focus-visible,
+.appointment-payment-success-button:focus-visible,
+.appointment-payment-retry-button:focus-visible,
+.appointment-payment-back-button:focus-visible {
+  outline: 3px solid rgba(0, 150, 136, 0.25);
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .appointment-payment-overlay,
+  .appointment-payment-modal,
+  .appointment-payment-appointment-card,
+  .appointment-payment-success-icon,
+  .appointment-payment-failure-icon {
+    animation: none;
+  }
+
+
+  .appointment-payment-spinner {
+    animation: none;
+  }
+
+
+  .appointment-payment-pay-button,
+  .appointment-payment-close,
+  .appointment-payment-success-button,
+  .appointment-payment-retry-button {
+    transition: none;
+  }
+
+}

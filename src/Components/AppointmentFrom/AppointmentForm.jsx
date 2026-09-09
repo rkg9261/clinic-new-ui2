@@ -7,6 +7,10 @@ import {
 
 import { API } from "../../config/api";
 
+import AppointmentPayment
+  from "../AppointmentPayment/AppointmentPayment";
+
+
 const AppointmentForm = () => {
 
   /*====================================
@@ -33,7 +37,6 @@ const AppointmentForm = () => {
       to: "12:00 PM",
     },
 
-
     {
       label: "12:00 PM",
       from: "12:00 PM",
@@ -45,6 +48,7 @@ const AppointmentForm = () => {
       from: "12:30 PM",
       to: "01:00 PM",
     },
+
     {
       label: "05:15 PM",
       from: "05:15 PM",
@@ -59,11 +63,12 @@ const AppointmentForm = () => {
 
     {
       label: "06:30 PM",
-      from: "06:00 PM",
+      from: "06:30 PM",
       to: "07:00 PM",
     },
 
   ];
+
 
   /*====================================
     FORM STATE
@@ -85,15 +90,53 @@ const AppointmentForm = () => {
 
   });
 
+
+  /*====================================
+    ERRORS
+  ====================================*/
+
   const [errors, setErrors] = useState({});
 
+
+  /*====================================
+    SUCCESS / ERROR MESSAGE
+  ====================================*/
+
   const [success, setSuccess] = useState("");
+
 
   /*====================================
     LOADING
   ====================================*/
 
   const [loading, setLoading] = useState(false);
+
+
+  /*====================================
+    PAYMENT UI STATE
+  ====================================*/
+
+  const [showPayment, setShowPayment] =
+    useState(false);
+
+
+  /*====================================
+    APPOINTMENT FOR PAYMENT
+  ====================================*/
+
+  const [appointmentForPayment, setAppointmentForPayment] =
+    useState(null);
+
+
+  /*====================================
+    APPOINTMENT PAYMENT AMOUNT
+
+    Default = ₹700
+  ====================================*/
+
+  const [appointmentAmount, setAppointmentAmount] =
+    useState(700);
+
 
   /*====================================
     HANDLE INPUT CHANGE
@@ -106,6 +149,7 @@ const AppointmentForm = () => {
       value
     } = e.target;
 
+
     /*====================================
       MOBILE NUMBER
     ====================================*/
@@ -116,6 +160,7 @@ const AppointmentForm = () => {
 
       const numericValue =
         value.replace(/\D/g, "");
+
 
       setFormData(
         (previousData) => ({
@@ -133,6 +178,11 @@ const AppointmentForm = () => {
 
     }
 
+
+    /*====================================
+      OTHER INPUTS
+    ====================================*/
+
     else {
 
       setFormData(
@@ -145,9 +195,11 @@ const AppointmentForm = () => {
         })
       );
 
+
       /*====================================
-        IF DATE CHANGES
-        RESET TIME SLOT
+        DATE CHANGE
+
+        RESET INVALID TIME
       ====================================*/
 
       if (
@@ -157,12 +209,14 @@ const AppointmentForm = () => {
         const availableSlots =
           getAvailableTimeSlots(value);
 
+
         const selectedTimeStillAvailable =
           availableSlots.some(
             (slot) =>
               slot.label ===
               formData.appointment_time
           );
+
 
         if (
           !selectedTimeStillAvailable
@@ -186,6 +240,7 @@ const AppointmentForm = () => {
 
     }
 
+
     /*====================================
       REMOVE FIELD ERROR
     ====================================*/
@@ -200,6 +255,7 @@ const AppointmentForm = () => {
       })
     );
 
+
     /*====================================
       REMOVE OLD MESSAGE
     ====================================*/
@@ -207,6 +263,7 @@ const AppointmentForm = () => {
     setSuccess("");
 
   };
+
 
   /*====================================
     TODAY DATE
@@ -217,21 +274,27 @@ const AppointmentForm = () => {
       .toISOString()
       .split("T")[0];
 
+
   /*====================================
-    BOOKING DATE RANGE
+    MAX APPOINTMENT DATE
+
     TODAY + NEXT 4 DAYS
   ====================================*/
 
   const getMaxAppointmentDate = () => {
 
-    const currentDate = new Date();
+    const currentDate =
+      new Date();
+
 
     const maxDate =
       new Date(currentDate);
 
+
     maxDate.setDate(
       currentDate.getDate() + 4
     );
+
 
     return maxDate
       .toISOString()
@@ -239,11 +302,13 @@ const AppointmentForm = () => {
 
   };
 
+
   const maxAppointmentDate =
     getMaxAppointmentDate();
 
+
   /*====================================
-    GET TIME IN MINUTES
+    CONVERT TIME TO MINUTES
   ====================================*/
 
   const convertTimeToMinutes = (
@@ -256,12 +321,15 @@ const AppointmentForm = () => {
     ] =
       timeString.split(" ");
 
+
     let [
       hours,
       minutes
     ] =
-      time.split(":")
+      time
+        .split(":")
         .map(Number);
+
 
     if (
       modifier === "PM" &&
@@ -272,6 +340,7 @@ const AppointmentForm = () => {
 
     }
 
+
     if (
       modifier === "AM" &&
       hours === 12
@@ -281,6 +350,7 @@ const AppointmentForm = () => {
 
     }
 
+
     return (
       hours * 60 +
       minutes
@@ -288,7 +358,10 @@ const AppointmentForm = () => {
 
   };
 
+
   /*====================================
+    GET AVAILABLE TIME SLOTS
+
     TODAY:
     CURRENT TIME + 40 MINUTES
 
@@ -312,9 +385,9 @@ const AppointmentForm = () => {
 
     }
 
+
     /*----------------------------------
       FUTURE DATE
-      ALL TIME SLOTS AVAILABLE
     ----------------------------------*/
 
     if (
@@ -325,27 +398,31 @@ const AppointmentForm = () => {
 
     }
 
+
     /*----------------------------------
       TODAY
-
-      CURRENT TIME + 40 MINUTES
     ----------------------------------*/
 
-    const currentDate =    new Date();
-  
+    const currentDate =
+      new Date();
 
-    const currentHours =   currentDate.getHours();
-   
 
-    const currentMinutes =  currentDate.getMinutes();
-    
+    const currentHours =
+      currentDate.getHours();
+
+
+    const currentMinutes =
+      currentDate.getMinutes();
+
 
     const currentTimeInMinutes =
       currentHours * 60 +
       currentMinutes;
 
-    const minimumBookingTime =   currentTimeInMinutes + 40;
-   
+
+    const minimumBookingTime =
+      currentTimeInMinutes + 40;
+
 
     /*----------------------------------
       FILTER SLOTS
@@ -359,6 +436,7 @@ const AppointmentForm = () => {
             slot.from
           );
 
+
         return (
           slotTimeInMinutes >=
           minimumBookingTime
@@ -369,6 +447,7 @@ const AppointmentForm = () => {
 
   };
 
+
   /*====================================
     AVAILABLE TIME SLOTS
   ====================================*/
@@ -377,6 +456,7 @@ const AppointmentForm = () => {
     getAvailableTimeSlots(
       formData.appointment_date
     );
+
 
   /*====================================
     GET SELECTED TIME SLOT
@@ -392,6 +472,7 @@ const AppointmentForm = () => {
 
   };
 
+
   /*====================================
     VALIDATION
   ====================================*/
@@ -399,6 +480,7 @@ const AppointmentForm = () => {
   const validateForm = () => {
 
     const newErrors = {};
+
 
     /*----------------------------------
       NAME
@@ -412,6 +494,7 @@ const AppointmentForm = () => {
         "Full name is required.";
 
     }
+
 
     /*----------------------------------
       AGE
@@ -436,6 +519,7 @@ const AppointmentForm = () => {
 
     }
 
+
     /*----------------------------------
       GENDER
     ----------------------------------*/
@@ -448,6 +532,7 @@ const AppointmentForm = () => {
         "Please select gender.";
 
     }
+
 
     /*----------------------------------
       WHATSAPP NUMBER
@@ -473,6 +558,7 @@ const AppointmentForm = () => {
 
     }
 
+
     /*----------------------------------
       APPOINTMENT DATE
     ----------------------------------*/
@@ -486,6 +572,7 @@ const AppointmentForm = () => {
 
     }
 
+
     /*----------------------------------
       APPOINTMENT TIME
     ----------------------------------*/
@@ -498,6 +585,7 @@ const AppointmentForm = () => {
         "Please select available time.";
 
     }
+
 
     /*----------------------------------
       TIME SLOT STILL AVAILABLE
@@ -517,15 +605,22 @@ const AppointmentForm = () => {
 
     }
 
+
+    /*====================================
+      SET ERRORS
+    ====================================*/
+
     setErrors(
       newErrors
     );
+
 
     return (
       Object.keys(newErrors).length === 0
     );
 
   };
+
 
   /*====================================
     SUBMIT FORM
@@ -535,11 +630,13 @@ const AppointmentForm = () => {
 
     e.preventDefault();
 
+
     /*====================================
       CLEAR OLD MESSAGE
     ====================================*/
 
     setSuccess("");
+
 
     /*====================================
       VALIDATE
@@ -548,11 +645,13 @@ const AppointmentForm = () => {
     const isValid =
       validateForm();
 
+
     if (!isValid) {
 
       return;
 
     }
+
 
     /*====================================
       GET SELECTED SLOT
@@ -560,6 +659,7 @@ const AppointmentForm = () => {
 
     const selectedSlot =
       getSelectedSlot();
+
 
     if (!selectedSlot) {
 
@@ -571,13 +671,19 @@ const AppointmentForm = () => {
 
     }
 
+
     /*====================================
       START LOADING
     ====================================*/
 
     setLoading(true);
 
+
     try {
+
+      /*====================================
+        APPOINTMENT DATA
+      ====================================*/
 
       const appointmentData = {
 
@@ -603,6 +709,7 @@ const AppointmentForm = () => {
           selectedSlot.to
 
       };
+
 
       /*====================================
         CONSOLE REQUEST
@@ -649,8 +756,9 @@ const AppointmentForm = () => {
         "===================================="
       );
 
+
       /*====================================
-        CALL API
+        CALL APPOINTMENT API
       ====================================*/
 
       const response =
@@ -679,11 +787,18 @@ const AppointmentForm = () => {
           }
         );
 
+
+      /*====================================
+        READ RESPONSE
+      ====================================*/
+
       const responseText =
         await response.text();
 
+
       let responseData =
         null;
+
 
       if (
         responseText
@@ -705,12 +820,14 @@ const AppointmentForm = () => {
             jsonError
           );
 
+
           responseData =
             responseText;
 
         }
 
       }
+
 
       /*====================================
         CONSOLE RESPONSE
@@ -742,6 +859,7 @@ const AppointmentForm = () => {
         "===================================="
       );
 
+
       /*====================================
         API ERROR
       ====================================*/
@@ -752,6 +870,7 @@ const AppointmentForm = () => {
 
         let errorMessage =
           "Unable to book appointment. Please try again.";
+
 
         if (
           responseData &&
@@ -766,11 +885,14 @@ const AppointmentForm = () => {
 
         }
 
+
         else if (
           typeof responseData === "string"
         ) {
 
-          /* Remove HTML error page */
+          /*--------------------------------
+            REMOVE HTML ERROR PAGE
+          --------------------------------*/
 
           if (
             responseData.includes(
@@ -795,11 +917,13 @@ const AppointmentForm = () => {
 
         }
 
+
         throw new Error(
           errorMessage
         );
 
       }
+
 
       /*====================================
         SUCCESS RESPONSE
@@ -807,14 +931,15 @@ const AppointmentForm = () => {
 
       const successMessage =
         responseData?.message ||
-        "Appointment booked successfully! Our clinic team will contact you shortly.";
+        "Appointment created successfully.";
+
 
       console.log(
         "===================================="
       );
 
       console.log(
-        "APPOINTMENT CREATED SUCCESSFULLY"
+        "APPOINTMENT CREATED"
       );
 
       console.log(
@@ -831,13 +956,83 @@ const AppointmentForm = () => {
         "===================================="
       );
 
+
       /*====================================
-        SHOW SUCCESS
+        CREATE APPOINTMENT OBJECT
+        FOR PAYMENT UI
       ====================================*/
 
-      setSuccess(
-        `🎉 ${successMessage}`
+      const createdAppointment = {
+
+        appointmentId:
+          responseData?.appointmentId ||
+          responseData?.id ||
+          "",
+
+        name:
+          formData.name.trim(),
+
+        age:
+          Number(formData.age),
+
+        gender:
+          formData.gender,
+
+        whatsapp_number:
+          `+91${formData.whatsapp_number}`,
+
+        appointment_date:
+          formData.appointment_date,
+
+        appointment_time:
+          selectedSlot.from,
+
+        appointment_time_to:
+          selectedSlot.to
+
+      };
+
+
+      /*====================================
+        GET PAYMENT AMOUNT
+
+        If API sends amount, use it.
+        Otherwise ₹700.
+      ====================================*/
+
+      const paymentAmount =
+        Number(
+          responseData?.amount ||
+          responseData?.appointmentAmount ||
+          responseData?.paymentAmount ||
+          700
+        );
+
+
+      /*====================================
+        STORE APPOINTMENT
+      ====================================*/
+
+      setAppointmentForPayment(
+        createdAppointment
       );
+
+
+      /*====================================
+        STORE PAYMENT AMOUNT
+      ====================================*/
+
+      setAppointmentAmount(
+        paymentAmount
+      );
+
+
+      /*====================================
+        OPEN PAYMENT UI
+      ====================================*/
+
+      setShowPayment(true);
+
 
       /*====================================
         CLEAR FORM
@@ -859,13 +1054,23 @@ const AppointmentForm = () => {
 
       });
 
+
       /*====================================
         CLEAR ERRORS
       ====================================*/
 
       setErrors({});
 
+
+      /*====================================
+        DON'T SHOW SUCCESS MESSAGE
+        BEHIND PAYMENT WINDOW
+      ====================================*/
+
+      setSuccess("");
+
     }
+
 
     catch (error) {
 
@@ -886,6 +1091,7 @@ const AppointmentForm = () => {
         "===================================="
       );
 
+
       /*====================================
         SHOW ERROR
       ====================================*/
@@ -899,6 +1105,7 @@ const AppointmentForm = () => {
 
     }
 
+
     finally {
 
       setLoading(false);
@@ -906,6 +1113,18 @@ const AppointmentForm = () => {
     }
 
   };
+
+
+  /*====================================
+    CLOSE PAYMENT
+  ====================================*/
+
+  const handlePaymentClose = () => {
+
+    setShowPayment(false);
+
+  };
+
 
   /*====================================
     RETURN
@@ -915,17 +1134,20 @@ const AppointmentForm = () => {
 
     <section className="appointment-section">
 
+
       {/*====================================
-        HEADING
+        APPOINTMENT HEADING
       ====================================*/}
 
       <div className="appointment-heading">
+
 
         <p className="appointment-subtitle">
 
           SCHEDULE YOUR VISIT
 
         </p>
+
 
         <h2 className="appointment-title">
 
@@ -939,6 +1161,7 @@ const AppointmentForm = () => {
 
         </h2>
 
+
         <p className="appointment-description">
 
           Begin your journey toward a
@@ -949,7 +1172,9 @@ const AppointmentForm = () => {
 
         </p>
 
+
       </div>
+
 
       {/*====================================
         APPOINTMENT CARD
@@ -957,11 +1182,13 @@ const AppointmentForm = () => {
 
       <div className="appointment-card">
 
+
         <h2>
 
           Take First Step Towards Recovery!
 
         </h2>
+
 
         <p>
 
@@ -969,8 +1196,9 @@ const AppointmentForm = () => {
 
         </p>
 
+
         {/*====================================
-          SUCCESS / ERROR
+          SUCCESS / ERROR MESSAGE
         ====================================*/}
 
         {success && (
@@ -989,6 +1217,7 @@ const AppointmentForm = () => {
 
         )}
 
+
         {/*====================================
           FORM
         ====================================*/}
@@ -998,11 +1227,13 @@ const AppointmentForm = () => {
           noValidate
         >
 
+
           {/*====================================
             ROW 1
           ====================================*/}
 
           <div className="appointment-row">
+
 
             {/* NAME */}
 
@@ -1021,6 +1252,7 @@ const AppointmentForm = () => {
                 autoComplete="name"
               />
 
+
               {errors.name && (
 
                 <p className="error-text">
@@ -1032,6 +1264,7 @@ const AppointmentForm = () => {
               )}
 
             </div>
+
 
             {/* AGE */}
 
@@ -1051,6 +1284,7 @@ const AppointmentForm = () => {
                 max="120"
               />
 
+
               {errors.age && (
 
                 <p className="error-text">
@@ -1063,7 +1297,9 @@ const AppointmentForm = () => {
 
             </div>
 
+
           </div>
+
 
           {/*====================================
             ROW 2
@@ -1071,7 +1307,8 @@ const AppointmentForm = () => {
 
           <div className="appointment-row">
 
-            {/* WHATSAPP */}
+
+            {/* WHATSAPP NUMBER */}
 
             <div className="appointment-input">
 
@@ -1090,6 +1327,7 @@ const AppointmentForm = () => {
                 autoComplete="tel"
               />
 
+
               {errors.whatsapp_number && (
 
                 <p className="error-text">
@@ -1103,6 +1341,7 @@ const AppointmentForm = () => {
               )}
 
             </div>
+
 
             {/* GENDER */}
 
@@ -1124,17 +1363,20 @@ const AppointmentForm = () => {
 
                 </option>
 
+
                 <option value="Male">
 
                   Male
 
                 </option>
 
+
                 <option value="Female">
 
                   Female
 
                 </option>
+
 
                 <option value="Other">
 
@@ -1143,6 +1385,7 @@ const AppointmentForm = () => {
                 </option>
 
               </select>
+
 
               {errors.gender && (
 
@@ -1158,7 +1401,9 @@ const AppointmentForm = () => {
 
             </div>
 
+
           </div>
+
 
           {/*====================================
             APPOINTMENT DATE
@@ -1179,6 +1424,7 @@ const AppointmentForm = () => {
               max={maxAppointmentDate}
             />
 
+
             {errors.appointment_date && (
 
               <p className="error-text">
@@ -1193,13 +1439,16 @@ const AppointmentForm = () => {
 
           </div>
 
+
           {/*====================================
             APPOINTMENT TIME
           ====================================*/}
 
           <div className="appointment-input full-width">
 
+
             <FaClock />
+
 
             <select
               name="appointment_time"
@@ -1213,9 +1462,10 @@ const AppointmentForm = () => {
 
               <option value="">
 
-                Select Available Time + {new Date().toLocaleDateString()}
+                Select Available Time
 
               </option>
+
 
               {availableTimeSlots.map(
                 (slot) => (
@@ -1238,6 +1488,7 @@ const AppointmentForm = () => {
 
             </select>
 
+
             {errors.appointment_time && (
 
               <p className="error-text">
@@ -1252,8 +1503,9 @@ const AppointmentForm = () => {
 
           </div>
 
+
           {/*====================================
-            SUBMIT
+            SUBMIT BUTTON
           ====================================*/}
 
           <button
@@ -1264,18 +1516,48 @@ const AppointmentForm = () => {
 
             {loading
               ? "SUBMITTING..."
-              : "SUBMIT"}
+              : "SUBMIT"
+            }
 
           </button>
 
+
         </form>
 
+
       </div>
+
+
+      {/*====================================
+        PAYMENT POPUP
+      ====================================*/}
+
+      {showPayment && (
+
+        <AppointmentPayment
+
+          appointment={
+            appointmentForPayment
+          }
+
+          amount={
+            appointmentAmount
+          }
+
+          onClose={
+            handlePaymentClose
+          }
+
+        />
+
+      )}
+
 
     </section>
 
   );
 
 };
+
 
 export default AppointmentForm;
