@@ -3,8 +3,9 @@
 // ============================================
 
 // new url for api2
-export const BASE_URL =
-  "https://api2.thekapc.com";
+//export const BASE_URL = "https://api2.thekapc.com";
+
+export const BASE_URL = "http://localhost:3000";
 
 
 // ============================================
@@ -45,17 +46,17 @@ APPOINTMENT_LEAVES: `${BASE_URL}/api/appointment-leaves`,
 WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
 
   APPOINTMENT_SETTINGS: `${BASE_URL}/api/appointment-settings`,
-  
+
   APPOINTMENTS: `${BASE_URL}/api/appointment/create`,
 
     APPOINTMENT_LIST: `${BASE_URL}/api/appointment/list`,
-    
+
     FAQS: `${BASE_URL}/api/faqs`,
-   
+
 
 //blogs
 
   BLOGS: `${BASE_URL}/api/blogs`,
-   
- 
+
+
 };

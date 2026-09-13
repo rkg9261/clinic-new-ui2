@@ -821,14 +821,21 @@ const AppointmentForm = () => {
         READ RESPONSE
       ====================================*/
 
-      const responseText =
-        await response.text();
+      const responseText = await response.text();
 
 
-      let responseData =
-        null;
+      //let responseData = null;
+      let responseData = {};
 
 
+      try {
+            responseData = responseText
+              ? JSON.parse(responseText)
+              : {};
+          } catch (error) {
+            console.error("Invalid API response:", responseText);
+            throw new Error("Server returned an invalid response.");
+          }
       if (
         responseText
       ) {
@@ -1125,8 +1132,29 @@ const AppointmentForm = () => {
           );
 
 
-        const paymentOrderData =
-          await paymentOrderResponse.json();
+        //const paymentOrderData = await paymentOrderResponse.json();
+        console.log("Payment status:", paymentOrderResponse.status);
+
+        const paymentOrderText = await paymentOrderResponse.text();
+        
+        console.log("Payment response:", paymentOrderText);
+
+        let paymentOrderData = {};
+
+        try {
+          paymentOrderData = paymentOrderText
+            ? JSON.parse(paymentOrderText)
+            : {};
+        } catch (error) {
+          console.error(
+            "Invalid payment API response:",
+            paymentOrderText
+          );
+
+          throw new Error(
+            "Payment server returned an invalid response."
+          );
+        }
 
 
         if (!paymentOrderResponse.ok) {
@@ -1137,7 +1165,6 @@ const AppointmentForm = () => {
           );
 
         }
-
 
         /*====================================
           ADD RAZORPAY ORDER TO APPOINTMENT
