@@ -10,6 +10,7 @@ import { API } from "../../config/api";
 import AppointmentPayment
   from "../AppointmentPayment/AppointmentPayment";
 
+const consultaionAmount = 150;
 
 const AppointmentForm = () => {
 
@@ -164,7 +165,7 @@ const AppointmentForm = () => {
   ====================================*/
 
   const [appointmentAmount, setAppointmentAmount] =
-    useState(700);
+    useState(consultaionAmount);
 
 
   /*====================================
@@ -1126,7 +1127,7 @@ const AppointmentForm = () => {
                 appointmentId:
                   createdAppointment.appointmentId,
 
-                amount: 150
+                amount: consultaionAmount
 
               })
             }
@@ -1183,7 +1184,7 @@ const AppointmentForm = () => {
 
           paymentAmount:
             Number(
-              paymentOrderData?.data?.amount || 700
+              paymentOrderData?.data?.amount || consultaionAmount
             )
 
         };
@@ -1204,7 +1205,7 @@ const AppointmentForm = () => {
 
         setAppointmentAmount(
           Number(
-            paymentOrderData?.data?.amount || 700
+            paymentOrderData?.data?.amount || consultaionAmount
           )
         );
 
