@@ -239,8 +239,8 @@ const AppointmentPayment = ({
               ====================================*/
 
               const verifyResponse =
-                await fetch(
-                  `${API.BASE_URL}/api/payments/verify`,
+                await fetch(API.VERIFY_PAYMENT, 
+                  //`${API.BASE_URL}/api/payments/verify`,
                   {
 
                     method:

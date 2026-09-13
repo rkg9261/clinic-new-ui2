@@ -58,5 +58,11 @@ WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
 
   BLOGS: `${BASE_URL}/api/blogs`,
 
+  CREATE_ORDER: `${BASE_URL}/api/payment/create-order`,
+  
+  VERIFY_PAYMENT: `${BASE_URL}/api/payment/verify`,
+
+  
+
 
 };

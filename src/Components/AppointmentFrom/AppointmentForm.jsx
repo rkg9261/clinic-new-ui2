@@ -1111,8 +1111,8 @@ const AppointmentForm = () => {
         ====================================*/
 
         const paymentOrderResponse =
-          await fetch(
-            `${API.BASE_URL}/api/payments/create-order`,
+          await fetch(API.CREATE_ORDER, 
+            //`${API.BASE_URL}/api/payments/create-order`,
             {
               method: "POST",
 
