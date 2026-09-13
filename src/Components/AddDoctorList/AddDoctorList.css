@@ -1,0 +1,234 @@
+/* ===========================
+   PAGE
+=========================== */
+
+.container-doctor-list{
+    width:100%;
+    min-height:100vh;
+    padding:30px;
+    background:#f4f7fb;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+.content-doctor-list{
+    width:100%;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header-doctor-list{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 30px;
+    background:linear-gradient(135deg,#0d6efd,#198754);
+}
+
+.heading-doctor-list{
+    margin:0;
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.table-wrapper-doctor-list{
+    width:100%;
+    overflow-x:auto;
+}
+
+.table-doctor-list{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+
+.table-doctor-list thead{
+    background:#eef4ff;
+}
+
+.table-doctor-list th{
+    padding:16px;
+    text-align:left;
+    font-size:15px;
+    font-weight:700;
+    color:#333;
+    border-bottom:2px solid #dfe6ef;
+}
+
+.table-doctor-list td{
+    padding:16px;
+    font-size:14px;
+    color:#555;
+    border-bottom:1px solid #ececec;
+}
+
+.table-doctor-list tbody tr:nth-child(even){
+    background:#fafafa;
+}
+
+.table-doctor-list tbody tr:hover{
+    background:#f1f8ff;
+    transition:.3s;
+}
+
+/* ===========================
+   INPUT
+=========================== */
+
+.edit-input-doctor-list{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #ced4da;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+.edit-input-doctor-list:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 0 3px rgba(13,110,253,.15);
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.edit-button-doctor-list,
+.delete-button-doctor-list,
+.save-button-doctor-list,
+.cancel-button-doctor-list{
+    border:none;
+    outline:none;
+    padding:9px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    margin-right:8px;
+    transition:.3s;
+}
+
+.edit-button-doctor-list{
+    background:#0d6efd;
+}
+
+.edit-button-doctor-list:hover{
+    background:#0b5ed7;
+}
+
+.delete-button-doctor-list{
+    background:#dc3545;
+}
+
+.delete-button-doctor-list:hover{
+    background:#bb2d3b;
+}
+
+.save-button-doctor-list{
+    background:#198754;
+}
+
+.save-button-doctor-list:hover{
+    background:#157347;
+}
+
+.cancel-button-doctor-list{
+    background:#6c757d;
+}
+
+.cancel-button-doctor-list:hover{
+    background:#5c636a;
+}
+
+/* ===========================
+   LOADING & EMPTY
+=========================== */
+
+.table-doctor-list td[colspan]{
+    text-align:center;
+    padding:30px;
+    font-size:16px;
+    color:#666;
+    font-weight:600;
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+.table-wrapper-doctor-list::-webkit-scrollbar{
+    height:8px;
+}
+
+.table-wrapper-doctor-list::-webkit-scrollbar-thumb{
+    background:#0d6efd;
+    border-radius:20px;
+}
+
+.table-wrapper-doctor-list::-webkit-scrollbar-track{
+    background:#e9ecef;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:992px){
+
+    .container-doctor-list{
+        padding:20px;
+    }
+
+    .heading-doctor-list{
+        font-size:24px;
+    }
+
+    .table-doctor-list{
+        min-width:850px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .container-doctor-list{
+        padding:12px;
+    }
+
+    .header-doctor-list{
+        padding:18px;
+    }
+
+    .heading-doctor-list{
+        font-size:20px;
+    }
+
+    .table-doctor-list th,
+    .table-doctor-list td{
+        padding:12px;
+        font-size:13px;
+    }
+
+    .edit-button-doctor-list,
+    .delete-button-doctor-list,
+    .save-button-doctor-list,
+    .cancel-button-doctor-list{
+        padding:8px 12px;
+        font-size:12px;
+        margin-bottom:5px;
+    }
+
+}

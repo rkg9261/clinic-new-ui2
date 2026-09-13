@@ -1,0 +1,499 @@
+/*=========================
+ TESTIMONIAL SECTION
+==========================*/
+
+.testimonial-section{
+    width:100%;
+    padding:90px 8%;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(180deg,#f7fcfd,#ffffff);
+    z-index:1;
+}
+
+/*=========================
+  MOVING WAVES
+==========================*/
+
+.testimonial-section::before,
+.testimonial-section::after{
+    content:"";
+    position:absolute;
+    width:220%;
+    height:220%;
+    border-radius:45%;
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* First Wave */
+
+.testimonial-section::before{
+
+    background:rgba(26,167,184,.08);
+
+    top:-75%;
+    left:-55%;
+
+    animation:waveOne 18s linear infinite;
+
+}
+
+/* Second Wave */
+
+.testimonial-section::after{
+
+    background:rgba(214,36,46,.05);
+
+    top:-70%;
+    left:-60%;
+
+    animation:waveTwo 24s linear infinite;
+
+}
+
+@keyframes waveOne{
+
+    0%{
+
+        transform:
+        translate(0,0)
+        rotate(0deg);
+
+    }
+
+    25%{
+
+        transform:
+        translate(80px,-40px)
+        rotate(90deg);
+
+    }
+
+    50%{
+
+        transform:
+        translate(150px,40px)
+        rotate(180deg);
+
+    }
+
+    75%{
+
+        transform:
+        translate(80px,90px)
+        rotate(270deg);
+
+    }
+
+    100%{
+
+        transform:
+        translate(0,0)
+        rotate(360deg);
+
+    }
+
+}
+
+
+@keyframes waveTwo{
+
+    0%{
+
+        transform:
+        translate(0,0)
+        rotate(360deg);
+
+    }
+
+    25%{
+
+        transform:
+        translate(-100px,50px)
+        rotate(270deg);
+
+    }
+
+    50%{
+
+        transform:
+        translate(-180px,-20px)
+        rotate(180deg);
+
+    }
+
+    75%{
+
+        transform:
+        translate(-80px,-80px)
+        rotate(90deg);
+
+    }
+
+    100%{
+
+        transform:
+        translate(0,0)
+        rotate(0deg);
+
+    }
+
+}
+
+/* wave end */
+
+.testimonial-heading{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.testimonial-subtitle{
+    color:#1aa7b8;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.testimonial-title{
+    font-size:42px;
+    color:#1d2d3c;
+    font-weight:800;
+}
+
+
+/*=========================
+ SLIDER
+==========================*/
+
+.testimonial-slider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:25px;
+}
+
+
+/*=========================
+ CARD
+==========================*/
+
+.testimonial-card{
+    width:100%;
+    max-width:650px;
+    background:#fff;
+    border-radius:22px;
+    padding:45px;
+    box-shadow:0 15px 45px rgba(0,0,0,.08);
+    transition:.4s;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-8px);
+}
+
+
+/*=========================
+ QUOTE
+==========================*/
+
+.quote-icon{
+    font-size:34px;
+    color:#d6242e;
+    margin-bottom:18px;
+}
+
+
+/*=========================
+ MESSAGE
+==========================*/
+
+.testimonial-message{
+    font-size:17px;
+    color:#555;
+    line-height:1.9;
+    margin-bottom:35px;
+}
+
+
+/*=========================
+ USER
+==========================*/
+
+.testimonial-user{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.testimonial-user img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #f2f2f2;
+}
+
+.testimonial-user h4{
+    color:#1d2d3c;
+    font-size:20px;
+    font-weight:700;
+}
+
+.testimonial-user span{
+    display:block;
+    margin-top:4px;
+    color:#888;
+    font-size:14px;
+}
+
+
+/*=========================
+ STARS
+==========================*/
+
+.testimonial-stars{
+    display:flex;
+    gap:4px;
+    margin-top:10px;
+}
+
+.testimonial-stars svg{
+    color:#ffc107;
+    font-size:17px;
+}
+
+
+/*=========================
+ ARROWS
+==========================*/
+
+.testimonial-arrow{
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    color:#1aa7b8;
+    font-size:20px;
+    cursor:pointer;
+    transition:.35s;
+}
+
+.testimonial-arrow:hover{
+    background:#1aa7b8;
+    color:#fff;
+    transform:scale(1.1);
+}
+
+
+/*=========================
+ DOTS
+==========================*/
+
+.testimonial-dots{
+    display:flex;
+    justify-content:center;
+    margin-top:35px;
+    gap:10px;
+}
+
+.dot{
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:#cfd8dc;
+    cursor:pointer;
+    transition:.35s;
+}
+
+.active-dot{
+    width:32px;
+    border-radius:30px;
+    background:#d6242e;
+}
+
+
+/*=========================
+ HOVER EFFECT
+==========================*/
+
+.testimonial-card:hover .quote-icon{
+    transform:rotate(-15deg) scale(1.15);
+    transition:.35s;
+}
+
+
+/*=========================
+  SLIDE ANIMATION
+==========================*/
+
+.testimonial-card{
+    animation:fadeSlide .6s ease;
+}
+
+@keyframes fadeSlide{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/*=========================
+  IMAGE ANIMATION
+==========================*/
+
+.testimonial-user img{
+    transition:.4s;
+}
+
+.testimonial-card:hover .testimonial-user img{
+    transform:scale(1.08);
+}
+
+
+/*=========================
+  STAR ANIMATION
+==========================*/
+
+.testimonial-stars svg{
+    transition:.3s;
+}
+
+.testimonial-card:hover .testimonial-stars svg{
+    transform:rotate(360deg);
+}
+
+
+/*=========================
+  CARD ANIMATION
+==========================*/
+
+.testimonial-card{
+    transition:.4s;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 60px rgba(0,0,0,.15);
+}
+
+
+/*=========================
+  QUOTE ANIMATION
+==========================*/
+
+.quote-icon{
+    transition:.4s;
+}
+
+.testimonial-card:hover .quote-icon{
+    color:#d6242e;
+    transform:scale(1.2) rotate(-15deg);
+}
+
+
+/*=========================
+  DOT ANIMATION
+==========================*/
+
+.dot{
+    transition:.35s;
+}
+
+.active-dot{
+    width:30px;
+}
+/*=========================
+ TABLET
+==========================*/
+
+@media(max-width:992px){
+
+.testimonial-title{
+    font-size:34px;
+}
+
+.testimonial-card{
+    padding:35px;
+}
+
+}
+
+
+/*=========================
+ MOBILE
+==========================*/
+
+@media(max-width:768px){
+
+.testimonial-section{
+    padding:70px 5%;
+}
+
+.testimonial-title{
+    font-size:28px;
+}
+
+.testimonial-slider{
+    gap:10px;
+}
+
+.testimonial-card{
+    padding:25px;
+}
+
+.testimonial-message{
+    font-size:15px;
+}
+
+.testimonial-user img{
+    width:60px;
+    height:60px;
+}
+
+.testimonial-arrow{
+    width:45px;
+    height:45px;
+    font-size:16px;
+}
+
+}
+
+
+/*=========================
+ SMALL MOBILE
+==========================*/
+
+@media(max-width:480px){
+
+.testimonial-title{
+    font-size:24px;
+}
+
+.testimonial-user{
+    flex-direction:column;
+    text-align:center;
+}
+
+.testimonial-user img{
+    margin-bottom:10px;
+}
+
+.testimonial-message{
+    font-size:14px;
+    line-height:1.7;
+}
+
+}

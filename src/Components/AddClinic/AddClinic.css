@@ -1,0 +1,280 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#f2f2f2;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Main Container */
+
+.container-add-clinic{
+
+  width:100%;
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
+/* Heading */
+
+.heading-add-clinic{
+  font-size:28px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:25px;
+  text-decoration:underline;
+  color:#134e4a;
+  margin-top:-30px;
+}
+
+/* Labels */
+
+.label-add-clinic{
+  display:block;
+  font-size:18px;
+  font-weight:600;
+  margin-top:15px;
+  margin-bottom:8px;
+  color:#000;
+}
+
+/* Inputs */
+
+.input-add-clinic{
+  width:100%;
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:14px 15px;
+  font-size:16px;
+  outline:none;
+  transition:.3s;
+}
+
+.input-add-clinic:focus{
+  border-color:#212EA0;
+  box-shadow:0 0 5px rgba(15,139,141,.3);
+}
+
+/* File Input */
+
+input[type="file"]{
+  width:100%;
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:12px;
+  cursor:pointer;
+}
+
+/* Preview Image */
+
+.preview-image-add-clinic{
+  width:100%;
+  max-width:360px;
+  height:400px;
+  margin-top:12px;
+  margin-bottom:15px;
+
+  border-radius:10px;
+  border:1px solid #ccc;
+
+  object-fit:contain;
+  background:#fff;
+}
+
+/* Submit Button */
+
+.submit-button-add-clinic{
+  width:100%;
+  background:#134e4a;
+  color:#fff;
+
+  border:none;
+  border-radius:10px;
+
+  padding:16px;
+
+  margin-top:30px;
+  margin-bottom:40px;
+
+  font-size:20px;
+  font-weight:bold;
+
+  cursor:pointer;
+  transition:.3s;
+}
+
+.submit-button-add-clinic:hover{
+  background:#0f766e;
+}
+
+/* Card */
+
+.card-add-clinic{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.card-title-add-clinic{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+
+.password-wrapper{
+  position:relative;
+}
+
+.eye-icon{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+}
+
+.image-preview-box{
+  margin-top:15px;
+}
+
+.remove-image-btn{
+  background:red;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.button-row{
+  display:flex;
+  gap:15px;
+  margin-top:30px;
+  margin-bottom:40px;
+}
+
+.submit-button-add-clinic{
+  flex:1;
+  margin:0;
+}
+
+.delete-form-btn{
+  flex:1;
+  background:rgb(177, 59, 59);
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.suspend-form-btn{
+  flex:1;
+  background:#ce8d2b;
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.delete-form-btn,
+.suspend-form-btn{
+  padding:16px;
+}
+
+@media(max-width:768px){
+
+  .button-row{
+    flex-direction:column;
+  }
+
+  .delete-form-btn,
+  .suspend-form-btn,
+  .submit-button-add-clinic{
+    width:100%;
+  }
+}
+/* Tablet */
+
+@media(max-width:768px){
+
+  .container-add-clinic{
+    padding:15px;
+  }
+
+  .heading-add-clinic{
+    font-size:24px;
+  }
+
+  .label-add-clinic{
+    font-size:16px;
+  }
+
+  .input-add-clinic{
+    font-size:15px;
+  }
+
+  .submit-button-add-clinic{
+    font-size:18px;
+  }
+
+  .preview-image-add-clinic{
+    width:100%;
+    height:300px;
+  }
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+  .container-add-clinic{
+    padding:10px;
+  }
+
+  .heading-add-clinic{
+    font-size:22px;
+    margin-top:50px;
+  }
+
+  .label-add-clinic{
+    font-size:15px;
+  }
+
+  .input-add-clinic{
+    padding:12px;
+    font-size:14px;
+  }
+
+  input[type="file"]{
+    padding:10px;
+    font-size:14px;
+  }
+
+  .submit-button-add-clinic{
+    padding:14px;
+    font-size:16px;
+  }
+
+  .preview-image-add-clinic{
+    height:250px;
+  }
+}

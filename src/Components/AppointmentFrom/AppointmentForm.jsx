@@ -1,0 +1,1732 @@
+import React, { useState } from "react";
+import "./AppointmentForm.css";
+
+import {
+  FaClock
+} from "react-icons/fa";
+
+import { API } from "../../config/api";
+
+import AppointmentPayment
+  from "../AppointmentPayment/AppointmentPayment";
+
+
+const AppointmentForm = () => {
+
+  /*====================================
+    TIME SLOTS
+  ====================================*/
+
+  const TIME_SLOTS = [
+
+    {
+      label: "10:30 AM",
+      from: "10:30 AM",
+      to: "11:00 AM",
+    },
+
+    {
+      label: "11:00 AM",
+      from: "11:00 AM",
+      to: "11:30 AM",
+    },
+
+    {
+      label: "11:30 AM",
+      from: "11:30 AM",
+      to: "12:00 PM",
+    },
+
+    {
+      label: "12:00 PM",
+      from: "12:00 PM",
+      to: "12:30 PM",
+    },
+
+    {
+      label: "12:30 PM",
+      from: "12:30 PM",
+      to: "01:00 PM",
+    },
+
+    {
+      label: "05:15 PM",
+      from: "05:15 PM",
+      to: "06:00 PM",
+    },
+
+    {
+      label: "06:00 PM",
+      from: "06:00 PM",
+      to: "06:30 PM",
+    },
+
+    {
+      label: "06:30 PM",
+      from: "06:30 PM",
+      to: "07:00 PM",
+    },
+
+  ];
+
+/*
+  Get available dates as for 5days from today
+  */
+  const getAvailableDates = () => {
+    const dates = [];
+
+    for (let i = 0; i <= 4; i++) {
+      const date = new Date();
+
+      date.setDate(date.getDate() + i);
+
+      let datename = "";
+       if(i === 0)
+         datename = "Today";
+      else if(i == 1)
+        datename = "Tomorrow";
+      else
+        datename = date.toISOString().split("T")[0];
+
+
+      dates.push({
+        value: date.toISOString().split("T")[0],
+        label: datename
+      });
+    }
+
+    return dates;
+  };
+  const availableDates = getAvailableDates();
+  console.log(availableDates);
+  /*====================================
+    FORM STATE
+  ====================================*/
+
+  const [formData, setFormData] = useState({
+
+    name: "",
+
+    age: "",
+
+    gender: "",
+
+    whatsapp_number: "",
+
+    appointment_date: "",
+
+    appointment_time: ""
+
+  });
+
+
+  /*====================================
+    ERRORS
+  ====================================*/
+
+  const [errors, setErrors] = useState({});
+
+
+  /*====================================
+    SUCCESS / ERROR MESSAGE
+  ====================================*/
+
+  const [success, setSuccess] = useState("");
+
+
+  /*====================================
+    LOADING
+  ====================================*/
+
+  const [loading, setLoading] = useState(false);
+
+
+  /*====================================
+    PAYMENT UI STATE
+  ====================================*/
+
+  const [showPayment, setShowPayment] =
+    useState(false);
+
+
+  /*====================================
+    APPOINTMENT FOR PAYMENT
+  ====================================*/
+
+  const [appointmentForPayment, setAppointmentForPayment] =
+    useState(null);
+
+
+  /*====================================
+    APPOINTMENT PAYMENT AMOUNT
+
+    Default = ₹700
+  ====================================*/
+
+  const [appointmentAmount, setAppointmentAmount] =
+    useState(700);
+
+
+  /*====================================
+    HANDLE INPUT CHANGE
+  ====================================*/
+
+  const handleChange = (e) => {
+
+    const {
+      name,
+      value
+    } = e.target;
+
+
+    /*====================================
+      MOBILE NUMBER
+    ====================================*/
+
+    if (
+      name === "whatsapp_number"
+    ) {
+
+      const numericValue =
+        value.replace(/\D/g, "");
+
+
+      setFormData(
+        (previousData) => ({
+
+          ...previousData,
+
+          whatsapp_number:
+            numericValue.substring(
+              0,
+              10
+            )
+
+        })
+      );
+
+    }
+
+
+    /*====================================
+      OTHER INPUTS
+    ====================================*/
+
+    else {
+
+      setFormData(
+        (previousData) => ({
+
+          ...previousData,
+
+          [name]: value
+
+        })
+      );
+
+
+      /*====================================
+        DATE CHANGE
+
+        RESET INVALID TIME
+      ====================================*/
+
+      if (
+        name === "appointment_date"
+      ) {
+
+        const availableSlots =
+          getAvailableTimeSlots(value);
+
+
+        const selectedTimeStillAvailable =
+          availableSlots.some(
+            (slot) =>
+              slot.label ===
+              formData.appointment_time
+          );
+
+
+        if (
+          !selectedTimeStillAvailable
+        ) {
+
+          setFormData(
+            (previousData) => ({
+
+              ...previousData,
+
+              [name]: value,
+
+              appointment_time: ""
+
+            })
+          );
+
+        }
+
+      }
+
+    }
+
+
+    /*====================================
+      REMOVE FIELD ERROR
+    ====================================*/
+
+    setErrors(
+      (previousErrors) => ({
+
+        ...previousErrors,
+
+        [name]: ""
+
+      })
+    );
+
+
+    /*====================================
+      REMOVE OLD MESSAGE
+    ====================================*/
+
+    setSuccess("");
+
+  };
+
+
+  /*====================================
+    TODAY DATE
+  ====================================*/
+
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+
+  /*====================================
+    MAX APPOINTMENT DATE
+
+    TODAY + NEXT 4 DAYS
+  ====================================*/
+
+  const getMaxAppointmentDate = () => {
+
+    const currentDate =
+      new Date();
+
+
+    const maxDate =
+      new Date(currentDate);
+
+
+    maxDate.setDate(
+      currentDate.getDate() + 4
+    );
+
+
+    return maxDate
+      .toISOString()
+      .split("T")[0];
+
+  };
+
+
+  const maxAppointmentDate =
+    getMaxAppointmentDate();
+
+
+  /*====================================
+    CONVERT TIME TO MINUTES
+  ====================================*/
+
+  const convertTimeToMinutes = (
+    timeString
+  ) => {
+
+    const [
+      time,
+      modifier
+    ] =
+      timeString.split(" ");
+
+
+    let [
+      hours,
+      minutes
+    ] =
+      time
+        .split(":")
+        .map(Number);
+
+
+    if (
+      modifier === "PM" &&
+      hours !== 12
+    ) {
+
+      hours += 12;
+
+    }
+
+
+    if (
+      modifier === "AM" &&
+      hours === 12
+    ) {
+
+      hours = 0;
+
+    }
+
+
+    return (
+      hours * 60 +
+      minutes
+    );
+
+  };
+
+
+  /*====================================
+    GET AVAILABLE TIME SLOTS
+
+    TODAY:
+    CURRENT TIME + 40 MINUTES
+
+    FUTURE DATE:
+    ALL SLOTS
+  ====================================*/
+
+  const getAvailableTimeSlots = (
+    selectedDate
+  ) => {
+
+    /*----------------------------------
+      NO DATE SELECTED
+    ----------------------------------*/
+
+    if (
+      !selectedDate
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+
+    /*----------------------------------
+      FUTURE DATE
+    ----------------------------------*/
+
+    if (
+      selectedDate !== today
+    ) {
+
+      return TIME_SLOTS;
+
+    }
+
+
+    /*----------------------------------
+      TODAY
+    ----------------------------------*/
+
+    const currentDate =
+      new Date();
+
+
+    const currentHours =
+      currentDate.getHours();
+
+
+    const currentMinutes =
+      currentDate.getMinutes();
+
+
+    const currentTimeInMinutes =
+      currentHours * 60 +
+      currentMinutes;
+
+
+    const minimumBookingTime =
+      currentTimeInMinutes + 40;
+
+
+    /*----------------------------------
+      FILTER SLOTS
+    ----------------------------------*/
+
+    return TIME_SLOTS.filter(
+      (slot) => {
+
+        const slotTimeInMinutes =
+          convertTimeToMinutes(
+            slot.from
+          );
+
+
+        return (
+          slotTimeInMinutes >=
+          minimumBookingTime
+        );
+
+      }
+    );
+
+  };
+
+
+  /*====================================
+    AVAILABLE TIME SLOTS
+  ====================================*/
+
+  const availableTimeSlots =
+    getAvailableTimeSlots(
+      formData.appointment_date
+    );
+
+
+  /*====================================
+    GET SELECTED TIME SLOT
+  ====================================*/
+
+  const getSelectedSlot = () => {
+
+    return TIME_SLOTS.find(
+      (slot) =>
+        slot.label ===
+        formData.appointment_time
+    );
+
+  };
+
+
+  /*====================================
+    VALIDATION
+  ====================================*/
+
+  const validateForm = () => {
+
+    const newErrors = {};
+
+
+    /*----------------------------------
+      NAME
+    ----------------------------------*/
+
+    if (
+      !formData.name.trim()
+    ) {
+
+      newErrors.name =
+        "Full name is required.";
+
+    }
+
+
+    /*----------------------------------
+      AGE
+    ----------------------------------*/
+
+    if (
+      !formData.age
+    ) {
+
+      newErrors.age =
+        "Age is required.";
+
+    }
+
+    else if (
+      Number(formData.age) < 1 ||
+      Number(formData.age) > 120
+    ) {
+
+      newErrors.age =
+        "Please enter a valid age.";
+
+    }
+
+
+    /*----------------------------------
+      GENDER
+    ----------------------------------*/
+
+    if (
+      !formData.gender
+    ) {
+
+      newErrors.gender =
+        "Please select gender.";
+
+    }
+
+
+    /*----------------------------------
+      WHATSAPP NUMBER
+    ----------------------------------*/
+
+    if (
+      !formData.whatsapp_number
+    ) {
+
+      newErrors.whatsapp_number =
+        "WhatsApp number is required.";
+
+    }
+
+    else if (
+      !/^[6-9]\d{9}$/.test(
+        formData.whatsapp_number
+      )
+    ) {
+
+      newErrors.whatsapp_number =
+        "Please enter a valid 10-digit mobile number.";
+
+    }
+
+
+    /*----------------------------------
+      APPOINTMENT DATE
+    ----------------------------------*/
+
+    if (
+      !formData.appointment_date
+    ) {
+
+      newErrors.appointment_date =
+        "Please select appointment date.";
+
+    }
+
+
+    /*----------------------------------
+      APPOINTMENT TIME
+    ----------------------------------*/
+
+    if (
+      !formData.appointment_time
+    ) {
+
+      newErrors.appointment_time =
+        "Please select available time.";
+
+    }
+
+
+    /*----------------------------------
+      TIME SLOT STILL AVAILABLE
+    ----------------------------------*/
+
+    if (
+      formData.appointment_time &&
+      !availableTimeSlots.some(
+        (slot) =>
+          slot.label ===
+          formData.appointment_time
+      )
+    ) {
+
+      newErrors.appointment_time =
+        "Please select an available time slot.";
+
+    }
+
+
+    /*====================================
+      SET ERRORS
+    ====================================*/
+
+    setErrors(
+      newErrors
+    );
+
+
+    return (
+      Object.keys(newErrors).length === 0
+    );
+
+  };
+
+
+  /*====================================
+    SUBMIT FORM
+  ====================================*/
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+
+    /*====================================
+      CLEAR OLD MESSAGE
+    ====================================*/
+
+    setSuccess("");
+
+
+    /*====================================
+      VALIDATE
+    ====================================*/
+
+    const isValid =
+      validateForm();
+
+
+    if (!isValid) {
+
+      return;
+
+    }
+
+
+    /*====================================
+      GET SELECTED SLOT
+    ====================================*/
+
+    const selectedSlot =
+      getSelectedSlot();
+
+
+    if (!selectedSlot) {
+
+      setSuccess(
+        "❌ Please select a valid appointment time."
+      );
+
+      return;
+
+    }
+
+
+    /*====================================
+      START LOADING
+    ====================================*/
+
+    setLoading(true);
+
+
+    try {
+
+      /*====================================
+        APPOINTMENT DATA
+      ====================================*/
+
+      const appointmentData = {
+
+        name:
+          formData.name.trim(),
+
+        age:
+          Number(formData.age),
+
+        gender:
+          formData.gender,
+
+        whatsapp_number:
+          `+91${formData.whatsapp_number}`,
+
+        appointment_date:
+          formData.appointment_date,
+
+        appointment_time:
+          selectedSlot.from,
+
+        appointment_time_to:
+          selectedSlot.to
+
+      };
+
+
+      /*====================================
+        CONSOLE REQUEST
+      ====================================*/
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "APPOINTMENT API REQUEST"
+      );
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "API URL:",
+        API.APPOINTMENT
+      );
+
+      console.log(
+        "SELECTED SLOT:",
+        selectedSlot.label
+      );
+
+      console.log(
+        "APPOINTMENT FROM:",
+        selectedSlot.from
+      );
+
+      console.log(
+        "APPOINTMENT TO:",
+        selectedSlot.to
+      );
+
+      console.log(
+        "REQUEST BODY:",
+        appointmentData
+      );
+
+      console.log(
+        "===================================="
+      );
+
+
+      /*====================================
+        CALL APPOINTMENT API
+      ====================================*/
+
+      const response =
+        await fetch(
+          API.APPOINTMENT,
+          {
+
+            method:
+              "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              "Accept":
+                "application/json"
+
+            },
+
+            body:
+              JSON.stringify(
+                appointmentData
+              )
+
+          }
+        );
+
+
+      /*====================================
+        READ RESPONSE
+      ====================================*/
+
+      const responseText =
+        await response.text();
+
+
+      let responseData =
+        null;
+
+
+      if (
+        responseText
+      ) {
+
+        try {
+
+          responseData =
+            JSON.parse(
+              responseText
+            );
+
+        }
+
+        catch (jsonError) {
+
+          console.log(
+            "Response is not JSON:",
+            jsonError
+          );
+
+
+          responseData =
+            responseText;
+
+        }
+
+      }
+
+
+      /*====================================
+        CONSOLE RESPONSE
+      ====================================*/
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "APPOINTMENT API RESPONSE"
+      );
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "STATUS:",
+        response.status
+      );
+
+      console.log(
+        "RESPONSE:",
+        responseData
+      );
+
+      console.log(
+        "===================================="
+      );
+
+
+      /*====================================
+        API ERROR
+      ====================================*/
+
+      if (
+        !response.ok
+      ) {
+
+        let errorMessage =
+          "Unable to book appointment. Please try again.";
+
+
+        if (
+          responseData &&
+          typeof responseData === "object"
+        ) {
+
+          errorMessage =
+            responseData.error ||
+            responseData.message ||
+            responseData.title ||
+            errorMessage;
+
+        }
+
+
+        else if (
+          typeof responseData === "string"
+        ) {
+
+          /*--------------------------------
+            REMOVE HTML ERROR PAGE
+          --------------------------------*/
+
+          if (
+            responseData.includes(
+              "<!DOCTYPE"
+            ) ||
+            responseData.includes(
+              "<html"
+            )
+          ) {
+
+            errorMessage =
+              `Server returned status ${response.status}.`;
+
+          }
+
+          else {
+
+            errorMessage =
+              responseData;
+
+          }
+
+        }
+
+
+        throw new Error(
+          errorMessage
+        );
+
+      }
+
+
+      /*====================================
+        SUCCESS RESPONSE
+      ====================================*/
+
+      const successMessage =
+        responseData?.message ||
+        "Appointment created successfully.";
+
+
+      console.log(
+        "===================================="
+      );
+
+      console.log(
+        "APPOINTMENT CREATED"
+      );
+
+      console.log(
+        "APPOINTMENT ID:",
+        responseData?.appointmentId
+      );
+
+      console.log(
+        "SUCCESS MESSAGE:",
+        successMessage
+      );
+
+      console.log(
+        "===================================="
+      );
+
+
+      /*====================================
+        CREATE APPOINTMENT OBJECT
+        FOR PAYMENT UI
+      ====================================*/
+      /*
+      const createdAppointment = {
+
+        appointmentId:
+          responseData?.appointmentId ||
+          responseData?.id ||
+          "",
+
+        name:
+          formData.name.trim(),
+
+        age:
+          Number(formData.age),
+
+        gender:
+          formData.gender,
+
+        whatsapp_number:
+          `+91${formData.whatsapp_number}`,
+
+        appointment_date:
+          formData.appointment_date,
+
+        appointment_time:
+          selectedSlot.from,
+
+        appointment_time_to:
+          selectedSlot.to
+
+      };
+
+
+     //====================================
+       // GET PAYMENT AMOUNT
+
+       // If API sends amount, use it.
+       // Otherwise ₹700.
+      //====================================
+
+      const paymentAmount =
+        Number(
+          responseData?.amount ||
+          responseData?.appointmentAmount ||
+          responseData?.paymentAmount ||
+          700
+        );
+
+
+      //====================================
+       // STORE APPOINTMENT
+      //====================================
+
+      setAppointmentForPayment(
+        createdAppointment
+      );
+
+
+      //====================================
+        //STORE PAYMENT AMOUNT
+      //====================================
+
+      setAppointmentAmount(
+        paymentAmount
+      );
+
+
+      //====================================
+        //OPEN PAYMENT UI
+      //====================================
+
+      setShowPayment(true);
+      */
+
+      //====================================
+        //  CREATE APPOINTMENT OBJECT
+        //====================================
+
+        const createdAppointment = {
+
+          appointmentId:
+            responseData?.appointmentId ||
+            responseData?.id ||
+            "",
+
+          name:
+            formData.name.trim(),
+
+          age:
+            Number(formData.age),
+
+          gender:
+            formData.gender,
+
+          whatsapp_number:
+            `+91${formData.whatsapp_number}`,
+
+          appointment_date:
+            formData.appointment_date,
+
+          appointment_time:
+            selectedSlot.from,
+
+          appointment_time_to:
+            selectedSlot.to
+
+        };
+
+
+        /*====================================
+          CREATE RAZORPAY ORDER
+        ====================================*/
+
+        const paymentOrderResponse =
+          await fetch(
+            `${API.BASE_URL}/api/payments/create-order`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+
+              body: JSON.stringify({
+
+                appointmentId:
+                  createdAppointment.appointmentId,
+
+                amount: 700
+
+              })
+            }
+          );
+
+
+        const paymentOrderData =
+          await paymentOrderResponse.json();
+
+
+        if (!paymentOrderResponse.ok) {
+
+          throw new Error(
+            paymentOrderData?.message ||
+            "Unable to create payment order."
+          );
+
+        }
+
+
+        /*====================================
+          ADD RAZORPAY ORDER TO APPOINTMENT
+        ====================================*/
+
+        const appointmentWithPayment = {
+
+          ...createdAppointment,
+
+          razorpayOrderId:
+            paymentOrderData?.data?.orderId,
+
+          razorpayKeyId:
+            paymentOrderData?.data?.keyId,
+
+          paymentAmount:
+            Number(
+              paymentOrderData?.data?.amount || 700
+            )
+
+        };
+
+
+        /*====================================
+          STORE APPOINTMENT
+        ====================================*/
+
+        setAppointmentForPayment(
+          appointmentWithPayment
+        );
+
+
+        /*====================================
+          STORE PAYMENT AMOUNT
+        ====================================*/
+
+        setAppointmentAmount(
+          Number(
+            paymentOrderData?.data?.amount || 700
+          )
+        );
+
+
+        /*====================================
+          OPEN PAYMENT UI
+        ====================================*/
+
+        setShowPayment(true);
+      /*====================================
+        CLEAR FORM
+      ====================================*/
+
+      setFormData({
+
+        name: "",
+
+        age: "",
+
+        gender: "",
+
+        whatsapp_number: "",
+
+        appointment_date: "",
+
+        appointment_time: ""
+
+      });
+
+
+      /*====================================
+        CLEAR ERRORS
+      ====================================*/
+
+      setErrors({});
+
+
+      /*====================================
+        DON'T SHOW SUCCESS MESSAGE
+        BEHIND PAYMENT WINDOW
+      ====================================*/
+
+      setSuccess("");
+
+    }
+
+
+    catch (error) {
+
+      /*====================================
+        ERROR CONSOLE
+      ====================================*/
+
+      console.error(
+        "===================================="
+      );
+
+      console.error(
+        "APPOINTMENT API ERROR:",
+        error
+      );
+
+      console.error(
+        "===================================="
+      );
+
+
+      /*====================================
+        SHOW ERROR
+      ====================================*/
+
+      setSuccess(
+        `❌ ${
+          error.message ||
+          "Something went wrong. Please try again."
+        }`
+      );
+
+    }
+
+
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+
+  /*====================================
+    CLOSE PAYMENT
+  ====================================*/
+
+  const handlePaymentClose = () => {
+
+    setShowPayment(false);
+
+  };
+
+
+  /*====================================
+    RETURN
+  ====================================*/
+
+  return (
+
+    <section className="appointment-section">
+
+
+      {/*====================================
+        APPOINTMENT HEADING
+      ====================================*/}
+
+      <div className="appointment-heading">
+
+
+        <p className="appointment-subtitle">
+
+          SCHEDULE YOUR VISIT
+
+        </p>
+
+
+        <h2 className="appointment-title">
+
+          Book Your{" "}
+
+          <span>
+            Appointment
+          </span>{" "}
+
+          Today
+
+        </h2>
+
+
+        <p className="appointment-description">
+
+          Begin your journey toward a
+          pain-free and healthier life
+          with expert physiotherapy care.
+          Schedule your appointment in
+          just a few simple steps.
+
+        </p>
+
+
+      </div>
+
+
+      {/*====================================
+        APPOINTMENT CARD
+      ====================================*/}
+
+      <div className="appointment-card">
+
+
+        <h2>
+
+          Take First Step Towards Recovery!
+
+        </h2>
+
+
+        <p>
+
+          Book Appointment Now
+
+        </p>
+
+
+        {/*====================================
+          SUCCESS / ERROR MESSAGE
+        ====================================*/}
+
+        {success && (
+
+          <div
+            className={
+              success.startsWith("❌")
+                ? "success-message api-error-message"
+                : "success-message"
+            }
+          >
+
+            {success}
+
+          </div>
+
+        )}
+
+
+        {/*====================================
+          FORM
+        ====================================*/}
+
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+        >
+
+
+          {/*====================================
+            ROW 1
+          ====================================*/}
+
+          <div className="appointment-row">
+
+
+            {/* NAME */}
+
+            <div className="appointment-input">
+
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={
+                  formData.name
+                }
+                onChange={
+                  handleChange
+                }
+                autoComplete="name"
+              />
+
+
+              {errors.name && (
+
+                <p className="error-text">
+
+                  {errors.name}
+
+                </p>
+
+              )}
+
+            </div>
+
+
+            {/* AGE */}
+
+            <div className="appointment-input">
+
+              <input
+                type="number"
+                name="age"
+                placeholder="Age"
+                value={
+                  formData.age
+                }
+                onChange={
+                  handleChange
+                }
+                min="1"
+                max="120"
+              />
+
+
+              {errors.age && (
+
+                <p className="error-text">
+
+                  {errors.age}
+
+                </p>
+
+              )}
+
+            </div>
+
+
+          </div>
+
+
+          {/*====================================
+            ROW 2
+          ====================================*/}
+
+          <div className="appointment-row">
+
+
+            {/* WHATSAPP NUMBER */}
+
+            <div className="appointment-input">
+
+              <input
+                type="tel"
+                name="whatsapp_number"
+                placeholder="Mobile Number (WhatsApp Only)"
+                value={
+                  formData.whatsapp_number
+                }
+                onChange={
+                  handleChange
+                }
+                maxLength="10"
+                inputMode="numeric"
+                autoComplete="tel"
+              />
+
+
+              {errors.whatsapp_number && (
+
+                <p className="error-text">
+
+                  {
+                    errors.whatsapp_number
+                  }
+
+                </p>
+
+              )}
+
+            </div>
+
+
+            {/* GENDER */}
+
+            <div className="appointment-input">
+
+              <select
+                name="gender"
+                value={
+                  formData.gender
+                }
+                onChange={
+                  handleChange
+                }
+              >
+
+                <option value="">
+
+                  Gender
+
+                </option>
+
+
+                <option value="Male">
+
+                  Male
+
+                </option>
+
+
+                <option value="Female">
+
+                  Female
+
+                </option>
+
+
+                <option value="Other">
+
+                  Other
+
+                </option>
+
+              </select>
+
+
+              {errors.gender && (
+
+                <p className="error-text">
+
+                  {
+                    errors.gender
+                  }
+
+                </p>
+
+              )}
+
+            </div>
+
+
+          </div>
+
+
+          {/*====================================
+            APPOINTMENT DATE
+          ====================================*/}
+
+          <div className="appointment-input full-width">
+
+            {/* <input
+              type="date"
+              name="appointment_date"
+              value={
+                formData.appointment_date
+              }
+              onChange={
+                handleChange
+              }
+              min={today}
+              max={maxAppointmentDate}
+            /> */}
+            <select
+              name="appointment_date"
+              value={formData.appointment_date}
+              onChange={handleChange}
+            >
+              <option value="">
+                Select Appointment Date
+              </option>
+
+              {availableDates.map((date) => (
+                <option
+                  key={date.value}
+                  value={date.value}
+                >
+                  {date.label}
+                </option>
+              ))}
+            </select>
+
+            {errors.appointment_date && (
+
+              <p className="error-text">
+
+                {
+                  errors.appointment_date
+                }
+
+              </p>
+
+            )}
+
+          </div>
+
+
+          {/*====================================
+            APPOINTMENT TIME
+          ====================================*/}
+
+          <div className="appointment-input full-width">
+
+
+            <FaClock />
+
+
+            <select
+              name="appointment_time"
+              value={
+                formData.appointment_time
+              }
+              onChange={
+                handleChange
+              }
+            >
+
+              <option value="">
+
+                Select Available Time
+
+              </option>
+
+
+              {availableTimeSlots.map(
+                (slot) => (
+
+                  <option
+                    key={
+                      slot.label
+                    }
+                    value={
+                      slot.label
+                    }
+                  >
+
+                    {slot.label}
+
+                  </option>
+
+                )
+              )}
+
+            </select>
+
+
+            {errors.appointment_time && (
+
+              <p className="error-text">
+
+                {
+                  errors.appointment_time
+                }
+
+              </p>
+
+            )}
+
+          </div>
+
+
+          {/*====================================
+            SUBMIT BUTTON
+          ====================================*/}
+
+          <button
+            type="submit"
+            className="appointment-btn"
+            disabled={loading}
+          >
+
+            {loading
+              ? "SUBMITTING..."
+              : "SUBMIT"
+            }
+
+          </button>
+
+
+        </form>
+
+
+      </div>
+
+
+      {/*====================================
+        PAYMENT POPUP
+      ====================================*/}
+
+      {showPayment && (
+
+        <AppointmentPayment
+
+          appointment={
+            appointmentForPayment
+          }
+
+          amount={
+            appointmentAmount
+          }
+
+          onClose={
+            handlePaymentClose
+          }
+
+        />
+
+      )}
+
+
+    </section>
+
+  );
+
+};
+
+
+export default AppointmentForm;

@@ -1,0 +1,2051 @@
+/*====================================
+  THERAPY SECTION
+====================================*/
+
+.therapy-section {
+    width: 100%;
+    padding: 90px 8%;
+    background:
+        linear-gradient(
+            135deg,
+            #005f57,
+            #00796b,
+            #00695c
+        );
+
+    position: relative;
+    overflow: hidden;
+}
+
+
+/*====================================
+  BACKGROUND BLOBS
+====================================*/
+
+.therapy-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    left: -220px;
+    top: -220px;
+
+    border-radius:
+        58% 42% 65% 35%
+        /
+        40% 60% 45% 55%;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    filter: blur(40px);
+
+    animation:
+        leftBlob
+        15s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+
+.therapy-section::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    right: -180px;
+    bottom: -220px;
+
+    border-radius:
+        42% 58% 35% 65%
+        /
+        60% 40% 65% 35%;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    filter: blur(40px);
+
+    animation:
+        rightBlob
+        18s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+
+/*====================================
+  CONTENT Z-INDEX
+====================================*/
+
+.therapy-heading,
+.therapy-grid,
+.therapy-btn-area {
+    position: relative;
+    z-index: 2;
+}
+
+
+/*====================================
+  HEADING
+====================================*/
+
+.therapy-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+.therapy-subtitle {
+
+    color: #c8f8f5;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 10px;
+}
+
+
+.therapy-title {
+
+    color: #ffffff;
+
+    font-size: 42px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    margin: 0;
+}
+
+
+/*====================================
+  GRID
+====================================*/
+
+.therapy-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap: 22px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/*====================================
+  CARD
+====================================*/
+
+.therapy-card {
+
+    position: relative;
+
+    background: #ffffff;
+
+    border-radius: 22px;
+
+    padding: 25px 18px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    border: 2px solid transparent;
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.18);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease,
+        border-color 0.4s ease;
+}
+
+
+/*====================================
+  SHINE
+====================================*/
+
+.therapy-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -120%;
+    left: -120%;
+
+    width: 70%;
+    height: 250%;
+
+    background:
+        rgba(255, 255, 255, 0.45);
+
+    transform:
+        rotate(35deg);
+
+    transition:
+        0.9s;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+.therapy-card:hover::before {
+
+    top: 120%;
+    left: 120%;
+
+}
+
+
+/*====================================
+  GLASS OVERLAY
+====================================*/
+
+.therapy-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.28),
+            rgba(255, 255, 255, 0)
+        );
+
+    opacity: 0;
+
+    transition:
+        0.45s;
+
+    pointer-events: none;
+
+}
+
+
+.therapy-card:hover::after {
+
+    opacity: 1;
+
+}
+
+
+/*====================================
+  CARD HOVER
+====================================*/
+
+.therapy-card:hover {
+
+    transform:
+        perspective(900px)
+        rotateX(5deg)
+        rotateY(-5deg)
+        translateY(-12px);
+
+    border-color:
+        #00b4a6;
+
+    box-shadow:
+
+        0 30px 60px
+        rgba(0, 0, 0, 0.22),
+
+        0 0 40px
+        rgba(0, 180, 166, 0.18);
+
+}
+
+
+/*====================================
+  IMAGE BOX
+====================================*/
+
+.therapy-image-box {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: 90px;
+    height: 90px;
+
+    margin: auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background:
+        #f6fbfb;
+
+    transition:
+        0.45s;
+
+    animation:
+        iconFloat
+        4s ease-in-out infinite;
+}
+
+
+.therapy-card:hover
+.therapy-image-box {
+
+    background:
+        #0c7669;
+
+    box-shadow:
+        0 0 30px
+        rgba(0, 180, 166, 0.30);
+
+    animation-play-state:
+        paused;
+}
+
+
+/*====================================
+  ICON
+====================================*/
+
+.therapy-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    object-fit: contain;
+
+    transition:
+        0.45s;
+
+}
+
+
+.therapy-card:hover
+.therapy-icon {
+
+    transform:
+        rotateY(180deg)
+        scale(1.15);
+
+}
+
+
+/*====================================
+  TITLE
+====================================*/
+
+.therapy-card h3 {
+
+    position: relative;
+
+    z-index: 3;
+
+    margin:
+        20px 0 0;
+
+    font-size: 20px;
+
+    color:
+        #18343b;
+
+    font-weight: 700;
+
+    transition:
+        0.35s;
+
+}
+
+
+.therapy-card:hover h3 {
+
+    color:
+        #0c7669;
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/*====================================
+  SUBTITLE
+====================================*/
+
+.therapy-card p {
+
+    position: relative;
+
+    z-index: 3;
+
+    margin:
+        8px 0 0;
+
+    font-size: 15px;
+
+    color:
+        #777;
+
+    transition:
+        0.35s;
+
+}
+
+
+.therapy-card:hover p {
+
+    color:
+        #444;
+
+}
+
+
+/*====================================
+  RIPPLE
+====================================*/
+
+.therapy-ripple {
+
+    position: absolute;
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    transform:
+        scale(0);
+
+    pointer-events: none;
+
+}
+
+
+/*====================================
+  EXPLORE BUTTON AREA
+====================================*/
+
+.therapy-btn-area {
+
+    text-align: center;
+
+    margin-top: 45px;
+
+}
+
+
+/*====================================
+  EXPLORE BUTTON
+====================================*/
+
+.therapy-btn {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: none;
+
+    background:
+        #e31d2d;
+
+    color:
+        #ffffff;
+
+    padding:
+        16px 36px;
+
+    border-radius:
+        40px;
+
+    cursor:
+        pointer;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.5px;
+
+    transition:
+        0.4s;
+
+}
+
+
+.therapy-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -120%;
+    left: -120%;
+
+    width: 70%;
+    height: 260%;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    transform:
+        rotate(35deg);
+
+    transition:
+        0.9s;
+
+}
+
+
+.therapy-btn:hover::before {
+
+    top: 120%;
+    left: 120%;
+
+}
+
+
+.therapy-btn:hover {
+
+    background:
+        #ffffff;
+
+    color:
+        #e31d2d;
+
+    transform:
+        translateY(-4px);
+
+    letter-spacing:
+        1px;
+
+}
+
+
+/*====================================
+  POPUP OVERLAY
+====================================*/
+
+.therapy-popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        rgba(0, 0, 0, 0.60);
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    padding:
+        25px;
+
+    z-index:
+        99999;
+
+    animation:
+        popupFade
+        0.35s ease;
+
+}
+
+
+/*====================================
+  POPUP
+====================================*/
+
+.therapy-popup {
+
+    width:
+        100%;
+
+    max-width:
+        1100px;
+
+    max-height:
+        90vh;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        28px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    overflow-y:
+        auto;
+
+    overflow-x:
+        hidden;
+
+    position:
+        relative;
+
+    box-shadow:
+        0 35px 70px
+        rgba(0, 0, 0, 0.35);
+
+    animation:
+        popupZoom
+        0.4s ease;
+
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        #00a89c transparent;
+
+}
+
+
+.therapy-popup::-webkit-scrollbar {
+
+    width:
+        7px;
+
+}
+
+
+.therapy-popup::-webkit-scrollbar-thumb {
+
+    background:
+        #00a89c;
+
+    border-radius:
+        20px;
+
+}
+
+
+.therapy-popup::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+
+}
+
+
+/*====================================
+  CLOSE BUTTON
+====================================*/
+
+.therapy-close {
+
+    position:
+        absolute;
+
+    top:
+        18px;
+
+    right:
+        18px;
+
+    width:
+        45px;
+
+    height:
+        45px;
+
+    border:
+        none;
+
+    border-radius:
+        50%;
+
+    background:
+        #ffffff;
+
+    color:
+        #222;
+
+    font-size:
+        20px;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.15);
+
+    transition:
+        0.35s;
+
+    z-index:
+        10;
+
+}
+
+
+.therapy-close:hover {
+
+    background:
+        #e31d2d;
+
+    color:
+        #ffffff;
+
+    transform:
+        rotate(90deg)
+        scale(1.08);
+
+}
+
+
+/*====================================
+  POPUP LEFT
+====================================*/
+
+.therapy-popup-left {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    padding:
+        45px;
+
+}
+
+
+/*====================================
+  TAG
+====================================*/
+
+.therapy-tag {
+
+    display:
+        inline-block;
+
+    padding:
+        8px 16px;
+
+    background:
+        #0c7669;
+
+    color:
+        #ffffff;
+
+    border-radius:
+        30px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    margin-bottom:
+        18px;
+
+}
+
+
+/*====================================
+  POPUP TITLE
+====================================*/
+
+.therapy-popup-left h1 {
+
+    font-size:
+        52px;
+
+    line-height:
+        1.05;
+
+    color:
+        #163238;
+
+    font-weight:
+        900;
+
+    margin:
+        0;
+
+    transition:
+        0.4s;
+
+}
+
+
+.therapy-popup:hover
+.therapy-popup-left h1 {
+
+    color:
+        #0c7669;
+
+}
+
+
+.therapy-popup-left h3 {
+
+    color:
+        #e31d2d;
+
+    font-size:
+        30px;
+
+    margin:
+        10px 0 30px;
+
+}
+
+
+/*====================================
+  INFO BOX
+====================================*/
+
+.therapy-info-box {
+
+    background:
+        #f7fbfb;
+
+    border-radius:
+        18px;
+
+    padding:
+        22px;
+
+    margin-bottom:
+        22px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.06);
+
+    transition:
+        0.35s;
+
+}
+
+
+.therapy-info-box:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 20px 35px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+/*====================================
+  INFO HEADING
+====================================*/
+
+.therapy-info-box h4 {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    font-size:
+        19px;
+
+    color:
+        #18343b;
+
+    margin:
+        0 0 16px;
+
+}
+
+
+.therapy-info-box h4 svg {
+
+    color:
+        #0c7669;
+
+}
+
+
+/*====================================
+  LIST
+====================================*/
+
+.therapy-info-box ul {
+
+    list-style:
+        none;
+
+    padding:
+        0;
+
+    margin:
+        0;
+
+}
+
+
+.therapy-info-box li {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        12px;
+
+    margin-bottom:
+        12px;
+
+    color:
+        #444;
+
+    font-size:
+        15px;
+
+    line-height:
+        1.5;
+
+}
+
+
+.therapy-info-box li:last-child {
+
+    margin-bottom:
+        0;
+
+}
+
+
+.therapy-info-box li svg {
+
+    flex-shrink:
+        0;
+
+    margin-top:
+        3px;
+
+    color:
+        #0c7669;
+
+    transition:
+        0.35s;
+
+}
+
+
+.therapy-info-box li:hover svg {
+
+    transform:
+        scale(1.25);
+
+    color:
+        #e31d2d;
+
+}
+
+
+/*====================================
+  DESCRIPTION
+====================================*/
+
+.therapy-info-box p {
+
+    color:
+        #555;
+
+    line-height:
+        1.8;
+
+    font-size:
+        15px;
+
+    margin:
+        0;
+
+}
+
+
+/*====================================
+  BOOK BUTTON
+====================================*/
+
+.book-btn {
+
+    width:
+        100%;
+
+    border:
+        none;
+
+    padding:
+        18px;
+
+    border-radius:
+        12px;
+
+    background:
+        #e31d2d;
+
+    color:
+        #ffffff;
+
+    font-size:
+        17px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    transition:
+        0.35s;
+
+}
+
+
+.book-btn:hover {
+
+    background:
+        #0c7669;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 20px 40px
+        rgba(227, 29, 45, 0.25);
+
+}
+
+
+/*====================================
+  POPUP RIGHT
+====================================*/
+
+.therapy-popup-right {
+
+    position:
+        relative;
+
+    background:
+        #f7fbfb;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    min-height:
+        500px;
+
+    padding:
+        30px;
+
+    overflow:
+        hidden;
+
+}
+
+
+/*====================================
+  IMAGE BACKGROUND
+====================================*/
+
+.therapy-popup-right::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        380px;
+
+    height:
+        380px;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(12, 118, 105, 0.12),
+            transparent 70%
+        );
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    animation:
+        imageCircle
+        8s linear infinite;
+
+}
+
+
+/*====================================
+  POPUP IMAGE
+====================================*/
+
+.therapy-popup-right img {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        100%;
+
+    max-width:
+        430px;
+
+    max-height:
+        500px;
+
+    object-fit:
+        contain;
+
+    filter:
+        drop-shadow(
+            0 25px 40px
+            rgba(0, 0, 0, 0.15)
+        );
+
+    animation:
+        floatImage
+        3s ease-in-out infinite;
+
+    transition:
+        0.6s;
+
+}
+
+
+.therapy-popup:hover
+.therapy-popup-right img {
+
+    transform:
+        scale(1.06);
+
+}
+
+
+/*====================================
+  FIRST VISIT ANIMATION
+====================================*/
+
+/*
+  IMPORTANT:
+
+  We do NOT hide the section forever.
+  The section becomes visible as soon as
+  the IntersectionObserver detects it.
+*/
+
+.therapy-section
+:not(.therapy-first-visit)
+.therapy-heading,
+.therapy-section
+:not(.therapy-first-visit)
+.therapy-grid,
+.therapy-section
+:not(.therapy-first-visit)
+.therapy-btn-area {
+
+    opacity:
+        0;
+
+    transform:
+        translateY(60px);
+
+}
+
+
+/*====================================
+  FIRST VISIT ACTIVE
+====================================*/
+
+.therapy-section.therapy-first-visit
+.therapy-heading {
+
+    animation:
+        therapyFirstBottomToTop
+        1.1s
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        )
+        both;
+
+}
+
+
+.therapy-section.therapy-first-visit
+.therapy-grid {
+
+    animation:
+        therapyFirstBottomToTop
+        1.3s
+        0.15s
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        )
+        both;
+
+}
+
+
+.therapy-section.therapy-first-visit
+.therapy-btn-area {
+
+    animation:
+        therapyFirstBottomToTop
+        1.1s
+        0.35s
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        )
+        both;
+
+}
+
+
+/*====================================
+  ANIMATIONS
+====================================*/
+
+@keyframes therapyFirstBottomToTop {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(60px);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes popupFade {
+
+    from {
+
+        opacity:
+            0;
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+    }
+
+}
+
+
+@keyframes popupZoom {
+
+    from {
+
+        transform:
+            scale(0.88)
+            translateY(20px);
+
+        opacity:
+            0;
+
+    }
+
+    to {
+
+        transform:
+            scale(1)
+            translateY(0);
+
+        opacity:
+            1;
+
+    }
+
+}
+
+
+@keyframes floatImage {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-12px);
+
+    }
+
+}
+
+
+@keyframes imageCircle {
+
+    from {
+
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+
+    }
+
+}
+
+
+@keyframes leftBlob {
+
+    0%,
+    100% {
+
+        transform:
+            translate(0, 0)
+            rotate(0deg);
+
+    }
+
+    50% {
+
+        transform:
+            translate(80px, 60px)
+            rotate(15deg);
+
+    }
+
+}
+
+
+@keyframes rightBlob {
+
+    0%,
+    100% {
+
+        transform:
+            translate(0, 0)
+            rotate(0deg);
+
+    }
+
+    50% {
+
+        transform:
+            translate(-90px, -70px)
+            rotate(-15deg);
+
+    }
+
+}
+
+
+@keyframes iconFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-8px);
+
+    }
+
+}
+
+
+/*====================================
+  TABLET
+====================================*/
+
+@media (max-width: 1200px) {
+
+    .therapy-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+
+    .therapy-popup {
+
+        grid-template-columns:
+            1fr;
+
+        max-width:
+            850px;
+
+    }
+
+
+    .therapy-popup-right {
+
+        min-height:
+            330px;
+
+        order:
+            -1;
+
+    }
+
+
+    .therapy-popup-right img {
+
+        max-width:
+            300px;
+
+        max-height:
+            300px;
+
+    }
+
+}
+
+
+/*====================================
+  MOBILE
+====================================*/
+
+@media (max-width: 768px) {
+
+    .therapy-section {
+
+        padding:
+            70px 5%;
+
+    }
+
+
+    .therapy-heading {
+
+        margin-bottom:
+            35px;
+
+    }
+
+
+    .therapy-title {
+
+        font-size:
+            30px;
+
+    }
+
+
+    .therapy-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap:
+            18px;
+
+    }
+
+
+    .therapy-card {
+
+        padding:
+            18px 12px;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    .therapy-image-box {
+
+        width:
+            75px;
+
+        height:
+            75px;
+
+    }
+
+
+    .therapy-icon {
+
+        width:
+            50px;
+
+        height:
+            50px;
+
+    }
+
+
+    .therapy-card h3 {
+
+        font-size:
+            16px;
+
+        margin-top:
+            15px;
+
+    }
+
+
+    .therapy-card p {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .therapy-btn {
+
+        width:
+            100%;
+
+    }
+
+
+    /*================================
+      MOBILE POPUP
+    ================================*/
+
+    .therapy-popup-overlay {
+
+        padding:
+            10px;
+
+        align-items:
+            center;
+
+    }
+
+
+    .therapy-popup {
+
+        width:
+            96%;
+
+        max-height:
+            94vh;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        border-radius:
+            20px;
+
+    }
+
+
+    .therapy-popup-right {
+
+        order:
+            -1;
+
+        min-height:
+            220px;
+
+        height:
+            220px;
+
+        padding:
+            15px;
+
+        flex-shrink:
+            0;
+
+    }
+
+
+    .therapy-popup-right img {
+
+        max-width:
+            210px;
+
+        max-height:
+            200px;
+
+    }
+
+
+    .therapy-popup-left {
+
+        padding:
+            25px 20px 25px;
+
+    }
+
+
+    .therapy-popup-left h1 {
+
+        font-size:
+            34px;
+
+    }
+
+
+    .therapy-popup-left h3 {
+
+        font-size:
+            21px;
+
+        margin-bottom:
+            22px;
+
+    }
+
+
+    .therapy-info-box {
+
+        padding:
+            18px;
+
+        margin-bottom:
+            16px;
+
+    }
+
+
+    .therapy-info-box h4 {
+
+        font-size:
+            17px;
+
+    }
+
+
+    .therapy-info-box li {
+
+        font-size:
+            14px;
+
+    }
+
+
+    .therapy-info-box p {
+
+        font-size:
+            14px;
+
+    }
+
+
+    .book-btn {
+
+        font-size:
+            15px;
+
+        padding:
+            15px;
+
+    }
+
+
+    .therapy-close {
+
+        top:
+            10px;
+
+        right:
+            10px;
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        font-size:
+            17px;
+
+    }
+
+}
+
+
+/*====================================
+  SMALL MOBILE
+====================================*/
+
+@media (max-width: 480px) {
+
+    .therapy-section {
+
+        padding:
+            60px 5%;
+
+    }
+
+
+    .therapy-title {
+
+        font-size:
+            25px;
+
+    }
+
+
+    .therapy-subtitle {
+
+        font-size:
+            11px;
+
+    }
+
+
+    .therapy-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:
+            12px;
+
+    }
+
+
+    .therapy-card {
+
+        padding:
+            16px 8px;
+
+    }
+
+
+    .therapy-image-box {
+
+        width:
+            65px;
+
+        height:
+            65px;
+
+    }
+
+
+    .therapy-icon {
+
+        width:
+            45px;
+
+        height:
+            45px;
+
+    }
+
+
+    .therapy-card h3 {
+
+        font-size:
+            14px;
+
+    }
+
+
+    .therapy-card p {
+
+        font-size:
+            11px;
+
+    }
+
+
+    /*==============================
+      SMALL MOBILE POPUP
+    ==============================*/
+
+    .therapy-popup-overlay {
+
+        padding:
+            6px;
+
+    }
+
+
+    .therapy-popup {
+
+        width:
+            97%;
+
+        max-height:
+            96vh;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    .therapy-popup-right {
+
+        min-height:
+            180px;
+
+        height:
+            180px;
+
+    }
+
+
+    .therapy-popup-right img {
+
+        max-width:
+            160px;
+
+        max-height:
+            160px;
+
+    }
+
+
+    .therapy-popup-left {
+
+        padding:
+            22px 16px;
+
+    }
+
+
+    .therapy-tag {
+
+        font-size:
+            9px;
+
+        padding:
+            7px 12px;
+
+    }
+
+
+    .therapy-popup-left h1 {
+
+        font-size:
+            27px;
+
+    }
+
+
+    .therapy-popup-left h3 {
+
+        font-size:
+            18px;
+
+    }
+
+
+    .therapy-info-box {
+
+        padding:
+            15px;
+
+    }
+
+
+    .therapy-info-box h4 {
+
+        font-size:
+            15px;
+
+    }
+
+
+    .therapy-info-box li {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .therapy-info-box p {
+
+        font-size:
+            13px;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .book-btn {
+
+        font-size:
+            14px;
+
+        padding:
+            14px;
+
+    }
+
+}
+
+
+/*====================================
+  REDUCED MOTION
+====================================*/
+
+@media (prefers-reduced-motion: reduce) {
+
+    .therapy-section::before,
+    .therapy-section::after,
+    .therapy-image-box,
+    .therapy-popup-right img,
+    .therapy-popup-right::before {
+
+        animation:
+            none;
+
+    }
+
+    .therapy-card,
+    .therapy-btn,
+    .therapy-popup {
+
+        transition:
+            none;
+
+    }
+
+}

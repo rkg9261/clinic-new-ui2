@@ -1,0 +1,1150 @@
+/*====================================================
+  ABOUT US PAGE
+====================================================*/
+
+.about-page-about-us {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+
+/*====================================================
+  HERO
+====================================================*/
+
+.about-hero-about-us {
+  width: 100%;
+  min-height: 430px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 130px 8% 90px;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(24, 168, 184, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(214, 36, 46, 0.10),
+      transparent 35%
+    ),
+    #f7fbfc;
+}
+
+
+.about-hero-about-us::before {
+  content: "";
+
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  border-radius: 50%;
+
+  background: rgba(24, 168, 184, 0.08);
+
+  top: -180px;
+  left: -150px;
+
+  filter: blur(20px);
+}
+
+
+.about-hero-about-us::after {
+  content: "";
+
+  position: absolute;
+
+  width: 300px;
+  height: 300px;
+
+  border-radius: 50%;
+
+  background: rgba(214, 36, 46, 0.07);
+
+  bottom: -150px;
+  right: -120px;
+
+  filter: blur(20px);
+}
+
+
+.about-hero-content-about-us {
+  position: relative;
+  z-index: 2;
+
+  max-width: 900px;
+
+  animation: aboutHeroFade-about-us 0.8s ease;
+}
+
+
+.about-small-title-about-us {
+  display: inline-block;
+
+  color: #0c8c84;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 18px;
+}
+
+
+.about-hero-content-about-us h1 {
+  margin: 0 0 22px;
+
+  color: #1c2d3d;
+
+  font-size: 58px;
+  line-height: 1.15;
+
+  font-weight: 800;
+}
+
+
+.about-hero-content-about-us h1 span {
+  color: #d6242e;
+}
+
+
+.about-hero-content-about-us p {
+  max-width: 760px;
+
+  margin: auto;
+
+  color: #606b72;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+}
+
+
+/*====================================================
+  INTRO
+====================================================*/
+
+.about-intro-about-us {
+  width: 100%;
+
+  padding: 100px 8%;
+
+  background: #ffffff;
+}
+
+
+.about-intro-container-about-us {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: 80px;
+
+  align-items: center;
+}
+
+
+/*====================================================
+  IMAGE
+====================================================*/
+
+.about-image-wrapper-about-us {
+  position: relative;
+
+  min-height: 470px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.about-image-card-about-us {
+  width: 100%;
+  max-width: 470px;
+
+  min-height: 390px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 35px;
+
+  padding: 35px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e9f8f8,
+      #f9eeee
+    );
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.10);
+
+  transform: rotate(-3deg);
+
+  transition: 0.5s;
+}
+
+
+.about-image-card-about-us:hover {
+  transform: rotate(0deg) translateY(-8px);
+}
+
+
+.about-main-image-about-us {
+  width: 100%;
+  max-width: 330px;
+
+  object-fit: contain;
+
+  border-radius: 25px;
+}
+
+
+/*====================================================
+  EXPERIENCE CARD
+====================================================*/
+
+.about-experience-card-about-us {
+  position: absolute;
+
+  bottom: 25px;
+  right: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px 25px;
+
+  background: #ffffff;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.13);
+
+  animation: aboutFloat-about-us 4s ease-in-out infinite;
+}
+
+
+.about-experience-card-about-us svg {
+  font-size: 28px;
+
+  color: #d6242e;
+}
+
+
+.about-experience-card-about-us div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.about-experience-card-about-us strong {
+  color: #1d2d3c;
+
+  font-size: 16px;
+}
+
+
+.about-experience-card-about-us span {
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/*====================================================
+  CONTENT
+====================================================*/
+
+.about-content-about-us {
+  max-width: 650px;
+}
+
+
+.about-section-label-about-us {
+  display: inline-block;
+
+  color: #0c8c84;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 14px;
+}
+
+
+.about-content-about-us h2,
+.about-values-header-about-us h2,
+.about-mission-content-about-us h2 {
+  margin: 0 0 22px;
+
+  color: #1d2d3c;
+
+  font-size: 42px;
+
+  line-height: 1.25;
+
+  font-weight: 800;
+}
+
+
+.about-content-about-us h2 span,
+.about-values-header-about-us h2 span,
+.about-mission-content-about-us h2 span {
+  color: #d6242e;
+}
+
+
+.about-content-about-us > p {
+  color: #626b70;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  margin-bottom: 18px;
+}
+
+
+/*====================================================
+  FEATURES
+====================================================*/
+
+.about-feature-list-about-us {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  margin-top: 30px;
+}
+
+
+.about-feature-about-us {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+}
+
+
+.about-feature-about-us > svg {
+  flex-shrink: 0;
+
+  margin-top: 4px;
+
+  color: #0c8c84;
+
+  font-size: 21px;
+}
+
+
+.about-feature-about-us h4 {
+  margin: 0 0 5px;
+
+  color: #1d2d3c;
+
+  font-size: 17px;
+}
+
+
+.about-feature-about-us p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/*====================================================
+  VALUES
+====================================================*/
+
+.about-values-about-us {
+  width: 100%;
+
+  padding: 100px 8%;
+
+  background: #f7fbfc;
+
+  position: relative;
+}
+
+
+.about-values-header-about-us {
+  max-width: 760px;
+
+  margin: 0 auto 55px;
+
+  text-align: center;
+}
+
+
+.about-values-header-about-us p {
+  color: #697378;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  margin: 0;
+}
+
+
+.about-values-grid-about-us {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 28px;
+}
+
+
+.about-value-card-about-us {
+  padding: 40px 30px;
+
+  background: #ffffff;
+
+  border-radius: 25px;
+
+  text-align: center;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.07);
+
+  transition: 0.45s;
+}
+
+
+.about-value-card-about-us:hover {
+  transform: translateY(-10px);
+
+  box-shadow:
+    0 25px 55px rgba(0, 0, 0, 0.12);
+}
+
+
+.about-value-icon-about-us {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e9f8f7;
+
+  color: #0c8c84;
+
+  font-size: 27px;
+
+  transition: 0.4s;
+}
+
+
+.about-value-card-about-us:hover
+.about-value-icon-about-us {
+  background: #d6242e;
+
+  color: #ffffff;
+
+  transform: rotate(8deg) scale(1.08);
+}
+
+
+.about-value-card-about-us h3 {
+  color: #1d2d3c;
+
+  font-size: 21px;
+
+  margin: 0 0 12px;
+}
+
+
+.about-value-card-about-us p {
+  color: #70797d;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+
+  margin: 0;
+}
+
+
+/*====================================================
+  MISSION
+====================================================*/
+
+.about-mission-about-us {
+  width: 100%;
+
+  padding: 100px 8%;
+
+  background: #ffffff;
+}
+
+
+.about-mission-container-about-us {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1.2fr 0.8fr;
+
+  gap: 70px;
+
+  align-items: center;
+}
+
+
+.about-mission-content-about-us > p {
+  color: #626b70;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  margin-bottom: 18px;
+}
+
+
+.about-mission-icon-box-about-us {
+  min-height: 360px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  text-align: center;
+
+  padding: 40px;
+
+  border-radius: 35px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0c8c84,
+      #16aeb0
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 25px 60px rgba(12, 140, 132, 0.22);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+.about-mission-icon-box-about-us::before {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+
+  top: -100px;
+  right: -70px;
+}
+
+
+.about-big-heart-about-us {
+  width: 85px;
+  height: 85px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,0.15);
+
+  font-size: 35px;
+
+  margin-bottom: 25px;
+
+  animation: aboutHeart-about-us 2s ease-in-out infinite;
+}
+
+
+.about-mission-icon-box-about-us h3 {
+  font-size: 28px;
+
+  line-height: 1.35;
+
+  margin: 0 0 15px;
+}
+
+
+.about-mission-icon-box-about-us p {
+  margin: 0;
+
+  font-size: 15px;
+
+  opacity: 0.9;
+}
+
+
+/*====================================================
+  BUTTON
+====================================================*/
+
+.about-book-button-about-us,
+.about-cta-button-about-us {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  border: none;
+
+  padding: 15px 28px;
+
+  border-radius: 40px;
+
+  background: #d6242e;
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.4s;
+}
+
+
+.about-book-button-about-us {
+  margin-top: 15px;
+}
+
+
+.about-book-button-about-us:hover,
+.about-cta-button-about-us:hover {
+  background: #0c8c84;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 12px 30px rgba(12, 140, 132, 0.25);
+}
+
+
+/*====================================================
+  CTA
+====================================================*/
+
+.about-cta-about-us {
+  width: 100%;
+
+  padding: 90px 8%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #17323a,
+      #0c7669
+    );
+
+  position: relative;
+
+  overflow: hidden;
+
+  text-align: center;
+}
+
+
+.about-cta-about-us::before {
+  content: "";
+
+  position: absolute;
+
+  width: 400px;
+  height: 400px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.05);
+
+  top: -220px;
+  left: -100px;
+}
+
+
+.about-cta-about-us::after {
+  content: "";
+
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  border-radius: 50%;
+
+  background: rgba(214,36,46,0.12);
+
+  bottom: -220px;
+  right: -100px;
+}
+
+
+.about-cta-content-about-us {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 850px;
+
+  margin: auto;
+}
+
+
+.about-cta-content-about-us > span {
+  color: #b7eeee;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+.about-cta-content-about-us h2 {
+  color: #ffffff;
+
+  font-size: 44px;
+
+  line-height: 1.25;
+
+  margin: 18px 0;
+}
+
+
+.about-cta-content-about-us h2 strong {
+  color: #ff6670;
+}
+
+
+.about-cta-content-about-us p {
+  color: rgba(255,255,255,0.82);
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  max-width: 700px;
+
+  margin: 0 auto 30px;
+}
+
+
+/*====================================================
+  ANIMATIONS
+====================================================*/
+
+@keyframes aboutHeroFade-about-us {
+
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+@keyframes aboutFloat-about-us {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+}
+
+
+@keyframes aboutHeart-about-us {
+
+  0%,100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+}
+
+
+/*====================================================
+  TABLET
+====================================================*/
+
+@media (max-width: 1000px) {
+
+  .about-hero-about-us {
+    padding: 120px 6% 80px;
+  }
+
+  .about-hero-content-about-us h1 {
+    font-size: 48px;
+  }
+
+  .about-intro-about-us,
+  .about-values-about-us,
+  .about-mission-about-us {
+    padding: 80px 6%;
+  }
+
+  .about-intro-container-about-us {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+  .about-image-wrapper-about-us {
+    min-height: 400px;
+  }
+
+  .about-content-about-us {
+    max-width: 100%;
+  }
+
+  .about-values-grid-about-us {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-mission-container-about-us {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+}
+
+
+/*====================================================
+  MOBILE
+====================================================*/
+
+@media (max-width: 768px) {
+
+  .about-hero-about-us {
+    min-height: 380px;
+
+    padding: 120px 6% 70px;
+  }
+
+  .about-small-title-about-us {
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+  }
+
+  .about-hero-content-about-us h1 {
+    font-size: 38px;
+
+    line-height: 1.2;
+  }
+
+  .about-hero-content-about-us p {
+    font-size: 15px;
+
+    line-height: 1.7;
+  }
+
+
+  .about-intro-about-us,
+  .about-values-about-us,
+  .about-mission-about-us {
+    padding: 65px 6%;
+  }
+
+
+  .about-image-wrapper-about-us {
+    min-height: 330px;
+  }
+
+
+  .about-image-card-about-us {
+    min-height: 280px;
+
+    padding: 25px;
+
+    border-radius: 25px;
+  }
+
+
+  .about-main-image-about-us {
+    max-width: 240px;
+  }
+
+
+  .about-experience-card-about-us {
+    right: 5px;
+
+    bottom: 10px;
+
+    padding: 13px 18px;
+
+    gap: 10px;
+  }
+
+
+  .about-experience-card-about-us svg {
+    font-size: 22px;
+  }
+
+
+  .about-experience-card-about-us strong {
+    font-size: 14px;
+  }
+
+
+  .about-experience-card-about-us span {
+    font-size: 11px;
+  }
+
+
+  .about-content-about-us h2,
+  .about-values-header-about-us h2,
+  .about-mission-content-about-us h2 {
+    font-size: 31px;
+  }
+
+
+  .about-content-about-us > p {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+
+  .about-feature-about-us h4 {
+    font-size: 15px;
+  }
+
+
+  .about-feature-about-us p {
+    font-size: 13px;
+  }
+
+
+  .about-values-grid-about-us {
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+  }
+
+
+  .about-value-card-about-us {
+    padding: 30px 24px;
+  }
+
+
+  .about-mission-icon-box-about-us {
+    min-height: 300px;
+
+    padding: 30px;
+  }
+
+
+  .about-mission-icon-box-about-us h3 {
+    font-size: 24px;
+  }
+
+
+  .about-cta-about-us {
+    padding: 70px 6%;
+  }
+
+
+  .about-cta-content-about-us h2 {
+    font-size: 32px;
+  }
+
+
+  .about-cta-content-about-us p {
+    font-size: 14px;
+  }
+
+
+  .about-book-button-about-us,
+  .about-cta-button-about-us {
+    width: 100%;
+
+    padding: 15px 20px;
+  }
+
+}
+
+
+/*====================================================
+  SMALL MOBILE
+====================================================*/
+
+@media (max-width: 480px) {
+
+  .about-hero-about-us {
+    min-height: 350px;
+
+    padding: 110px 5% 60px;
+  }
+
+
+  .about-hero-content-about-us h1 {
+    font-size: 31px;
+  }
+
+
+  .about-hero-content-about-us p {
+    font-size: 14px;
+  }
+
+
+  .about-intro-about-us,
+  .about-values-about-us,
+  .about-mission-about-us {
+    padding: 55px 5%;
+  }
+
+
+  .about-image-wrapper-about-us {
+    min-height: 285px;
+  }
+
+
+  .about-image-card-about-us {
+    min-height: 240px;
+
+    padding: 18px;
+
+    border-radius: 20px;
+  }
+
+
+  .about-main-image-about-us {
+    max-width: 190px;
+  }
+
+
+  .about-experience-card-about-us {
+    padding: 10px 14px;
+  }
+
+
+  .about-content-about-us h2,
+  .about-values-header-about-us h2,
+  .about-mission-content-about-us h2 {
+    font-size: 27px;
+  }
+
+
+  .about-section-label-about-us {
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  .about-value-card-about-us {
+    border-radius: 20px;
+
+    padding: 25px 20px;
+  }
+
+
+  .about-value-icon-about-us {
+    width: 60px;
+    height: 60px;
+
+    font-size: 23px;
+  }
+
+
+  .about-cta-about-us {
+    padding: 60px 5%;
+  }
+
+
+  .about-cta-content-about-us h2 {
+    font-size: 27px;
+  }
+
+}

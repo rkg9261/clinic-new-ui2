@@ -1,0 +1,935 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f8fafc;
+}
+
+/* =========================
+   APP LAYOUT
+========================= */
+
+.app-layout{
+    display:flex;
+    width:100%;
+    min-height:100vh;
+    background:#f8fafc;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar-admin{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+    bottom:0;
+
+    width:240px;
+    height:100vh;
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #134e4a,
+    #0f766e );
+
+    background-repeat:no-repeat;
+    background-size:cover;
+
+    box-shadow:6px 0 24px rgba(0,0,0,.18);
+
+    z-index:2000;
+
+    transition:left .35s ease,
+               transform .35s ease;
+}
+
+/* =========================
+   DECORATION
+========================= */
+
+.sidebar-admin::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120px;
+    left:-100px;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+      background: linear-gradient(
+    135deg,
+    #0f172a,
+    #134e4a,
+    #0f766e );
+
+    pointer-events:none;
+}
+
+.sidebar-admin::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:-80px;
+    bottom:-90px;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+     background: linear-gradient(
+    135deg,
+    #0f172a,
+    #134e4a,
+    #0f766e );
+
+    pointer-events:none;
+}
+
+.logo-section-sidebar-admin,
+.navbar-sidebar-admin{
+    position:relative;
+    z-index:2;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-section-sidebar-admin{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding-bottom:20px;
+    margin-bottom:18px;
+
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo-sidebar-sidebar-admin{
+
+    width:62px;
+    height:62px;
+
+    border-radius:14px;
+
+    background:#fff;
+
+    padding:6px;
+
+    object-fit:contain;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.18);
+
+    flex-shrink:0;
+}
+
+.logo-text-sidebar-admin{
+
+    display:flex;
+    flex-direction:column;
+}
+
+.logo-text-sidebar-admin h2{
+
+    color:#fff;
+
+    font-size:21px;
+
+    font-weight:700;
+
+    line-height:1.2;
+}
+
+.logo-text-sidebar-admin p{
+
+    margin-top:3px;
+
+    color:#dbeafe;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+
+    font-weight:500;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.navbar-sidebar-admin{
+
+    display:flex;
+    flex-direction:column;
+
+    width:100%;
+
+    gap:10px;
+
+    margin-top:4px;
+
+    padding:0;
+}
+
+.menu-btn-sidebar-admin{
+
+    width:100%;
+
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    padding:10px 14px;
+
+    text-decoration:none;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    border-radius:14px;
+
+    transition:.3s;
+
+    border:1px solid transparent;
+}
+
+.menu-btn-sidebar-admin svg{
+
+    font-size:18px;
+
+    min-width:20px;
+}
+
+.menu-btn-sidebar-admin:hover{
+
+    background:rgba(255,255,255,.18);
+
+    border-color:rgba(255,255,255,.18);
+}
+
+.menu-btn-sidebar-admin.active{
+
+    background:#fff;
+
+    color:#1eafa3;
+
+    font-weight:700;
+
+    box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+.menu-btn-sidebar-admin.active svg{
+
+    color:#1eaf8b;
+}
+
+/* =========================
+   TOP NAVBAR
+========================= */
+
+.top-navbar-sidebar-admin{
+
+    position:fixed;
+
+    top:0;
+    left:230px;
+    right:0;
+
+    height:70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:0 25px;
+
+    background:#ffffff;
+
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
+
+    z-index:1500;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.admin-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#149c6f;
+
+    white-space:nowrap;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-wrapper{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+}
+
+.profile-icon-sidebar-admin{
+
+    font-size:38px;
+
+    color:#159478;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.profile-icon-sidebar-admin:hover{
+
+    color:#2563eb;
+
+    transform:scale(1.08);
+}
+
+/* =========================
+   PROFILE DROPDOWN
+========================= */
+
+.profile-dropdown{
+
+    position:absolute;
+
+    top:55px;
+
+    right:0;
+
+    width:270px;
+
+    background:#ffffff;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.18);
+
+    animation:fadeProfile .25s ease;
+
+    z-index:3000;
+}
+
+@keyframes fadeProfile{
+
+    from{
+        opacity:0;
+        transform:translateY(-10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   PROFILE INFO
+========================= */
+
+.profile-info{
+
+    padding:18px;
+}
+
+.profile-info h4{
+
+    margin-bottom:10px;
+
+    color:#111827;
+
+    font-size:18px;
+}
+
+.profile-info p{
+
+    margin:6px 0;
+
+    font-size:14px;
+
+    color:#4b5563;
+}
+
+.profile-dropdown hr{
+
+    border:none;
+
+    border-top:1px solid #e5e7eb;
+}
+
+/* =========================
+   PROFILE BUTTONS
+========================= */
+
+.profile-dropdown button{
+
+    width:100%;
+
+    border:none;
+
+    background:#ffffff;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:15px 18px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    color:#374151;
+
+    transition:.3s;
+}
+
+.profile-dropdown button svg{
+
+    font-size:16px;
+
+    min-width:18px;
+
+    color:#2563eb;
+}
+
+.profile-dropdown button:hover{
+
+    background:#eff6ff;
+
+    color:#1d4ed8;
+}
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+.main-content-sidebar-admin{
+
+    margin-left:280px;
+
+    width:calc(100% - 280px);
+
+    min-height:100vh;
+
+    padding:25px;
+
+    padding-top:95px;
+
+    background:#f8fafc;
+
+    transition:.3s;
+}
+
+.has-navbar{
+
+    padding-top:95px;
+}
+
+/* =========================
+   MOBILE MENU ICON
+========================= */
+
+.mobile-menu-icon{
+
+    display:none;
+
+    font-size:30px;
+
+    color:#1e40af;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.mobile-menu-icon:hover{
+
+    color:#2563eb;
+
+    transform:scale(1.08);
+}
+
+/* =========================
+   SIDEBAR OVERLAY
+========================= */
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(2px);
+
+    z-index:1800;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media screen and (max-width:1400px){
+
+    .mobile-menu-icon{
+        display:block;
+    }
+
+    .top-navbar-sidebar-admin{
+
+        left:0;
+
+        width:100%;
+
+        padding:0 18px;
+    }
+
+    .sidebar-admin{
+
+        left:-280px;
+
+        width:280px;
+
+        transition:left .35s ease;
+    }
+
+    .sidebar-admin.sidebar-open{
+
+        left:0;
+    }
+
+    .sidebar-admin.sidebar-close{
+
+        left:-280px;
+    }
+
+    .main-content-sidebar-admin{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+        padding-top:90px;
+    }
+
+    .admin-title{
+
+        font-size:20px;
+    }
+
+    .profile-dropdown{
+
+        width:250px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width:768px){
+
+    .top-navbar-sidebar-admin{
+
+        height:65px;
+
+        gap:10px;
+
+        padding:0 15px;
+    }
+
+    .admin-title{
+
+        flex:1;
+
+        text-align:center;
+
+        font-size:18px;
+    }
+
+    .profile-icon-sidebar-admin{
+
+        font-size:34px;
+    }
+
+    .main-content-sidebar-admin{
+
+        padding:15px;
+
+        padding-top:85px;
+    }
+}
+
+/* =========================
+   SIDEBAR SCROLLBAR
+========================= */
+
+.sidebar-admin::-webkit-scrollbar{
+
+    width:6px;
+}
+
+.sidebar-admin::-webkit-scrollbar-track{
+
+    background:transparent;
+}
+
+.sidebar-admin::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.28);
+
+    border-radius:20px;
+}
+
+.sidebar-admin::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(255,255,255,.45);
+}
+
+/* =========================
+   DESKTOP FIX
+========================= */
+
+@media screen and (min-width:1401px){
+
+    .sidebar-admin{
+
+        transform:none !important;
+
+        left:0 !important;
+    }
+
+    .mobile-menu-icon{
+
+        display:none !important;
+    }
+
+    .sidebar-overlay{
+
+        display:none !important;
+    }
+}
+
+/* =========================
+   FINAL SIDEBAR FIX
+========================= */
+
+.sidebar-admin{
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+     background: linear-gradient(
+    135deg,
+    #0f172a,
+    #134e4a,
+    #0f766e ) !important;
+
+    background-size:cover;
+
+    background-repeat:no-repeat;
+}
+
+.logo-section-sidebar-admin,
+.navbar-sidebar-admin{
+
+    background:transparent !important;
+}
+
+.navbar-sidebar-admin{
+
+    width:100% !important;
+
+    max-width:100%;
+}
+
+.menu-btn-sidebar-admin{
+
+    width:100%;
+}
+
+.sidebar-admin *{
+
+    box-sizing:border-box;
+}
+
+/* =========================
+   SMOOTH SCROLL
+========================= */
+
+html{
+
+    scroll-behavior:smooth;
+}
+
+/* =========================
+   REMOVE BLUE TAP
+========================= */
+
+a,
+button,
+.menu-btn-sidebar-admin{
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================
+   APP LAYOUT FIX
+========================= */
+
+@media screen and (max-width:1400px){
+
+    .app-layout{
+        display:block;
+    }
+
+    .sidebar-admin{
+
+        position:fixed;
+
+        top:0;
+        left:0;
+
+        width:280px;
+        height:100vh;
+
+        transform:translateX(-100%);
+
+        transition:transform .35s ease;
+
+        z-index:2000;
+    }
+
+    .sidebar-admin.sidebar-open{
+
+        transform:translateX(0);
+    }
+
+    .sidebar-admin.sidebar-close{
+
+        transform:translateX(-100%);
+    }
+
+    .top-navbar-sidebar-admin{
+
+        left:0;
+
+        width:100%;
+    }
+
+    .main-content-sidebar-admin{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding-top:90px;
+    }
+
+    .mobile-menu-icon{
+
+        display:block;
+    }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media screen and (min-width:1401px){
+
+    .sidebar-admin{
+
+        position:fixed;
+
+        left:0;
+
+        top:0;
+
+        transform:none !important;
+    }
+
+    .top-navbar-sidebar-admin{
+
+        left:240px;
+
+        width:calc(100% - 240px);
+    }
+
+    .main-content-sidebar-admin{
+
+        margin-left:240px;
+
+        width:calc(100% - 240px);
+    }
+}
+
+/* =========================
+   PROFILE BUTTONS
+========================= */
+
+.profile-dropdown button:first-of-type{
+
+    border-top:none;
+}
+
+.profile-dropdown button:last-child{
+
+    color:#dc2626;
+}
+
+.profile-dropdown button:last-child svg{
+
+    color:#dc2626;
+}
+
+.profile-dropdown button:last-child:hover{
+
+    background:#fef2f2;
+}
+
+/* =========================
+   LOGO IMAGE
+========================= */
+
+.logo-sidebar-sidebar-admin{
+
+    display:block;
+}
+
+/* =========================
+   MENU SPACING
+========================= */
+
+.navbar-sidebar-admin .menu-btn-sidebar-admin + .menu-btn-sidebar-admin{
+
+    margin-top:2px;
+}
+
+/* =========================
+   ACTIVE MENU ICON
+========================= */
+
+.menu-btn-sidebar-admin.active svg{
+
+    color:#09857a;
+}
+
+/* =========================
+   HOVER EFFECT
+========================= */
+
+.menu-btn-sidebar-admin{
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        box-shadow .3s ease;
+}
+
+/* =========================
+   FOCUS
+========================= */
+
+.menu-btn-sidebar-admin:focus{
+
+    outline:none;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.menu-btn-sidebar-admin{
+
+    user-select:none;
+}
+
+/* =========================
+   REMOVE TAP HIGHLIGHT
+========================= */
+
+.menu-btn-sidebar-admin,
+button,
+a{
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================
+   BODY FIX
+========================= */
+
+body{
+
+    overflow-x:hidden;
+}
+
+/* =========================
+   END
+========================= */

@@ -1,0 +1,770 @@
+/* ===========================================
+   RESET
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#eef5fb;
+}
+
+/* ===========================================
+   MAIN PAGE
+=========================================== */
+
+.protocol-page-patient-protocol{
+    width:100%;
+    min-height:100vh;
+    background:#eef5fb;
+    padding:40px 20px;
+}
+
+/* ===========================================
+   BACK BUTTON
+=========================================== */
+
+.back-icon-patient-protocol{
+    position:relative;
+    top:0px;
+    left:0px;
+
+    width:30px;
+    height:40px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+   
+    color:#1f4fd6;
+
+   
+   
+
+    cursor:pointer;
+    z-index:99999;
+
+    font-size:20px;
+
+    transition:.3s;
+}
+
+/* .back-icon-patient-protocol:hover{
+    background:#1f4fd6;
+    color:#fff;
+    transform:translateX(-4px);
+} */
+
+/* ===========================================
+   MAIN CARD
+=========================================== */
+
+.left-panel-patient-protocol{
+
+    max-width:980px;
+    margin:0 auto;
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    padding:35px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.08);
+
+    overflow:hidden;
+}
+
+/* ===========================================
+   PATIENT HEADER
+=========================================== */
+
+.patient-header-treatment-protocol{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    padding-bottom:25px;
+
+    border-bottom:1px solid #e8edf6;
+}
+
+.patient-header-treatment-protocol h2{
+
+    font-size:38px;
+
+    color:#1d3ea8;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+}
+
+/* ===========================================
+   FILE NO + PATIENT CODE
+=========================================== */
+
+.patient-details-treatment-protocol{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+}
+
+.patient-details-treatment-protocol span{
+
+    background:#eef5ff;
+
+    border:1px solid #d6e5ff;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    color:#444;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+.patient-details-treatment-protocol strong{
+
+    color:#222;
+}
+
+/* ===========================================
+   HEADER INSIDE CARD
+=========================================== */
+
+.header-patient-protocol{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    padding-bottom:18px;
+    border-bottom:1px solid #edf1f7;
+}
+
+.heading-patient-protocol{
+    font-size:28px;
+    font-weight:700;
+    color:#222;
+}
+
+.heading-plus-icon-patient-protocol{
+    width:48px;
+    height:48px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+    background:#1d4ed8;
+    color:#fff;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 18px rgba(29,78,216,.25);
+
+    transition:.3s;
+}
+
+/* .heading-plus-icon-patient-protocol:hover{
+    transform:rotate(90deg) scale(1.08);
+    background:#163fb5;
+} */
+
+/* ===========================================
+   MENU CARD
+=========================================== */
+
+.menu-card-patient-protocol{
+    background:#fff;
+
+    border:1px solid #e7ebf3;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    margin-bottom:22px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+    transition:.3s;
+}
+/* 
+.menu-card-patient-protocol:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 24px rgba(0,0,0,.08);
+} */
+
+/* ===========================================
+   MENU TITLE
+=========================================== */
+
+.menu-title-patient-protocol{
+    background:linear-gradient(135deg,#1d4ed8,#315efb);
+
+    color:#fff;
+
+    padding:16px 22px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+}
+
+/* ===========================================
+   SUBMENU
+=========================================== */
+
+.submenu-list-patient-protocol{
+    list-style:none;
+    padding:18px 22px;
+}
+
+.submenu-item-patient-protocol{
+
+    position:relative;
+
+    padding:14px 0 14px 24px;
+
+    border-bottom:1px solid #eef2f7;
+
+    color:#444;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.submenu-item-patient-protocol:last-child{
+    border-bottom:none;
+}
+
+.submenu-item-patient-protocol::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:20px;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+}
+
+/* .submenu-item-patient-protocol:hover{
+
+    color:#2563eb;
+
+    padding-left:34px;
+} */
+
+/* ===========================================
+   CUSTOM SCROLLBAR
+=========================================== */
+
+.left-panel-patient-protocol::-webkit-scrollbar{
+    width:8px;
+}
+
+.left-panel-patient-protocol::-webkit-scrollbar-thumb{
+    background:#c8d2e6;
+    border-radius:20px;
+}
+
+.left-panel-patient-protocol::-webkit-scrollbar-track{
+    background:#f4f6fb;
+}
+
+/* ===========================================
+   POPUP OVERLAY
+=========================================== */
+
+.popup-overlay-patient-protocol{
+    position:fixed;
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+    animation:fadeInPatientProtocol .25s ease;
+}
+
+@keyframes fadeInPatientProtocol{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+/* ===========================================
+   POPUP BOX
+=========================================== */
+
+.popup-box-patient-protocol{
+
+    width:100%;
+    max-width:520px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 25px 50px rgba(0,0,0,.18);
+
+    animation:popupPatientProtocol .3s ease;
+}
+
+.popup-menu-box-patient-protocol{
+    max-height:90vh;
+    overflow:hidden;
+}
+
+@keyframes popupPatientProtocol{
+
+    from{
+        transform:translateY(30px) scale(.95);
+        opacity:0;
+    }
+
+    to{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+}
+
+/* ===========================================
+   POPUP HEADER
+=========================================== */
+
+.popup-header-patient-protocol{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.popup-header-patient-protocol h3{
+
+    font-size:24px;
+    color:#1d4ed8;
+    font-weight:700;
+}
+
+.close-icon-patient-protocol{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#f4f6fb;
+
+    color:#444;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.close-icon-patient-protocol:hover{
+
+    background:#ef4444;
+    color:#fff;
+    transform:rotate(90deg);
+}
+
+/* ===========================================
+   SEARCH BOX
+=========================================== */
+
+.search-input-patient-protocol{
+
+    width:100%;
+
+    height:48px;
+
+    padding:0 18px;
+
+    border:1px solid #d6deee;
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:15px;
+
+    transition:.3s;
+
+    margin-bottom:18px;
+}
+
+.search-input-patient-protocol:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* ===========================================
+   MENU LIST
+=========================================== */
+
+.popup-menu-list-patient-protocol{
+
+    max-height:420px;
+
+    overflow-y:auto;
+
+    padding-right:6px;
+}
+
+.popup-menu-list-patient-protocol::-webkit-scrollbar{
+    width:7px;
+}
+
+.popup-menu-list-patient-protocol::-webkit-scrollbar-thumb{
+    background:#c8d2e6;
+    border-radius:20px;
+}
+
+.popup-menu-list-patient-protocol::-webkit-scrollbar-track{
+    background:#f4f6fb;
+}
+
+/* ===========================================
+   POPUP MENU CARD
+=========================================== */
+
+.popup-menu-card-patient-protocol{
+
+    border:1px solid #e4e9f2;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    margin-bottom:14px;
+
+    transition:.3s;
+}
+
+.popup-menu-card-patient-protocol:hover{
+
+    box-shadow:0 10px 22px rgba(0,0,0,.08);
+}
+
+/* ===========================================
+   POPUP MENU TITLE
+=========================================== */
+
+.popup-menu-title-patient-protocol{
+
+    background:#f8fbff;
+
+    padding:16px 18px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.popup-menu-title-patient-protocol:hover{
+
+    background:#edf4ff;
+}
+
+.popup-menu-left-patient-protocol{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-weight:600;
+
+    color:#1f2937;
+}
+
+/* ===========================================
+   SUB MENU
+=========================================== */
+
+.popup-submenu-patient-protocol{
+
+    background:#fff;
+}
+
+.popup-submenu-item-patient-protocol{
+
+    padding:14px 22px;
+
+    border-top:1px solid #eef2f7;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    color:#444;
+}
+
+.popup-submenu-item-patient-protocol:hover{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    padding-left:30px;
+}
+
+/* ===========================================
+   TABLET VIEW
+=========================================== */
+
+@media (max-width:1024px){
+
+.protocol-page-patient-protocol{
+    padding:30px 15px;
+}
+
+.left-panel-patient-protocol{
+    padding:28px;
+    border-radius:18px;
+}
+
+.patient-header-treatment-protocol h2{
+    font-size:32px;
+}
+
+.patient-details-treatment-protocol{
+    gap:15px;
+}
+
+.patient-details-treatment-protocol span{
+    font-size:14px;
+    padding:10px 16px;
+}
+
+.heading-patient-protocol{
+    font-size:24px;
+}
+
+.menu-title-patient-protocol{
+    font-size:17px;
+}
+
+.popup-box-patient-protocol{
+    max-width:90%;
+}
+
+}
+
+/* ===========================================
+   MOBILE VIEW
+=========================================== */
+
+@media (max-width:768px){
+
+.protocol-page-patient-protocol{
+    padding:20px 10px;
+}
+
+.left-panel-patient-protocol{
+    padding:18px;
+    border-radius:15px;
+}
+
+.back-icon-patient-protocol{
+    width:42px;
+    height:42px;
+    top:15px;
+    left:15px;
+    font-size:18px;
+}
+
+.patient-header-treatment-protocol{
+    margin-top:50px;
+}
+
+.patient-header-treatment-protocol h2{
+    font-size:26px;
+}
+
+.patient-details-treatment-protocol{
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+}
+
+.patient-details-treatment-protocol span{
+    width:100%;
+    max-width:320px;
+    text-align:center;
+}
+
+.header-patient-protocol{
+    flex-direction:column;
+    gap:15px;
+    align-items:flex-start;
+}
+
+.heading-patient-protocol{
+    font-size:22px;
+}
+
+.heading-plus-icon-patient-protocol{
+    width:45px;
+    height:45px;
+}
+
+.menu-title-patient-protocol{
+    padding:14px;
+    font-size:16px;
+}
+
+.submenu-list-patient-protocol{
+    padding:15px;
+}
+
+.submenu-item-patient-protocol{
+    font-size:14px;
+}
+
+.popup-box-patient-protocol{
+    width:95%;
+    padding:20px;
+}
+
+.popup-header-patient-protocol h3{
+    font-size:20px;
+}
+
+.search-input-patient-protocol{
+    height:45px;
+    font-size:14px;
+}
+
+.popup-menu-title-patient-protocol{
+    padding:14px;
+}
+
+.popup-submenu-item-patient-protocol{
+    padding:12px 16px;
+    font-size:14px;
+}
+
+}
+
+/* ===========================================
+   SMALL MOBILE
+=========================================== */
+
+@media (max-width:480px){
+
+.protocol-page-patient-protocol{
+    padding:15px 8px;
+}
+
+.left-panel-patient-protocol{
+    padding:15px;
+}
+
+.patient-header-treatment-protocol h2{
+    font-size:22px;
+}
+
+.patient-details-treatment-protocol span{
+    font-size:13px;
+    padding:10px;
+}
+
+.heading-patient-protocol{
+    font-size:20px;
+}
+
+.menu-title-patient-protocol{
+    font-size:15px;
+}
+
+.submenu-item-patient-protocol{
+    font-size:13px;
+}
+
+.heading-plus-icon-patient-protocol{
+    width:42px;
+    height:42px;
+}
+
+.back-icon-patient-protocol{
+    width:38px;
+    height:38px;
+    font-size:16px;
+}
+
+.popup-box-patient-protocol{
+    padding:15px;
+}
+
+.popup-header-patient-protocol h3{
+    font-size:18px;
+}
+
+.search-input-patient-protocol{
+    height:42px;
+    font-size:13px;
+}
+
+.popup-menu-title-patient-protocol{
+    font-size:14px;
+}
+
+.popup-submenu-item-patient-protocol{
+    font-size:13px;
+}
+
+}

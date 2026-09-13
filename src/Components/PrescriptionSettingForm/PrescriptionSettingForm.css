@@ -1,0 +1,1627 @@
+/* =========================================================
+   GLOBAL CONTAINER
+========================================================= */
+
+.container-settings-form {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  gap: 18px;
+  padding: 20px;
+  margin-top: 60px;
+  background: #f5f6f8;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-settings-form *,
+.container-settings-form *::before,
+.container-settings-form *::after,
+.popup-overlay-settings-form *,
+.popup-overlay-settings-form *::before,
+.popup-overlay-settings-form *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LEFT PANEL
+========================================================= */
+
+.left-panel-settings-form {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+/* =========================================================
+   INVESTIGATIONS MAIN HEADING
+========================================================= */
+
+.investigations-main-heading-settings-form {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 12px 15px;
+  background: #f4f4f4;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+}
+
+.investigations-main-title-settings-form {
+  margin: 0;
+  padding: 0;
+  color: #222222;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   LEFT SECTION BOX
+========================================================= */
+
+.section-box-settings-form {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #dfe4ea;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.section-header-settings-form {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #f7f7f8;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.section-title-settings-form {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #222222;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   COMMON HEADER ICON
+========================================================= */
+
+.icon-settings-form {
+  flex-shrink: 0;
+  color: #0876d1;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.icon-settings-form:hover {
+  color: #005da8;
+  transform: scale(1.12);
+}
+
+
+/* =========================================================
+   LEFT SERVICE LIST
+========================================================= */
+
+.service-list-settings-form {
+  width: 100%;
+  min-height: 8px;
+  padding: 5px 0;
+  background: #ffffff;
+}
+
+.service-row-settings-form {
+  width: 100%;
+  min-height: 42px;
+  display: grid;
+  grid-template-columns:
+    30px
+    minmax(0, 1fr)
+    32px
+    32px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #eeeeee;
+  background: #ffffff;
+}
+
+.service-row-settings-form:last-child {
+  border-bottom: none;
+}
+
+.service-row-settings-form:hover {
+  background: #fafcff;
+}
+
+
+/* =========================================================
+   LEFT DRAG HANDLE
+========================================================= */
+
+.drag-handle-settings-form {
+  width: 25px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #606b76;
+  cursor: grab;
+  touch-action: none;
+}
+
+.drag-handle-settings-form:active {
+  cursor: grabbing;
+}
+
+
+/* =========================================================
+   LEFT SERVICE NAME
+========================================================= */
+
+.service-name-settings-form {
+  min-width: 0;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   LEFT EDIT DELETE ICON
+========================================================= */
+
+.icon-small-settings-form {
+  color: #0876d1;
+  font-size: 13px;
+  cursor: pointer;
+  justify-self: center;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.icon-small-settings-form:hover {
+  transform: scale(1.15);
+}
+
+.delete-settings-form {
+  color: #dc3545;
+}
+
+.delete-settings-form:hover {
+  color: #b42331;
+}
+
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.textarea-settings-form {
+  width: calc(100% - 20px);
+  min-height: 74px;
+  display: block;
+  margin: 10px;
+  padding: 9px 10px;
+  color: #333333;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.4;
+  resize: vertical;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #d4d9de;
+  border-radius: 4px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.textarea-settings-form:focus {
+  border-color: #0876d1;
+  box-shadow: 0 0 0 2px rgba(8, 118, 209, 0.1);
+}
+
+.textarea-settings-form::placeholder {
+  color: #9ca3aa;
+}
+
+
+
+
+
+/* =========================================================
+   COMMON FIELD
+========================================================= */
+
+.single-field-settings-form {
+  width: 100%;
+  padding: 12px;
+}
+
+.field-label-settings-form {
+  display: block;
+  margin-bottom: 6px;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-input-settings-form,
+.form-select-settings-form {
+  width: 100%;
+  height: 37px;
+  padding: 7px 9px;
+  color: #333333;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #d3d8dd;
+  border-radius: 4px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-input-settings-form:focus,
+.form-select-settings-form:focus {
+  border-color: #0876d1;
+  box-shadow: 0 0 0 2px rgba(8, 118, 209, 0.1);
+}
+
+.form-input-settings-form::placeholder {
+  color: #9ca3aa;
+}
+
+.form-select-settings-form {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   DISCOUNT
+========================================================= */
+
+.discount-grid-settings-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+
+.discount-field-settings-form {
+  min-width: 0;
+}
+
+.percentage-input-wrapper-settings-form {
+  position: relative;
+  width: 100%;
+}
+
+.percentage-input-settings-form {
+  padding-right: 30px;
+}
+
+.percentage-symbol-settings-form {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  color: #555555;
+  font-size: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* =========================================================
+   X-RAY & CT SCAN CALL
+========================================================= */
+
+.xray-lab-field-settings-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.xray-lab-heading-settings-form {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xray-lab-label-settings-form {
+  flex: 1;
+  min-width: 0;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.xray-lab-heading-settings-form
+.icon-small-settings-form {
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .xray-lab-field-settings-form {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .xray-lab-label-settings-form {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.right-panel-settings-form {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.patient-details-box-settings-form,
+.right-section-box-settings-form,
+.treatment-section-settings-form,
+.frequency-duration-box-settings-form {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #dfe4ea;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.main-heading-settings-form {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: #f7f7f8;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.main-title-settings-form {
+  margin: 0;
+  color: #222222;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PATIENT DETAILS
+========================================================= */
+
+.patient-grid-settings-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+}
+
+.form-group-settings-form {
+  min-width: 0;
+}
+
+.form-group-full-settings-form {
+  min-width: 0;
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   RIGHT TEXT SECTIONS
+========================================================= */
+
+.right-section-header-settings-form {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  background: #f7f7f8;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.right-section-title-settings-form {
+  margin: 0;
+  color: #222222;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PHYSIOTHERAPY HEADING
+========================================================= */
+
+.physiotherapy-heading-settings-form {
+  width: 100%;
+  padding: 12px 15px;
+  background: #212EA0;
+  border-radius: 5px;
+}
+
+.physiotherapy-title-settings-form {
+  margin: 0;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TREATMENT HEADER
+========================================================= */
+
+.treatment-header-settings-form {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #f7f7f8;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.treatment-heading-left-settings-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.treatment-title-settings-form {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #222222;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.treatment-header-actions-settings-form {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+/* =========================================================
+   HEADING CHARGE
+========================================================= */
+
+.heading-charge-box-settings-form {
+  width: 115px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+}
+
+.heading-charge-rupee-settings-form {
+  width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  font-size: 13px;
+  background: #f8f8f8;
+  border-right: 1px solid #e1e1e1;
+}
+
+.heading-charge-input-settings-form {
+  width: calc(100% - 30px);
+  height: 100%;
+  padding: 0 7px;
+  color: #333333;
+  font-size: 12px;
+  outline: none;
+  background: transparent;
+  border: none;
+  -moz-appearance: textfield;
+}
+
+.heading-charge-input-settings-form::placeholder {
+  color: #aaaaaa;
+}
+
+.heading-charge-input-settings-form::-webkit-inner-spin-button,
+.heading-charge-input-settings-form::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* =========================================================
+   HEADER ICON BUTTON
+========================================================= */
+
+.header-icon-btn-settings-form {
+  width: 29px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #0876d1;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #d9e0e6;
+  border-radius: 4px;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.header-icon-btn-settings-form:hover {
+  color: #ffffff;
+  background: #0876d1;
+  border-color: #0876d1;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TREATMENT LIST
+========================================================= */
+
+.treatment-list-settings-form {
+  width: 100%;
+  min-height: 10px;
+  padding: 5px 0;
+  background: #ffffff;
+  transition: background 0.2s ease;
+}
+
+.dragging-over-settings-form {
+  background: #eef7ff;
+}
+
+.treatment-row-settings-form {
+  width: 100%;
+  min-height: 45px;
+  display: grid;
+  grid-template-columns:
+    34px
+    minmax(0, 1fr)
+    125px
+    32px
+    32px;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  background: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.treatment-row-settings-form:last-child {
+  border-bottom: none;
+}
+
+.treatment-row-settings-form:hover {
+  background: #fafcff;
+}
+
+.dragging-item-settings-form {
+  background: #ffffff;
+  border: 1px solid #b6d8f4;
+  border-radius: 5px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+
+
+/* =========================================================
+   TREATMENT DRAG BUTTON
+========================================================= */
+
+.drag-button-settings-form {
+  width: 30px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #626d78;
+  font-size: 15px;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+  background: transparent;
+  border: none;
+}
+
+.drag-button-settings-form:active {
+  cursor: grabbing;
+}
+
+.drag-button-settings-form:hover {
+  color: #0876d1;
+}
+
+
+/* =========================================================
+   TREATMENT SERVICE NAME
+========================================================= */
+
+.treatment-service-name-settings-form {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.treatment-name-text-settings-form {
+  min-width: 0;
+  color: #333333;
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   SERVICE TYPE BADGE
+========================================================= */
+
+.service-type-badge-settings-form {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  padding: 3px 7px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.service-type-essential-settings-form {
+  color: #176b35;
+  background: #e5f6eb;
+  border: 1px solid #bce7c9;
+}
+
+.service-type-advanced-settings-form {
+  color: #805800;
+  background: #fff5d8;
+  border: 1px solid #f1dfa6;
+}
+
+.service-type-both-settings-form {
+  color: #075e9e;
+  background: #e3f2ff;
+  border: 1px solid #b9dcf8;
+}
+
+
+/* =========================================================
+   TREATMENT CHARGE
+========================================================= */
+
+.treatment-charge-box-settings-form {
+  position: relative;
+  width: 100%;
+}
+
+.treatment-rupee-settings-form {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  z-index: 1;
+  color: #555555;
+  font-size: 11px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.treatment-charge-input-settings-form {
+  width: 100%;
+  height: 31px;
+  padding: 5px 6px 5px 23px;
+  color: #333333;
+  font-size: 11px;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #d3d8dd;
+  border-radius: 3px;
+}
+
+.treatment-charge-input-settings-form:focus {
+  border-color: #0876d1;
+  box-shadow: 0 0 0 2px rgba(8, 118, 209, 0.08);
+}
+
+
+/* =========================================================
+   TREATMENT EDIT DELETE BUTTON
+========================================================= */
+
+.service-edit-btn-settings-form,
+.service-delete-btn-settings-form {
+  width: 29px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.service-edit-btn-settings-form {
+  color: #0876d1;
+}
+
+.service-edit-btn-settings-form:hover {
+  color: #ffffff;
+  background: #0876d1;
+  transform: scale(1.05);
+}
+
+.service-delete-btn-settings-form {
+  color: #dc3545;
+}
+
+.service-delete-btn-settings-form:hover {
+  color: #ffffff;
+  background: #dc3545;
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   EMPTY SERVICE
+========================================================= */
+
+.empty-service-settings-form {
+  width: 100%;
+  padding: 18px 12px;
+  color: #89929b;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   FREQUENCY DURATION
+========================================================= */
+
+.frequency-duration-box-settings-form {
+  padding: 14px;
+}
+
+.frequency-duration-grid-settings-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.note-settings-form {
+  width: 100%;
+}
+
+.note-settings-form h4 {
+  margin: 0;
+  color: #555555;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.form-save-section-settings-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 5px 0 20px;
+}
+
+.main-save-btn-settings-form {
+  min-width: 145px;
+  min-height: 42px;
+  padding: 10px 22px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  background: #0876d1;
+  border: 1px solid #0876d1;
+  border-radius: 5px;
+  box-shadow: 0 3px 8px rgba(8, 118, 209, 0.2);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.main-save-btn-settings-form:hover {
+  background: #0066b8;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(8, 118, 209, 0.25);
+}
+
+.main-save-btn-settings-form:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   POPUP OVERLAY
+========================================================= */
+
+.popup-overlay-settings-form {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(1px);
+}
+
+.popup-box-settings-form {
+  width: 100%;
+  max-width: 430px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 7px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+  animation: popupOpen-settings-form 0.22s ease;
+}
+
+@keyframes popupOpen-settings-form {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================================
+   POPUP HEADER
+========================================================= */
+
+.popup-header-settings-form {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #f7f7f8;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.popup-header-settings-form h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #222222;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.popup-close-settings-form {
+  flex-shrink: 0;
+  color: #666666;
+  font-size: 17px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.popup-close-settings-form:hover {
+  color: #dc3545;
+  /* transform: rotate(90deg); */
+}
+
+
+/* =========================================================
+   POPUP BODY
+========================================================= */
+
+.popup-body-settings-form {
+  width: 100%;
+  padding: 18px;
+}
+
+.popup-label-settings-form {
+  display: block;
+  margin: 0 0 6px;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.popup-label-settings-form:not(:first-child) {
+  margin-top: 14px;
+}
+
+.popup-input-settings-form,
+.popup-select-settings-form {
+  width: 100%;
+  height: 39px;
+  padding: 8px 10px;
+  color: #333333;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  background: #ffffff;
+  border: 1px solid #d1d7dd;
+  border-radius: 4px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.popup-input-settings-form:focus,
+.popup-select-settings-form:focus {
+  border-color: #0876d1;
+  box-shadow: 0 0 0 2px rgba(8, 118, 209, 0.1);
+}
+
+.popup-input-settings-form::placeholder {
+  color: #a0a7ae;
+}
+
+.popup-select-settings-form {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   POPUP FOOTER
+========================================================= */
+
+.popup-footer-settings-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fafafa;
+  border-top: 1px solid #e1e5e9;
+}
+
+.cancel-btn-settings-form,
+.save-btn-settings-form {
+  min-width: 85px;
+  min-height: 37px;
+  padding: 8px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  border-radius: 4px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cancel-btn-settings-form {
+  color: #555555;
+  background: #ffffff;
+  border: 1px solid #cfd5db;
+}
+
+.cancel-btn-settings-form:hover {
+  color: #222222;
+  background: #eeeeee;
+}
+
+.save-btn-settings-form {
+  color: #ffffff;
+  background: #0876d1;
+  border: 1px solid #0876d1;
+}
+
+.save-btn-settings-form:hover {
+  background: #0065b5;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+.charges-input-settings-form::-webkit-inner-spin-button,
+.charges-input-settings-form::-webkit-outer-spin-button,
+.treatment-charge-input-settings-form::-webkit-inner-spin-button,
+.treatment-charge-input-settings-form::-webkit-outer-spin-button {
+  margin: 0;
+}
+
+
+/* =========================================================
+   POPUP SCROLLBAR
+========================================================= */
+
+.popup-box-settings-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popup-box-settings-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.popup-box-settings-form::-webkit-scrollbar-thumb {
+  background: #b9c0c7;
+  border-radius: 10px;
+}
+
+.popup-box-settings-form::-webkit-scrollbar-thumb:hover {
+  background: #929ba4;
+}
+
+
+/* =========================================================
+   TABLET RESPONSIVE
+========================================================= */
+
+@media screen and (max-width: 1100px) {
+  .container-settings-form {
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(0, 1.1fr);
+    gap: 14px;
+    padding: 15px;
+  }
+
+  .service-row-settings-form {
+    grid-template-columns:
+      25px
+      minmax(0, 1fr)
+      28px
+      28px;
+    gap: 5px;
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+
+  .service-name-settings-form {
+    font-size: 11px;
+  }
+
+  .treatment-row-settings-form {
+    grid-template-columns:
+      30px
+      minmax(0, 1fr)
+      105px
+      30px
+      30px;
+    gap: 5px;
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  .treatment-service-name-settings-form {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+========================================================= */
+
+@media screen and (max-width: 768px) {
+  .container-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 10px;
+    margin-top: 60px;
+  }
+
+  .left-panel-settings-form,
+  .right-panel-settings-form {
+    width: 100%;
+  }
+
+  .investigations-main-heading-settings-form {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .investigations-main-title-settings-form {
+    font-size: 17px;
+  }
+
+  .patient-grid-settings-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .form-group-full-settings-form {
+    grid-column: auto;
+  }
+
+  .discount-grid-settings-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .frequency-duration-grid-settings-form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .charges-table-header-settings-form,
+  .charges-table-row-settings-form {
+    grid-template-columns:
+      minmax(0, 1fr)
+      115px;
+  }
+
+  .service-row-settings-form {
+    grid-template-columns:
+      25px
+      minmax(0, 1fr)
+      28px
+      28px;
+    gap: 4px;
+  }
+
+  .treatment-header-settings-form {
+    align-items: flex-start;
+  }
+
+  .treatment-heading-left-settings-form {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .heading-charge-box-settings-form {
+    width: 105px;
+    height: 32px;
+  }
+
+  .heading-charge-input-settings-form {
+    font-size: 11px;
+  }
+
+  .treatment-row-settings-form {
+    grid-template-columns:
+      30px
+      minmax(0, 1fr)
+      95px
+      29px
+      29px;
+    gap: 4px;
+    padding: 5px;
+  }
+
+  .treatment-name-text-settings-form {
+    font-size: 11px;
+  }
+
+  .service-type-badge-settings-form {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+
+  .form-save-section-settings-form {
+    padding-bottom: 15px;
+  }
+
+  .main-save-btn-settings-form {
+    width: 100%;
+  }
+
+  .popup-overlay-settings-form {
+    padding: 12px;
+  }
+
+  .popup-box-settings-form {
+    max-width: 100%;
+    max-height: calc(100vh - 24px);
+  }
+}
+
+/* =========================================================
+   SESSION DISCOUNT / CHARGES TABLE/ Discount
+========================================================= */
+
+.session-table-wrapper-settings-form {
+  width: 100%;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.session-table-settings-form {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #ffffff;
+}
+
+.session-table-settings-form th,
+.session-table-settings-form td {
+  border: 1px solid #333333;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.session-table-settings-form th {
+  padding: 14px 8px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111111;
+  background: #f8f8f8;
+}
+
+.session-table-settings-form th:first-child {
+  width: 25%;
+}
+
+.session-table-settings-form th:nth-child(2),
+.session-table-settings-form th:nth-child(3) {
+  width: 37.5%;
+}
+
+.session-table-settings-form td {
+  padding: 12px;
+  height: 65px;
+}
+
+.session-number-settings-form {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.session-charge-input-wrapper-settings-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.session-rupee-settings-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.session-charge-input-settings-form {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 10px 8px;
+  font-size: 13px;
+  color: #333333;
+  background: transparent;
+}
+
+.session-charge-input-settings-form::placeholder {
+  color: #999999;
+}
+
+.session-charge-input-settings-form::-webkit-inner-spin-button,
+.session-charge-input-settings-form::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.session-charge-input-settings-form[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media screen and (max-width: 768px) {
+  .session-table-wrapper-settings-form {
+    padding: 10px;
+  }
+
+  .session-table-settings-form th {
+    padding: 12px 6px;
+    font-size: 13px;
+  }
+
+  .session-table-settings-form td {
+    padding: 8px;
+    height: 58px;
+  }
+
+  .session-number-settings-form {
+    font-size: 20px;
+  }
+
+  .session-charge-input-settings-form {
+    padding: 9px 6px;
+    font-size: 12px;
+  }
+
+  .session-rupee-settings-form {
+    padding-left: 7px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 480px) {
+  .session-table-wrapper-settings-form {
+    padding: 8px;
+  }
+
+  .session-table-settings-form {
+    min-width: 420px;
+  }
+
+  .session-table-settings-form th {
+    padding: 10px 5px;
+    font-size: 12px;
+  }
+
+  .session-table-settings-form td {
+    padding: 6px;
+    height: 54px;
+  }
+
+  .session-number-settings-form {
+    font-size: 18px;
+  }
+
+  .session-charge-input-settings-form {
+    padding: 8px 5px;
+    font-size: 11px;
+  }
+
+  .session-rupee-settings-form {
+    padding-left: 6px;
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media screen and (max-width: 480px) {
+  .container-settings-form {
+    padding: 7px;
+  }
+
+  .section-header-settings-form,
+  .treatment-header-settings-form {
+    padding: 8px 9px;
+  }
+
+  .section-title-settings-form,
+  .treatment-title-settings-form {
+    font-size: 13px;
+  }
+
+  .service-row-settings-form {
+    grid-template-columns:
+      22px
+      minmax(0, 1fr)
+      25px
+      25px;
+    gap: 3px;
+  }
+
+  .service-name-settings-form {
+    font-size: 11px;
+  }
+
+  .charges-table-settings-form {
+    padding: 7px;
+  }
+
+  .charges-table-header-settings-form,
+  .charges-table-row-settings-form {
+    grid-template-columns:
+      minmax(0, 1fr)
+      100px;
+  }
+
+  .charges-header-item-settings-form,
+  .charges-service-name-settings-form {
+    padding-right: 6px;
+    padding-left: 6px;
+    font-size: 10px;
+  }
+
+  .charges-input-wrapper-settings-form {
+    padding: 4px;
+  }
+
+  .rupee-symbol-settings-form {
+    margin-right: 3px;
+    font-size: 10px;
+  }
+
+  .charges-input-settings-form {
+    padding: 3px 4px;
+    font-size: 10px;
+  }
+
+  .patient-grid-settings-form {
+    padding: 10px;
+  }
+
+  .main-title-settings-form,
+  .physiotherapy-title-settings-form {
+    font-size: 15px;
+  }
+
+  .treatment-row-settings-form {
+    grid-template-columns:
+      27px
+      minmax(0, 1fr)
+      75px
+      27px
+      27px;
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .drag-button-settings-form {
+    width: 27px;
+  }
+
+  .treatment-service-name-settings-form {
+    gap: 3px;
+  }
+
+  .treatment-name-text-settings-form {
+    font-size: 10px;
+  }
+
+  .service-type-badge-settings-form {
+    min-height: 17px;
+    padding: 2px 5px;
+    font-size: 7px;
+  }
+
+  .treatment-charge-input-settings-form {
+    height: 29px;
+    padding-right: 3px;
+    padding-left: 18px;
+    font-size: 9px;
+  }
+
+  .treatment-rupee-settings-form {
+    left: 5px;
+    font-size: 9px;
+  }
+
+  .service-edit-btn-settings-form,
+  .service-delete-btn-settings-form {
+    width: 26px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .popup-header-settings-form {
+    min-height: 50px;
+    padding: 10px 13px;
+  }
+
+  .popup-header-settings-form h2 {
+    font-size: 15px;
+  }
+
+  .popup-body-settings-form {
+    padding: 14px;
+  }
+
+  .popup-footer-settings-form {
+    padding: 10px 13px;
+  }
+
+  .cancel-btn-settings-form,
+  .save-btn-settings-form {
+    min-width: 75px;
+  }
+}
