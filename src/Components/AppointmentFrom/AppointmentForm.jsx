@@ -1104,6 +1104,7 @@ const AppointmentForm = () => {
 
         };
 
+        console.log("Created Appointment:", createdAppointment);
 
         /*====================================
           CREATE RAZORPAY ORDER
