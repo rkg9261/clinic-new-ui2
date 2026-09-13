@@ -1126,7 +1126,7 @@ const AppointmentForm = () => {
                 appointmentId:
                   createdAppointment.appointmentId,
 
-                amount: 700
+                amount: 150
 
               })
             }
