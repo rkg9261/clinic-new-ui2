@@ -297,18 +297,18 @@ const BookAppointment = () => {
 
       date.setDate(date.getDate() + i);
 
-      let datename = "";
-       if(i === 0)
-         datename = "Today";
-      else if(i == 1)
-        datename = "Tomorrow";
-      else
-        datename = date.toISOString().split("T")[0];
+      // let datename = "";
+      //  if(i === 0)
+      //    datename = "Today";
+      // else if(i == 1)
+      //   datename = "Tomorrow";
+      // else
+      //   datename = date.toISOString().split("T")[0];
 
 
       dates.push({
         value: date.toISOString().split("T")[0],
-        label: datename
+        label: date.toISOString().split("T")[0].split("-").reverse().join("-")
       });
     }
 

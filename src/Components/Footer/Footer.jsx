@@ -62,7 +62,7 @@ const Footer = () => {
   ====================================*/
 
   const locationLink =
-    "https://www.google.com/maps/search/?api=1&query=M-38%2C+Shiv+Mandir+Road%2C+Hakikat+Nagar%2C+Saharanpur%2C+Uttar+Pradesh";
+    "https://maps.app.goo.gl/otgK6oV6TUWjWMA89";
 
 
   return (
@@ -299,6 +299,8 @@ const Footer = () => {
             <span>
               05:00 PM to 08:00 PM
             </span>
+
+            <span style={{ color: '#ff5e5e' }}> SUNDAY CLOSED </span>
 
           </div>
 

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import "./AppointmentForm.css";
-
 import {
-  FaClock
+  FaUser,
+  FaBirthdayCake,
+  FaWhatsapp,
+  FaCalendarAlt,
+  FaClock,
+  FaVenusMars,
+  FaCheckCircle,
+  FaExclamationCircle,
 } from "react-icons/fa";
 
 import { API } from "../../config/api";
@@ -81,18 +87,18 @@ const AppointmentForm = () => {
 
       date.setDate(date.getDate() + i);
 
-      let datename = "";
-       if(i === 0)
-         datename = "Today";
-      else if(i == 1)
-        datename = "Tomorrow";
-      else
-        datename = date.toISOString().split("T")[0];
+      // let datename = "";
+      //  if(i === 0)
+      //    datename = "Today";
+      // else if(i == 1)
+      //   datename = "Tomorrow";
+      // else
+      //   datename = date.toISOString().split("T")[0];
 
 
       dates.push({
         value: date.toISOString().split("T")[0],
-        label: datename
+        label: date.toISOString().split("T")[0].split("-").reverse().join("-")
       });
     }
 
@@ -1419,7 +1425,7 @@ const AppointmentForm = () => {
             {/* NAME */}
 
             <div className="appointment-input">
-
+              <FaUser />
               <input
                 type="text"
                 name="name"
@@ -1450,7 +1456,7 @@ const AppointmentForm = () => {
             {/* AGE */}
 
             <div className="appointment-input">
-
+              <FaBirthdayCake />
               <input
                 type="number"
                 name="age"
@@ -1492,11 +1498,11 @@ const AppointmentForm = () => {
             {/* WHATSAPP NUMBER */}
 
             <div className="appointment-input">
-
+              <FaWhatsapp />
               <input
                 type="tel"
                 name="whatsapp_number"
-                placeholder="Mobile Number (WhatsApp Only)"
+                placeholder="WhatsApp Number"
                 value={
                   formData.whatsapp_number
                 }
@@ -1527,8 +1533,8 @@ const AppointmentForm = () => {
             {/* GENDER */}
 
             <div className="appointment-input">
-
-              <select
+               <FaVenusMars />
+               <select
                 name="gender"
                 value={
                   formData.gender
@@ -1604,6 +1610,8 @@ const AppointmentForm = () => {
               min={today}
               max={maxAppointmentDate}
             /> */}
+
+            <FaCalendarAlt />
             <select
               name="appointment_date"
               value={formData.appointment_date}

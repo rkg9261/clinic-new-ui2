@@ -199,7 +199,8 @@ function App() {
 
           {/* BOOK APPOINTMENT */}
 
-          <Route path="/book-appointment"  element={<BookAppointment />} />
+          {/* <Route path="/book-appointment"  element={<BookAppointment />} /> */}
+          <Route path="/book-appointment"  element={<AppointmentForm />} />
 
                            {/* BlogBlock */}
              <Route path="/blog"  element={<BlogBlock/>} />
