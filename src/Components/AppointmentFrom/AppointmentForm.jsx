@@ -20,10 +20,14 @@ const consultaionAmount = 150;
 
 const AppointmentForm = () => {
 
+//scroll to top on page load
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   /*====================================
     TIME SLOTS
   ====================================*/
-
   const TIME_SLOTS = [
 
     {
