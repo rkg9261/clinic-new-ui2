@@ -967,7 +967,7 @@ const AppointmentPayment = ({
             </h2>
 
             <p>
-              Secure Razorpay Test Payment
+              Secure Razorpay Payment
             </p>
 
           </div>
@@ -1093,7 +1093,7 @@ const AppointmentPayment = ({
 
           <div className="appointment-payment-amount-label">
 
-            Test Payment Amount
+            Amount To Be Paid
 
           </div>
 
@@ -1107,11 +1107,11 @@ const AppointmentPayment = ({
           </div>
 
 
-          <p className="appointment-payment-test-note">
+          {/* <p className="appointment-payment-test-note">
 
             Razorpay Test Mode
 
-          </p>
+          </p> */}
 
         </div>
 
@@ -1168,7 +1168,7 @@ const AppointmentPayment = ({
           </div>
 
 
-          <div>
+          {/* <div>
 
             <FaShieldAlt />
 
@@ -1176,7 +1176,7 @@ const AppointmentPayment = ({
               Test Mode
             </span>
 
-          </div>
+          </div> */}
 
         </div>
 
@@ -1185,7 +1185,7 @@ const AppointmentPayment = ({
             TEST WARNING
          */}
 
-        <div className="appointment-payment-test-warning">
+        {/* <div className="appointment-payment-test-warning">
 
           <strong>
             TEST MODE
@@ -1195,7 +1195,7 @@ const AppointmentPayment = ({
             No real money will be deducted.
           </span>
 
-        </div>
+        </div> */}
 
       </div>
 
