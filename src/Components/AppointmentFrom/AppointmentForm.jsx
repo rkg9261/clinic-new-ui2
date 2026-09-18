@@ -83,31 +83,84 @@ const AppointmentForm = () => {
 /*
   Get available dates as for 5days from today
   */
+  // const getAvailableDates = () => {
+  //   const dates = [];
+
+  //   for (let i = 0; i <= 4; i++) {
+  //     const date = new Date();
+
+  //     date.setDate(date.getDate() + i);
+
+  //     // let datename = "";
+  //     //  if(i === 0)
+  //     //    datename = "Today";
+  //     // else if(i == 1)
+  //     //   datename = "Tomorrow";
+  //     // else
+  //     //   datename = date.toISOString().split("T")[0];
+
+
+  //     dates.push({
+  //       value: date.toISOString().split("T")[0],
+  //       label: date.toISOString().split("T")[0].split("-").reverse().join("-")
+  //     });
+  //   }
+
+  //   return dates;
+  // };
+
+  //sunday not included, only 5 days from today
+
   const getAvailableDates = () => {
-    const dates = [];
+  const dates = [];
+  let i = 0;
 
-    for (let i = 0; i <= 4; i++) {
+  while (dates.length < 5) {
       const date = new Date();
-
       date.setDate(date.getDate() + i);
 
-      // let datename = "";
-      //  if(i === 0)
-      //    datename = "Today";
-      // else if(i == 1)
-      //   datename = "Tomorrow";
-      // else
-      //   datename = date.toISOString().split("T")[0];
+      // 0 = Sunday
+      //if (date.getDay() !== 0) {
+        const value = date.toISOString().split("T")[0];
 
+        dates.push({
+          value: value,
+          label: value.split("-").reverse().join("-") + (date.getDay() === 0 ? " (Sunday)" : ""),
+          disabled: date.getDay() === 0 || date.toISOString().split("T")[0] === '2026-09-23' // Disable Sunday and Saturday
+        });
+      //}
 
-      dates.push({
-        value: date.toISOString().split("T")[0],
-        label: date.toISOString().split("T")[0].split("-").reverse().join("-")
-      });
+      i++;
     }
 
     return dates;
   };
+
+  //show sunday as well, only 5 days from today
+   //getAvailableDates1 = () => {
+  // const dates = [];
+  // let i = 0;
+
+  // while (dates.length < 5) {
+  //     const date = new Date();
+  //     date.setDate(date.getDate() + i);
+
+  //     // 0 = Sunday
+  //     if (date.getDay() !== 0) {
+  //       const value = date.toISOString().split("T")[0];
+
+  //       dates.push({
+  //         value: value,
+  //         label: value.split("-").reverse().join("-")
+  //       });
+  //     }
+
+  //     i++;
+  //   }
+
+  //   return dates;
+  //};
+
   const availableDates = getAvailableDates();
   console.log(availableDates);
   /*====================================
@@ -1629,6 +1682,7 @@ const AppointmentForm = () => {
                 <option
                   key={date.value}
                   value={date.value}
+                  disabled={date.disabled}
                 >
                   {date.label}
                 </option>
