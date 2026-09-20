@@ -907,7 +907,7 @@ const AppointmentNew = () => {
 
 
           {/* QUICK FILTER */}
-
+          {/*
           <div className="an-card an-filter-card">
 
             <div className="an-section-title">
@@ -1025,7 +1025,7 @@ const AppointmentNew = () => {
             </button>
 
           </div>
-
+          */}
         </aside>
 
 
