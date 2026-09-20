@@ -1726,7 +1726,10 @@ const AppointmentForm = () => {
 
               <option value="">
 
-                Select Available Time
+              {availableTimeSlots.length === 0
+                ? "Time Slots Not Available For Selected Date"
+                : "Select Available Time"
+              }
 
               </option>
 

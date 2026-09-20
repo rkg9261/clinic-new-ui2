@@ -246,6 +246,20 @@ const AppointmentNew = () => {
         .trim();
   };
 
+  //format time to 12 hour format
+  const formatTime = (time) => {
+    if (!time) return "";
+
+    const [hours, minutes] = time.split(":");
+    const date = new Date();
+    date.setHours(Number(hours), Number(minutes), 0, 0);
+
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
   // --------------------------------------------------
   // Get Shift Function
   // --------------------------------------------------
@@ -255,16 +269,11 @@ const AppointmentNew = () => {
         return "";
     }
 
-    const value =
-        String(time)
-            .toUpperCase();
-
-    let hour = parseInt(
-        value
-            .replace(/[^0-9]/g, ""),
-        10
-    );
-
+    const value = String(time).toUpperCase();
+    console.log("TIME VALUE:", value);
+    let hour = parseInt(value.replace(/[^0-9]/g, ""), 10);
+    hour = parseInt(value.split(":")[0], 10);
+    console.log("HOUR:", hour);
     if (
         value.includes("PM") &&
         hour !== 12
@@ -317,11 +326,11 @@ const AppointmentNew = () => {
 
 
       const appointmentListUrl =
-        API.APPOINTMENT_LIST ||
+        API.APPOINTMENT_LIST_BY_DATE ||
         `${BASE_URL}/api/appointment/listbydate`;
 
 
-      const url = `${appointmentListUrl}?date=${encodeURIComponent(date)}`;
+      const url = `${appointmentListUrl}/${encodeURIComponent(date)}`;
 
 
       console.log("================================");
@@ -511,6 +520,7 @@ const AppointmentNew = () => {
       );
 
 
+
       // ------------------------------------
       // FORMAT API DATA FOR UI
       // ------------------------------------
@@ -521,55 +531,122 @@ const AppointmentNew = () => {
 
             return {
 
+              ...item,
+              
+              // ID
+
               id:
                 item.id ||
-                item._id,
-
-              time:
-                item.appointment_time ||
-                item.time ||
+                item._id ||
                 "",
 
-              shift:
-                item.shift ||
-                getShift(
-                  item.appointment_time
-                ),
+
+              _id:
+                item.id ||
+                item._id ||
+                "",
+
+
+
+              //  API FIELDS
+
 
               name:
-                cleanName(
-                  item.name ||
-                  item.patient_name ||
-                  ""
-                ),
+                item.name ||
+                "",
+
 
               age:
                 item.age ??
                 "",
 
+
               gender:
                 item.gender ||
                 "",
 
-              whatsapp:
+
+              whatsapp_number:
                 item.whatsapp_number ||
-                item.whatsapp ||
-                item.mobile ||
                 "",
 
-              status:
-                item.status ||
-                item.appointment_status ||
-                "Pending",
 
               appointment_date:
-                item.appointment_date,
+                item.appointment_date ||
+                "",
+
 
               appointment_time:
-                item.appointment_time,
+                item.appointment_time ||
+                "",
+
 
               appointment_time_to:
-                item.appointment_time_to
+                item.appointment_time_to ||
+                "",
+
+
+
+              // FRONTEND DISPLAY ALIASES
+
+
+              mobileNumber:
+                item.whatsapp_number ||
+                "",
+
+
+              appointmentDate:
+                item.appointment_date ||
+                "",
+
+
+              appointmentTime:
+                item.appointment_time ||
+                "",
+
+
+              appointmentTimeTo:
+                item.appointment_time_to ||
+                "",
+
+
+
+              //  PATIENT FIELDS
+
+
+              patientCode:
+                item.patient_code ||
+                item.patientCode ||
+                "",
+
+
+              address:
+                item.address ||
+                "",
+
+
+              problem:
+                item.problem ||
+                item.disease_problem ||
+                "",
+
+
+              appointmentType:
+                item.appointment_type ||
+                item.appointmentType ||
+                "",
+
+
+              fileNo:
+                item.file_number ||
+                item.fileNo ||
+                "",
+
+
+              lastAttendanceDate:
+                item.last_attendance_date ||
+                item.lastAttendanceDate ||
+                "",
 
             };
 
@@ -577,11 +654,16 @@ const AppointmentNew = () => {
         );
 
 
-      setAppointments(
-        formatted
+      setAppointments(formatted);
+
+      
+      console.log(
+        "Filtered APPOINTMENT ARRAY:",
+        filteredAppointments
       );
 
-    }
+      }
+      
     catch (error) {
 
       console.error(
@@ -611,8 +693,32 @@ const AppointmentNew = () => {
   // --------------------------------------------------
 
   const filteredAppointments = useMemo(() => {
+    console.log(
+            "FILTER RUNNING"
+        );
 
-    return appointments.filter((item) => {
+
+    console.log(
+        "appointments:",
+        appointments
+    );
+
+    console.log(
+        "search:",
+        search
+    );
+
+    console.log(
+        "shift:",
+        shift
+    );
+
+    console.log(
+        "status:",
+        statusFilter
+    );
+
+    const result = appointments.filter((item) => {
 
       const searchText =
         search.toLowerCase().trim();
@@ -637,7 +743,14 @@ const AppointmentNew = () => {
       );
     });
 
+    console.log(
+        "FILTERED APPOINTMENT ARRAY:",
+        result
+    );
+
+    return result;
   }, [
+    appointments,
     search,
     shift,
     statusFilter
@@ -1146,6 +1259,12 @@ const AppointmentNew = () => {
 
               </div>
 
+                  {/* showing loading... in center */}
+                  {loading && (
+                    <div className="an-loading">
+                      Loading...
+                    </div>
+                  )}
               <div>
 
                 <button
@@ -1175,7 +1294,6 @@ const AppointmentNew = () => {
                 >
                   <FaChevronLeft />
                 </button>
-
                 <button
                   className="an-today-btn"
                   onClick={goToday}
@@ -1251,11 +1369,11 @@ const AppointmentNew = () => {
                           <div className="an-time">
 
                             <strong>
-                              {appointment.time}
+                              {formatTime(appointment.appointmentTime)}
                             </strong>
 
                             <small>
-                              {appointment.shift}
+                              {getShift(appointment.appointmentTime)}
                             </small>
 
                           </div>

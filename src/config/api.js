@@ -49,9 +49,11 @@ WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
 
   APPOINTMENTS: `${BASE_URL}/api/appointment/create`,
 
-    APPOINTMENT_LIST: `${BASE_URL}/api/appointment/list`,
+  APPOINTMENT_LIST: `${BASE_URL}/api/appointment/list`,
+  
+  APPOINTMENT_LIST_BY_DATE: `${BASE_URL}/api/appointment/listbydate`,
 
-    FAQS: `${BASE_URL}/api/faqs`,
+  FAQS: `${BASE_URL}/api/faqs`,
 
 
   //blogs
