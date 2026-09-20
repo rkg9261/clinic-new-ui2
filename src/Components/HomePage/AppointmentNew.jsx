@@ -609,7 +609,9 @@ const AppointmentNew = () => {
                 item.appointment_time_to ||
                 "",
 
-
+              paymentStatus:
+                item.payment_status ||
+                "",
 
               //  PATIENT FIELDS
 
@@ -1465,8 +1467,11 @@ const AppointmentNew = () => {
                             <div className="an-whatsapp">
 
                               <FaWhatsapp />
-
-                              {appointment.whatsapp}
+                              <a href={`https://wa.me/${appointment.whatsapp_number}`}
+                                 target="_blank"
+                                 rel="noopener noreferrer">
+                                {appointment.whatsapp_number}
+                              </a>  
 
                             </div>
 
@@ -1478,12 +1483,21 @@ const AppointmentNew = () => {
                         {/* STATUS */}
 
                         <td>
-
-                          <StatusBadge
+                          
+                          {appointment.paymentStatus === "Captured" ? (
+                            <span className="an-status an-status-captured">
+                              <span style={{ color: 'green', fontWeight: 'bold', fontSize: '12px' }}><FaCheckCircle /> Paid</span>
+                            </span>
+                          ) : (
+                            <span className="an-status an-status-not-captured">                              
+                              <span style={{ color: 'red', fontWeight: 'bold', fontSize: '12px' }}><FaTimesCircle /> Not Paid</span>
+                            </span>
+                          )}
+                          {/* <StatusBadge
                             status={
                               appointment.status
                             }
-                          />
+                          /> */}
 
                         </td>
 
