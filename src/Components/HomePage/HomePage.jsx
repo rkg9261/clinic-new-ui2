@@ -30,95 +30,50 @@ import {
 
 
 const HomePage = () => {
-
+  
   const navigate = useNavigate();
-
+  
   const location = useLocation();
-
 
 
   // STATES
 
 
-  const [
-    currentPatient,
-    setCurrentPatient,
-  ] = useState(null);
+  const [currentPatient, setCurrentPatient,] = useState(null);
 
+  const [showPatientCard,setShowPatientCard,] = useState(false);
 
-  const [
-    showPatientCard,
-    setShowPatientCard,
-  ] = useState(false);
+  const [attendanceMarked,setAttendanceMarked,] = useState(false);
 
+  const [attendanceDate,setAttendanceDate,] = useState("Not Marked");
 
-  const [
-    attendanceMarked,
-    setAttendanceMarked,
-  ] = useState(false);
+  const [loading,setLoading,] = useState(true);
 
+  const [patientList,setPatientList,] = useState([]);
 
-  const [
-    attendanceDate,
-    setAttendanceDate,
-  ] = useState("Not Marked");
+  const [showProfileModal,setShowProfileModal,] = useState(false);
 
+  const [userData,setUserData,] = useState(null);
 
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
-
-
-  const [
-    patientList,
-    setPatientList,
-  ] = useState([]);
-
-
-  const [
-    showProfileModal,
-    setShowProfileModal,
-  ] = useState(false);
-
-
-  const [
-    userData,
-    setUserData,
-  ] = useState(null);
-
-
-  const [
-    attendanceLoading,
-    setAttendanceLoading,
-  ] = useState(false);
+  const [attendanceLoading,setAttendanceLoading,] = useState(false);
 
 
 
   // FORMAT DATE
 
-
-  const formatAppointmentDate = (
-    dateValue
-  ) => {
+  const formatAppointmentDate = (dateValue) => {
 
     if (!dateValue) {
       return "-";
     }
 
-    const date =
-      new Date(dateValue);
+    const date = new Date(dateValue);
 
-    if (
-      Number.isNaN(
-        date.getTime()
-      )
-    ) {
+    if (Number.isNaN(date.getTime())) {
       return dateValue;
     }
 
-    return date.toLocaleDateString(
-      "en-IN",
+    return date.toLocaleDateString("en-IN",
       {
         day: "2-digit",
         month: "2-digit",
@@ -133,39 +88,26 @@ const HomePage = () => {
   // CHECK TODAY ATTENDANCE
 
 
-  const isAttendanceMarkedToday = (
-    attendanceValue
-  ) => {
+  const isAttendanceMarkedToday = (attendanceValue) => {
 
     if (!attendanceValue) {
       return false;
     }
 
-    const attendanceDateValue =
-      new Date(
-        attendanceValue
-      );
+    const attendanceDateValue = new Date(attendanceValue);
 
-    if (
-      Number.isNaN(
-        attendanceDateValue.getTime()
-      )
-    ) {
+    if (Number.isNaN(attendanceDateValue.getTime())) {
       return false;
     }
 
-    const today =
-      new Date();
+    const today = new Date();
 
     return (
-      attendanceDateValue.getFullYear() ===
-        today.getFullYear() &&
+      attendanceDateValue.getFullYear() === today.getFullYear() &&
 
-      attendanceDateValue.getMonth() ===
-        today.getMonth() &&
+      attendanceDateValue.getMonth() === today.getMonth() &&
 
-      attendanceDateValue.getDate() ===
-        today.getDate()
+      attendanceDateValue.getDate() === today.getDate()
     );
 
   };
@@ -175,45 +117,32 @@ const HomePage = () => {
   // SET ATTENDANCE STATUS
 
 
-  const setPatientAttendanceStatus = (
-    patient
-  ) => {
+  const setPatientAttendanceStatus = (patient) => {
 
     const lastAttendance =
       patient?.lastAttendanceDate ||
       patient?.last_attendance_date ||
       "";
 
-    const markedToday =
-      isAttendanceMarkedToday(
-        lastAttendance
-      );
+    const markedToday = isAttendanceMarkedToday(lastAttendance);
 
 
-    console.log(
-      "LAST ATTENDANCE:",
-      lastAttendance
-    );
+    console.log("LAST ATTENDANCE:", lastAttendance);
 
 
-    console.log(
-      "ATTENDANCE MARKED TODAY:",
-      markedToday
-    );
+    console.log("ATTENDANCE MARKED TODAY:", markedToday);
 
 
-    setAttendanceMarked(
-      markedToday
-    );
+    setAttendanceMarked(markedToday);
 
 
     setAttendanceDate(
       lastAttendance
         ? new Date(
-            lastAttendance
-          ).toLocaleDateString(
-            "en-IN"
-          )
+          lastAttendance
+        ).toLocaleDateString(
+          "en-IN"
+        )
         : "Not Marked"
     );
 
@@ -232,10 +161,7 @@ const HomePage = () => {
 
       ...item,
 
-
-      
       // ID
-      
 
       id:
         item.id ||
@@ -249,9 +175,9 @@ const HomePage = () => {
         "",
 
 
-      
+
       //  API FIELDS
-      
+
 
       name:
         item.name ||
@@ -288,9 +214,9 @@ const HomePage = () => {
         "",
 
 
-      
+
       // FRONTEND DISPLAY ALIASES
-      
+
 
       mobileNumber:
         item.whatsapp_number ||
@@ -312,9 +238,9 @@ const HomePage = () => {
         "",
 
 
-      
+
       //  PATIENT FIELDS
-      
+
 
       patientCode:
         item.patient_code ||
@@ -426,9 +352,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // TOKEN
-        
+
 
         const token =
           localStorage.getItem(
@@ -451,9 +377,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // API URL
-        
+
 
         const appointmentListUrl =
           API.APPOINTMENT_LIST ||
@@ -478,9 +404,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // GET API
-        
+
 
         const response =
           await fetch(
@@ -504,9 +430,9 @@ const HomePage = () => {
           );
 
 
-        
+
         // RESPONSE TEXT
-        
+
 
         const responseText =
           await response.text();
@@ -521,8 +447,8 @@ const HomePage = () => {
           data =
             responseText
               ? JSON.parse(
-                  responseText
-                )
+                responseText
+              )
               : {};
 
         }
@@ -540,9 +466,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // CONSOLE RESPONSE
-        
+
 
         console.log(
           "===================================="
@@ -563,9 +489,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // 401
-        
+
 
         if (
           response.status ===
@@ -596,9 +522,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // 403
-        
+
 
         if (
           response.status ===
@@ -615,9 +541,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // OTHER ERROR
-        
+
 
         if (
           !response.ok
@@ -634,15 +560,15 @@ const HomePage = () => {
         }
 
 
-        
+
         // EXTRACT APPOINTMENT ARRAY
-        
+
 
         let appointments =
           [];
 
 
-      
+
 
         if (
           Array.isArray(
@@ -656,7 +582,7 @@ const HomePage = () => {
         }
 
 
-     
+
         else if (
           Array.isArray(
             data.data
@@ -669,7 +595,7 @@ const HomePage = () => {
         }
 
 
-       
+
 
         else if (
           Array.isArray(
@@ -683,7 +609,7 @@ const HomePage = () => {
         }
 
 
-    
+
 
         else if (
           Array.isArray(
@@ -697,7 +623,7 @@ const HomePage = () => {
         }
 
 
-      
+
 
         else if (
           Array.isArray(
@@ -723,7 +649,7 @@ const HomePage = () => {
         }
 
 
-      
+
         else if (
           Array.isArray(
             data.result?.appointments
@@ -742,9 +668,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // FORMAT
-        
+
 
         const formattedAppointments =
           appointments.map(
@@ -763,9 +689,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // SET LIST
-        
+
 
         setPatientList(
           formattedAppointments
@@ -1015,8 +941,8 @@ const HomePage = () => {
           data =
             responseText
               ? JSON.parse(
-                  responseText
-                )
+                responseText
+              )
               : {};
 
         }
@@ -1043,9 +969,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // 401
-        
+
 
         if (
           response.status ===
@@ -1076,9 +1002,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // 403
-        
+
 
         if (
           response.status ===
@@ -1095,9 +1021,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // ERROR
-        
+
 
         if (
           !response.ok
@@ -1114,9 +1040,9 @@ const HomePage = () => {
         }
 
 
-        
+
         // ATTENDANCE DATE
-        
+
 
         const attendanceDateFromApi =
           data.attendance_date ||
@@ -1126,9 +1052,9 @@ const HomePage = () => {
           new Date().toISOString();
 
 
-        
+
         // UPDATE CURRENT APPOINTMENT
-        
+
 
         const updatedPatient = {
 
@@ -1159,9 +1085,9 @@ const HomePage = () => {
         );
 
 
-        
+
         // REFRESH APPOINTMENT LIST
-        
+
 
         await fetchAppointments();
 
@@ -1202,8 +1128,8 @@ const HomePage = () => {
 
 
       {/*  APPOINTMENT RECORDS */}
-        
-     
+
+
 
       {loading ? (
 
@@ -1428,8 +1354,8 @@ const HomePage = () => {
 
 
       {/*  PATIENT / APPOINTMENT MODAL*/}
-        
-      
+
+
 
       {showPatientCard &&
         currentPatient && (
@@ -1452,8 +1378,8 @@ const HomePage = () => {
 
 
               {/*HEADER*/}
-                  
-              
+
+
 
               <div className="patient-header">
 
@@ -1703,8 +1629,8 @@ const HomePage = () => {
 
 
               {/*FEATURE CARDS  */}
-                  
-            
+
+
 
               <div className="feature-row">
 
@@ -1733,11 +1659,11 @@ const HomePage = () => {
                   }
                 >
 
-                  <FaWallet size={35}/>
+                  <FaWallet size={35} />
 
                   <p>Recharge  </p>
-                    
-                
+
+
 
                 </div>
 

@@ -44,6 +44,7 @@ import PatientAttendance from "./Components/PatientAttendance/PatientAttendance"
 import ServiceCategory from "./Components/ServiceCategory/ServiceCategory";
 import ServicesSubCategory from "./Components/ServicesSubCategory/ServicesSubCategory";
 import Services from "./Components/Services/Services";
+import AppointmentNew from "./Components/HomePage/AppointmentNew";
 
 
 //====================================================
@@ -239,9 +240,14 @@ function App() {
           <Route   path="/dashboard-clinic"  element={<DashboardClinic />} />
 
 
-          {/* HOME PAGE */}
+          {/* HOME PAGE (Appointment list)*/}
 
           <Route path="/homepage"  element={<HomePage />}/>
+
+
+          {/* Appointment New List */}
+
+          <Route path="/appointment-new"  element={<AppointmentNew />}/>
 
           {/* ADD PATIENT */}
 
