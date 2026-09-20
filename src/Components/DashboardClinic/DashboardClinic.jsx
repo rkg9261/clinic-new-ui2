@@ -99,7 +99,7 @@ useEffect(() => {
     menu: [
       {
         label: "Patient List",
-        path: "/homepage",
+        path: "/appointment-new",
       },
     ],
   },
