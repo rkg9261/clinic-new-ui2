@@ -55,98 +55,43 @@ const AppointmentNew = () => {
   // Replace this with your API data
   // --------------------------------------------------
 
-  const appointments = [
-    {
-      id: 1,
-      time: "09:00 AM",
-      shift: "Morning",
-      name: "Rohit Sharma",
-      age: 35,
-      gender: "Male",
-      whatsapp: "+91 98765 43210",
-      status: "Completed"
-    },
-    {
-      id: 2,
-      time: "10:30 AM",
-      shift: "Morning",
-      name: "Pooja Singh",
-      age: 28,
-      gender: "Female",
-      whatsapp: "+91 87654 32109",
-      status: "Completed"
-    },
-    {
-      id: 3,
-      time: "12:00 PM",
-      shift: "Morning",
-      name: "Amit Kumar",
-      age: 42,
-      gender: "Male",
-      whatsapp: "+91 76543 21098",
-      status: "Pending"
-    },
-    {
-      id: 4,
-      time: "01:30 PM",
-      shift: "Afternoon",
-      name: "Simran Kaur",
-      age: 26,
-      gender: "Female",
-      whatsapp: "+91 65432 10987",
-      status: "Completed"
-    },
-    {
-      id: 5,
-      time: "03:00 PM",
-      shift: "Evening",
-      name: "Vivek Joshi",
-      age: 48,
-      gender: "Male",
-      whatsapp: "+91 54321 09876",
-      status: "Pending"
-    },
-    {
-      id: 6,
-      time: "04:30 PM",
-      shift: "Evening",
-      name: "Neha Gupta",
-      age: 32,
-      gender: "Female",
-      whatsapp: "+91 43210 98765",
-      status: "Completed"
-    },
-    {
-      id: 7,
-      time: "05:30 PM",
-      shift: "Evening",
-      name: "",
-      age: "",
-      gender: "",
-      whatsapp: "",
-      status: "Available"
-    },
-    {
-      id: 8,
-      time: "06:00 PM",
-      shift: "Evening",
-      name: "Ankit Rajput",
-      age: 36,
-      gender: "Male",
-      whatsapp: "+91 21098 76543",
-      status: "Missed"
-    },
-    {
-      id: 9,
-      time: "06:30 PM",
-      shift: "Evening",
-      name: "Priya Patel",
-      age: 29,
-      gender: "Female",
-      whatsapp: "+91 21098 76543",
-      status: "Completed"
-    }
-  ];
+  const [appointments, setAppointments] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
+  const [apiError, setApiError] = useState("");
+
+  const [availableSlots, setAvailableSlots] = useState([]);
+
+
+  // --------------------------------------------------
+  // Fetch appointments when selectedDate changes
+  // --------------------------------------------------
+  useEffect(() => {
+
+    fetchAppointmentsByDate(
+        selectedDate
+    );
+
+  }, [selectedDate]);
+
+  // --------------------------------------------------
+  // Date formatting for API
+  // --------------------------------------------------
+  const formatDateForAPI = (date) => {
+
+    const year = date.getFullYear();
+
+    const month = String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+      date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
 
   // --------------------------------------------------
   // CALENDAR
@@ -288,6 +233,380 @@ const AppointmentNew = () => {
   };
 
   // --------------------------------------------------
+  // Clean Name Function
+  // --------------------------------------------------
+  const cleanName = (name) => {
+
+    if (!name) {
+        return "";
+    }
+
+    return String(name)
+        .replace(/;+$/g, "")
+        .trim();
+  };
+
+  // --------------------------------------------------
+  // Get Shift Function
+  // --------------------------------------------------
+  const getShift = (time) => {
+
+    if (!time) {
+        return "";
+    }
+
+    const value =
+        String(time)
+            .toUpperCase();
+
+    let hour = parseInt(
+        value
+            .replace(/[^0-9]/g, ""),
+        10
+    );
+
+    if (
+        value.includes("PM") &&
+        hour !== 12
+    ) {
+        hour += 12;
+    }
+
+    if (
+        value.includes("AM") &&
+        hour === 12
+    ) {
+        hour = 0;
+    }
+
+
+    if (hour < 12) {
+        return "Morning";
+    }
+
+    if (hour < 17) {
+        return "Afternoon";
+    }
+
+    return "Evening";
+  };
+  // --------------------------------------------------
+  // FETCH APPOINTMENTS BY DATE
+  // --------------------------------------------------
+  const fetchAppointmentsByDate = async (selectedDate) => {
+
+    try {
+
+      setLoading(true);
+
+      setApiError("");
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+
+        setApiError(
+          "Login session expired. Please login again."
+        );
+
+        return;
+      }
+
+
+      const date = formatDateForAPI(selectedDate);
+
+
+      const appointmentListUrl =
+        API.APPOINTMENT_LIST ||
+        `${BASE_URL}/api/appointment/listbydate`;
+
+
+      const url = `${appointmentListUrl}?date=${encodeURIComponent(date)}`;
+
+
+      console.log("================================");
+
+      console.log("GET APPOINTMENTS BY DATE");
+
+      console.log("DATE:", date);
+
+      console.log("URL:", url);
+
+      console.log("================================");
+
+
+      const response = await fetch(
+          url,
+          {
+            method: "GET",
+
+            headers: {
+
+              Authorization:
+                `Bearer ${token}`,
+
+              Accept:
+                "application/json"
+
+            }
+          }
+        );
+
+
+      const responseText =
+        await response.text();
+
+
+      let data = {};
+
+      try {
+
+        data =
+          responseText
+            ? JSON.parse(
+              responseText
+            )
+            : {};
+
+      }
+      catch (error) {
+
+        console.error(
+          "JSON PARSE ERROR:",
+          error
+        );
+
+        console.error(
+          "RAW RESPONSE:",
+          responseText
+        );
+
+        throw new Error(
+          "API returned invalid JSON."
+        );
+      }
+
+
+      console.log(
+        "APPOINTMENT API STATUS:",
+        response.status
+      );
+
+      console.log(
+        "APPOINTMENT API RESPONSE:",
+        data
+      );
+
+
+      if (
+        response.status === 401
+      ) {
+
+        localStorage.removeItem(
+          "token"
+        );
+
+        localStorage.removeItem(
+          "user"
+        );
+
+        setApiError(
+          "Session expired. Please login again."
+        );
+
+        return;
+      }
+
+
+      if (
+        response.status === 403
+      ) {
+
+        setApiError(
+          data?.message ||
+          "You do not have permission to view appointments."
+        );
+
+        return;
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data?.message ||
+          data?.error ||
+          "Failed to load appointments."
+        );
+      }
+
+
+      // ------------------------------------
+      // FIND ARRAY IN API RESPONSE
+      // ------------------------------------
+
+      let appointmentArray = [];
+
+
+      if (
+        Array.isArray(data)
+      ) {
+
+        appointmentArray =
+          data;
+
+      }
+      else if (
+        Array.isArray(data.data)
+      ) {
+
+        appointmentArray =
+          data.data;
+
+      }
+      else if (
+        Array.isArray(
+          data.appointments
+        )
+      ) {
+
+        appointmentArray =
+          data.appointments;
+
+      }
+      else if (
+        Array.isArray(
+          data.data?.appointments
+        )
+      ) {
+
+        appointmentArray =
+          data.data.appointments;
+
+      }
+      else if (
+        Array.isArray(
+          data.result
+        )
+      ) {
+
+        appointmentArray =
+          data.result;
+
+      }
+      else if (
+        Array.isArray(
+          data.result?.data
+        )
+      ) {
+
+        appointmentArray =
+          data.result.data;
+      }
+
+
+      console.log(
+        "APPOINTMENT ARRAY:",
+        appointmentArray
+      );
+
+
+      // ------------------------------------
+      // FORMAT API DATA FOR UI
+      // ------------------------------------
+
+      const formatted =
+        appointmentArray.map(
+          (item) => {
+
+            return {
+
+              id:
+                item.id ||
+                item._id,
+
+              time:
+                item.appointment_time ||
+                item.time ||
+                "",
+
+              shift:
+                item.shift ||
+                getShift(
+                  item.appointment_time
+                ),
+
+              name:
+                cleanName(
+                  item.name ||
+                  item.patient_name ||
+                  ""
+                ),
+
+              age:
+                item.age ??
+                "",
+
+              gender:
+                item.gender ||
+                "",
+
+              whatsapp:
+                item.whatsapp_number ||
+                item.whatsapp ||
+                item.mobile ||
+                "",
+
+              status:
+                item.status ||
+                item.appointment_status ||
+                "Pending",
+
+              appointment_date:
+                item.appointment_date,
+
+              appointment_time:
+                item.appointment_time,
+
+              appointment_time_to:
+                item.appointment_time_to
+
+            };
+
+          }
+        );
+
+
+      setAppointments(
+        formatted
+      );
+
+    }
+    catch (error) {
+
+      console.error(
+        "FETCH APPOINTMENTS ERROR:",
+        error
+      );
+
+      setApiError(
+        error.message ||
+        "Unable to load appointments."
+      );
+
+      setAppointments([]);
+
+    }
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+
+  // --------------------------------------------------
   // FILTER APPOINTMENTS
   // --------------------------------------------------
 
@@ -309,7 +628,7 @@ const AppointmentNew = () => {
 
       const matchStatus =
         statusFilter === "All Status" ||
-        item.status === statusFilter;
+        String(item.status).toLowerCase() === String(statusFilter).toLowerCase();
 
       return (
         matchSearch &&
@@ -330,23 +649,29 @@ const AppointmentNew = () => {
 
   const completedCount =
     appointments.filter(
-      x => x.status === "Completed"
+      x => String(x.status).toLowerCase() === "completed"
     ).length;
+  
 
   const pendingCount =
     appointments.filter(
-      x => x.status === "Pending"
+      x => String(x.status).toLowerCase() === "pending"
     ).length;
 
   const missedCount =
     appointments.filter(
-      x => x.status === "Missed"
+      x => String(x.status).toLowerCase() === "missed"
     ).length;
 
-  const availableSlot =
-    appointments.find(
-      x => x.status === "Available"
-    );
+  // const availableSlot =
+  //   appointments.find(
+  //     x => String(x.status).toLowerCase() === "available"
+  //   );
+
+    const availableSlot =
+    availableSlots.length > 0
+        ? availableSlots[0]
+        : null;
 
   // --------------------------------------------------
   // FORMAT DATE
@@ -371,8 +696,7 @@ const AppointmentNew = () => {
 
   const StatusBadge = ({ status }) => {
 
-    if (status === "Completed") {
-
+    if (String(status).toLowerCase() === "completed") {
       return (
         <span className="an-status an-status-completed">
           <FaCheckCircle />
@@ -381,8 +705,7 @@ const AppointmentNew = () => {
       );
     }
 
-    if (status === "Pending") {
-
+    if (String(status).toLowerCase() === "pending") {
       return (
         <span className="an-status an-status-pending">
           <FaClock />
@@ -391,8 +714,7 @@ const AppointmentNew = () => {
       );
     }
 
-    if (status === "Missed") {
-
+    if (String(status).toLowerCase() === "missed") {
       return (
         <span className="an-status an-status-missed">
           <FaTimesCircle />
@@ -506,15 +828,13 @@ const AppointmentNew = () => {
                       key={index}
                       className={`
                         an-calendar-day
-                        ${
-                          !item.currentMonth
-                            ? "an-other-month"
-                            : ""
+                        ${!item.currentMonth
+                          ? "an-other-month"
+                          : ""
                         }
-                        ${
-                          selected
-                            ? "an-selected-day"
-                            : ""
+                        ${selected
+                          ? "an-selected-day"
+                          : ""
                         }
                       `}
                       onClick={() => {
@@ -917,7 +1237,7 @@ const AppointmentNew = () => {
                         }
                         className={
                           appointment.status ===
-                          "Available"
+                            "Available"
                             ? "an-available-row"
                             : ""
                         }
@@ -948,7 +1268,7 @@ const AppointmentNew = () => {
                         <td>
 
                           {appointment.status ===
-                          "Available" ? (
+                            "Available" ? (
 
                             <div className="an-available-patient">
 
@@ -1016,7 +1336,7 @@ const AppointmentNew = () => {
                         <td>
 
                           {appointment.status ===
-                          "Available" ? (
+                            "Available" ? (
 
                             <span className="an-dash">
                               —
@@ -1055,7 +1375,7 @@ const AppointmentNew = () => {
                         <td>
 
                           {appointment.status ===
-                          "Available" ? (
+                            "Available" ? (
 
                             <button
                               className="an-book-btn"
