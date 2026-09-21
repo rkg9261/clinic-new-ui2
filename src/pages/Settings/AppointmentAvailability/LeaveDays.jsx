@@ -413,10 +413,10 @@ const LeaveDays = ({
       ? displayLeaves
       : displayLeaves.slice(
           0,
-          3
+          5
         );
 
-
+        console.log("visibleLeaves", visibleLeaves);
   /* =====================================================
      VIEW ALL
   ===================================================== */

@@ -243,13 +243,28 @@ const AddLeaveModal = ({
     } = e.target;
 
 
-    setFormData((previous) => ({
+    // setFormData((previous) => ({
 
-      ...previous,
+    //   ...previous,
 
-      [name]: value,
+    //   [name]: value,
 
-    }));
+    // }));
+
+    setFormData((previous) => {
+      // 1. Create a copy of the previous state with the new value applied
+      const nextState = {
+        ...previous,
+        [name]: value,
+      };
+
+      // 2. If 'fromDate' is changing and 'toDate' is empty or blank
+      if (name === 'fromDate') {
+        nextState.toDate = value; // Sync the toDate with the new fromDate value
+      }
+
+      return nextState;
+    });    
 
   };
 
