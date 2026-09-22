@@ -63,7 +63,7 @@ const AppointmentForm = () => {
     {
       label: "05:15 PM",
       from: "05:15 PM",
-      to: "06:00 PM",
+      to: "05:45 PM",
     },
 
     {

@@ -1484,7 +1484,7 @@ const AppointmentNew = () => {
 
                         <td>
                           
-                          {appointment.paymentStatus === "Captured" ? (
+                          {appointment.paymentStatus === "CAPTURED" ? (
                             <span className="an-status an-status-captured">
                               <span style={{ color: 'green', fontWeight: 'bold', fontSize: '12px' }}><FaCheckCircle /> Paid</span>
                             </span>
