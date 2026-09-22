@@ -127,6 +127,7 @@ const AppointmentForm = () => {
           value: value,
           label: value.split("-").reverse().join("-") + (date.getDay() === 0 ? " (Sunday)" : ""),
           disabled: date.getDay() === 0 || date.toISOString().split("T")[0] === '2026-09-23' // Disable Sunday and Saturday
+          || date.toISOString().split("T")[0] === '2026-09-26'
         });
       //}
 
