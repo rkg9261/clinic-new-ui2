@@ -3,11 +3,12 @@
 // ============================================
 
 // new url for api2
-export const BASE_URL = "https://api2.thekapc.com";
+//export const BASE_URL = "https://api2.thekapc.com";
 
- //export const BASE_URL = "http://localhost:3000";
+ export const BASE_URL = "http://localhost:3000";
 
 
+export const GLOBAL_BRANCH_ID = "2"; // Replace with the actual branch ID you want to use
 // ============================================
 // API ENDPOINTS
 // ============================================

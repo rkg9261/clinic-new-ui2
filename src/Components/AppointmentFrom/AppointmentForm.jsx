@@ -11,7 +11,7 @@ import {
   FaExclamationCircle,
 } from "react-icons/fa";
 
-import { API } from "../../config/api";
+import { API, BASE_URL, GLOBAL_BRANCH_ID } from "../../config/api";
 
 import AppointmentPayment
   from "../AppointmentPayment/AppointmentPayment";
@@ -20,11 +20,109 @@ const consultaionAmount = 150;
 
 const AppointmentForm = () => {
 
+const [dates1, setDates] = useState([]);
 //scroll to top on page load
   React.useEffect(() => {
     window.scrollTo(0, 0);
+    loadAvailableDates();
   }, []);
 
+  // React.useEffect(() => {
+
+  //     console.log("Available Dates1 Loaded:", dates1);
+
+  // }, [dates1]);
+
+  
+  const [loadingDates, setLoadingDates] = useState(false);
+
+   const loadAvailableDates = async () => {
+  
+      try {
+  
+            setLoadingDates(true);
+
+            const token = localStorage.getItem("token");
+            console.log("url" , `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`);
+            const response = await fetch(
+                `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+  
+            const result = await response.json();
+  
+            if (!response.ok || !result.success) {
+  
+                throw new Error(
+                    result.message ||
+                    "Failed to load availability."
+                );
+            }
+            console.log("Result:", result);
+            const formattedDates = (result.data || []).map(day => ({
+  
+                value: day.date.split("T")[0],
+  
+                label: day.date
+                    .split("T")[0]
+                    .split("-")
+                    .reverse()
+                    .join("-"),
+  
+                dayName: day.day_name,
+  
+                status: day.status,
+  
+                reason: day.reason,
+  
+                isWorking:
+                    day.status === "WORKING",
+  
+                morningEnabled:
+                    Number(day.morning_enabled) === 1,
+  
+                morningStartTime:
+                    day.morning_start_time,
+  
+                morningEndTime:
+                    day.morning_end_time,
+  
+                eveningEnabled:
+                    Number(day.evening_enabled) === 1,
+  
+                eveningStartTime:
+                    day.evening_start_time,
+  
+                eveningEndTime:
+                    day.evening_end_time
+  
+            }));
+            console.log("Formatted Dates:", formattedDates);
+            setDates(formattedDates);
+            //console.log("Available Dates1 Loaded:", dates1);
+  
+        } catch (error) {
+  
+            console.error(
+                "Failed to load appointment dates:",
+                error
+            );
+  
+            setDates([]);
+  
+        } finally {
+  
+            setLoadingDates(false);
+  
+        }
+    };
+  
   /*====================================
     TIME SLOTS
   ====================================*/
@@ -111,31 +209,31 @@ const AppointmentForm = () => {
 
   //sunday not included, only 5 days from today
 
-  const getAvailableDates = () => {
-  const dates = [];
-  let i = 0;
+  // const getAvailableDates = () => {
+  // const dates = [];
+  // let i = 0;
 
-  while (dates.length < 5) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
+  // while (dates.length < 5) {
+  //     const date = new Date();
+  //     date.setDate(date.getDate() + i);
 
-      // 0 = Sunday
-      //if (date.getDay() !== 0) {
-        const value = date.toISOString().split("T")[0];
+  //     // 0 = Sunday
+  //     //if (date.getDay() !== 0) {
+  //       const value = date.toISOString().split("T")[0];
 
-        dates.push({
-          value: value,
-          label: value.split("-").reverse().join("-") + (date.getDay() === 0 ? " (Sunday)" : ""),
-          disabled: date.getDay() === 0 || date.toISOString().split("T")[0] === '2026-09-23' // Disable Sunday and Saturday
-          || date.toISOString().split("T")[0] === '2026-09-26'
-        });
-      //}
+  //       dates.push({
+  //         value: value,
+  //         label: value.split("-").reverse().join("-") + (date.getDay() === 0 ? " (Sunday)" : ""),
+  //         disabled: date.getDay() === 0 || date.toISOString().split("T")[0] === '2026-09-23' // Disable Sunday and Saturday
+  //         || date.toISOString().split("T")[0] === '2026-09-26'
+  //       });
+  //     //}
 
-      i++;
-    }
+  //     i++;
+  //   }
 
-    return dates;
-  };
+  //   return dates;
+  // };
 
   //show sunday as well, only 5 days from today
    //getAvailableDates1 = () => {
@@ -162,8 +260,8 @@ const AppointmentForm = () => {
   //   return dates;
   //};
 
-  const availableDates = getAvailableDates();
-  console.log(availableDates);
+  //const availableDates = getAvailableDates();
+  //console.log(availableDates);
   /*====================================
     FORM STATE
   ====================================*/
@@ -1679,13 +1777,17 @@ const AppointmentForm = () => {
                 Select Appointment Date
               </option>
 
-              {availableDates.map((date) => (
+              {dates1.map((date) => (
                 <option
                   key={date.value}
                   value={date.value}
-                  disabled={date.disabled}
+                  disabled={!date.isWorking}
                 >
-                  {date.label}
+                  {date.label} ({date.dayName})
+                  {!date.isWorking
+                      ? ` - ${date.reason || "Clinic Closed"}`
+                      : ""
+                  }
                 </option>
               ))}
             </select>

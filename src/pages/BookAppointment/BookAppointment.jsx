@@ -13,7 +13,7 @@ import {
   FaExclamationCircle,
 } from "react-icons/fa";
 
-import { API } from "../../config/api";
+import { API, BASE_URL } from "../../config/api";
 
 const BookAppointment = () => {
 
@@ -36,7 +36,97 @@ const BookAppointment = () => {
   /* =====================================================
      FORM STATE
   ===================================================== */
+  const [dates, setDates] = useState([]);
+  const [loadingDates, setLoadingDates] = useState(false);
+  useEffect(() => {
 
+    loadAvailableDates();
+
+  }, []);
+  const loadAvailableDates = async () => {
+
+    try {
+
+          setLoadingDates(true);
+
+          const token = localStorage.getItem("token");
+
+          const response = await fetch(
+              `${BASE_URL}/api/appointment-availability/next-7-days`,
+              {
+                  method: "GET",
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json"
+                  }
+              }
+          );
+
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+
+              throw new Error(
+                  result.message ||
+                  "Failed to load availability."
+              );
+          }
+
+          const formattedDates = (result.data || []).map(day => ({
+
+              value: day.date,
+
+              label: day.date
+                  .split("-")
+                  .reverse()
+                  .join("-"),
+
+              dayName: day.day_name,
+
+              status: day.status,
+
+              reason: day.reason,
+
+              isWorking:
+                  day.status === "WORKING",
+
+              morningEnabled:
+                  Number(day.morning_enabled) === 1,
+
+              morningStartTime:
+                  day.morning_start_time,
+
+              morningEndTime:
+                  day.morning_end_time,
+
+              eveningEnabled:
+                  Number(day.evening_enabled) === 1,
+
+              eveningStartTime:
+                  day.evening_start_time,
+
+              eveningEndTime:
+                  day.evening_end_time
+
+          }));
+
+          setDates(formattedDates);
+
+      } catch (error) {
+
+          console.error(
+              "Failed to load appointment dates:",
+              error
+          );
+
+          setDates([]);
+
+      } finally {
+
+          setLoadingDates(false);
+
+      }
+  };
   const [formData, setFormData] = useState({
 
     fullName: "",
@@ -289,30 +379,105 @@ const BookAppointment = () => {
   /*
   Get available dates as for 5days from today
   */
-  const getAvailableDates = () => {
-    const dates = [];
+  const getAvailableDates = async () => {
 
-    for (let i = 0; i <= 4; i++) {
-      const date = new Date();
+    // //static
+    // const dates = [];
 
-      date.setDate(date.getDate() + i);
+    // for (let i = 0; i <= 4; i++) {
+    //   const date = new Date();
 
-      // let datename = "";
-      //  if(i === 0)
-      //    datename = "Today";
-      // else if(i == 1)
-      //   datename = "Tomorrow";
-      // else
-      //   datename = date.toISOString().split("T")[0];
+    //   date.setDate(date.getDate() + i);
+
+    //   // let datename = "";
+    //   //  if(i === 0)
+    //   //    datename = "Today";
+    //   // else if(i == 1)
+    //   //   datename = "Tomorrow";
+    //   // else
+    //   //   datename = date.toISOString().split("T")[0];
 
 
-      dates.push({
-        value: date.toISOString().split("T")[0],
-        label: date.toISOString().split("T")[0].split("-").reverse().join("-")
-      });
+    //   dates.push({
+    //     value: date.toISOString().split("T")[0],
+    //     label: date.toISOString().split("T")[0].split("-").reverse().join("-")
+    //   });
+    // }
+
+    // return dates;
+    
+    //dynamic
+    try {
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            `${BASE_URL}/api/appointment-availability/next-7-days`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Failed to get appointment availability."
+            );
+        }
+
+        return result.data.map(day => ({
+
+            value: day.date,
+
+            label: day.date
+                .split("-")
+                .reverse()
+                .join("-"),
+
+            dayName: day.day_name,
+
+            status: day.status,
+
+            reason: day.reason,
+
+            isWorking: day.status === "WORKING",
+
+            morningEnabled:
+                Number(day.morning_enabled) === 1,
+
+            morningStartTime:
+                day.morning_start_time,
+
+            morningEndTime:
+                day.morning_end_time,
+
+            eveningEnabled:
+                Number(day.evening_enabled) === 1,
+
+            eveningStartTime:
+                day.evening_start_time,
+
+            eveningEndTime:
+                day.evening_end_time
+
+        }));
+
+    } catch (error) {
+
+        console.error(
+            "Error loading available dates:",
+            error
+        );
+
+        return [];
+
     }
-
-    return dates;
   };
   const availableDates = getAvailableDates();
   console.log(availableDates);
@@ -373,9 +538,7 @@ const BookAppointment = () => {
 
   ===================================================== */
 
-  const getAvailableTimeSlots = (
-    selectedDate
-  ) => {
+  const getAvailableTimeSlots = (selectedDate) => {
 
     /*----------------------------------
       NO DATE SELECTED
@@ -404,7 +567,6 @@ const BookAppointment = () => {
 
     /*----------------------------------
       TODAY
-
       CURRENT TIME + 40 MINUTES
     ----------------------------------*/
 
@@ -1318,12 +1480,17 @@ const BookAppointment = () => {
                       Select Appointment Date
                     </option>
 
-                    {availableDates.map((date) => (
+                    {dates.map((date) => (
                       <option
                         key={date.value}
                         value={date.value}
+                        disabled={!date.isWorking}
                       >
-                        {date.label}
+                        {date.label} ({date.dayName})
+                        {!date.isWorking
+                            ? ` - ${date.reason || "Clinic Closed"}`
+                            : ""
+                        }
                       </option>
                     ))}
                   </select>
