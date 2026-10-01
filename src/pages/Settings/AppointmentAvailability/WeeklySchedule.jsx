@@ -1155,6 +1155,38 @@ const WeeklySchedule = forwardRef(({ schedule, setSchedule }, ref) => {
 
                         {isClosed && <small>Clinic Closed</small>}
                       </div>
+                      {/* show a hyperlink on hover to apply current schedule to all days which checkbox is checked */}
+                      {/* style button to match theme and align in right */}
+                      <button
+                        style={{
+                          marginLeft: "auto", backgroundColor: "#4CAF50", color: "white", border: "none",
+                          padding: "5px 10px", borderRadius: "4px", cursor: "pointer", display: item.enabled ? "block" : "none",
+                        }}
+                        type="button"
+                        className="apply-to-all-btn"
+                        onClick={() => {
+                          const currentDaySchedule = schedule[rowIndex];
+                          setSchedule((prevSchedule) =>
+                            prevSchedule.map((daySchedule, index) => {
+                              if (index !== rowIndex && toBoolean(daySchedule.enabled)) {
+                                return {
+                                  ...daySchedule,
+                                  enabled: currentDaySchedule.enabled,
+                                  morningEnabled: currentDaySchedule.morningEnabled,
+                                  morningStart: currentDaySchedule.morningStart,
+                                  morningEnd: currentDaySchedule.morningEnd,
+                                  eveningEnabled: currentDaySchedule.eveningEnabled,
+                                  eveningStart: currentDaySchedule.eveningStart,
+                                  eveningEnd: currentDaySchedule.eveningEnd,
+                                };
+                              }
+                              return daySchedule;
+                            })
+                          );
+                        }}
+                      >
+                        Apply to All
+                      </button>
                     </div>
                   </td>
 
@@ -1257,7 +1289,7 @@ const WeeklySchedule = forwardRef(({ schedule, setSchedule }, ref) => {
         Enable or disable the morning and evening sessions separately. Only enabled sessions will
         appear in the Preview Slots section.
       </div>
-    </div>
+    </div >
   );
 });
 

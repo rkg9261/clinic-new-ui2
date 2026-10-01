@@ -26,6 +26,7 @@ const BranchLogin = () => {
   ========================================================= */
 
   const handleChange = (e) => {
+    console.log("Input Change:", e.target.name, e.target.value);
     setLoginData({
       ...loginData,
       [e.target.name]: e.target.value,
@@ -320,9 +321,9 @@ const BranchLogin = () => {
 
       if (
         loginData.fileNo ===
-          "P001" &&
+        "P001" &&
         loginData.password ===
-          "123456"
+        "123456"
       ) {
 
         navigate(
@@ -414,7 +415,7 @@ const BranchLogin = () => {
             <label
               className={
                 loginType ===
-                "AdminClinic"
+                  "AdminClinic"
                   ? "active-login-type"
                   : ""
               }
@@ -442,7 +443,7 @@ const BranchLogin = () => {
             <label
               className={
                 loginType ===
-                "Patient"
+                  "Patient"
                   ? "active-login-type"
                   : ""
               }
@@ -485,7 +486,7 @@ const BranchLogin = () => {
 
               <label>
                 {loginType ===
-                "Patient"
+                  "Patient"
                   ? "File Number"
                   : "Email"}
               </label>
@@ -493,28 +494,28 @@ const BranchLogin = () => {
               <input
                 type={
                   loginType ===
-                  "Patient"
+                    "Patient"
                     ? "text"
                     : "email"
                 }
 
                 name={
                   loginType ===
-                  "Patient"
+                    "Patient"
                     ? "fileNo"
                     : "email"
                 }
 
                 placeholder={
                   loginType ===
-                  "Patient"
+                    "Patient"
                     ? "Enter Your File Number"
                     : "Enter Email"
                 }
 
                 value={
                   loginType ===
-                  "Patient"
+                    "Patient"
                     ? loginData.fileNo
                     : loginData.email
                 }
@@ -525,7 +526,7 @@ const BranchLogin = () => {
 
                 autoComplete={
                   loginType ===
-                  "Patient"
+                    "Patient"
                     ? "username"
                     : "email"
                 }
