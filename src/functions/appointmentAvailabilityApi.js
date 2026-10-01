@@ -16,7 +16,7 @@ export const getAvailableTimeSlots = async (date) => {
         localStorage.getItem("token");
 
     const response = await fetch(
-        `${BASE_URL}/api/appointment-availability/slots?date=${date}`,
+        `${import.meta.env.VITE_API_URL}/api/appointment-availability/slots?date=${date}`,
         {
             method: "GET",
 

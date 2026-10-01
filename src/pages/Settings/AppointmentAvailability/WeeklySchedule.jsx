@@ -1,2049 +1,975 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-} from "react";
+import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 
-import {
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 
 import { API } from "../../../config/api";
-
 
 /* =====================================================
    FIXED WEEKDAYS
 ===================================================== */
 
-const WEEKDAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-
-const WeeklySchedule = forwardRef(
-  (
-    {
-      schedule,
-      setSchedule,
-    },
-    ref
-  ) => {
-
-
-    /* =====================================================
+const WeeklySchedule = forwardRef(({ schedule, setSchedule }, ref) => {
+  /* =====================================================
        GET AUTH TOKEN
     ===================================================== */
 
-    const getAuthToken = () => {
+  const getAuthToken = () => {
+    let token = localStorage.getItem("token");
 
-      let token =
-        localStorage.getItem("token");
+    if (!token) {
+      token = localStorage.getItem("authToken");
+    }
 
-
-      if (!token) {
-
-        token =
-          localStorage.getItem("authToken");
-
+    if (token && typeof token === "string" && token.startsWith('"') && token.endsWith('"')) {
+      try {
+        token = JSON.parse(token);
+      } catch {
+        // Keep original token
       }
+    }
 
+    if (token && typeof token === "string" && token.startsWith("Bearer ")) {
+      token = token.substring(7);
+    }
 
-      if (
-        token &&
-        typeof token === "string" &&
-        token.startsWith('"') &&
-        token.endsWith('"')
-      ) {
+    return token;
+  };
 
-        try {
-
-          token =
-            JSON.parse(token);
-
-        } catch {
-
-          // Keep original token
-
-        }
-
-      }
-
-
-      if (
-        token &&
-        typeof token === "string" &&
-        token.startsWith("Bearer ")
-      ) {
-
-        token =
-          token.substring(7);
-
-      }
-
-
-      return token;
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        CONVERT API VALUE TO BOOLEAN
 
     ===================================================== */
 
-    const toBoolean = (
-      value
-    ) => {
+  const toBoolean = (value) => {
+    if (value === true) {
+      return true;
+    }
 
-      if (
-        value === true
-      ) {
-
-        return true;
-
-      }
-
-
-      if (
-        value === false
-      ) {
-
-        return false;
-
-      }
-
-
-      if (
-        value === 1
-      ) {
-
-        return true;
-
-      }
-
-
-      if (
-        value === 0
-      ) {
-
-        return false;
-
-      }
-
-
-      if (
-        typeof value === "string"
-      ) {
-
-        const normalized =
-          value
-            .trim()
-            .toLowerCase();
-
-
-        if (
-          normalized === "1" ||
-          normalized === "true"
-        ) {
-
-          return true;
-
-        }
-
-
-        if (
-          normalized === "0" ||
-          normalized === "false" ||
-          normalized === ""
-        ) {
-
-          return false;
-
-        }
-
-      }
-
-
+    if (value === false) {
       return false;
+    }
 
-    };
+    if (value === 1) {
+      return true;
+    }
 
+    if (value === 0) {
+      return false;
+    }
 
-    /* =====================================================
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+
+      if (normalized === "1" || normalized === "true") {
+        return true;
+      }
+
+      if (normalized === "0" || normalized === "false" || normalized === "") {
+        return false;
+      }
+    }
+
+    return false;
+  };
+
+  /* =====================================================
        CHECK VALUE EXISTS
     ===================================================== */
 
-    const hasValue = (
-      value
-    ) => {
+  const hasValue = (value) => {
+    return value !== undefined && value !== null;
+  };
 
-      return (
-        value !== undefined &&
-        value !== null
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        FORMAT TIME
 
     ===================================================== */
 
-    const formatTime = (
-      value
-    ) => {
+  const formatTime = (value) => {
+    if (value === null || value === undefined || value === "") {
+      return "";
+    }
 
-      if (
-        value === null ||
-        value === undefined ||
-        value === ""
-      ) {
+    return String(value).substring(0, 5);
+  };
 
-        return "";
-
-      }
-
-
-      return String(
-        value
-      ).substring(
-        0,
-        5
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        GET SCHEDULE ID
     ===================================================== */
 
-    const getScheduleId = (
-      item
-    ) => {
+  const getScheduleId = (item) => {
+    if (!item) {
+      return null;
+    }
 
-      if (!item) {
+    return (
+      item.id ??
+      item.weeklyScheduleId ??
+      item.weeklyScheduleID ??
+      item.weekly_schedule_id ??
+      item.scheduleId ??
+      item.scheduleID ??
+      null
+    );
+  };
 
-        return null;
-
-      }
-
-
-      return (
-
-        item.id ??
-
-        item.weeklyScheduleId ??
-
-        item.weeklyScheduleID ??
-
-        item.weekly_schedule_id ??
-
-        item.scheduleId ??
-
-        item.scheduleID ??
-
-        null
-
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        GET DAY
     ===================================================== */
 
-    const getScheduleDay = (
-      item
-    ) => {
+  const getScheduleDay = (item) => {
+    if (!item) {
+      return "";
+    }
 
-      if (!item) {
+    return item.dayOfWeek ?? item.day ?? item.DayOfWeek ?? item.day_of_week ?? "";
+  };
 
-        return "";
-
-      }
-
-
-      return (
-
-        item.dayOfWeek ??
-
-        item.day ??
-
-        item.DayOfWeek ??
-
-        item.day_of_week ??
-
-        ""
-
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        GET FIRST VALUE
     ===================================================== */
 
-    const getFirstValue = (
-      item,
-      keys
-    ) => {
-
-      for (
-        const key of keys
-      ) {
-
-        if (
-          item?.[key] !== undefined &&
-          item?.[key] !== null
-        ) {
-
-          return item[key];
-
-        }
-
+  const getFirstValue = (item, keys) => {
+    for (const key of keys) {
+      if (item?.[key] !== undefined && item?.[key] !== null) {
+        return item[key];
       }
+    }
 
+    return undefined;
+  };
 
-      return undefined;
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        FORMAT API RECORD
     ===================================================== */
 
-    const formatApiRecord = (
-      item
-    ) => {
+  const formatApiRecord = (item) => {
+    if (!item) {
+      return null;
+    }
 
-      if (!item) {
+    const apiDay = getScheduleDay(item);
 
-        return null;
+    if (!apiDay) {
+      return null;
+    }
 
-      }
-
-
-      const apiDay =
-        getScheduleDay(
-          item
-        );
-
-
-      if (!apiDay) {
-
-        return null;
-
-      }
-
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          MATCH DAY
       --------------------------------------------- */
 
-      const matchedDay =
-        WEEKDAYS.find(
-          (weekday) =>
-            weekday
-              .toLowerCase() ===
-            String(
-              apiDay
-            )
-              .trim()
-              .toLowerCase()
-        );
+    const matchedDay = WEEKDAYS.find(
+      (weekday) => weekday.toLowerCase() === String(apiDay).trim().toLowerCase(),
+    );
 
+    const day = matchedDay || String(apiDay).trim();
 
-      const day =
-        matchedDay ||
-        String(
-          apiDay
-        ).trim();
-
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          DATABASE ID
       --------------------------------------------- */
 
-      const id =
-        getScheduleId(
-          item
-        );
+    const id = getScheduleId(item);
 
+    const hasDatabaseRecord = id !== null && id !== undefined && id !== "";
 
-      const hasDatabaseRecord =
-        id !== null &&
-        id !== undefined &&
-        id !== "";
-
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          ENABLED
       --------------------------------------------- */
 
-      const enabledValue =
-        getFirstValue(
-          item,
-          [
-            "enabled",
-            "Enabled",
-            "isEnabled",
-            "IsEnabled",
-          ]
-        );
+    const enabledValue = getFirstValue(item, ["is_enabled", "enabled", "Enabled", "isEnabled", "IsEnabled"]);
 
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          MORNING ENABLED
       --------------------------------------------- */
 
-      const morningEnabledValue =
-        getFirstValue(
-          item,
-          [
-            "morningEnabled",
-            "morning_enabled",
-            "MorningEnabled",
-            "isMorningEnabled",
-            "IsMorningEnabled",
-          ]
-        );
+    const morningEnabledValue = getFirstValue(item, ["morningEnabled", "morning_enabled", "MorningEnabled", "isMorningEnabled", "IsMorningEnabled",]);
 
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          EVENING ENABLED
       --------------------------------------------- */
 
-      const eveningEnabledValue =
-        getFirstValue(
-          item,
-          [
-            "eveningEnabled",
-            "evening_enabled",
-            "EveningEnabled",
-            "isEveningEnabled",
-            "IsEveningEnabled",
-          ]
-        );
+    const eveningEnabledValue = getFirstValue(item, [
+      "eveningEnabled", "evening_enabled", "EveningEnabled", "isEveningEnabled", "IsEveningEnabled",]);
 
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          MORNING TIMES
       --------------------------------------------- */
 
-      const morningStart =
-        formatTime(
-          getFirstValue(
-            item,
-            [
-              "morningStartTime",
-              "morningStart",
-              "morning_start_time",
-              "MorningStartTime",
-            ]
-          )
-        );
+    const morningStart = formatTime(
+      getFirstValue(item, [
+        "morningStartTime",
+        "morningStart",
+        "morning_start_time",
+        "MorningStartTime",
+      ]),
+    );
 
+    const morningEnd = formatTime(
+      getFirstValue(item, ["morningEndTime", "morningEnd", "morning_end_time", "MorningEndTime"]),
+    );
 
-      const morningEnd =
-        formatTime(
-          getFirstValue(
-            item,
-            [
-              "morningEndTime",
-              "morningEnd",
-              "morning_end_time",
-              "MorningEndTime",
-            ]
-          )
-        );
-
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          EVENING TIMES
       --------------------------------------------- */
 
-      const eveningStart =
-        formatTime(
-          getFirstValue(
-            item,
-            [
-              "eveningStartTime",
-              "eveningStart",
-              "evening_start_time",
-              "EveningStartTime",
-            ]
-          )
-        );
+    const eveningStart = formatTime(
+      getFirstValue(item, [
+        "eveningStartTime",
+        "eveningStart",
+        "evening_start_time",
+        "EveningStartTime",
+      ]),
+    );
 
+    const eveningEnd = formatTime(
+      getFirstValue(item, ["eveningEndTime", "eveningEnd", "evening_end_time", "EveningEndTime"]),
+    );
 
-      const eveningEnd =
-        formatTime(
-          getFirstValue(
-            item,
-            [
-              "eveningEndTime",
-              "eveningEnd",
-              "evening_end_time",
-              "EveningEndTime",
-            ]
-          )
-        );
-
-
-      /* ---------------------------------------------
+    /* ---------------------------------------------
          CHECK EXISTING TIMES
       --------------------------------------------- */
 
-      const hasMorningTime =
-        Boolean(
-          morningStart ||
-          morningEnd
-        );
+    const hasMorningTime = Boolean(morningStart || morningEnd);
 
+    const hasEveningTime = Boolean(eveningStart || eveningEnd);
 
-      const hasEveningTime =
-        Boolean(
-          eveningStart ||
-          eveningEnd
-        );
+    let enabled;
 
+    if (hasValue(enabledValue)) {
+      enabled = toBoolean(enabledValue);
+    } else {
+      enabled = hasDatabaseRecord;
+    }
 
-
-      let enabled;
-
-
-      if (
-        hasValue(
-          enabledValue
-        )
-      ) {
-
-        enabled =
-          toBoolean(
-            enabledValue
-          );
-
-      } else {
-
-        enabled =
-          hasDatabaseRecord;
-
-      }
-
-
-      /* =================================================
+    /* =================================================
          MORNING ENABLED
       ================================================= */
 
-      let morningEnabled;
+    let morningEnabled;
 
+    if (hasValue(morningEnabledValue)) {
+      morningEnabled = toBoolean(morningEnabledValue);
+    } else {
+      morningEnabled = hasMorningTime || hasDatabaseRecord;
+    }
 
-      if (
-        hasValue(
-          morningEnabledValue
-        )
-      ) {
-
-        morningEnabled =
-          toBoolean(
-            morningEnabledValue
-          );
-
-      } else {
-
-        morningEnabled =
-          hasMorningTime ||
-          hasDatabaseRecord;
-
-      }
-
-
-      /* =================================================
+    /* =================================================
          EVENING ENABLED
       ================================================= */
 
-      let eveningEnabled;
+    let eveningEnabled;
 
+    if (hasValue(eveningEnabledValue)) {
+      eveningEnabled = toBoolean(eveningEnabledValue);
+    } else {
+      eveningEnabled = hasEveningTime || hasDatabaseRecord;
+    }
 
-      if (
-        hasValue(
-          eveningEnabledValue
-        )
-      ) {
-
-        eveningEnabled =
-          toBoolean(
-            eveningEnabledValue
-          );
-
-      } else {
-
-        eveningEnabled =
-          hasEveningTime ||
-          hasDatabaseRecord;
-
-      }
-
-
-      /* =================================================
+    /* =================================================
          FINAL API RECORD
       ================================================= */
 
-      const formattedRecord = {
+    const formattedRecord = {
+      id: id,
 
-        id:
-          id,
+      day: day,
 
-        day:
-          day,
+      dayOfWeek: day,
 
-        dayOfWeek:
-          day,
+      enabled: enabled,
 
-        enabled:
-          enabled,
+      morningEnabled: morningEnabled,
 
-        morningEnabled:
-          morningEnabled,
+      morningStart: morningStart,
 
-        morningStart:
-          morningStart,
+      morningEnd: morningEnd,
 
-        morningEnd:
-          morningEnd,
+      eveningEnabled: eveningEnabled,
 
-        eveningEnabled:
-          eveningEnabled,
+      eveningStart: eveningStart,
 
-        eveningStart:
-          eveningStart,
-
-        eveningEnd:
-          eveningEnd,
-
-      };
-
-
-      console.log(
-        `WEEKLY SCHEDULE FROM API - ${day}`,
-        formattedRecord
-      );
-
-
-      return formattedRecord;
-
+      eveningEnd: eveningEnd,
     };
 
+    console.log(`WEEKLY SCHEDULE FROM API - ${day}`, formattedRecord);
 
-    /* =====================================================
+    return formattedRecord;
+  };
+
+  /* =====================================================
        EXTRACT API ARRAY
     ===================================================== */
 
-    const extractScheduleArray = (
-      responseData
-    ) => {
-
-      if (!responseData) {
-
-        return [];
-
-      }
-
-
-      if (
-        Array.isArray(
-          responseData
-        )
-      ) {
-
-        return responseData;
-
-      }
-
-
-      if (
-        Array.isArray(
-          responseData.data
-        )
-      ) {
-
-        return responseData.data;
-
-      }
-
-
-      if (
-        Array.isArray(
-          responseData.schedule
-        )
-      ) {
-
-        return responseData.schedule;
-
-      }
-
-
-      if (
-        Array.isArray(
-          responseData.schedules
-        )
-      ) {
-
-        return responseData.schedules;
-
-      }
-
-
-      if (
-        Array.isArray(
-          responseData.result
-        )
-      ) {
-
-        return responseData.result;
-
-      }
-
-
-      if (
-        responseData.data &&
-        typeof responseData.data === "object"
-      ) {
-
-        if (
-          Array.isArray(
-            responseData.data.data
-          )
-        ) {
-
-          return responseData.data.data;
-
-        }
-
-
-        if (
-          Array.isArray(
-            responseData.data.schedule
-          )
-        ) {
-
-          return responseData.data.schedule;
-
-        }
-
-
-        if (
-          Array.isArray(
-            responseData.data.schedules
-          )
-        ) {
-
-          return responseData.data.schedules;
-
-        }
-
-      }
-
-
+  const extractScheduleArray = (responseData) => {
+    if (!responseData) {
       return [];
+    }
 
-    };
+    if (Array.isArray(responseData)) {
+      return responseData;
+    }
 
+    if (Array.isArray(responseData.data)) {
+      return responseData.data;
+    }
 
-    /* =====================================================
+    if (Array.isArray(responseData.schedule)) {
+      return responseData.schedule;
+    }
+
+    if (Array.isArray(responseData.schedules)) {
+      return responseData.schedules;
+    }
+
+    if (Array.isArray(responseData.result)) {
+      return responseData.result;
+    }
+
+    if (responseData.data && typeof responseData.data === "object") {
+      if (Array.isArray(responseData.data.data)) {
+        return responseData.data.data;
+      }
+
+      if (Array.isArray(responseData.data.schedule)) {
+        return responseData.data.schedule;
+      }
+
+      if (Array.isArray(responseData.data.schedules)) {
+        return responseData.data.schedules;
+      }
+    }
+
+    return [];
+  };
+
+  /* =====================================================
        MERGE API DATA WITH MONDAY-SUNDAY
     ===================================================== */
 
-    const mergeSchedule = (
-      apiArray
-    ) => {
+  const mergeSchedule = (apiArray) => {
+    const formattedApiRows = apiArray.map(formatApiRecord).filter(Boolean);
 
-      const formattedApiRows =
-        apiArray
-          .map(
-            formatApiRecord
-          )
-          .filter(
-            Boolean
-          );
+    console.log("==============================================");
 
+    console.log("FORMATTED WEEKLY API RECORDS");
 
-      console.log(
-        "=============================================="
-      );
+    console.log(formattedApiRows);
 
-      console.log(
-        "FORMATTED WEEKLY API RECORDS"
-      );
-
-      console.log(
-        formattedApiRows
-      );
-
-
-      const finalSchedule =
-        WEEKDAYS.map(
-          (weekday) => {
-
-            /* -----------------------------------------
+    const finalSchedule = WEEKDAYS.map((weekday) => {
+      /* -----------------------------------------
                DATABASE ROW
             ----------------------------------------- */
 
-            const databaseRow =
-              formattedApiRows.find(
-                (row) =>
-                  String(
-                    row.day
-                  )
-                    .trim()
-                    .toLowerCase() ===
-                  weekday.toLowerCase()
-              );
+      const databaseRow = formattedApiRows.find(
+        (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
+      );
 
-
-            /* -----------------------------------------
+      /* -----------------------------------------
                OLD REACT ROW
             ----------------------------------------- */
 
-            const oldRow =
-              schedule?.find(
-                (row) =>
-                  String(
-                    row.day
-                  )
-                    .trim()
-                    .toLowerCase() ===
-                  weekday.toLowerCase()
-              );
+      const oldRow = schedule?.find(
+        (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
+      );
 
-
-            /* =========================================
+      /* =========================================
                DATABASE RECORD FOUND
             ========================================= */
 
-            if (
-              databaseRow
-            ) {
+      if (databaseRow) {
+        return {
+          ...(oldRow || {}),
 
-              return {
+          /* ID */
 
-                ...(oldRow || {}),
+          id: databaseRow.id,
 
-                /* ID */
+          /* DAY */
 
-                id:
-                  databaseRow.id,
+          day: weekday,
 
-                /* DAY */
+          dayOfWeek: weekday,
 
-                day:
-                  weekday,
+          /* MAIN CHECKBOX */
 
-                dayOfWeek:
-                  weekday,
+          enabled: toBoolean(databaseRow.enabled),
 
-                /* MAIN CHECKBOX */
+          /* MORNING CHECKBOX */
 
-                enabled:
-                  toBoolean(
-                    databaseRow.enabled
-                  ),
+          morningEnabled: toBoolean(databaseRow.morningEnabled),
 
-                /* MORNING CHECKBOX */
+          /* MORNING TIME */
 
-                morningEnabled:
-                  toBoolean(
-                    databaseRow.morningEnabled
-                  ),
+          morningStart: databaseRow.morningStart,
 
-                /* MORNING TIME */
+          morningEnd: databaseRow.morningEnd,
 
-                morningStart:
-                  databaseRow.morningStart,
+          /* EVENING CHECKBOX */
 
-                morningEnd:
-                  databaseRow.morningEnd,
+          eveningEnabled: toBoolean(databaseRow.eveningEnabled),
 
-                /* EVENING CHECKBOX */
+          /* EVENING TIME */
 
-                eveningEnabled:
-                  toBoolean(
-                    databaseRow.eveningEnabled
-                  ),
+          eveningStart: databaseRow.eveningStart,
 
-                /* EVENING TIME */
+          eveningEnd: databaseRow.eveningEnd,
+        };
+      }
 
-                eveningStart:
-                  databaseRow.eveningStart,
-
-                eveningEnd:
-                  databaseRow.eveningEnd,
-
-              };
-
-            }
-
-
-            /* =========================================
+      /* =========================================
                DATABASE RECORD NOT FOUND
             ========================================= */
 
-            return {
+      return {
+        ...(oldRow || {}),
 
-              ...(oldRow || {}),
+        id: oldRow?.id ?? null,
 
-              id:
-                oldRow?.id ??
-                null,
+        day: weekday,
 
-              day:
-                weekday,
+        dayOfWeek: weekday,
 
-              dayOfWeek:
-                weekday,
+        enabled: toBoolean(oldRow?.enabled ?? false),
 
-              enabled:
-                toBoolean(
-                  oldRow?.enabled ??
-                  false
-                ),
+        morningEnabled: toBoolean(oldRow?.morningEnabled ?? false),
 
-              morningEnabled:
-                toBoolean(
-                  oldRow?.morningEnabled ??
-                  false
-                ),
+        morningStart: oldRow?.morningStart ?? "",
 
-              morningStart:
-                oldRow?.morningStart ??
-                "",
+        morningEnd: oldRow?.morningEnd ?? "",
 
-              morningEnd:
-                oldRow?.morningEnd ??
-                "",
+        eveningEnabled: toBoolean(oldRow?.eveningEnabled ?? false),
 
-              eveningEnabled:
-                toBoolean(
-                  oldRow?.eveningEnabled ??
-                  false
-                ),
+        eveningStart: oldRow?.eveningStart ?? "",
 
-              eveningStart:
-                oldRow?.eveningStart ??
-                "",
+        eveningEnd: oldRow?.eveningEnd ?? "",
+      };
+    });
 
-              eveningEnd:
-                oldRow?.eveningEnd ??
-                "",
+    console.log("==============================================");
 
-            };
+    console.log("FINAL SCHEDULE AFTER GET");
 
-          }
-        );
+    console.log(finalSchedule);
 
+    console.log("==============================================");
 
-      console.log(
-        "=============================================="
-      );
+    return finalSchedule;
+  };
 
-      console.log(
-        "FINAL SCHEDULE AFTER GET"
-      );
-
-      console.log(
-        finalSchedule
-      );
-
-      console.log(
-        "=============================================="
-      );
-
-
-      return finalSchedule;
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        GET WEEKLY SCHEDULE
 
        RUNS AUTOMATICALLY AFTER REFRESH
     ===================================================== */
 
-    const getWeeklySchedule =
-      async () => {
+  const getWeeklySchedule = async () => {
+    const token = getAuthToken();
 
-        const token =
-          getAuthToken();
+    console.log("==============================================");
 
+    console.log("GET WEEKLY SCHEDULE");
 
-        console.log(
-          "=============================================="
-        );
+    console.log("==============================================");
 
-        console.log(
-          "GET WEEKLY SCHEDULE"
-        );
+    console.log("GET URL:", API.WEEKLY_SCHEDULE);
 
-        console.log(
-          "=============================================="
-        );
+    if (!token) {
+      console.error("AUTH TOKEN NOT FOUND");
 
+      return null;
+    }
 
-        console.log(
-          "GET URL:",
-          API.WEEKLY_SCHEDULE
-        );
+    try {
+      const response = await fetch(API.WEEKLY_SCHEDULE, {
+        method: "GET",
 
+        headers: {
+          Accept: "application/json",
 
-        if (!token) {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-          console.error(
-            "AUTH TOKEN NOT FOUND"
-          );
+      const responseText = await response.text();
 
-          return null;
+      let responseData = null;
 
-        }
-
-
+      if (responseText) {
         try {
+          responseData = JSON.parse(responseText);
+        } catch {
+          responseData = responseText;
+        }
+      }
 
-          const response =
-            await fetch(
-              API.WEEKLY_SCHEDULE,
-              {
+      console.log("GET STATUS:", response.status);
 
-                method:
-                  "GET",
+      console.log("GET RESPONSE:", responseData);
 
-                headers: {
+      if (!response.ok) {
+        console.error("GET FAILED:", responseData);
 
-                  Accept:
-                    "application/json",
+        return null;
+      }
 
-                  Authorization:
-                    `Bearer ${token}`,
-
-                },
-
-              }
-            );
-
-
-          const responseText =
-            await response.text();
-
-
-          let responseData =
-            null;
-
-
-          if (
-            responseText
-          ) {
-
-            try {
-
-              responseData =
-                JSON.parse(
-                  responseText
-                );
-
-            } catch {
-
-              responseData =
-                responseText;
-
-            }
-
-          }
-
-
-          console.log(
-            "GET STATUS:",
-            response.status
-          );
-
-
-          console.log(
-            "GET RESPONSE:",
-            responseData
-          );
-
-
-          if (
-            !response.ok
-          ) {
-
-            console.error(
-              "GET FAILED:",
-              responseData
-            );
-
-            return null;
-
-          }
-
-
-          /* ---------------------------------------------
+      /* ---------------------------------------------
              EXTRACT
           --------------------------------------------- */
 
-          const apiArray =
-            extractScheduleArray(
-              responseData
-            );
+      const apiArray = extractScheduleArray(responseData);
 
+      console.log("DATABASE WEEKLY RECORDS:", apiArray);
 
-          console.log(
-            "DATABASE WEEKLY RECORDS:",
-            apiArray
-          );
-
-
-          /* ---------------------------------------------
+      /* ---------------------------------------------
              MERGE
           --------------------------------------------- */
 
-          const mergedSchedule =
-            mergeSchedule(
-              apiArray
-            );
+      const mergedSchedule = mergeSchedule(apiArray);
 
-
-          /* ---------------------------------------------
+      /* ---------------------------------------------
              SET STATE
 
              Previously saved checkboxes and
              time values appear automatically.
           --------------------------------------------- */
 
-          setSchedule(
-            mergedSchedule
-          );
+      setSchedule(mergedSchedule);
 
+      return mergedSchedule;
+    } catch (error) {
+      console.error("GET WEEKLY SCHEDULE ERROR:", error);
 
-          return mergedSchedule;
+      return null;
+    }
+  };
 
-        }
-
-        catch (error) {
-
-          console.error(
-            "GET WEEKLY SCHEDULE ERROR:",
-            error
-          );
-
-
-          return null;
-
-        }
-
-      };
-
-
-    /* =====================================================
+  /* =====================================================
        AUTOMATIC GET ON PAGE LOAD / REFRESH
     ===================================================== */
 
-    useEffect(() => {
+  useEffect(() => {
+    getWeeklySchedule();
+  }, []);
 
-      getWeeklySchedule();
-
-    }, []);
-
-
-    /* =====================================================
+  /* =====================================================
        POST BODY
 
     ===================================================== */
 
-    const buildPostBody = (
-      item
-    ) => {
+  const buildPostBody = (item) => {
+    return {
+      dayOfWeek: item.dayOfWeek || item.day,
 
-      return {
+      isEnabled: toBoolean(item.enabled),
 
-        dayOfWeek:
-          item.dayOfWeek ||
-          item.day,
+      morningEnabled: toBoolean(item.morningEnabled),
 
-        enabled:
-          toBoolean(
-            item.enabled
-          ),
+      morningStartTime: item.morningStart || "",
 
-        morningEnabled:
-          toBoolean(
-            item.morningEnabled
-          ),
+      morningEndTime: item.morningEnd || "",
 
-        morningStartTime:
-          item.morningStart ||
-          "",
+      eveningEnabled: toBoolean(item.eveningEnabled),
 
-        morningEndTime:
-          item.morningEnd ||
-          "",
+      eveningStartTime: item.eveningStart || "",
 
-        eveningEnabled:
-          toBoolean(
-            item.eveningEnabled
-          ),
-
-        eveningStartTime:
-          item.eveningStart ||
-          "",
-
-        eveningEndTime:
-          item.eveningEnd ||
-          "",
-
-      };
-
+      eveningEndTime: item.eveningEnd || "",
     };
+  };
 
-
-    /* =====================================================
+  /* =====================================================
        PUT BODY
 
  
     ===================================================== */
 
-    const buildPutBody = (
-      item
-    ) => {
+  const buildPutBody = (item) => {
+    return {
+      dayOfWeek: item.dayOfWeek || item.day,
 
-      return {
+      isEnabled: toBoolean(item.enabled),
 
-        dayOfWeek:
-          item.dayOfWeek ||
-          item.day,
+      morningEnabled: toBoolean(item.morningEnabled),
 
-        enabled:
-          toBoolean(
-            item.enabled
-          ),
+      morningStartTime: item.morningStart || "",
 
-        morningEnabled:
-          toBoolean(
-            item.morningEnabled
-          ),
+      morningEndTime: item.morningEnd || "",
 
-        morningStartTime:
-          item.morningStart ||
-          "",
+      eveningEnabled: toBoolean(item.eveningEnabled),
 
-        morningEndTime:
-          item.morningEnd ||
-          "",
+      eveningStartTime: item.eveningStart || "",
 
-        eveningEnabled:
-          toBoolean(
-            item.eveningEnabled
-          ),
-
-        eveningStartTime:
-          item.eveningStart ||
-          "",
-
-        eveningEndTime:
-          item.eveningEnd ||
-          "",
-
-      };
-
+      eveningEndTime: item.eveningEnd || "",
     };
+  };
 
-
-    /* =====================================================
+  /* =====================================================
        POST ONE WEEKLY SCHEDULE
     ===================================================== */
 
-    const postWeeklySchedule =
-      async (
-        token,
-        item
-      ) => {
+  const postWeeklySchedule = async (token, item) => {
+    const requestBody = buildPostBody(item);
 
-        const requestBody =
-          buildPostBody(
-            item
-          );
+    console.log("==============================================");
 
+    console.log("POST WEEKLY SCHEDULE");
 
-        console.log(
-          "=============================================="
-        );
+    console.log("POST DAY:", item.day);
 
-        console.log(
-          "POST WEEKLY SCHEDULE"
-        );
+    console.log("POST REQUEST BODY:", requestBody);
 
-        console.log(
-          "POST DAY:",
-          item.day
-        );
+    const response = await fetch(API.WEEKLY_SCHEDULE, {
+      method: "POST",
 
-        console.log(
-          "POST REQUEST BODY:",
-          requestBody
-        );
+      headers: {
+        "Content-Type": "application/json",
 
+        Accept: "application/json",
 
-        const response =
-          await fetch(
-            API.WEEKLY_SCHEDULE,
-            {
+        Authorization: `Bearer ${token}`,
+      },
 
-              method:
-                "POST",
+      body: JSON.stringify(requestBody),
+    });
 
-              headers: {
+    const text = await response.text();
 
-                "Content-Type":
-                  "application/json",
+    let data = null;
 
-                Accept:
-                  "application/json",
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = text;
+      }
+    }
 
-                Authorization:
-                  `Bearer ${token}`,
+    console.log("POST STATUS:", response.status);
 
-              },
+    console.log("POST RESPONSE:", data);
 
-              body:
-                JSON.stringify(
-                  requestBody
-                ),
-
-            }
-          );
-
-
-        const text =
-          await response.text();
-
-
-        let data =
-          null;
-
-
-        if (
-          text
-        ) {
-
-          try {
-
-            data =
-              JSON.parse(
-                text
-              );
-
-          } catch {
-
-            data =
-              text;
-
-          }
-
-        }
-
-
-        console.log(
-          "POST STATUS:",
-          response.status
-        );
-
-
-        console.log(
-          "POST RESPONSE:",
-          data
-        );
-
-
-        /* ---------------------------------------------
+    /* ---------------------------------------------
            RECORD ALREADY EXISTS
         --------------------------------------------- */
 
-        if (
-          response.status === 409
-        ) {
+    if (response.status === 409) {
+      console.warn(`${item.day} already exists.`);
 
-          console.warn(
-            `${item.day} already exists.`
-          );
+      return {
+        success: false,
 
+        alreadyExists: true,
 
-          return {
+        data: data,
+      };
+    }
 
-            success:
-              false,
-
-            alreadyExists:
-              true,
-
-            data:
-              data,
-
-          };
-
-        }
-
-
-        /* ---------------------------------------------
+    /* ---------------------------------------------
            OTHER ERROR
         --------------------------------------------- */
 
-        if (
-          !response.ok
-        ) {
+    if (!response.ok) {
+      throw new Error(
+        data?.message || data?.title || data?.error || `Failed to create ${item.day}.`,
+      );
+    }
 
-          throw new Error(
+    return {
+      success: true,
 
-            data?.message ||
+      alreadyExists: false,
 
-            data?.title ||
+      data: data,
+    };
+  };
 
-            data?.error ||
-
-            `Failed to create ${item.day}.`
-
-          );
-
-        }
-
-
-        return {
-
-          success:
-            true,
-
-          alreadyExists:
-            false,
-
-          data:
-            data,
-
-        };
-
-      };
-
-
-    /* =====================================================
+  /* =====================================================
        PUT ONE WEEKLY SCHEDULE
     ===================================================== */
 
-    const putWeeklySchedule =
-      async (
-        token,
-        id,
-        item
-      ) => {
+  const putWeeklySchedule = async (token, id, item) => {
+    if (id === null || id === undefined || id === "") {
+      throw new Error(`Weekly schedule ID not found for ${item.day}.`);
+    }
 
-        if (
-          id === null ||
-          id === undefined ||
-          id === ""
-        ) {
+    const requestBody = buildPutBody(item);
 
-          throw new Error(
-            `Weekly schedule ID not found for ${item.day}.`
-          );
+    const putUrl = `${API.WEEKLY_SCHEDULE}/${encodeURIComponent(id)}`;
 
-        }
+    console.log("==============================================");
 
+    console.log("PUT WEEKLY SCHEDULE");
 
-        const requestBody =
-          buildPutBody(
-            item
-          );
+    console.log("PUT ID:", id);
 
+    console.log("PUT DAY:", item.day);
 
-        const putUrl =
-          `${API.WEEKLY_SCHEDULE}/${encodeURIComponent(
-            id
-          )}`;
+    console.log("PUT URL:", putUrl);
 
+    console.log("PUT REQUEST BODY:", requestBody);
 
-        console.log(
-          "=============================================="
-        );
+    const response = await fetch(putUrl, {
+      method: "PUT",
 
-        console.log(
-          "PUT WEEKLY SCHEDULE"
-        );
+      headers: {
+        "Content-Type": "application/json",
 
-        console.log(
-          "PUT ID:",
-          id
-        );
+        Accept: "application/json",
 
-        console.log(
-          "PUT DAY:",
-          item.day
-        );
+        Authorization: `Bearer ${token}`,
+      },
 
-        console.log(
-          "PUT URL:",
-          putUrl
-        );
+      body: JSON.stringify(requestBody),
+    });
 
-        console.log(
-          "PUT REQUEST BODY:",
-          requestBody
-        );
+    const text = await response.text();
 
+    let data = null;
 
-        const response =
-          await fetch(
-            putUrl,
-            {
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = text;
+      }
+    }
 
-              method:
-                "PUT",
+    console.log("PUT STATUS:", response.status);
 
-              headers: {
+    console.log("PUT RESPONSE:", data);
 
-                "Content-Type":
-                  "application/json",
+    if (!response.ok) {
+      throw new Error(
+        data?.message || data?.title || data?.error || `Failed to update ${item.day}.`,
+      );
+    }
 
-                Accept:
-                  "application/json",
+    return {
+      success: true,
 
-                Authorization:
-                  `Bearer ${token}`,
+      id: id,
 
-              },
+      day: item.day,
 
-              body:
-                JSON.stringify(
-                  requestBody
-                ),
+      data: data,
+    };
+  };
 
-            }
-          );
-
-
-        const text =
-          await response.text();
-
-
-        let data =
-          null;
-
-
-        if (
-          text
-        ) {
-
-          try {
-
-            data =
-              JSON.parse(
-                text
-              );
-
-          } catch {
-
-            data =
-              text;
-
-          }
-
-        }
-
-
-        console.log(
-          "PUT STATUS:",
-          response.status
-        );
-
-
-        console.log(
-          "PUT RESPONSE:",
-          data
-        );
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-
-            data?.message ||
-
-            data?.title ||
-
-            data?.error ||
-
-            `Failed to update ${item.day}.`
-
-          );
-
-        }
-
-
-        return {
-
-          success:
-            true,
-
-          id:
-            id,
-
-          day:
-            item.day,
-
-          data:
-            data,
-
-        };
-
-      };
-
-
-    /* =====================================================
+  /* =====================================================
        SAVE SCHEDULE
 
        POST → GET → PUT
     ===================================================== */
 
-    const saveSchedule =
-      async () => {
+  const saveSchedule = async () => {
+    const token = getAuthToken();
 
-        const token =
-          getAuthToken();
+    console.log("==============================================");
 
+    console.log("SAVE WEEKLY SCHEDULE");
 
-        console.log(
-          "=============================================="
-        );
+    console.log("==============================================");
 
-        console.log(
-          "SAVE WEEKLY SCHEDULE"
-        );
+    if (!token) {
+      alert("Unauthorized. Please login again.");
 
-        console.log(
-          "=============================================="
-        );
+      return;
+    }
 
+    if (!Array.isArray(schedule) || schedule.length === 0) {
+      alert("Weekly schedule is empty.");
 
-        if (!token) {
+      return;
+    }
 
-          alert(
-            "Unauthorized. Please login again."
-          );
-
-          return;
-
-        }
-
-
-        if (
-          !Array.isArray(
-            schedule
-          ) ||
-          schedule.length === 0
-        ) {
-
-          alert(
-            "Weekly schedule is empty."
-          );
-
-          return;
-
-        }
-
-
-        try {
-
-          /* =============================================
+    try {
+      /* =============================================
              STEP 1
              POST
           ============================================= */
 
-          console.log(
-            "STEP 1: POST"
-          );
+      console.log("STEP 1: POST");
 
+      const postResults = [];
 
-          const postResults =
-            [];
+      for (const item of schedule) {
+        const result = await postWeeklySchedule(token, item);
 
+        postResults.push({
+          day: item.day,
 
-          for (
-            const item of schedule
-          ) {
+          result: result,
+        });
+      }
 
-            const result =
-              await postWeeklySchedule(
-                token,
-                item
-              );
+      console.log("ALL POST RESULTS:", postResults);
 
-
-            postResults.push({
-
-              day:
-                item.day,
-
-              result:
-                result,
-
-            });
-
-          }
-
-
-          console.log(
-            "ALL POST RESULTS:",
-            postResults
-          );
-
-
-          /* =============================================
+      /* =============================================
              STEP 2
              GET
 
              Gets latest database IDs.
           ============================================= */
 
-          console.log(
-            "STEP 2: GET"
-          );
+      console.log("STEP 2: GET");
 
+      const latestDatabase = await getWeeklySchedule();
 
-          const latestDatabase =
-            await getWeeklySchedule();
+      if (!latestDatabase) {
+        throw new Error("Unable to get weekly schedule after POST.");
+      }
 
+      console.log("LATEST DATABASE:", latestDatabase);
 
-          if (
-            !latestDatabase
-          ) {
-
-            throw new Error(
-              "Unable to get weekly schedule after POST."
-            );
-
-          }
-
-
-          console.log(
-            "LATEST DATABASE:",
-            latestDatabase
-          );
-
-
-          /* =============================================
+      /* =============================================
              STEP 3
              PUT EXISTING RECORDS
           ============================================= */
 
-          console.log(
-            "STEP 3: PUT"
+      console.log("STEP 3: PUT");
+
+      const putResults = [];
+
+      for (const item of schedule) {
+        const oldId = getScheduleId(item);
+
+        /*
+         * Existing record already has ID.
+         * Update it using PUT.
+         */
+
+        if (oldId !== null && oldId !== undefined && oldId !== "") {
+          const databaseRow = latestDatabase.find(
+            (row) => String(row.day).trim().toLowerCase() === String(item.day).trim().toLowerCase(),
           );
 
+          const finalId = databaseRow?.id ?? oldId;
 
-          const putResults =
-            [];
+          console.log("EXISTING RECORD:", item.day);
 
+          console.log("DATABASE ID:", finalId);
 
-          for (
-            const item of schedule
-          ) {
+          const putResult = await putWeeklySchedule(token, finalId, item);
 
-            const oldId =
-              getScheduleId(
-                item
-              );
+          putResults.push(putResult);
+        }
+      }
 
+      console.log("ALL PUT RESULTS:", putResults);
+      /* =============================================
+                  STEP 2 again as step 4
+                  GET
+     
+                  Gets latest database IDs.
+               ============================================= */
 
-            /*
-             * Existing record already has ID.
-             * Update it using PUT.
-             */
+      console.log("STEP 2: GET");
 
-            if (
-              oldId !== null &&
-              oldId !== undefined &&
-              oldId !== ""
-            ) {
+      const latestDatabase2 = await getWeeklySchedule();
 
-              const databaseRow =
-                latestDatabase.find(
-                  (row) =>
-                    String(
-                      row.day
-                    )
-                      .trim()
-                      .toLowerCase() ===
-                    String(
-                      item.day
-                    )
-                      .trim()
-                      .toLowerCase()
-                );
+      if (!latestDatabase2) {
+        throw new Error("Unable to get weekly schedule after POST.");
+      }
 
+      console.log("LATEST DATABASE AGAIN WITH LATESTDATABASE2:", latestDatabase2);
 
-              const finalId =
-                databaseRow?.id ??
-                oldId;
-
-
-              console.log(
-                "EXISTING RECORD:",
-                item.day
-              );
-
-              console.log(
-                "DATABASE ID:",
-                finalId
-              );
-
-
-              const putResult =
-                await putWeeklySchedule(
-                  token,
-                  finalId,
-                  item
-                );
-
-
-              putResults.push(
-                putResult
-              );
-
-            }
-
-          }
-
-
-          console.log(
-            "ALL PUT RESULTS:",
-            putResults
-          );
-
-
-          /* =============================================
+      /* =============================================
              KEEP CURRENT UI DATA
              AND DATABASE IDS
           ============================================= */
 
-          setSchedule(
-            (previous) => {
-
-              return WEEKDAYS.map(
-                (weekday) => {
-
-                  const current =
-                    previous.find(
-                      (row) =>
-                        String(
-                          row.day
-                        )
-                          .trim()
-                          .toLowerCase() ===
-                        weekday.toLowerCase()
-                    );
-
-
-                  const database =
-                    latestDatabase.find(
-                      (row) =>
-                        String(
-                          row.day
-                        )
-                          .trim()
-                          .toLowerCase() ===
-                        weekday.toLowerCase()
-                    );
-
-
-                  return {
-
-                    ...(current || {}),
-
-                    day:
-                      weekday,
-
-                    dayOfWeek:
-                      weekday,
-
-                    id:
-                      database?.id ??
-                      current?.id ??
-                      null,
-
-                    enabled:
-                      toBoolean(
-                        current?.enabled ??
-                        false
-                      ),
-
-                    morningEnabled:
-                      toBoolean(
-                        current?.morningEnabled ??
-                        false
-                      ),
-
-                    morningStart:
-                      current?.morningStart ??
-                      "",
-
-                    morningEnd:
-                      current?.morningEnd ??
-                      "",
-
-                    eveningEnabled:
-                      toBoolean(
-                        current?.eveningEnabled ??
-                        false
-                      ),
-
-                    eveningStart:
-                      current?.eveningStart ??
-                      "",
-
-                    eveningEnd:
-                      current?.eveningEnd ??
-                      "",
-
-                  };
-
-                }
-              );
-
-            }
+      setSchedule((previous) => {
+        return WEEKDAYS.map((weekday) => {
+          const current = previous.find(
+            (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
           );
 
-
-          console.log(
-            "=============================================="
+          const database = latestDatabase.find(
+            (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
           );
 
-          console.log(
-            "FINAL SAVE RESULT"
-          );
+          return {
+            ...(current || {}),
 
-          console.log(
-            "POST RESULTS:",
-            postResults
-          );
+            day: weekday,
 
-          console.log(
-            "PUT RESULTS:",
-            putResults
-          );
+            dayOfWeek: weekday,
 
-          console.log(
-            "=============================================="
-          );
+            id: database?.id ?? current?.id ?? null,
 
+            enabled: toBoolean(current?.enabled ?? false),
 
-          alert(
-            "Weekly schedule saved successfully."
-          );
+            morningEnabled: toBoolean(current?.morningEnabled ?? false),
 
-        }
+            morningStart: current?.morningStart ?? "",
 
-        catch (error) {
+            morningEnd: current?.morningEnd ?? "",
 
-          console.error(
-            "=============================================="
-          );
+            eveningEnabled: toBoolean(current?.eveningEnabled ?? false),
 
-          console.error(
-            "SAVE WEEKLY SCHEDULE ERROR:",
-            error
-          );
+            eveningStart: current?.eveningStart ?? "",
 
-          console.error(
-            "=============================================="
-          );
+            eveningEnd: current?.eveningEnd ?? "",
+          };
+        });
+      });
 
+      console.log("==============================================");
 
-          alert(
-            error.message ||
-            "Unable to save weekly schedule."
-          );
+      console.log("FINAL SAVE RESULT");
 
-        }
+      console.log("POST RESULTS:", postResults);
 
-      };
+      console.log("PUT RESULTS:", putResults);
 
+      console.log("==============================================");
 
-    /* =====================================================
+      alert("Weekly schedule saved successfully.");
+    } catch (error) {
+      console.error("==============================================");
+
+      console.error("SAVE WEEKLY SCHEDULE ERROR:", error);
+
+      console.error("==============================================");
+
+      alert(error.message || "Unable to save weekly schedule.");
+    }
+  };
+
+  /* =====================================================
        EXPOSE SAVE FUNCTION TO PARENT
     ===================================================== */
 
-    useImperativeHandle(
-      ref,
-      () => ({
+  useImperativeHandle(
+    ref,
+    () => ({
+      saveSchedule,
+    }),
+    [schedule],
+  );
 
-        saveSchedule,
-
-      }),
-      [
-        schedule,
-      ]
-    );
-
-
-    /* =====================================================
+  /* =====================================================
        UPDATE TIME
     ===================================================== */
 
-    const updateDay = (
-      index,
-      field,
-      value
-    ) => {
+  const updateDay = (index, field, value) => {
+    setSchedule((previous) =>
+      previous.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
 
-      setSchedule(
-        (previous) =>
-          previous.map(
-            (item, i) => {
+        return {
+          ...item,
 
-              if (
-                i !== index
-              ) {
+          [field]: value,
+        };
+      }),
+    );
+  };
 
-                return item;
-
-              }
-
-
-              return {
-
-                ...item,
-
-                [field]:
-                  value,
-
-              };
-
-            }
-          )
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        DAY TOGGLE
 
        ON:
@@ -2057,649 +983,284 @@ const WeeklySchedule = forwardRef(
        Evening   = OFF
     ===================================================== */
 
-    const handleDayToggle = (
-      index
-    ) => {
+  const handleDayToggle = (index) => {
+    setSchedule((previous) =>
+      previous.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
 
-      setSchedule(
-        (previous) =>
-          previous.map(
-            (item, i) => {
+        const newEnabled = !toBoolean(item.enabled);
 
-              if (
-                i !== index
-              ) {
+        return {
+          ...item,
 
-                return item;
+          enabled: newEnabled,
 
-              }
+          morningEnabled: newEnabled,
 
+          eveningEnabled: newEnabled,
+        };
+      }),
+    );
+  };
 
-              const newEnabled =
-                !toBoolean(
-                  item.enabled
-                );
-
-
-              return {
-
-                ...item,
-
-                enabled:
-                  newEnabled,
-
-                morningEnabled:
-                  newEnabled,
-
-                eveningEnabled:
-                  newEnabled,
-
-              };
-
-            }
-          )
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        MORNING TOGGLE
     ===================================================== */
 
-    const handleMorningToggle = (
-      index
-    ) => {
+  const handleMorningToggle = (index) => {
+    setSchedule((previous) =>
+      previous.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
 
-      setSchedule(
-        (previous) =>
-          previous.map(
-            (item, i) => {
+        if (!toBoolean(item.enabled)) {
+          return item;
+        }
 
-              if (
-                i !== index
-              ) {
+        return {
+          ...item,
 
-                return item;
+          morningEnabled: !toBoolean(item.morningEnabled),
+        };
+      }),
+    );
+  };
 
-              }
-
-
-              if (
-                !toBoolean(
-                  item.enabled
-                )
-              ) {
-
-                return item;
-
-              }
-
-
-              return {
-
-                ...item,
-
-                morningEnabled:
-                  !toBoolean(
-                    item.morningEnabled
-                  ),
-
-              };
-
-            }
-          )
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        EVENING TOGGLE
     ===================================================== */
 
-    const handleEveningToggle = (
-      index
-    ) => {
+  const handleEveningToggle = (index) => {
+    setSchedule((previous) =>
+      previous.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
 
-      setSchedule(
-        (previous) =>
-          previous.map(
-            (item, i) => {
+        if (!toBoolean(item.enabled)) {
+          return item;
+        }
 
-              if (
-                i !== index
-              ) {
+        return {
+          ...item,
 
-                return item;
+          eveningEnabled: !toBoolean(item.eveningEnabled),
+        };
+      }),
+    );
+  };
 
-              }
-
-
-              if (
-                !toBoolean(
-                  item.enabled
-                )
-              ) {
-
-                return item;
-
-              }
-
-
-              return {
-
-                ...item,
-
-                eveningEnabled:
-                  !toBoolean(
-                    item.eveningEnabled
-                  ),
-
-              };
-
-            }
-          )
-      );
-
-    };
-
-
-    /* =====================================================
+  /* =====================================================
        RETURN
     ===================================================== */
 
-    return (
-
-      <div className="weekly-schedule-card">
-
-
-        {/* =================================================
+  return (
+    <div className="weekly-schedule-card">
+      {/* =================================================
             HEADER
         ================================================= */}
 
-        <div className="weekly-schedule-header">
+      <div className="weekly-schedule-header">
+        <div className="weekly-schedule-title">
+          <FaCalendarAlt />
 
-          <div className="weekly-schedule-title">
-
-            <FaCalendarAlt />
-
-            <span>
-              Weekly Schedule
-            </span>
-
-          </div>
-
-
-          <button
-            type="button"
-            className="appointment-save-btn"
-            onClick={
-              saveSchedule
-            }
-          >
-
-            Save Schedule
-
-          </button>
-
+          <span>Weekly Schedule</span>
         </div>
 
+        <button type="button" className="appointment-save-btn" onClick={saveSchedule}>
+          Save Schedule
+        </button>
+      </div>
 
-        {/* =================================================
+      {/* =================================================
             TABLE
         ================================================= */}
 
-        <div className="weekly-schedule-scroll">
+      <div className="weekly-schedule-scroll">
+        <table className="weekly-schedule-table">
+          <thead>
+            <tr>
+              <th>Day</th>
 
-          <table className="weekly-schedule-table">
+              <th>Morning Session</th>
 
-            <thead>
+              <th>Evening Session</th>
+            </tr>
+          </thead>
 
-              <tr>
-
-                <th>
-                  Day
-                </th>
-
-                <th>
-                  Morning Session
-                </th>
-
-                <th>
-                  Evening Session
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody>
-
-              {WEEKDAYS.map(
-                (
-                  weekday,
-                  fallbackIndex
-                ) => {
-
-
-                  /* =========================================
+          <tbody>
+            {WEEKDAYS.map((weekday, fallbackIndex) => {
+              /* =========================================
                      FIND ACTUAL INDEX
                   ========================================= */
 
-                  const actualIndex =
-                    schedule?.findIndex(
-                      (row) =>
-                        String(
-                          row.day
-                        )
-                          .trim()
-                          .toLowerCase() ===
-                        weekday.toLowerCase()
-                    );
+              const actualIndex = schedule?.findIndex(
+                (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
+              );
 
+              const rowIndex = actualIndex >= 0 ? actualIndex : fallbackIndex;
 
-                  const rowIndex =
-                    actualIndex >= 0
-                      ? actualIndex
-                      : fallbackIndex;
-
-
-                  /* =========================================
+              /* =========================================
                      FIND ROW
                   ========================================= */
 
-                  const item =
-                    schedule?.find(
-                      (row) =>
-                        String(
-                          row.day
-                        )
-                          .trim()
-                          .toLowerCase() ===
-                        weekday.toLowerCase()
-                    ) || {
+              const item = schedule?.find(
+                (row) => String(row.day).trim().toLowerCase() === weekday.toLowerCase(),
+              ) || {
+                id: null,
 
-                      id:
-                        null,
+                day: weekday,
 
-                      day:
-                        weekday,
+                dayOfWeek: weekday,
 
-                      dayOfWeek:
-                        weekday,
+                enabled: false,
 
-                      enabled:
-                        false,
+                morningEnabled: false,
 
-                      morningEnabled:
-                        false,
+                morningStart: "",
 
-                      morningStart:
-                        "",
+                morningEnd: "",
 
-                      morningEnd:
-                        "",
+                eveningEnabled: false,
 
-                      eveningEnabled:
-                        false,
+                eveningStart: "",
 
-                      eveningStart:
-                        "",
+                eveningEnd: "",
+              };
 
-                      eveningEnd:
-                        "",
+              const isClosed = !toBoolean(item.enabled);
 
-                    };
-
-
-                  const isClosed =
-                    !toBoolean(
-                      item.enabled
-                    );
-
-
-                  return (
-
-                    <tr
-                      key={
-                        weekday
-                      }
-
-                      className={
-                        isClosed
-                          ? "schedule-holiday-row"
-                          : "schedule-working-row"
-                      }
-                    >
-
-
-                      {/* ===================================
+              return (
+                <tr
+                  key={weekday}
+                  className={isClosed ? "schedule-holiday-row" : "schedule-working-row"}
+                >
+                  {/* ===================================
                           DAY
                       =================================== */}
 
-                      <td>
+                  <td>
+                    <div className="weekly-day-wrapper">
+                      <input
+                        type="checkbox"
+                        checked={toBoolean(item.enabled)}
+                        onChange={() => handleDayToggle(rowIndex)}
+                      />
 
-                        <div className="weekly-day-wrapper">
+                      <div className="weekly-day-content">
+                        <span>{weekday}</span>
 
-                          <input
-                            type="checkbox"
+                        {isClosed && <small>Clinic Closed</small>}
+                      </div>
+                    </div>
+                  </td>
 
-                            checked={
-                              toBoolean(
-                                item.enabled
-                              )
-                            }
-
-                            onChange={() =>
-                              handleDayToggle(
-                                rowIndex
-                              )
-                            }
-
-                          />
-
-
-                          <div className="weekly-day-content">
-
-                            <span>
-                              {weekday}
-                            </span>
-
-
-                            {isClosed && (
-
-                              <small>
-                                Clinic Closed
-                              </small>
-
-                            )}
-
-                          </div>
-
-                        </div>
-
-                      </td>
-
-
-                      {/* ===================================
+                  {/* ===================================
                           MORNING
                       =================================== */}
 
-                      <td>
+                  <td>
+                    <div className="session-time-wrapper">
+                      <label
+                        className={`appointment-session-toggle ${!toBoolean(item.enabled) ? "session-toggle-disabled" : ""
+                          }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={toBoolean(item.morningEnabled)}
+                          disabled={!toBoolean(item.enabled)}
+                          onChange={() => handleMorningToggle(rowIndex)}
+                        />
 
-                        <div className="session-time-wrapper">
+                        <span />
+                      </label>
 
-                          <label
-                            className={`appointment-session-toggle ${
-                              !toBoolean(
-                                item.enabled
-                              )
-                                ? "session-toggle-disabled"
-                                : ""
-                            }`}
-                          >
+                      <div className="time-field">
+                        <input
+                          type="time"
+                          value={item.morningStart || ""}
+                          disabled={!toBoolean(item.enabled) || !toBoolean(item.morningEnabled)}
+                          onChange={(e) => updateDay(rowIndex, "morningStart", e.target.value)}
+                        />
+                      </div>
 
-                            <input
-                              type="checkbox"
+                      <span className="time-separator">-</span>
 
-                              checked={
-                                toBoolean(
-                                  item.morningEnabled
-                                )
-                              }
+                      <div className="time-field">
+                        <input
+                          type="time"
+                          value={item.morningEnd || ""}
+                          disabled={!toBoolean(item.enabled) || !toBoolean(item.morningEnabled)}
+                          onChange={(e) => updateDay(rowIndex, "morningEnd", e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </td>
 
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                )
-                              }
-
-                              onChange={() =>
-                                handleMorningToggle(
-                                  rowIndex
-                                )
-                              }
-
-                            />
-
-                            <span />
-
-                          </label>
-
-
-                          <div className="time-field">
-
-                            <input
-                              type="time"
-
-                              value={
-                                item.morningStart ||
-                                ""
-                              }
-
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                ) ||
-                                !toBoolean(
-                                  item.morningEnabled
-                                )
-                              }
-
-                              onChange={(e) =>
-                                updateDay(
-                                  rowIndex,
-                                  "morningStart",
-                                  e.target.value
-                                )
-                              }
-
-                            />
-
-                          </div>
-
-
-                          <span className="time-separator">
-                            -
-                          </span>
-
-
-                          <div className="time-field">
-
-                            <input
-                              type="time"
-
-                              value={
-                                item.morningEnd ||
-                                ""
-                              }
-
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                ) ||
-                                !toBoolean(
-                                  item.morningEnabled
-                                )
-                              }
-
-                              onChange={(e) =>
-                                updateDay(
-                                  rowIndex,
-                                  "morningEnd",
-                                  e.target.value
-                                )
-                              }
-
-                            />
-
-                          </div>
-
-                        </div>
-
-                      </td>
-
-
-                      {/* ===================================
+                  {/* ===================================
                           EVENING
                       =================================== */}
 
-                      <td>
+                  <td>
+                    <div className="session-time-wrapper">
+                      <label
+                        className={`appointment-session-toggle ${!toBoolean(item.enabled) ? "session-toggle-disabled" : ""
+                          }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={toBoolean(item.eveningEnabled)}
+                          disabled={!toBoolean(item.enabled)}
+                          onChange={() => handleEveningToggle(rowIndex)}
+                        />
 
-                        <div className="session-time-wrapper">
+                        <span />
+                      </label>
 
-                          <label
-                            className={`appointment-session-toggle ${
-                              !toBoolean(
-                                item.enabled
-                              )
-                                ? "session-toggle-disabled"
-                                : ""
-                            }`}
-                          >
+                      <div className="time-field">
+                        <input
+                          type="time"
+                          value={item.eveningStart || ""}
+                          disabled={!toBoolean(item.enabled) || !toBoolean(item.eveningEnabled)}
+                          onChange={(e) => updateDay(rowIndex, "eveningStart", e.target.value)}
+                        />
+                      </div>
 
-                            <input
-                              type="checkbox"
+                      <span className="time-separator">-</span>
 
-                              checked={
-                                toBoolean(
-                                  item.eveningEnabled
-                                )
-                              }
+                      <div className="time-field">
+                        <input
+                          type="time"
+                          value={item.eveningEnd || ""}
+                          disabled={!toBoolean(item.enabled) || !toBoolean(item.eveningEnabled)}
+                          onChange={(e) => updateDay(rowIndex, "eveningEnd", e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                )
-                              }
-
-                              onChange={() =>
-                                handleEveningToggle(
-                                  rowIndex
-                                )
-                              }
-
-                            />
-
-                            <span />
-
-                          </label>
-
-
-                          <div className="time-field">
-
-                            <input
-                              type="time"
-
-                              value={
-                                item.eveningStart ||
-                                ""
-                              }
-
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                ) ||
-                                !toBoolean(
-                                  item.eveningEnabled
-                                )
-                              }
-
-                              onChange={(e) =>
-                                updateDay(
-                                  rowIndex,
-                                  "eveningStart",
-                                  e.target.value
-                                )
-                              }
-
-                            />
-
-                          </div>
-
-
-                          <span className="time-separator">
-                            -
-                          </span>
-
-
-                          <div className="time-field">
-
-                            <input
-                              type="time"
-
-                              value={
-                                item.eveningEnd ||
-                                ""
-                              }
-
-                              disabled={
-                                !toBoolean(
-                                  item.enabled
-                                ) ||
-                                !toBoolean(
-                                  item.eveningEnabled
-                                )
-                              }
-
-                              onChange={(e) =>
-                                updateDay(
-                                  rowIndex,
-                                  "eveningEnd",
-                                  e.target.value
-                                )
-                              }
-
-                            />
-
-                          </div>
-
-                        </div>
-
-                      </td>
-
-                    </tr>
-
-                  );
-
-                }
-              )}
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-
-        {/* =================================================
+      {/* =================================================
             NOTE
         ================================================= */}
 
-        <div className="weekly-schedule-note">
-
-          <span>
-            💡
-          </span>
-
-          Enable or disable the morning and evening
-          sessions separately. Only enabled sessions
-          will appear in the Preview Slots section.
-
-        </div>
-
+      <div className="weekly-schedule-note">
+        <span>💡</span>
+        Enable or disable the morning and evening sessions separately. Only enabled sessions will
+        appear in the Preview Slots section.
       </div>
+    </div>
+  );
+});
 
-    );
-
-  }
-);
-
-
-WeeklySchedule.displayName =
-  "WeeklySchedule";
-
+WeeklySchedule.displayName = "WeeklySchedule";
 
 export default WeeklySchedule;

@@ -5,8 +5,7 @@
 // new url for api2
 export const BASE_URL = "https://api2.thekapc.com";
 
- //export const BASE_URL = "http://localhost:3000";
-
+//export const BASE_URL = "http://localhost:3000";
 
 export const GLOBAL_BRANCH_ID = "4"; // Replace with the actual branch ID you want to use
 // ============================================
@@ -14,56 +13,43 @@ export const GLOBAL_BRANCH_ID = "4"; // Replace with the actual branch ID you wa
 // ============================================
 
 export const API = {
+  LOGIN: `${BASE_URL}/api/auth/login`,
 
-  LOGIN:
-    `${BASE_URL}/api/auth/login`,
+  CLINICS: `${BASE_URL}/api/clinics`,
 
-  CLINICS:
-    `${BASE_URL}/api/clinics`,
+  DOCTORS: `${BASE_URL}/api/doctor`,
 
-  DOCTORS:
-    `${BASE_URL}/api/doctor`,
+  PATIENTS: `${BASE_URL}/api/clinic/patients`,
 
-  PATIENTS:
-    `${BASE_URL}/api/clinic/patients`,
+  SEARCH_PATIENT: `${BASE_URL}/api/clinic/patients/search`,
 
-  SEARCH_PATIENT:
-    `${BASE_URL}/api/clinic/patients/search`,
+  PATIENT_FILE: `${BASE_URL}/api/clinic/patients`,
 
-  PATIENT_FILE:
-    `${BASE_URL}/api/clinic/patients`,
+  ATTENDANCE: `${BASE_URL}/api/clinic/patients/attendance`,
 
-  ATTENDANCE:
-    `${BASE_URL}/api/clinic/patients/attendance`,
+  RECHARGE: `${BASE_URL}/api/clinic/patients/recharge`,
 
-  RECHARGE:
-    `${BASE_URL}/api/clinic/patients/recharge`,
+  APPOINTMENT: `${BASE_URL}/api/appointment/create`,
 
-  APPOINTMENT:
-    `${BASE_URL}/api/appointment/create`,
+  APPOINTMENT_LEAVES: `${BASE_URL}/api/appointment-leaves`,
 
-APPOINTMENT_LEAVES: `${BASE_URL}/api/appointment-leaves`,
-
-WEEKLY_SCHEDULE:  `${BASE_URL}/api/weekly-schedule`,
+  WEEKLY_SCHEDULE: `${BASE_URL}/api/weekly-schedule`,
 
   APPOINTMENT_SETTINGS: `${BASE_URL}/api/appointment-settings`,
 
   APPOINTMENTS: `${BASE_URL}/api/appointment/create`,
 
   APPOINTMENT_LIST: `${BASE_URL}/api/appointment/list`,
-  
+
   APPOINTMENT_LIST_BY_DATE: `${BASE_URL}/api/appointment/listbydate`,
 
   FAQS: `${BASE_URL}/api/faqs`,
-
 
   //blogs
 
   BLOGS: `${BASE_URL}/api/blogs`,
 
   CREATE_ORDER: `${BASE_URL}/api/payments/create-order`,
-  
+
   VERIFY_PAYMENT: `${BASE_URL}/api/payments/verify`,
-
-
 };

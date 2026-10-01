@@ -153,9 +153,7 @@ const HomePage = () => {
   // FORMAT APPOINTMENT
 
 
-  const formatPatient = (
-    item
-  ) => {
+  const formatPatient = (item) => {
 
     return {
 
@@ -674,13 +672,8 @@ const HomePage = () => {
 
         const formattedAppointments =
           appointments.map(
-            (
-              item
-            ) =>
-              formatPatient(
-                item
-              )
-          );
+            (item) => formatPatient(item))
+            ;
 
 
         console.log(
