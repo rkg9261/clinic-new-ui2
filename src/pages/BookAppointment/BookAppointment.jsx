@@ -47,85 +47,85 @@ const BookAppointment = () => {
 
     try {
 
-          setLoadingDates(true);
+      setLoadingDates(true);
 
-          const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-          const response = await fetch(
-              `${BASE_URL}/api/appointment-availability/next-7-days`,
-              {
-                  method: "GET",
-                  headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json"
-                  }
-              }
-          );
-
-          const result = await response.json();
-
-          if (!response.ok || !result.success) {
-
-              throw new Error(
-                  result.message ||
-                  "Failed to load availability."
-              );
+      const response = await fetch(
+        `${BASE_URL}/api/appointment-availability/next-7-days`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           }
+        }
+      );
 
-          const formattedDates = (result.data || []).map(day => ({
+      const result = await response.json();
 
-              value: day.date,
+      if (!response.ok || !result.success) {
 
-              label: day.date
-                  .split("-")
-                  .reverse()
-                  .join("-"),
-
-              dayName: day.day_name,
-
-              status: day.status,
-
-              reason: day.reason,
-
-              isWorking:
-                  day.status === "WORKING",
-
-              morningEnabled:
-                  Number(day.morning_enabled) === 1,
-
-              morningStartTime:
-                  day.morning_start_time,
-
-              morningEndTime:
-                  day.morning_end_time,
-
-              eveningEnabled:
-                  Number(day.evening_enabled) === 1,
-
-              eveningStartTime:
-                  day.evening_start_time,
-
-              eveningEndTime:
-                  day.evening_end_time
-
-          }));
-
-          setDates(formattedDates);
-
-      } catch (error) {
-
-          console.error(
-              "Failed to load appointment dates:",
-              error
-          );
-
-          setDates([]);
-
-      } finally {
-
-          setLoadingDates(false);
-
+        throw new Error(
+          result.message ||
+          "Failed to load availability."
+        );
       }
+
+      const formattedDates = (result.data || []).map(day => ({
+
+        value: day.date,
+
+        label: day.date
+          .split("-")
+          .reverse()
+          .join("-"),
+
+        dayName: day.day_name,
+
+        status: day.status,
+
+        reason: day.reason,
+
+        isWorking:
+          day.status === "WORKING",
+
+        morningEnabled:
+          Number(day.morning_enabled) === 1,
+
+        morningStartTime:
+          day.morning_start_time,
+
+        morningEndTime:
+          day.morning_end_time,
+
+        eveningEnabled:
+          Number(day.evening_enabled) === 1,
+
+        eveningStartTime:
+          day.evening_start_time,
+
+        eveningEndTime:
+          day.evening_end_time
+
+      }));
+
+      setDates(formattedDates);
+
+    } catch (error) {
+
+      console.error(
+        "Failed to load appointment dates:",
+        error
+      );
+
+      setDates([]);
+
+    } finally {
+
+      setLoadingDates(false);
+
+    }
   };
   const [formData, setFormData] = useState({
 
@@ -175,7 +175,7 @@ const BookAppointment = () => {
   const TIME_SLOTS = [
 
     {
-      label: "10:30 AM",
+      label: "10:33 AM",
       from: "10:30 AM",
       to: "11:00 AM",
     },
@@ -375,7 +375,7 @@ const BookAppointment = () => {
 
   };
 
-  
+
   /*
   Get available dates as for 5days from today
   */
@@ -405,77 +405,77 @@ const BookAppointment = () => {
     // }
 
     // return dates;
-    
+
     //dynamic
     try {
 
-        const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-        const response = await fetch(
-            `${BASE_URL}/api/appointment-availability/next-7-days`,
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(
-                result.message ||
-                "Failed to get appointment availability."
-            );
+      const response = await fetch(
+        `${BASE_URL}/api/appointment-availability/next-7-days`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         }
+      );
 
-        return result.data.map(day => ({
+      const result = await response.json();
 
-            value: day.date,
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message ||
+          "Failed to get appointment availability."
+        );
+      }
 
-            label: day.date
-                .split("-")
-                .reverse()
-                .join("-"),
+      return result.data.map(day => ({
 
-            dayName: day.day_name,
+        value: day.date,
 
-            status: day.status,
+        label: day.date
+          .split("-")
+          .reverse()
+          .join("-"),
 
-            reason: day.reason,
+        dayName: day.day_name,
 
-            isWorking: day.status === "WORKING",
+        status: day.status,
 
-            morningEnabled:
-                Number(day.morning_enabled) === 1,
+        reason: day.reason,
 
-            morningStartTime:
-                day.morning_start_time,
+        isWorking: day.status === "WORKING",
 
-            morningEndTime:
-                day.morning_end_time,
+        morningEnabled:
+          Number(day.morning_enabled) === 1,
 
-            eveningEnabled:
-                Number(day.evening_enabled) === 1,
+        morningStartTime:
+          day.morning_start_time,
 
-            eveningStartTime:
-                day.evening_start_time,
+        morningEndTime:
+          day.morning_end_time,
 
-            eveningEndTime:
-                day.evening_end_time
+        eveningEnabled:
+          Number(day.evening_enabled) === 1,
 
-        }));
+        eveningStartTime:
+          day.evening_start_time,
+
+        eveningEndTime:
+          day.evening_end_time
+
+      }));
 
     } catch (error) {
 
-        console.error(
-            "Error loading available dates:",
-            error
-        );
+      console.error(
+        "Error loading available dates:",
+        error
+      );
 
-        return [];
+      return [];
 
     }
   };
@@ -570,15 +570,15 @@ const BookAppointment = () => {
       CURRENT TIME + 40 MINUTES
     ----------------------------------*/
 
-    const currentDate =   new Date();
+    const currentDate = new Date();
     const currentHours = currentDate.getHours();
-    const currentMinutes =   currentDate.getMinutes();
+    const currentMinutes = currentDate.getMinutes();
     const currentTimeInMinutes =
       currentHours * 60 +
       currentMinutes;
 
-    const minimumBookingTime =  currentTimeInMinutes + 40;
-    
+    const minimumBookingTime = currentTimeInMinutes + 40;
+
 
     /*----------------------------------
       FILTER SLOTS
@@ -601,7 +601,7 @@ const BookAppointment = () => {
     );
 
   };
-  
+
   /* =====================================================
      AVAILABLE TIME SLOTS
   ===================================================== */
@@ -975,7 +975,7 @@ const BookAppointment = () => {
         if (
           responseData &&
           typeof responseData ===
-            "object"
+          "object"
         ) {
 
           errorMessage =
@@ -988,7 +988,7 @@ const BookAppointment = () => {
 
         else if (
           typeof responseData ===
-            "string"
+          "string"
         ) {
 
           errorMessage =
@@ -1488,8 +1488,8 @@ const BookAppointment = () => {
                       >
                         {date.label} ({date.dayName})
                         {!date.isWorking
-                            ? ` - ${date.reason || "Clinic Closed"}`
-                            : ""
+                          ? ` - ${date.reason || "Clinic Closed"}`
+                          : ""
                         }
                       </option>
                     ))}

@@ -20,8 +20,8 @@ const consultaionAmount = 150;
 
 const AppointmentForm = () => {
 
-const [dates1, setDates] = useState([]);
-//scroll to top on page load
+  const [dates1, setDates] = useState([]);
+  //scroll to top on page load
   React.useEffect(() => {
     window.scrollTo(0, 0);
     loadAvailableDates();
@@ -33,96 +33,152 @@ const [dates1, setDates] = useState([]);
 
   // }, [dates1]);
 
-  
+  //time slots declare
+  const [availableTimeSlots2, setAvailableTimeSlots2] = useState([]);
+  const loadAvailableTimeSlots2 = async (selectedDate) => {
+
+    if (!selectedDate) {
+      setAvailableTimeSlots2([]);
+      return;
+    }
+
+    try {
+
+      //const token = localStorage.getItem("token");
+      const branchId = GLOBAL_BRANCH_ID;
+      //console.log(`${BASE_URL}/api/appointment-availability/slots/${branchId}/${selectedDate}`);
+      const response = await fetch(
+        `${BASE_URL}/api/appointment-availability/slots/${branchId}/${selectedDate}`,
+        {
+          method: "GET",
+          headers: {
+            //Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      const result = await response.json();
+      console.log("Time Slots Result:", result);
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message ||
+          "Failed to load time slots."
+        );
+      }
+
+      const formattedSlots = (result.slots || [])
+        .filter(slot => slot.available)
+        .map(slot => ({
+          value: slot.value,
+          label: slot.label,
+          from: slot.time_from + " " + (slot.session == "MORNING" ? "AM" : "PM"),
+          to: slot.time_to + " " + (slot.session == "MORNING" ? "AM" : "PM")
+        }));
+      console.log("Formatted Time Slots111:", formattedSlots);
+      console.log("Available Time Slots222:", formattedSlots);
+
+      setAvailableTimeSlots2(formattedSlots);
+      console.log("availableTimeSlots2:", availableTimeSlots2);
+    } catch (error) {
+
+      console.error(
+        "Error loading time slots:",
+        error
+      );
+
+      setAvailableTimeSlots2([]);
+    }
+  };
   const [loadingDates, setLoadingDates] = useState(false);
 
-   const loadAvailableDates = async () => {
-  
-      try {
-  
-            setLoadingDates(true);
+  const loadAvailableDates = async () => {
 
-            const token = localStorage.getItem("token");
-            console.log("url" , `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`);
-            const response = await fetch(
-                `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-  
-            const result = await response.json();
-  
-            if (!response.ok || !result.success) {
-  
-                throw new Error(
-                    result.message ||
-                    "Failed to load availability."
-                );
-            }
-            console.log("Result:", result);
-            const formattedDates = (result.data || []).map(day => ({
-  
-                value: day.date.split("T")[0],
-  
-                label: day.date
-                    .split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join("-"),
-  
-                dayName: day.day_name,
-  
-                status: day.status,
-  
-                reason: day.reason,
-  
-                isWorking:
-                    day.status === "WORKING",
-  
-                morningEnabled:
-                    Number(day.morning_enabled) === 1,
-  
-                morningStartTime:
-                    day.morning_start_time,
-  
-                morningEndTime:
-                    day.morning_end_time,
-  
-                eveningEnabled:
-                    Number(day.evening_enabled) === 1,
-  
-                eveningStartTime:
-                    day.evening_start_time,
-  
-                eveningEndTime:
-                    day.evening_end_time
-  
-            }));
-            console.log("Formatted Dates:", formattedDates);
-            setDates(formattedDates);
-            //console.log("Available Dates1 Loaded:", dates1);
-  
-        } catch (error) {
-  
-            console.error(
-                "Failed to load appointment dates:",
-                error
-            );
-  
-            setDates([]);
-  
-        } finally {
-  
-            setLoadingDates(false);
-  
+    try {
+
+      setLoadingDates(true);
+
+      const token = localStorage.getItem("token");
+      console.log("url", `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`);
+      const response = await fetch(
+        `${BASE_URL}/api/appointment-availability/next-7-days/${GLOBAL_BRANCH_ID}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         }
-    };
-  
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+
+        throw new Error(
+          result.message ||
+          "Failed to load availability."
+        );
+      }
+      console.log("Result:", result);
+      const formattedDates = (result.data || []).map(day => ({
+
+        value: day.date.split("T")[0],
+
+        label: day.date
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("-"),
+
+        dayName: day.day_name,
+
+        status: day.status,
+
+        reason: day.reason,
+
+        isWorking:
+          day.status === "WORKING",
+
+        morningEnabled:
+          Number(day.morning_enabled) === 1,
+
+        morningStartTime:
+          day.morning_start_time,
+
+        morningEndTime:
+          day.morning_end_time,
+
+        eveningEnabled:
+          Number(day.evening_enabled) === 1,
+
+        eveningStartTime:
+          day.evening_start_time,
+
+        eveningEndTime:
+          day.evening_end_time
+
+      }));
+      console.log("Formatted Dates:", formattedDates);
+      setDates(formattedDates);
+      //console.log("Available Dates1 Loaded:", dates1);
+
+    } catch (error) {
+
+      console.error(
+        "Failed to load appointment dates:",
+        error
+      );
+
+      setDates([]);
+
+    } finally {
+
+      setLoadingDates(false);
+
+    }
+  };
+
   /*====================================
     TIME SLOTS
   ====================================*/
@@ -178,9 +234,9 @@ const [dates1, setDates] = useState([]);
 
   ];
 
-/*
-  Get available dates as for 5days from today
-  */
+  /*
+    Get available dates as for 5days from today
+    */
   // const getAvailableDates = () => {
   //   const dates = [];
 
@@ -236,7 +292,7 @@ const [dates1, setDates] = useState([]);
   // };
 
   //show sunday as well, only 5 days from today
-   //getAvailableDates1 = () => {
+  //getAvailableDates1 = () => {
   // const dates = [];
   // let i = 0;
 
@@ -382,7 +438,11 @@ const [dates1, setDates] = useState([]);
 
           ...previousData,
 
-          [name]: value
+          [name]: value,
+
+          ...(name === "appointment_date"
+            ? { appointment_time: "" }
+            : {})
 
         })
       );
@@ -393,42 +453,40 @@ const [dates1, setDates] = useState([]);
 
         RESET INVALID TIME
       ====================================*/
-
-      if (
-        name === "appointment_date"
-      ) {
-
-        const availableSlots =
-          getAvailableTimeSlots(value);
-
-
-        const selectedTimeStillAvailable =
-          availableSlots.some(
-            (slot) =>
-              slot.label ===
-              formData.appointment_time
-          );
-
-
-        if (
-          !selectedTimeStillAvailable
-        ) {
-
-          setFormData(
-            (previousData) => ({
-
-              ...previousData,
-
-              [name]: value,
-
-              appointment_time: ""
-
-            })
-          );
-
-        }
-
+      if (name === "appointment_date") {
+        loadAvailableTimeSlots2(value);
       }
+
+      // if (name === "appointment_date") {
+
+      //   const availableSlots = getAvailableTimeSlots(value);
+
+
+      //   const selectedTimeStillAvailable =
+      //     availableSlots.some(
+      //       (slot) =>
+      //         slot.label ===
+      //         formData.appointment_time
+      //     );
+
+
+      //   if (!selectedTimeStillAvailable) {
+
+      //     setFormData(
+      //       (previousData) => ({
+
+      //         ...previousData,
+
+      //         [name]: value,
+
+      //         appointment_time: ""
+
+      //       })
+      //     );
+
+      //   }
+
+      // }
 
     }
 
@@ -656,7 +714,7 @@ const [dates1, setDates] = useState([]);
 
   const getSelectedSlot = () => {
 
-    return TIME_SLOTS.find(
+    return availableTimeSlots2.find(
       (slot) =>
         slot.label ===
         formData.appointment_time
@@ -782,13 +840,14 @@ const [dates1, setDates] = useState([]);
     /*----------------------------------
       TIME SLOT STILL AVAILABLE
     ----------------------------------*/
+    console.log("formData.appointment_time:", formData.appointment_time);
+    console.log("availableTimeSlots21:", availableTimeSlots2);
+    console.log("formData.appointment_time:", formData.appointment_time);
 
     if (
       formData.appointment_time &&
-      !availableTimeSlots.some(
-        (slot) =>
-          slot.label ===
-          formData.appointment_time
+      !availableTimeSlots2.some(
+        (slot) => slot.label === formData.appointment_time
       )
     ) {
 
@@ -854,13 +913,10 @@ const [dates1, setDates] = useState([]);
 
 
     if (!selectedSlot) {
-
       setSuccess(
         "❌ Please select a valid appointment time."
       );
-
       return;
-
     }
 
 
@@ -898,7 +954,9 @@ const [dates1, setDates] = useState([]);
           selectedSlot.from,
 
         appointment_time_to:
-          selectedSlot.to
+          selectedSlot.to,
+
+        branch_id: GLOBAL_BRANCH_ID
 
       };
 
@@ -992,13 +1050,13 @@ const [dates1, setDates] = useState([]);
 
 
       try {
-            responseData = responseText
-              ? JSON.parse(responseText)
-              : {};
-          } catch (error) {
-            console.error("Invalid API response:", responseText);
-            throw new Error("Server returned an invalid response.");
-          }
+        responseData = responseText
+          ? JSON.parse(responseText)
+          : {};
+      } catch (error) {
+        console.error("Invalid API response:", responseText);
+        throw new Error("Server returned an invalid response.");
+      }
       if (
         responseText
       ) {
@@ -1234,149 +1292,149 @@ const [dates1, setDates] = useState([]);
       */
 
       //====================================
-        //  CREATE APPOINTMENT OBJECT
-        //====================================
+      //  CREATE APPOINTMENT OBJECT
+      //====================================
 
-        const createdAppointment = {
+      const createdAppointment = {
 
-          appointmentId:
-            responseData?.appointmentId ||
-            responseData?.id ||
-            "",
+        appointmentId:
+          responseData?.appointmentId ||
+          responseData?.id ||
+          "",
 
-          name:
-            formData.name.trim(),
+        name:
+          formData.name.trim(),
 
-          age:
-            Number(formData.age),
+        age:
+          Number(formData.age),
 
-          gender:
-            formData.gender,
+        gender:
+          formData.gender,
 
-          whatsapp_number:
-            `+91${formData.whatsapp_number}`,
+        whatsapp_number:
+          `+91${formData.whatsapp_number}`,
 
-          appointment_date:
-            formData.appointment_date,
+        appointment_date:
+          formData.appointment_date,
 
-          appointment_time:
-            selectedSlot.from,
+        appointment_time:
+          selectedSlot.from,
 
-          appointment_time_to:
-            selectedSlot.to
+        appointment_time_to:
+          selectedSlot.to
 
-        };
+      };
 
-        console.log("Created Appointment:", createdAppointment);
+      console.log("Created Appointment:", createdAppointment);
 
-        /*====================================
-          CREATE RAZORPAY ORDER
-        ====================================*/
+      /*====================================
+        CREATE RAZORPAY ORDER
+      ====================================*/
 
-        const paymentOrderResponse =
-          await fetch(API.CREATE_ORDER, 
-            //`${API.BASE_URL}/api/payments/create-order`,
-            {
-              method: "POST",
+      const paymentOrderResponse =
+        await fetch(API.CREATE_ORDER,
+          //`${API.BASE_URL}/api/payments/create-order`,
+          {
+            method: "POST",
 
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-              },
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
 
-              body: JSON.stringify({
+            body: JSON.stringify({
 
-                appointmentId:
-                  createdAppointment.appointmentId,
+              appointmentId:
+                createdAppointment.appointmentId,
 
-                amount: consultaionAmount
+              amount: consultaionAmount
 
-              })
-            }
-          );
-
-
-        //const paymentOrderData = await paymentOrderResponse.json();
-        console.log("Payment status:", paymentOrderResponse.status);
-
-        const paymentOrderText = await paymentOrderResponse.text();
-        
-        console.log("Payment response:", paymentOrderText);
-
-        let paymentOrderData = {};
-
-        try {
-          paymentOrderData = paymentOrderText
-            ? JSON.parse(paymentOrderText)
-            : {};
-        } catch (error) {
-          console.error(
-            "Invalid payment API response:",
-            paymentOrderText
-          );
-
-          throw new Error(
-            "Payment server returned an invalid response."
-          );
-        }
-
-
-        if (!paymentOrderResponse.ok) {
-
-          throw new Error(
-            paymentOrderData?.message ||
-            "Unable to create payment order."
-          );
-
-        }
-
-        /*====================================
-          ADD RAZORPAY ORDER TO APPOINTMENT
-        ====================================*/
-
-        const appointmentWithPayment = {
-
-          ...createdAppointment,
-
-          razorpayOrderId:
-            paymentOrderData?.data?.orderId,
-
-          razorpayKeyId:
-            paymentOrderData?.data?.keyId,
-
-          paymentAmount:
-            Number(
-              paymentOrderData?.data?.amount || consultaionAmount
-            )
-
-        };
-
-
-        /*====================================
-          STORE APPOINTMENT
-        ====================================*/
-
-        setAppointmentForPayment(
-          appointmentWithPayment
+            })
+          }
         );
 
 
-        /*====================================
-          STORE PAYMENT AMOUNT
-        ====================================*/
+      //const paymentOrderData = await paymentOrderResponse.json();
+      console.log("Payment status:", paymentOrderResponse.status);
 
-        setAppointmentAmount(
+      const paymentOrderText = await paymentOrderResponse.text();
+
+      console.log("Payment response:", paymentOrderText);
+
+      let paymentOrderData = {};
+
+      try {
+        paymentOrderData = paymentOrderText
+          ? JSON.parse(paymentOrderText)
+          : {};
+      } catch (error) {
+        console.error(
+          "Invalid payment API response:",
+          paymentOrderText
+        );
+
+        throw new Error(
+          "Payment server returned an invalid response."
+        );
+      }
+
+
+      if (!paymentOrderResponse.ok) {
+
+        throw new Error(
+          paymentOrderData?.message ||
+          "Unable to create payment order."
+        );
+
+      }
+
+      /*====================================
+        ADD RAZORPAY ORDER TO APPOINTMENT
+      ====================================*/
+
+      const appointmentWithPayment = {
+
+        ...createdAppointment,
+
+        razorpayOrderId:
+          paymentOrderData?.data?.orderId,
+
+        razorpayKeyId:
+          paymentOrderData?.data?.keyId,
+
+        paymentAmount:
           Number(
             paymentOrderData?.data?.amount || consultaionAmount
           )
-        );
+
+      };
 
 
-        /*====================================
-          OPEN PAYMENT UI
-        ====================================*/
+      /*====================================
+        STORE APPOINTMENT
+      ====================================*/
 
-        setShowPayment(true);
+      setAppointmentForPayment(
+        appointmentWithPayment
+      );
+
+
+      /*====================================
+        STORE PAYMENT AMOUNT
+      ====================================*/
+
+      setAppointmentAmount(
+        Number(
+          paymentOrderData?.data?.amount || consultaionAmount
+        )
+      );
+
+
+      /*====================================
+        OPEN PAYMENT UI
+      ====================================*/
+
+      setShowPayment(true);
       /*====================================
         CLEAR FORM
       ====================================*/
@@ -1440,9 +1498,8 @@ const [dates1, setDates] = useState([]);
       ====================================*/
 
       setSuccess(
-        `❌ ${
-          error.message ||
-          "Something went wrong. Please try again."
+        `❌ ${error.message ||
+        "Something went wrong. Please try again."
         }`
       );
 
@@ -1689,8 +1746,8 @@ const [dates1, setDates] = useState([]);
             {/* GENDER */}
 
             <div className="appointment-input">
-               <FaVenusMars />
-               <select
+              <FaVenusMars />
+              <select
                 name="gender"
                 value={
                   formData.gender
@@ -1785,8 +1842,8 @@ const [dates1, setDates] = useState([]);
                 >
                   {date.label} ({date.dayName})
                   {!date.isWorking
-                      ? ` - ${date.reason || "Clinic Closed"}`
-                      : ""
+                    ? ` - ${date.reason || "Clinic Closed"}`
+                    : ""
                   }
                 </option>
               ))}
@@ -1813,40 +1870,30 @@ const [dates1, setDates] = useState([]);
 
           <div className="appointment-input full-width">
 
-
             <FaClock />
-
 
             <select
               name="appointment_time"
-              value={
-                formData.appointment_time
-              }
-              onChange={
-                handleChange
-              }
+              value={formData.appointment_time}
+              onChange={handleChange}
             >
 
               <option value="">
 
-              {availableTimeSlots.length === 0
-                ? "Time Slots Not Available For Selected Date"
-                : "Select Available Time"
-              }
+                {availableTimeSlots2.length === 0
+                  ? "Time Slots Not Available For Selected Date"
+                  : "Select Available Time"
+                }
 
               </option>
 
 
-              {availableTimeSlots.map(
+              {availableTimeSlots2.map(
                 (slot) => (
 
                   <option
-                    key={
-                      slot.label
-                    }
-                    value={
-                      slot.label
-                    }
+                    key={slot.value}
+                    value={slot.label}
                   >
 
                     {slot.label}
