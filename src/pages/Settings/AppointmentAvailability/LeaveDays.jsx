@@ -30,8 +30,9 @@ const LeaveDays = ({
   const [showAllLeaves, setShowAllLeaves] =
     useState(false);
 
-  const [editLoading, setEditLoading] =
-    useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
 
   /* =====================================================
@@ -412,11 +413,11 @@ const LeaveDays = ({
     showAllLeaves
       ? displayLeaves
       : displayLeaves.slice(
-          0,
-          5
-        );
+        0,
+        5
+      );
 
-        console.log("visibleLeaves", visibleLeaves);
+  console.log("visibleLeaves", visibleLeaves);
   /* =====================================================
      VIEW ALL
   ===================================================== */
@@ -839,7 +840,407 @@ const LeaveDays = ({
     }
 
   };
+  const handleDeleteLeave = async (
+    leave
+  ) => {
 
+    console.log(
+      "=========================================="
+    );
+
+    console.log(
+      "DELETE LEAVE BUTTON CLICKED"
+    );
+
+    console.log(
+      "SELECTED LEAVE:",
+      leave
+    );
+
+
+    /* =================================================
+       GET ID
+    ================================================= */
+
+    const leaveId =
+      leave?.id ??
+      leave?.leave_id ??
+      leave?.leaveId ??
+      leave?.appointmentLeaveId ??
+      leave?.appointmentLeaveID;
+
+
+    console.log(
+      "LEAVE ID:",
+      leaveId
+    );
+
+
+    /* =================================================
+       ID CHECK
+    ================================================= */
+
+    if (
+      leaveId === undefined ||
+      leaveId === null ||
+      leaveId === ""
+    ) {
+
+      console.error(
+        "LEAVE ID NOT FOUND:",
+        leave
+      );
+
+      alert(
+        "Leave ID not found."
+      );
+
+      return;
+
+    }
+
+
+    /* =================================================
+       GET TOKEN
+    ================================================= */
+
+    const token =
+      getAuthToken();
+
+
+    console.log(
+      "TOKEN EXISTS:",
+      !!token
+    );
+
+
+    if (!token) {
+
+      console.error(
+        "AUTH TOKEN NOT FOUND"
+      );
+
+      alert(
+        "Unauthorized. Please login again."
+      );
+
+      return;
+
+    }
+
+
+    /* =================================================
+       DELETE API URL
+    ================================================= */
+
+    const deleteUrl =
+      `${API.APPOINTMENT_LEAVES}/${leaveId}`;
+
+
+    console.log(
+      "DELETE API URL:",
+      deleteUrl
+    );
+
+    console.log(
+      "METHOD:",
+      "DELETE"
+    );
+
+    console.log(
+      "=========================================="
+    );
+
+
+    try {
+
+      setDeleteLoading(true);
+
+
+      /* =================================================
+         CALL DELETE API
+      ================================================= */
+
+      const response =
+        await fetch(
+          deleteUrl,
+          {
+
+            method:
+              "DELETE",
+
+            headers: {
+
+              "Accept":
+                "application/json",
+
+              "Authorization":
+                `Bearer ${token}`,
+
+            },
+
+          }
+        );
+
+
+      /* =================================================
+         READ RESPONSE
+      ================================================= */
+
+      const responseText =
+        await response.text();
+
+
+      let responseData =
+        null;
+
+
+      if (responseText) {
+
+        try {
+
+          responseData =
+            JSON.parse(
+              responseText
+            );
+
+        } catch {
+
+          responseData =
+            responseText;
+
+        }
+
+      }
+
+
+      /* =================================================
+         API RESPONSE LOG
+      ================================================= */
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "DELETE LEAVE API RESPONSE"
+      );
+
+      console.log(
+        "STATUS:",
+        response.status
+      );
+
+      console.log(
+        "OK:",
+        response.ok
+      );
+
+      console.log(
+        "RESPONSE:",
+        responseData
+      );
+
+      console.log(
+        "=========================================="
+      );
+
+
+      /* =================================================
+         API ERROR
+      ================================================= */
+
+      if (!response.ok) {
+
+        console.error(
+          "DELETE LEAVE API ERROR:",
+          responseData
+        );
+
+
+        if (
+          response.status === 401
+        ) {
+
+          alert(
+            "Unauthorized. Please login again."
+          );
+
+        } else {
+
+          alert(
+            responseData?.message ||
+            responseData?.title ||
+            responseData?.error ||
+            "Unable to get leave details."
+          );
+
+        }
+
+        return;
+
+      }
+
+
+      /* =================================================
+         GET ACTUAL LEAVE OBJECT
+      ================================================= */
+
+      let apiLeave =
+        responseData;
+
+
+      if (
+        responseData?.data
+      ) {
+
+        apiLeave =
+          responseData.data;
+
+      }
+
+      else if (
+        responseData?.leave
+      ) {
+
+        apiLeave =
+          responseData.leave;
+
+      }
+
+      else if (
+        responseData?.result
+      ) {
+
+        apiLeave =
+          responseData.result;
+
+      }
+
+
+      console.log(
+        "API LEAVE FOR DELETE:",
+        apiLeave
+      );
+
+
+      /* =================================================
+         FORMAT DATA FOR ADD LEAVE FORM
+      ================================================= */
+
+      const editLeaveData = {
+
+        ...apiLeave,
+
+        id:
+          apiLeave?.id ??
+          apiLeave?.leave_id ??
+          apiLeave?.leaveId ??
+          apiLeave?.appointmentLeaveId ??
+          apiLeave?.appointmentLeaveID ??
+          leaveId,
+
+        fromDate:
+          formatDate(
+            apiLeave?.from_date ||
+            apiLeave?.fromDate ||
+            apiLeave?.FromDate ||
+            ""
+          ),
+
+        toDate:
+          formatDate(
+            apiLeave?.to_date ||
+            apiLeave?.toDate ||
+            apiLeave?.ToDate ||
+            ""
+          ),
+
+        reason:
+          apiLeave?.reason ||
+          apiLeave?.Reason ||
+          "",
+
+        repeatType:
+          apiLeave?.repeat_type ||
+          apiLeave?.repeatType ||
+          apiLeave?.RepeatType ||
+          "NONE",
+
+      };
+
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "DELETE FORM DATA"
+      );
+
+      console.log(
+        "FROM DATE:",
+        editLeaveData.fromDate
+      );
+
+      console.log(
+        "TO DATE:",
+        editLeaveData.toDate
+      );
+
+      console.log(
+        "REASON:",
+        editLeaveData.reason
+      );
+
+      console.log(
+        "REPEAT TYPE:",
+        editLeaveData.repeatType
+      );
+
+      console.log(
+        "ID:",
+        editLeaveData.id
+      );
+
+      console.log(
+        "=========================================="
+      );
+
+
+      /* =================================================
+         OPEN ADD LEAVE FORM WITH DATA
+      ================================================= */
+
+      // if (onEditLeave) {
+
+      //   onEditLeave(
+      //     editLeaveData
+      //   );
+
+      // }
+
+
+    } catch (error) {
+
+      console.error(
+        "DELETE LEAVE API FETCH ERROR:",
+        error
+      );
+
+      alert(
+        error.message ||
+        "Unable to connect to server."
+      );
+
+
+    } finally {
+
+      setDeleteLoading(false);
+
+    }
+
+  };
 
   return (
     <section className="leave-days-card">
@@ -979,36 +1380,36 @@ const LeaveDays = ({
                           leave.to_date
                         ) &&
 
-                        formatDate(
-                          leave.toDate ||
-                          leave.to_date
-                        ) !==
+                          formatDate(
+                            leave.toDate ||
+                            leave.to_date
+                          ) !==
 
-                        formatDate(
-                          leave.fromDate ||
-                          leave.from_date
-                        ) && (
+                          formatDate(
+                            leave.fromDate ||
+                            leave.from_date
+                          ) && (
 
-                          <>
+                            <>
 
-                            <span className="leave-date-separator">
+                              <span className="leave-date-separator">
 
-                              →
+                                →
 
-                            </span>
+                              </span>
 
-                            <span>
+                              <span>
 
-                              {formatDate(
-                                leave.toDate ||
-                                leave.to_date
-                              )}
+                                {formatDate(
+                                  leave.toDate ||
+                                  leave.to_date
+                                )}
 
-                            </span>
+                              </span>
 
-                          </>
+                            </>
 
-                        )}
+                          )}
 
                       </div>
 
@@ -1074,8 +1475,7 @@ const LeaveDays = ({
                           className="leave-delete-btn"
                           title="Delete Leave"
                           onClick={() =>
-                            onDeleteLeave &&
-                            onDeleteLeave(
+                            handleDeleteLeave(
                               leave.id
                             )
                           }
