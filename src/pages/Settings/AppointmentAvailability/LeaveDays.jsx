@@ -30,9 +30,11 @@ const LeaveDays = ({
   const [showAllLeaves, setShowAllLeaves] =
     useState(false);
 
-  const [editLoading, setEditLoading] = useState(false);
+  const [editLoading, setEditLoading] =
+    useState(false);
 
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] =
+    useState(false);
 
 
   /* =====================================================
@@ -840,6 +842,8 @@ const LeaveDays = ({
     }
 
   };
+
+
   const handleDeleteLeave = async (
     leave
   ) => {
@@ -848,6 +852,11 @@ const LeaveDays = ({
       "=========================================="
     );
 
+    const confirmDelete = window.confirm("Are you sure you want to delete this leave?");
+
+    if (!confirmDelete) {
+      return;
+    }
     console.log(
       "DELETE LEAVE BUTTON CLICKED"
     );
@@ -1081,6 +1090,7 @@ const LeaveDays = ({
 
       }
 
+      setLeaveData(prevData => prevData.filter(item => item.id !== leave.id));
 
       /* =================================================
          GET ACTUAL LEAVE OBJECT
@@ -1241,6 +1251,7 @@ const LeaveDays = ({
     }
 
   };
+
 
   return (
     <section className="leave-days-card">
@@ -1478,6 +1489,9 @@ const LeaveDays = ({
                             handleDeleteLeave(
                               leave
                             )
+                          }
+                          disabled={
+                            deleteLoading
                           }
                         >
 

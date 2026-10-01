@@ -264,7 +264,7 @@ const AddLeaveModal = ({
       }
 
       return nextState;
-    });    
+    });
 
   };
 
