@@ -1476,7 +1476,7 @@ const LeaveDays = ({
                           title="Delete Leave"
                           onClick={() =>
                             handleDeleteLeave(
-                              leave.id
+                              leave
                             )
                           }
                         >
