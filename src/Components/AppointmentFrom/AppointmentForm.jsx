@@ -72,8 +72,8 @@ const AppointmentForm = () => {
         .map(slot => ({
           value: slot.value,
           label: slot.label,
-          from: slot.time_from + " " + (slot.session == "MORNING" ? "AM" : "PM"),
-          to: slot.time_to + " " + (slot.session == "MORNING" ? "AM" : "PM")
+          from: slot.time_from,// + " " + (slot.session == "MORNING" ? "AM" : "PM"),
+          to: slot.time_to,// + " " + (slot.session == "MORNING" ? "AM" : "PM")
         }));
       console.log("Formatted Time Slots111:", formattedSlots);
       console.log("Available Time Slots222:", formattedSlots);
@@ -908,8 +908,7 @@ const AppointmentForm = () => {
       GET SELECTED SLOT
     ====================================*/
 
-    const selectedSlot =
-      getSelectedSlot();
+    const selectedSlot = getSelectedSlot();
 
 
     if (!selectedSlot) {
@@ -951,10 +950,14 @@ const AppointmentForm = () => {
           formData.appointment_date,
 
         appointment_time:
-          selectedSlot.from,
+          selectedSlot.from.split(":")[0] >= 12
+            ? (selectedSlot.from.split(":")[0] - 12) + ":" + (selectedSlot.from.split(":")[1]) + " PM"
+            : selectedSlot.from.split(":")[0] + ":" + (selectedSlot.from.split(":")[1]) + " AM",
 
         appointment_time_to:
-          selectedSlot.to,
+          selectedSlot.to.split(":")[0] >= 12
+            ? (selectedSlot.to.split(":")[0] - 12) + ":" + (selectedSlot.to.split(":")[1]) + " PM"
+            : selectedSlot.to.split(":")[0] + ":" + (selectedSlot.to.split(":")[1]) + " AM",
 
         branch_id: GLOBAL_BRANCH_ID
 
@@ -991,6 +994,11 @@ const AppointmentForm = () => {
         "APPOINTMENT FROM:",
         selectedSlot.from
       );
+
+      console.log("APPOINTMENT From [0]:", selectedSlot.from.split(":")[0]);
+      console.log("APPOINTMENT From [1]:", selectedSlot.from.split(":")[1]);
+      console.log("APPOINTMENT TO [0]:", selectedSlot.to.split(":")[0]);
+      console.log("APPOINTMENT TO [1]:", selectedSlot.to.split(":")[1]);
 
       console.log(
         "APPOINTMENT TO:",

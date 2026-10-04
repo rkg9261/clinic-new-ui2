@@ -70,7 +70,7 @@ const AppointmentNew = () => {
   useEffect(() => {
 
     fetchAppointmentsByDate(
-        selectedDate
+      selectedDate
     );
 
   }, [selectedDate]);
@@ -238,12 +238,12 @@ const AppointmentNew = () => {
   const cleanName = (name) => {
 
     if (!name) {
-        return "";
+      return "";
     }
 
     return String(name)
-        .replace(/;+$/g, "")
-        .trim();
+      .replace(/;+$/g, "")
+      .trim();
   };
 
   //format time to 12 hour format
@@ -265,8 +265,9 @@ const AppointmentNew = () => {
   // --------------------------------------------------
   const getShift = (time) => {
 
+    return time;
     if (!time) {
-        return "";
+      return "";
     }
 
     const value = String(time).toUpperCase();
@@ -275,26 +276,26 @@ const AppointmentNew = () => {
     hour = parseInt(value.split(":")[0], 10);
     console.log("HOUR:", hour);
     if (
-        value.includes("PM") &&
-        hour !== 12
+      value.includes("PM") &&
+      hour !== 12
     ) {
-        hour += 12;
+      hour += 12;
     }
 
     if (
-        value.includes("AM") &&
-        hour === 12
+      value.includes("AM") &&
+      hour === 12
     ) {
-        hour = 0;
+      hour = 0;
     }
 
 
     if (hour < 12) {
-        return "Morning";
+      return "Morning";
     }
 
     if (hour < 17) {
-        return "Afternoon";
+      return "Afternoon";
     }
 
     return "Evening";
@@ -345,21 +346,21 @@ const AppointmentNew = () => {
 
 
       const response = await fetch(
-          url,
-          {
-            method: "GET",
+        url,
+        {
+          method: "GET",
 
-            headers: {
+          headers: {
 
-              Authorization:
-                `Bearer ${token}`,
+            Authorization:
+              `Bearer ${token}`,
 
-              Accept:
-                "application/json"
+            Accept:
+              "application/json"
 
-            }
           }
-        );
+        }
+      );
 
 
       const responseText =
@@ -532,7 +533,7 @@ const AppointmentNew = () => {
             return {
 
               ...item,
-              
+
               // ID
 
               id:
@@ -658,14 +659,14 @@ const AppointmentNew = () => {
 
       setAppointments(formatted);
 
-      
+
       console.log(
         "Filtered APPOINTMENT ARRAY:",
         filteredAppointments
       );
 
-      }
-      
+    }
+
     catch (error) {
 
       console.error(
@@ -696,28 +697,28 @@ const AppointmentNew = () => {
 
   const filteredAppointments = useMemo(() => {
     console.log(
-            "FILTER RUNNING"
-        );
+      "FILTER RUNNING"
+    );
 
 
     console.log(
-        "appointments:",
-        appointments
+      "appointments:",
+      appointments
     );
 
     console.log(
-        "search:",
-        search
+      "search:",
+      search
     );
 
     console.log(
-        "shift:",
-        shift
+      "shift:",
+      shift
     );
 
     console.log(
-        "status:",
-        statusFilter
+      "status:",
+      statusFilter
     );
 
     const result = appointments.filter((item) => {
@@ -746,8 +747,8 @@ const AppointmentNew = () => {
     });
 
     console.log(
-        "FILTERED APPOINTMENT ARRAY:",
-        result
+      "FILTERED APPOINTMENT ARRAY:",
+      result
     );
 
     return result;
@@ -766,7 +767,7 @@ const AppointmentNew = () => {
     appointments.filter(
       x => String(x.status).toLowerCase() === "completed"
     ).length;
-  
+
 
   const pendingCount =
     appointments.filter(
@@ -783,10 +784,10 @@ const AppointmentNew = () => {
   //     x => String(x.status).toLowerCase() === "available"
   //   );
 
-    const availableSlot =
+  const availableSlot =
     availableSlots.length > 0
-        ? availableSlots[0]
-        : null;
+      ? availableSlots[0]
+      : null;
 
   // --------------------------------------------------
   // FORMAT DATE
@@ -1261,12 +1262,12 @@ const AppointmentNew = () => {
 
               </div>
 
-                  {/* showing loading... in center */}
-                  {loading && (
-                    <div className="an-loading">
-                      Loading...
-                    </div>
-                  )}
+              {/* showing loading... in center */}
+              {loading && (
+                <div className="an-loading">
+                  Loading...
+                </div>
+              )}
               <div>
 
                 <button
@@ -1295,6 +1296,33 @@ const AppointmentNew = () => {
                   }}
                 >
                   <FaChevronLeft />
+                </button>
+                <button
+                  className="an-prev-day"
+                  onClick={() => {
+
+                    const date =
+                      new Date(
+                        selectedDate
+                      );
+
+                    date.setDate(
+                      date.getDate() + 1
+                    );
+
+                    setSelectedDate(date);
+
+                    setCurrentMonth(
+                      new Date(
+                        date.getFullYear(),
+                        date.getMonth(),
+                        1
+                      )
+                    );
+
+                  }}
+                >
+                  <FaChevronRight />
                 </button>
                 <button
                   className="an-today-btn"
@@ -1468,10 +1496,10 @@ const AppointmentNew = () => {
 
                               <FaWhatsapp />
                               <a href={`https://wa.me/${appointment.whatsapp_number}`}
-                                 target="_blank"
-                                 rel="noopener noreferrer">
+                                target="_blank"
+                                rel="noopener noreferrer">
                                 {appointment.whatsapp_number}
-                              </a>  
+                              </a>
 
                             </div>
 
@@ -1483,13 +1511,13 @@ const AppointmentNew = () => {
                         {/* STATUS */}
 
                         <td>
-                          
+
                           {appointment.paymentStatus === "CAPTURED" ? (
                             <span className="an-status an-status-captured">
                               <span style={{ color: 'green', fontWeight: 'bold', fontSize: '12px' }}><FaCheckCircle /> Paid</span>
                             </span>
                           ) : (
-                            <span className="an-status an-status-not-captured">                              
+                            <span className="an-status an-status-not-captured">
                               <span style={{ color: 'red', fontWeight: 'bold', fontSize: '12px' }}><FaTimesCircle /> Not Paid</span>
                             </span>
                           )}

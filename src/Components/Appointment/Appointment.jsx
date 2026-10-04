@@ -58,13 +58,13 @@ const Appointment = () => {
         "Mobile number must be 10 digits";
     }
 
-if (!formData.appointmentDate) {
-  newErrors.appointmentDate = "Date is required";
-}
+    if (!formData.appointmentDate) {
+      newErrors.appointmentDate = "Date is required";
+    }
 
-if (!formData.appointmentTime) {
-  newErrors.appointmentTime = "Time is required";
-}
+    if (!formData.appointmentTime) {
+      newErrors.appointmentTime = "Time is required";
+    }
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -72,64 +72,64 @@ if (!formData.appointmentTime) {
 
   // Submit
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validateForm()) {
-    return;
-  }
-
-  try {
-
-    setLoading(true);
-    console.log("Sending data:", formData)
-
- const response = await fetch(
-  `${BASE_URL}/api/appointment/create`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  }
-);
-
-    const data = await response.json();
-
-    if (response.ok) {
-
-      console.log("Appointment Created:", data);
-
-      alert("Appointment Submitted Successfully!");
-
-      setFormData({
-     
-    
-      });
-
-    } else {
-
-      alert(
-        data.message ||
-        "Failed to create appointment"
-      );
+    if (!validateForm()) {
+      return;
     }
 
-  } catch (error) {
+    try {
 
-    console.error("API Error:", error);
+      setLoading(true);
+      console.log("Sending data:", formData)
 
-    alert(
-      "Something went wrong. Please try again."
-    );
+      const response = await fetch(
+        `${BASE_URL}/api/appointment/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-  } finally {
+      const data = await response.json();
 
-    setLoading(false);
-  }
-};
+      if (response.ok) {
+
+        console.log("Appointment Created:", data);
+
+        alert("Appointment Submitted Successfully!");
+
+        setFormData({
+
+
+        });
+
+      } else {
+
+        alert(
+          data.message ||
+          "Failed to create appointment"
+        );
+      }
+
+    } catch (error) {
+
+      console.error("API Error:", error);
+
+      alert(
+        "Something went wrong. Please try again."
+      );
+
+    } finally {
+
+      setLoading(false);
+    }
+  };
 
   // // Cancel
 
@@ -159,7 +159,7 @@ const handleSubmit = async (e) => {
 
     <div
       className="appointment-container" id="appointment">
-    
+
       <div className="appointment-form">
 
         <h2>Book Appointment</h2>
@@ -170,10 +170,10 @@ const handleSubmit = async (e) => {
 
           <div className="input-group">
 
-            <input   type="text"  name="name"   value={formData.name} onChange={handleChange} 
-             placeholder=""/>
+            <input type="text" name="name" value={formData.name} onChange={handleChange}
+              placeholder="" />
             <label>Name</label>
-             {errors.name && (
+            {errors.name && (
               <span className="error">
                 {errors.name}
               </span>
@@ -181,120 +181,123 @@ const handleSubmit = async (e) => {
 
           </div>
 
-                     {/* Age */}
+          {/* Age */}
 
           <div className="input-group">
 
-            <input  type="number" name="age"   value={formData.age}
-              onChange={handleChange} placeholder=""/>
-             <label>Age</label>
-              {errors.age && (
+            <input type="number" name="age" value={formData.age}
+              onChange={handleChange} placeholder="" />
+            <label>Age</label>
+            {errors.age && (
               <span className="error">
                 {errors.age}
               </span>
             )}
 
           </div>
-                    
-                      {/* Gender */}
+
+          {/* Gender */}
 
           <div className="input-group">
 
-            <select  name="gender"    value={formData.gender}
-               onChange={handleChange}>
-               <option value="" disabled hidden></option>
+            <select name="gender" value={formData.gender}
+              onChange={handleChange}>
+              <option value="" disabled hidden></option>
               <option>Male</option>
               <option>Female</option>
               <option>Other</option>
             </select>
             <label className="select-label-gender"> Gender</label>
-             {errors.gender && (
+            {errors.gender && (
               <span className="error">
                 {errors.gender}
               </span>
             )}
 
           </div>
-                  
-                    {/* Mobile */}
+
+          {/* Mobile */}
 
           <div className="input-group">
 
-            <input  type="tel"  name="mobile"  
-              maxLength="10" value={formData.mobile} onChange={handleChange}  placeholder=""/>
+            <input type="tel" name="mobile"
+              maxLength="10" value={formData.mobile} onChange={handleChange} placeholder="" />
             <label>Whatsapp Number</label>
-             {errors.mobile && (
+            {errors.mobile && (
               <span className="error">
                 {errors.mobile}
               </span>
             )}
 
           </div>
-          
-                 {/* Date */}
 
-        <div className="input-group">
+          {/* Date */}
 
-           <input type="date" name="appointmentDate" value={formData.appointmentDate} onChange={handleChange} />
-        <label className="date-label">Appointment Date</label>
+          <div className="input-group">
+
+            <input type="date" name="appointmentDate" value={formData.appointmentDate} onChange={handleChange} />
+            <label className="date-label">Appointment Date</label>
             {errors.appointmentDate && (
-             <span className="error">
-              {errors.appointmentDate}
-         </span>
-      )}
+              <span className="error">
+                {errors.appointmentDate}
+              </span>
+            )}
 
-  </div>
+          </div>
 
-                  {/* Time */}
+          {/* Time */}
 
-               <div className="input-group">
+          <div className="input-group">
 
-             <select  name="appointmentTime"  value={formData.appointmentTime}  onChange={handleChange} className="input-group-time" >
+            <select
+              name="appointmentTime"
+              value={formData.appointmentTime}
+              onChange={handleChange}
+              className="input-group-time"
+            >
+              <option value="">Select Time Slot</option>
 
+              <option value="09:01 AM">09:01 AM</option>
+              <option value="09:30 AM">09:30 AM</option>
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="10:30 AM">10:30 AM</option>
+              <option value="11:00 AM">11:00 AM</option>
+              <option value="11:30 AM">11:30 AM</option>
+              <option value="12:00 PM">12:00 PM</option>
+              <option value="12:30 PM">12:30 PM</option>
 
-          <option value="">Select Time Slot</option>
+              <option value="02:00 PM">02:00 PM</option>
+              <option value="02:30 PM">02:30 PM</option>
+              <option value="03:00 PM">03:00 PM</option>
+              <option value="03:30 PM">03:30 PM</option>
+              <option value="04:00 PM">04:00 PM</option>
+              <option value="04:30 PM">04:30 PM</option>
+              <option value="05:00 PM">05:00 PM</option>
+              <option value="05:30 PM">05:30 PM</option>
+              <option value="06:00 PM">06:00 PM</option>
+            </select>
 
-            <option value="09:01 AM">09:01 AM</option>
-            <option value="09:30 AM">09:30 AM</option>
-           <option value="10:00 AM">10:00 AM</option>
-            <option value="10:30 AM">10:30 AM</option>
-            <option value="11:00 AM">11:00 AM</option>
-          <option value="11:30 AM">11:30 AM</option>
-          <option value="12:00 PM">12:00 PM</option>
-             <option value="12:30 PM">12:30 PM</option>
+            <label className="date-label">
+              Appointment Time
+            </label>
 
-             <option value="02:00 PM">02:00 PM</option>
-          <option value="02:30 PM">02:30 PM</option>
-           <option value="03:00 PM">03:00 PM</option>
-            <option value="03:30 PM">03:30 PM</option>
-             <option value="04:00 PM">04:00 PM</option>
-             <option value="04:30 PM">04:30 PM</option>
-           <option value="05:00 PM">05:00 PM</option>
-               <option value="05:30 PM">05:30 PM</option>
-               <option value="06:00 PM">06:00 PM</option>
-  </select>
+            {errors.appointmentTime && (
+              <span className="error">
+                {errors.appointmentTime}
+              </span>
+            )}
 
-  <label className="date-label">
-    Appointment Time
-  </label>
+          </div>
 
-  {errors.appointmentTime && (
-    <span className="error">
-      {errors.appointmentTime}
-    </span>
-  )}
-
-</div>                                     
-  
           {/* Buttons */}
 
           <div className="button-group">
 
             {/* <button  type="button"  className="cancel-btn"   onClick={handleCancel}> Cancel </button> */}
-    
-      <button  type="submit"  className="submit-btn-appointment"  disabled=       {loading}>
-         {loading ? "Submitting...": "SUBMIT"}
-       </button>
+
+            <button type="submit" className="submit-btn-appointment" disabled={loading}>
+              {loading ? "Submitting..." : "SUBMIT"}
+            </button>
 
           </div>
 
