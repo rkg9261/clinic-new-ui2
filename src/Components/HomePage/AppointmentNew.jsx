@@ -264,8 +264,6 @@ const AppointmentNew = () => {
   // Get Shift Function
   // --------------------------------------------------
   const getShift = (time) => {
-
-    return time;
     if (!time) {
       return "";
     }
