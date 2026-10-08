@@ -16,7 +16,7 @@ import { API, BASE_URL, GLOBAL_BRANCH_ID } from "../../config/api";
 import AppointmentPayment
   from "../AppointmentPayment/AppointmentPayment";
 
-const consultaionAmount = 150;
+const consultaionAmount = 300;
 
 const AppointmentForm = () => {
 
