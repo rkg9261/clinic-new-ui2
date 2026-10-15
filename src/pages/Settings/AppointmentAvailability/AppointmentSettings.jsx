@@ -5,9 +5,12 @@ import {
   FaClock,
   FaCalendarAlt,
   FaSave,
+  FaTimes,
+  FaWatchmanMonitoring,
 } from "react-icons/fa";
 
 import { API } from "../../../config/api";
+import { FaTimeline } from "react-icons/fa6";
 
 
 const AppointmentSettings = ({
@@ -58,7 +61,7 @@ const AppointmentSettings = ({
 
       } catch {
 
-   
+
 
       }
 
@@ -169,6 +172,14 @@ const AppointmentSettings = ({
         item.booking_start_days ??
         "",
 
+      /*
+          MINIMUM TIME BEFORE BOOKING
+      */
+
+      minimumTimeBeforeBooking:
+        item.minimumTimeBeforeBooking ??
+        item.minimum_Time_Before_Booking ??
+        "",
 
       /* =========================
          FUTURE APPOINTMENT DAYS
@@ -247,7 +258,7 @@ const AppointmentSettings = ({
   };
 
 
- 
+
 
 
   const extractRecord = (responseData) => {
@@ -657,17 +668,18 @@ const AppointmentSettings = ({
               ? checked
 
               : (
-                  name === "slotDuration" ||
-                  name === "maximumAppointments" ||
-                  name === "bookingStartDays" ||
-                  name === "futureAppointmentDays"
-                )
+                name === "slotDuration" ||
+                name === "maximumAppointments" ||
+                name === "bookingStartDays" ||
+                name === "futureAppointmentDays" ||
+                name === "minimumTimeBeforeBooking"
+              )
 
                 ? (
-                    value === ""
-                      ? ""
-                      : Number(value)
-                  )
+                  value === ""
+                    ? ""
+                    : Number(value)
+                )
 
                 : value,
 
@@ -748,6 +760,11 @@ const AppointmentSettings = ({
       bookingStartDays:
         Number(
           current.bookingStartDays
+        ),
+
+      minimumTimeBeforeBooking:
+        Number(
+          current.minimumTimeBeforeBooking
         ),
 
 
@@ -939,119 +956,27 @@ const AppointmentSettings = ({
    PUT APPOINTMENT SETTINGS
 ===================================================== */
 
-const putAppointmentSettings = async (
-  token,
-  id,
-  requestBody
-) => {
-
-  console.log(
-    "=========================================="
-  );
-
-  console.log(
-    "3. PUT APPOINTMENT SETTINGS"
-  );
-
-  console.log(
-    "=========================================="
-  );
-
-  const putUrl =
-    API.APPOINTMENT_SETTINGS;
-
-
-  console.log(
-    "PUT ID:",
-    id
-  );
-
-  console.log(
-    "PUT URL:",
-    putUrl
-  );
-
-  console.log(
-    "PUT METHOD:",
-    "PUT"
-  );
-
-  console.log(
-    "PUT UPDATED DATA:",
+  const putAppointmentSettings = async (
+    token,
+    id,
     requestBody
-  );
-
-
-  try {
-
-    const response =
-      await fetch(
-        putUrl,
-        {
-
-          method:
-            "PUT",
-
-          headers: {
-
-            "Content-Type":
-              "application/json",
-
-            Accept:
-              "application/json",
-
-            Authorization:
-              `Bearer ${token}`,
-
-          },
-
-          body:
-            JSON.stringify(
-              requestBody
-            ),
-
-        }
-      );
-
-
-    const responseText =
-      await response.text();
-
-
-    let responseData =
-      null;
-
-
-    if (responseText) {
-
-      try {
-
-        responseData =
-          JSON.parse(
-            responseText
-          );
-
-      } catch {
-
-        responseData =
-          responseText;
-
-      }
-
-    }
-
+  ) => {
 
     console.log(
       "=========================================="
     );
 
     console.log(
-      "PUT APPOINTMENT SETTINGS RESPONSE"
+      "3. PUT APPOINTMENT SETTINGS"
     );
 
     console.log(
       "=========================================="
     );
+
+    const putUrl =
+      API.APPOINTMENT_SETTINGS;
+
 
     console.log(
       "PUT ID:",
@@ -1059,13 +984,13 @@ const putAppointmentSettings = async (
     );
 
     console.log(
-      "PUT STATUS:",
-      response.status
+      "PUT URL:",
+      putUrl
     );
 
     console.log(
-      "PUT OK:",
-      response.ok
+      "PUT METHOD:",
+      "PUT"
     );
 
     console.log(
@@ -1073,86 +998,178 @@ const putAppointmentSettings = async (
       requestBody
     );
 
-    console.log(
-      "PUT RESPONSE:",
-      responseData
-    );
+
+    try {
+
+      const response =
+        await fetch(
+          putUrl,
+          {
+
+            method:
+              "PUT",
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              Accept:
+                "application/json",
+
+              Authorization:
+                `Bearer ${token}`,
+
+            },
+
+            body:
+              JSON.stringify(
+                requestBody
+              ),
+
+          }
+        );
 
 
-    if (!response.ok) {
+      const responseText =
+        await response.text();
 
-      console.error(
-        "PUT FAILED:",
+
+      let responseData =
+        null;
+
+
+      if (responseText) {
+
+        try {
+
+          responseData =
+            JSON.parse(
+              responseText
+            );
+
+        } catch {
+
+          responseData =
+            responseText;
+
+        }
+
+      }
+
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "PUT APPOINTMENT SETTINGS RESPONSE"
+      );
+
+      console.log(
+        "=========================================="
+      );
+
+      console.log(
+        "PUT ID:",
+        id
+      );
+
+      console.log(
+        "PUT STATUS:",
+        response.status
+      );
+
+      console.log(
+        "PUT OK:",
+        response.ok
+      );
+
+      console.log(
+        "PUT UPDATED DATA:",
+        requestBody
+      );
+
+      console.log(
+        "PUT RESPONSE:",
         responseData
       );
 
 
-      if (
-        response.status === 401
-      ) {
+      if (!response.ok) {
+
+        console.error(
+          "PUT FAILED:",
+          responseData
+        );
+
+
+        if (
+          response.status === 401
+        ) {
+
+          throw new Error(
+            "Unauthorized. Please login again."
+          );
+
+        }
+
+
+        if (
+          response.status === 404
+        ) {
+
+          throw new Error(
+            "Appointment settings PUT endpoint was not found."
+          );
+
+        }
+
 
         throw new Error(
-          "Unauthorized. Please login again."
+
+          responseData?.message ||
+
+          responseData?.title ||
+
+          responseData?.error ||
+
+          "Failed to update appointment settings."
+
         );
 
       }
 
 
-      if (
-        response.status === 404
-      ) {
-
-        throw new Error(
-          "Appointment settings PUT endpoint was not found."
-        );
-
-      }
-
-
-      throw new Error(
-
-        responseData?.message ||
-
-        responseData?.title ||
-
-        responseData?.error ||
-
-        "Failed to update appointment settings."
-
+      console.log(
+        "APPOINTMENT SETTINGS UPDATED SUCCESSFULLY"
       );
+
+
+      return {
+
+        success:
+          true,
+
+        response:
+          responseData,
+
+      };
 
     }
 
+    catch (error) {
 
-    console.log(
-      "APPOINTMENT SETTINGS UPDATED SUCCESSFULLY"
-    );
+      console.error(
+        "PUT APPOINTMENT SETTINGS ERROR:",
+        error
+      );
 
+      throw error;
 
-    return {
+    }
 
-      success:
-        true,
-
-      response:
-        responseData,
-
-    };
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "PUT APPOINTMENT SETTINGS ERROR:",
-      error
-    );
-
-    throw error;
-
-  }
-
-};
+  };
 
 
   /* =====================================================
@@ -1261,6 +1278,20 @@ const putAppointmentSettings = async (
 
       alert(
         "Please enter Booking Start Days."
+      );
+
+      return;
+
+    }
+
+    if (
+      settings?.minimumTimeBeforeBooking === "" ||
+      settings?.minimumTimeBeforeBooking === undefined ||
+      settings?.minimumTimeBeforeBooking === null
+    ) {
+
+      alert(
+        "Please enter Minimum Time Before Booking in Minutes (Eg: 30)."
       );
 
       return;
@@ -1387,7 +1418,7 @@ const putAppointmentSettings = async (
       );
 
 
-        const existingId =
+      const existingId =
         settings?.id;
 
 
@@ -1409,7 +1440,7 @@ const putAppointmentSettings = async (
       );
 
 
- 
+
 
       if (
         recordAlreadyExisted
@@ -1467,7 +1498,7 @@ const putAppointmentSettings = async (
         );
 
 
-       
+
 
         const putRecord =
           extractRecord(
@@ -1519,7 +1550,7 @@ const putAppointmentSettings = async (
 
       }
 
-   
+
 
       else {
 
@@ -1763,7 +1794,7 @@ const putAppointmentSettings = async (
             START TIME
         ================================================= */}
 
-        <div className="appointment-setting-item">
+        {/* <div className="appointment-setting-item">
 
           <label>
             Appointment Start Time <b>*</b>
@@ -1792,14 +1823,14 @@ const putAppointmentSettings = async (
 
           </div>
 
-        </div>
+        </div> */}
 
 
         {/* =================================================
             MAX APPOINTMENTS
         ================================================= */}
 
-        <div className="appointment-setting-item">
+        {/* <div className="appointment-setting-item">
 
           <label>
             Maximum Appointments Per Slot <b>*</b>
@@ -1846,14 +1877,14 @@ const putAppointmentSettings = async (
 
           </select>
 
-        </div>
+        </div> */}
 
 
         {/* =================================================
             END TIME
         ================================================= */}
 
-        <div className="appointment-setting-item">
+        {/* <div className="appointment-setting-item">
 
           <label>
             Appointment End Time <b>*</b>
@@ -1882,14 +1913,14 @@ const putAppointmentSettings = async (
 
           </div>
 
-        </div>
+        </div> */}
 
 
         {/* =================================================
             BOOKING START DAYS
         ================================================= */}
 
-        <div className="appointment-setting-item">
+        {/* <div className="appointment-setting-item">
 
           <label>
             Booking Start Days (Advance) <b>*</b>
@@ -1925,8 +1956,45 @@ const putAppointmentSettings = async (
 
           </div>
 
-        </div>
+        </div> */}
 
+        <div className="appointment-setting-item">
+
+          <label>
+            Minimunm Time Before Booking <b>*</b>
+          </label>
+
+
+          <div className="appointment-number-input">
+
+            <FaClock />
+
+
+            <input
+              type="number"
+
+              min="0"
+
+              name="minimumTimeBeforeBooking"
+
+              value={
+                safeSettings.minimumTimeBeforeBooking ?? ""
+              }
+
+              onChange={
+                handleChange
+              }
+
+            />
+
+
+            <span>
+              Minutes
+            </span>
+
+          </div>
+
+        </div>
 
         {/* =================================================
             FUTURE APPOINTMENT DAYS
