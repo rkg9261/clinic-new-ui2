@@ -26,12 +26,32 @@ import {
   API
 } from "../../config/api";
 
+
 const AppointmentNew = () => {
 
   // --------------------------------------------------
   // DATE
   // --------------------------------------------------
+  const getWhatsAppLink = ({ patientName, date, time, phoneNumber }) => {
+    // Clean phone number: remove spaces, dashes, or leading '+'
+    const cleanPhone = phoneNumber.replace(/[^\d]/g, '');
+    console.log('cleanPhone', cleanPhone);
+    const messageTemplate = `हैलो ${patientName || '[Patient Name]'} 👋
 
+      आपकी अपॉइंटमेंट ${date || '[Date]'} को ${time || '[Time]'} के लिए सफलतापूर्वक कन्फर्म हो गई है। ✅
+
+      क्लिनिक आने से पहले कृपया ध्यान दें:
+
+      * कृपया अपॉइंटमेंट के समय से 15 मिनट पहले पहुँचें और ये मैसेज Reception पर दिखाएँ।
+      * देरी होने पर अपॉइंटमेंट Missed माना जा सकता है। ऐसे में नया अपॉइंटमेंट लेकर दोबारा फीस देनी होगी।
+      * यदि उपलब्ध हों तो, पुराने Medical Records, X-ray, MRI या डॉक्टर की पर्ची साथ लाएँ।
+      * किसी सर्जरी, इंजेक्शन या पुरानी बीमारी की जानकारी डॉक्टर को अवश्य दें।
+      * बुखार, अस्वस्थता या गर्भावस्था की स्थिति निश्चित रूप से सूचित करें।
+
+      किसी अन्य सहायता के लिए हम से संपर्क करें। 🙏`;
+    console.log('msg', messageTemplate);
+    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageTemplate)}`;
+  };
   const today = new Date();
 
   const [selectedDate, setSelectedDate] = useState(
@@ -1493,7 +1513,13 @@ const AppointmentNew = () => {
                             <div className="an-whatsapp">
 
                               <FaWhatsapp />
-                              <a href={`https://wa.me/${appointment.whatsapp_number}`}
+                              <a //href={`https://wa.me/${appointment.whatsapp_number}?text=${encodedMessage}`}
+                                href={getWhatsAppLink({
+                                  patientName: appointment.name,
+                                  date: appointment.appointment_date.split("T")[0].split("-").reverse().join("-"),
+                                  time: formatTime(appointment.appointment_time),
+                                  phoneNumber: appointment.whatsapp_number
+                                })}
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 {appointment.whatsapp_number}
